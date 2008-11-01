@@ -20,3 +20,13 @@ a {color:#fff;text-decoration:none}
   height: 120px;
 }
 
+img.channel-thumbnail {
+  border: 1px solid #888;
+  width: 200px;
+  height: 200px;
+}
+
+.channel-item-title {
+  margin-top: 0.8em;
+  text-align: center;
+}
