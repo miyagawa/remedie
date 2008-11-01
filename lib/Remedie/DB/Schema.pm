@@ -26,8 +26,11 @@ CREATE TABLE item (
   type       INTEGER NOT NULL,
   ident      TEXT NOT NULL,
   name       TEXT NOT NULL,
+  status     INTEGER NOT NULL,
   props      TEXT
 );
+--
+CREATE INDEX item_status ON item (status)
 --
 CREATE UNIQUE INDEX item_ident ON item (channel_id, ident);
 SQL

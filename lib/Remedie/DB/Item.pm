@@ -8,6 +8,11 @@ __PACKAGE__->json_encoded_columns('props');
 
 use constant TYPE_HTTP_MEDIA => 1;
 
+use constant STATUS_NEW         => 1;
+use constant STATUS_DOWNLOADING => 2;
+use constant STATUS_DOWNLOADED  => 3;
+use constant STATUS_WATCHED     => 4;
+
 package Remedie::DB::Item::Manager;
 use base qw( Remedie::DB::Manager );
 

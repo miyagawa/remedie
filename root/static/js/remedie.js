@@ -4,31 +4,44 @@ function Remedie() {
 
 Remedie.prototype = {
   initialize: function() {
+    var self = this;
     $("#new-channel-menu").click(function(){
 //      $("#new-channel-dialog").dialog({
 //        modal: true,
 //        overlay: { opacity: 0.8, background: "black" }
 //      });
-       $("#new-channel-dialog").toggle();
-       $("#subscription").toggle();
+       self.toggleNewChannel();
     });
-    $("#new-channel-form").submit( this.newChannel );
-    $("#new-channel-cancel").click( function() {
-       $("#new-channel-dialog").toggle();
-       $("#subscription").toggle();
-    });
+    $("#new-channel-form").submit( function(e) { self.newChannel(e); return false; } );
+    $("#new-channel-cancel").click( this.toggleNewChannel );
     this.loadSubscription();
+
+    $().ajaxStop($.unblockUI);
   },
 
-  newChannel: function(self) {
+  toggleNewChannel: function() {
+    $("#new-channel-dialog").toggle();
+    $("#subscription").toggle();
+  },
+
+  newChannel: function(el) {
+    var self = this;
+    $.blockUI({ css: {   border: 'none',
+            padding: '15px',
+            backgroundColor: '#222',
+            '-webkit-border-radius': '10px',
+            '-moz-border-radius': '10px',
+            opacity: '.8',
+            color: '#fff' } });
     $.ajax({
       url: "/rpc/channel/create",
       data: { url: $("#new-channel-url").attr('value') },
-      type: 'get',
+      type: 'post',
       dataType: 'json',
       success: function(r) {
         if (r.success) {
           alert(r.channel.name + " was added to your subscription");
+          self.toggleNewChannel();
           self.renderChannel(r.channel, $("#subscription"));
         } else {
           alert(r.error);

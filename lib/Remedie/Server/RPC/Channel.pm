@@ -3,6 +3,7 @@ use strict;
 use base qw( Remedie::Server::RPC );
 
 use Remedie::DB::Channel;
+use Remedie::Worker;
 use Feed::Find;
 
 sub load {
@@ -29,6 +30,9 @@ sub create {
     $channel->name($feeds[0]);
     $channel->parent(0);
     $channel->save;
+
+    ## TODO make it async
+    Remedie::Worker->work_channel($channel);
 
     return { channel => $channel };
 }
