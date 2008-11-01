@@ -18,6 +18,7 @@ sub run {
     my $channels = Remedie::DB::Channel::Manager->get_channels;
     for my $channel (@$channels) {
         my $uri = $channel->ident;
+        warn "Updating $uri";
         my $res = LWP::UserAgent->new->get($uri);
         next if $res->is_error;
 
@@ -30,17 +31,18 @@ sub run {
         $channel->name( $feed->{channel}{title} );
         $channel->props->{description} = $feed->{channel}{description};
 
+        if (my $image = $feed->{channel}{image}) {
+            $channel->props->{thumbnail} = { url => $image->{url} }
+                if $image->{url};
+        }
+
         if (my $itunes = $feed->{channel}{itunes} || $feed->{channel}{itunes2}) {
-            use Data::Dumper;
-            print Dumper $itunes;
             $channel->props->{thumbnail} = {
                 url => $itunes->{image}{href},
             } if $itunes->{image};
         }
 
         if (my $media = $feed->{channel}{media}) {
-            use Data::Dumper;
-            print Dumper $media;
             $channel->props->{thumbnail} = {
                 url => $media->{thumbnail}{url},
             } if $media->{thumbnail};

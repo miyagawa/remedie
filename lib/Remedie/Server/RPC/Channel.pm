@@ -17,6 +17,7 @@ sub create {
     my $uri = $req->param('url');
 
     # TODO make this pluggable
+    $uri = normalize_uri($uri);
     my @feeds = Feed::Find->find($uri);
     unless (@feeds) {
         die "Can't find any feed in $uri";
@@ -32,5 +33,12 @@ sub create {
     return { channel => $channel };
 }
 
+sub normalize_uri {
+    my $uri = shift;
+    $uri =~ s/^feed:/http:/;
+    $uri = "http://$uri" unless $uri =~ m!^https?://!;
+
+    return URI->new($uri)->canonical;
+}
 
 1;
