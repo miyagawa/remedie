@@ -30,3 +30,9 @@ img.channel-thumbnail {
   margin-top: 0.8em;
   text-align: center;
 }
+
+#new-channel-dialog {
+  clear:both;
+  display:none;
+}
+

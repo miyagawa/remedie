@@ -4,18 +4,26 @@ function Remedie() {
 
 Remedie.prototype = {
   initialize: function() {
-    $("#menu-new-channel").click( this.newChannel );
+    $("#new-channel-menu").click(function(){
+//      $("#new-channel-dialog").dialog({
+//        modal: true,
+//        overlay: { opacity: 0.8, background: "black" }
+//      });
+       $("#new-channel-dialog").toggle();
+       $("#subscription").toggle();
+    });
+    $("#new-channel-form").submit( this.newChannel );
+    $("#new-channel-cancel").click( function() {
+       $("#new-channel-dialog").toggle();
+       $("#subscription").toggle();
+    });
     this.loadSubscription();
   },
 
-  newChannel: function() {
-    var self = this;
-    // TODO look at clipboard
-    var input = window.prompt('Enter URL', '');
-    if (!input) return;
+  newChannel: function(self) {
     $.ajax({
       url: "/rpc/channel/create",
-      data: { url: input },
+      data: { url: $("#new-channel-url").attr('value') },
       type: 'get',
       dataType: 'json',
       success: function(r) {
@@ -27,6 +35,7 @@ Remedie.prototype = {
         }
       },
     });
+    return false;
   },
 
   loadSubscription: function() {
