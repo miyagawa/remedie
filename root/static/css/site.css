@@ -7,6 +7,8 @@ body {
   width: 240px;
 }
 
+ul.menu li { display:inline }
+
 a:focus, a:hover {color:#fff;text-decoration:underline}
 a {color:#fff;text-decoration:none}
 
