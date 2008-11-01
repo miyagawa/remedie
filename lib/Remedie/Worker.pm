@@ -8,8 +8,9 @@ use LWP::UserAgent;
 use XML::RSS::LibXML;
 use URI;
 
-use constant NS_ITUNES => 'http://www.itunes.com/DTDs/Podcast-1.0.dtd';
-use constant NS_MEDIA  => 'http://search.yahoo.com/mrss/';
+use constant NS_ITUNES  => 'http://www.itunes.com/dtds/Podcast-1.0.dtd';
+use constant NS_ITUNES2 => 'http://www.itunes.com/DTDs/Podcast-1.0.dtd';
+use constant NS_MEDIA   => 'http://search.yahoo.com/mrss/';
 
 sub run {
     my $class = shift;
@@ -21,21 +22,25 @@ sub run {
         next if $res->is_error;
 
         my $feed = XML::RSS::LibXML->new;
+        $feed->add_module( uri => NS_ITUNES,  prefix => 'itunes' );
+        $feed->add_module( uri => NS_ITUNES2, prefix => 'itunes2' );
+        $feed->add_module( uri => NS_MEDIA,   prefix => 'media' );
+
         $feed->parse($res->content);
         $channel->name( $feed->{channel}{title} );
         $channel->props->{description} = $feed->{channel}{description};
 
-        if (my $itunes = $feed->{channel}{+NS_ITUNES}) {
+        if (my $itunes = $feed->{channel}{itunes} || $feed->{channel}{itunes2}) {
             use Data::Dumper;
-            warn Dumper $itunes;
+            print Dumper $itunes;
             $channel->props->{thumbnail} = {
                 url => $itunes->{image}{href},
             } if $itunes->{image};
         }
 
-        if (my $media = $feed->{channel}{+NS_MEDIA}) {
+        if (my $media = $feed->{channel}{media}) {
             use Data::Dumper;
-            warn Dumper $media;
+            print Dumper $media;
             $channel->props->{thumbnail} = {
                 url => $media->{thumbnail}{url},
             } if $media->{thumbnail};
@@ -53,7 +58,7 @@ sub run {
                 $item->props->{link} = $entry->{link};
                 $item->props->{description} = $entry->{description};
 
-                if (my $itunes = $entry->{+NS_ITUNES}) {
+                if (my $itunes = $entry->{itunes} || $entry->{itunes2}) {
                     $item->props->{description} = $itunes->{summary}
                         if $itunes->{summary};
                 }

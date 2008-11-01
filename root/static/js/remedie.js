@@ -47,9 +47,10 @@ Remedie.prototype = {
   },
 
   renderChannel: function(channel, container) {
+   var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/default_channel.png";
     container.createAppend(
       'div', { className: 'channel-item' }, [
-         'img', { src: channel.props.thumbnail.url, height: 120 }, [],
+         'img', { src: thumbnail, height: 120 }, [],
          'div', { className: 'channel-item-title' }, channel.name,
       ]
     );
