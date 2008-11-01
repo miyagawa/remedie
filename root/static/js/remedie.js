@@ -9,6 +9,7 @@ Remedie.prototype = {
   },
 
   newChannel: function() {
+    var self = this;
     // TODO look at clipboard
     var input = window.prompt('Enter URL', '');
     if (!input) return;
@@ -20,8 +21,7 @@ Remedie.prototype = {
       success: function(r) {
         if (r.success) {
           alert(r.channel.name + " was added to your subscription");
-          var el = self.renderChannel(r.channel);
-          $("#subscription .channels-list").append(el);
+          self.renderChannel(r.channel, $("#subscription"));
         } else {
           alert(r.error);
         }
@@ -37,8 +37,7 @@ Remedie.prototype = {
       dataType: 'json',
       success: function(r) {
         for (i = 0; i < r.channels.length; i++) {
-          var el = self.renderChannel(r.channels[i]);
-          $("#subscription").append(el);
+          self.renderChannel(r.channels[i], $("#subscription"));
         }
       },
       error: function(r) {
@@ -47,11 +46,13 @@ Remedie.prototype = {
     });
   },
 
-  renderChannel: function(channel) {
-    var el = $("<div>");
-    el.attr('class', 'channel-item');
-    el.text( channel.name );
-    return el;
+  renderChannel: function(channel, container) {
+    container.createAppend(
+      'div', { className: 'channel-item' }, [
+         'img', { src: channel.props.thumbnail.url, height: 120 }, [],
+         'div', { className: 'channel-item-title' }, channel.name,
+      ]
+    );
   },
 };
 

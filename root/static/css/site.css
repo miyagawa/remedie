@@ -14,9 +14,9 @@ a {color:#fff;text-decoration:none}
 
 #media-items {visibility:none}
 .channel-item {
+  margin: 1em;
   float: left;
-  width: 320px;
-  height: 180px;
+  width: 200px;
+  height: 120px;
 }
-
 

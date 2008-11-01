@@ -6,6 +6,8 @@ __PACKAGE__->meta->table('item');
 __PACKAGE__->meta->auto_initialize;
 __PACKAGE__->json_encoded_columns('props');
 
+use constant TYPE_HTTP_MEDIA => 1;
+
 package Remedie::DB::Item::Manager;
 use base qw( Remedie::DB::Manager );
 

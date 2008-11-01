@@ -11,6 +11,9 @@ __PACKAGE__->register_db(
     type   => "main",
     driver => "sqlite",
     database => $db_path,
+    connect_options => {
+        unicode => 1,
+    },
 );
 
 __PACKAGE__->default_domain('development');
