@@ -1,0 +1,13 @@
+\bRCS\b
+\bCVS\b
+\.svn/
+^MANIFEST\.
+^Makefile$
+~$
+\.old$
+^blib/
+^pm_to_blib
+^MakeMaker-\d
+\.gz$
+\.cvsignore
+\.shipit

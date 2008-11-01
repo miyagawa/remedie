@@ -1,0 +1,20 @@
+body {
+  background: #000;
+  color: #ddd;
+}
+#sidebar {
+  float: left;
+  width: 240px;
+}
+
+a:focus, a:hover {color:#fff;text-decoration:underline}
+a {color:#fff;text-decoration:none}
+
+#media-items {visibility:none}
+.channel-item {
+  float: left;
+  width: 320px;
+  height: 180px;
+}
+
+
