@@ -15,7 +15,7 @@ sub json_encoded_columns {
         inflate => sub { $_[1] && !ref $_[1] ? JSON::XS::decode_json( encode_utf8($_[1]) ) : ( $_[1] || {} ) },
     );
     $class->meta->column($col)->add_trigger(
-        deflate => sub { JSON::XS::encode_json($_[1] || {}) },
+        deflate => sub { !ref $_[1] ? $_[1] : JSON::XS::encode_json($_[1] || {}) },
     );
 }
 
@@ -23,11 +23,13 @@ sub TO_JSON {
     my $self = shift;
 
     my $obj;
-    for my $key ( $self->meta->columns ) {
+    for my $key ( $self->meta->columns, $self->columns_to_serialize ) {
         $obj->{$key} = $self->$key;
     }
 
     return $obj;
 }
+
+sub columns_to_serialize { }
 
 1;

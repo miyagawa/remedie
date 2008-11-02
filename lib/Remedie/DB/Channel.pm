@@ -19,6 +19,25 @@ sub items {
    );
 }
 
+sub count_by_status {
+    my $self = shift;
+    my(@status) = @_;
+
+    return Remedie::DB::Item::Manager->get_items_count(
+       query => [ channel_id => $self->id, status => \@status ],
+    );
+}
+
+sub unwatched_count {
+    my $self = shift;
+    $self->count_by_status( Remedie::DB::Item->STATUS_NEW, Remedie::DB::Item->STATUS_DOWNLOADED );
+}
+
+sub columns_to_serialize {
+    my $self = shift;
+    return qw( unwatched_count );
+}
+
 package Remedie::DB::Channel::Manager;
 use base qw( Remedie::DB::Manager );
 
@@ -26,5 +45,3 @@ sub object_class { 'Remedie::DB::Channel' }
 __PACKAGE__->make_manager_methods('channels');
 
 1;
-
-

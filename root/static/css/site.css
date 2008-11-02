@@ -135,3 +135,7 @@ div.item-separator {
   margin-right: 0.6em;
   text-align:right
 }
+
+.channel-item-unwatched {
+  color: #fa0
+}

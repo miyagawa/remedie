@@ -13,6 +13,15 @@ use constant STATUS_DOWNLOADING => 2;
 use constant STATUS_DOWNLOADED  => 3;
 use constant STATUS_WATCHED     => 4;
 
+sub is_unwatched {
+    my $self = shift;
+    return $self->status == STATUS_NEW || $self->status == STATUS_DOWNLOADING || $self->status == STATUS_DOWNLOADED;
+}
+
+sub columns_to_serialize {
+    return qw( is_unwatched );
+}
+
 package Remedie::DB::Item::Manager;
 use base qw( Remedie::DB::Manager );
 
@@ -20,5 +29,3 @@ sub object_class { 'Remedie::DB::Item' }
 __PACKAGE__->make_manager_methods('items');
 
 1;
-
-

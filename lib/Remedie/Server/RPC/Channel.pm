@@ -56,6 +56,35 @@ sub show {
     };
 }
 
+sub update_status {
+    my($self, $req, $res) = @_;
+
+    my $id      = $req->param('id');
+    my $item_id = $req->param('item_id');
+    my $status  = $req->param('status');
+
+    my $enum = do {
+        my $meth = "STATUS_" . uc $status;
+        Remedie::DB::Item->$meth;
+    };
+
+    my $items;
+    if ($id) {
+        my $channel = Remedie::DB::Channel->new( id => $id )->load;
+        $items = $channel->items;
+    } else {
+        my $item = Remedie::DB::Item->new( id => $item_id )->load;
+        $items = [ $item ];
+    }
+
+    for my $item (@$items) {
+        $item->status($enum);
+        $item->save;
+    }
+
+    return { success => 1 };
+}
+
 sub normalize_uri {
     my $uri = shift;
     $uri =~ s/^feed:/http:/;

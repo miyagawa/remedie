@@ -27,7 +27,8 @@ Remedie.prototype = {
     this.loadSubscription();
   },
 
-  playVideo: function(url, id) {
+  playVideo: function(url, channel_id, id) {
+    var self = this;
     // TODO this only works when you're browsing from Local machine
     // If you're from remote, we should serve files from HTTP and run local
     // QuickTime/VLC to stream from the proxy
@@ -50,6 +51,7 @@ Remedie.prototype = {
         },
       });
     }
+    this.markItemAsWatched(channel_id, id);
   },
 
   playVideoInline: function(url, id, useQTEmbed) {
@@ -81,6 +83,30 @@ Remedie.prototype = {
       css: { top:  ($(window).height() - height) / 2 - 6 + 'px',
              left: ($(window).width()  - width) / 2 + 'px',
              width:  wh[0] + 'px' }
+    });
+  },
+
+  markItemAsWatched: function(channel_id, id) {
+    this.updateStatus({ item_id: id, status: 'watched' });
+    $('#channel-item-title-' + id).removeClass('channel-item-unwatched');
+    var count = $('#unwatched-count-' + channel_id);
+    if (count.text()) 
+      count.text( count.text() - 1 );
+  },
+
+  updateStatus: function(obj) {
+    $.ajax({
+      url: "/rpc/channel/update_status",
+      data: obj,
+      type: 'post',
+      dataType: 'json',
+      success: function(r) {
+        if (r.success) {
+
+        } else {
+          alert(r.error);
+        }
+      },
     });
   },
 
@@ -174,7 +200,7 @@ Remedie.prototype = {
            'div', { className: 'channel-item', id: 'channel-item-' + item.id  }, [
              'div', { className: 'item-thumbnail' }, [
                'a', { className: 'item-thumbnail-clickable', href: item.ident, id: "item-thumbnail-" + item.id,
-                      onclick: 'r.playVideo(this.href, '+ item.id +');return false' }, [
+                      onclick: 'r.playVideo(this.href, '+ channel.id + ', ' + item.id +');return false' }, [
                  // TODO load placeholder default image and replace later with new Image + onload
                  'img', { src: item_thumb || thumbnail, alt: item.name, style: 'width: 128px',
                           onload: "r.resizeThumb(this)" }, null
@@ -187,7 +213,8 @@ Remedie.prototype = {
                     'li', {}, "updated: " + item.props.updated,
                   ],
                ],
-               'h3', {}, item.name,
+               'h3', { id: 'channel-item-title-' + item.id,
+                       className: item.is_unwatched ? 'channel-item-unwatched' : '' }, item.name,
                'p', { className: 'item-infobox-description' }, item.props.description
              ],
              'div', { className: 'item-separator' }, [ 'hr', {}, null ]
@@ -246,7 +273,8 @@ Remedie.prototype = {
       'div', { className: 'channel', id: 'channel-' + channel.id  }, [
         'a', { className: 'channel-clickable', href: '#channel-' + channel.id, onclick: 'r.showChannel(' + channel.id + ')' }, [
           'img', { src: thumbnail, alt: channel.name, className: 'channel-thumbnail' }, [],
-          'div', { className: 'channel-title' }, channel.name
+          'div', { className: 'channel-title' },
+                 channel.unwatched_count ? channel.name + ' (<span id="unwatched-count-' + channel.id + '">' + channel.unwatched_count + '</span>)' : channel.name
         ]
       ]
     );
@@ -254,7 +282,7 @@ Remedie.prototype = {
 
   redrawChannel: function(channel) {
     var id = "#channel-" + channel.id;
-    if (!$(id))
+    if ($(id).size() == 0)
        return this.renderChannel(channel, $("#subscription"));
 
     if (channel.props.thumbnail) 
