@@ -182,7 +182,7 @@ Remedie.prototype = {
       if (!units[i]) break;
     }
 
-    return bytes + " " + units[i];       
+    return $.sprintf('%.1f %s', bytes, units[i]);    
   },
 
   loadSubscription: function() {
