@@ -64,6 +64,9 @@ sub dispatch_rpc {
 
     my @class  = split '/', $path;
     my $method = pop @class;
+
+    die "Access to non-public methods" if $method =~ /^_/;
+
     my $rpc_class = join "::", "Remedie::Server::RPC", map String::CamelCase::camelize($_), @class;
     eval "require $rpc_class; 1" or die $@;
 

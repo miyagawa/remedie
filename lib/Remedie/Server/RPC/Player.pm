@@ -26,16 +26,23 @@ sub vlc {
 
     my $url = $req->param('url');
 
+    $self->_run_vlc( command => 'pl_empty' );
+    $self->_run_vlc( command => 'in_play', input => $url );
+
+    return { success => 1 };
+}
+
+sub _run_vlc {
+    my $slef = shift;
+
     my $ua  = LWP::UserAgent->new;
     my $uri = URI->new("http://localhost:8080/requests/status.xml");
-    $uri->query_form( command => 'in_play', input => $url );
+    $uri->query_form(@_);
     my $res = $ua->get($uri);
+    $res->is_success
+        or die "VLC is not responding. Make sure VLC is running and HTTP interface is enabled.";
 
-    if ($res->is_success) {
-        return { success => 1 };
-    } else {
-        die "VLC is not responding. Make sure VLC is running and HTTP interface is enabled.";
-    }
+    return $res;
 }
 
 sub quicktime {
