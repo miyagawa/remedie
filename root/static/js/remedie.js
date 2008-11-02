@@ -179,7 +179,8 @@ Remedie.prototype = {
              'div', { className: 'item-thumbnail' }, [
                'a', { className: 'item-thumbnail-clickable', href: item.ident, id: "item-thumbnail-" + item.id,
                       onclick: 'r.playVideo(this.href, '+ item.id +');return false' }, [
-                 'img', { src: item_thumb || thumbnail, alt: item.name }, null
+                 'img', { src: item_thumb || thumbnail, alt: item.name, style: 'width: 120px',
+                          onload: "r.resizeThumb(this)" }, null
                ]
              ],
              'div', { className: 'item-infobox', style: "width: " + ($(window).width()-200) + "px" }, [
@@ -244,6 +245,15 @@ Remedie.prototype = {
         ]
       ]
     );
+  },
+
+  resizeThumb: function(el) {
+    el.style.width = 120;
+    if (el.height > el.width) {
+      el.style.height = 120;
+    } else {
+      el.style.height = 120 * el.height / el.width;
+    }
   },
 };
 
