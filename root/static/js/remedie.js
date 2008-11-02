@@ -6,8 +6,8 @@ Remedie.prototype = {
   initialize: function() {
     var self = this;
 
-    $("#new-channel-menu").click(function(){ self.toggleNewChannel(true) });
-    $("#channel-list-menu").click(function(){ self.toggleChannelView(false) });
+    $(".new-channel-menu").click(function(){ self.toggleNewChannel(true) });
+    $(".channel-list-menu").click(function(){ self.toggleChannelView(false) });
 
     $("#new-channel-form").submit( function(e) { self.newChannel(e); return false; } );
     $("#new-channel-cancel").click( function() { self.toggleNewChannel(false) } );
