@@ -15,7 +15,14 @@ my %config = (
     root => dir( Cwd::cwd, 'root' ),
 );
 
-GetOptions(\%config, "port=i", "host=s", "help");
+GetOptions(\%config, qw/
+    port=i
+    host=s
+    access_log=s
+    error_log=s
+    debug_log=s
+    help
+/);
 
 if ($config{help}) {
     pod2usage(1);
