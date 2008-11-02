@@ -27,7 +27,15 @@ sub bootstrap {
     my($class, $conf) = @_;
 
     my $self = $class->new(conf => $conf);
-    $self->run;
+
+    my $exit = sub { CORE::die('caught signal') };
+    eval {
+        local $SIG{INT}  = $exit;
+        local $SIG{QUIT} = $exit;
+        local $SIG{TERM} = $exit;
+        $self->run;
+    };
+    ERROR 'Exiting feed...';
 }
 
 sub BUILD {
