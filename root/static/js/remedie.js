@@ -14,14 +14,15 @@ Remedie.prototype = {
 
     $().ajaxStop($.unblockUI);
 
+// I just don't know but livequery SOMETIMES doesn't work with Safari on my Mac mini
 //    $(".channel-clickable").livequery('click', function(){
 //      self.showChannel(this.href.replace(/.*#channel-/, ""));
 //      return false;
 //    });
-    $(".item-thumbnail-clickable").livequery('click', function(){
-      self.playVideoInline(this.href, this.id.replace("item-thumbnail-", ""));
-      return false;
-    });
+//    $(".item-thumbnail-clickable").livequery('click', function(){
+//      self.playVideoInline(this.href, this.id.replace("item-thumbnail-", ""));
+//      return false;
+//    });
 
     this.loadSubscription();
   },
@@ -148,7 +149,8 @@ Remedie.prototype = {
           $("#channel-items").createAppend(
            'div', { className: 'channel-item', id: 'channel-item-' + item.id  }, [
              'div', { className: 'item-thumbnail' }, [
-               'a', { className: 'item-thumbnail-clickable', href: item.ident, id: "item-thumbnail-" + item.id }, [
+               'a', { className: 'item-thumbnail-clickable', href: item.ident, id: "item-thumbnail-" + item.id,
+                      onclick: 'r.playVideoInline(this.href, ' + item.id + ')' }, [
                  'img', { src: item_thumb || thumbnail, alt: item.name }, null
                ]
              ],
