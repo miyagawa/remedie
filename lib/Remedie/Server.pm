@@ -38,8 +38,11 @@ sub BUILD {
         $ENV{REMEDIE_ACCESS_LOG} || $conf->{access_log} || 'access.log';
     local $ENV{REMEDIE_ERROR_LOG} = 
         $ENV{REMEDIE_ERROR_LOG} || $conf->{error_log} || 'error.log';
-    local $ENV{REMEDIE_DEBUG_LOG} = 
-        $ENV{REMEDIE_DEBUG_LOG} || $conf->{debug_log} || 'debug.log';
+    local $ENV{REMEDIE_DEBUG} = 
+        $ENV{REMEDIE_DEBUG} || $conf->{debug};
+
+use Data::Dumper;
+warn Dumper(\%ENV);
 
     Remedie::Log->init();
 

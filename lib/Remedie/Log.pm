@@ -25,22 +25,15 @@ sub unimport {
 }
 
 sub init {
-
     my $conf = '';
-    if ($ENV{REMEDIE_DEBUG_LOG}) {
+    if ($ENV{REMEDIE_DEBUG}) {
         $conf .= <<'        EOCONF'
-            log4perl.logger = DEBUG, AppDebug, AppError, AppAccess
+            log4perl.logger = DEBUG, AppError, AppAccess
 
             # Filter to match level DEBUG
             log4perl.filter.MatchDebug  = Log::Log4perl::Filter::LevelMatch
             log4perl.filter.MatchDebug.LevelToMatch  = DEBUG
             log4perl.filter.MatchDebug.AcceptOnMatch = true
-
-            # Debug appender
-            log4perl.appender.AppDebug = Log::Log4perl::Appender::File
-            log4perl.appender.AppDebug.filename = sub { $ENV{REMEDIE_DEBUG_LOG} }
-            log4perl.appender.AppDebug.layout   = SimpleLayout
-            log4perl.appender.AppDebug.Filter   = MatchDebug
         EOCONF
     } else {
         $conf .= <<'        EOCONF'
@@ -51,7 +44,19 @@ sub init {
     $conf .= <<'    EOCONF';
         # Filter to match level ERROR
         log4perl.filter.MatchError = Log::Log4perl::Filter::LevelMatch
-        log4perl.filter.MatchError.LevelToMatch  = ERROR
+    EOCONF
+
+    if ($ENV{REMEDIE_DEBUG}) {
+        $conf .= <<'        EOCONF';
+            log4perl.filter.MatchError.LevelToMatch  = DEBUG
+        EOCONF
+    } else {
+        $conf .= <<'        EOCONF';
+            log4perl.filter.MatchError.LevelToMatch  = ERROR
+        EOCONF
+    }
+
+    $conf .= <<'    EOCONF';
         log4perl.filter.MatchError.AcceptOnMatch = true
     
         # Error appender
