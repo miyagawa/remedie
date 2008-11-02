@@ -27,18 +27,38 @@ Remedie.prototype = {
   },
 
   playVideoInline: function(url, id) {
-    var s1 = new SWFObject('/static/player.swf', 'player-' + id, '800', '600', '9');
+    var wh = this.calculate_window($(window).width());
+
+    var s1 = new SWFObject('/static/player.swf', 'player-' + id, wh[0], wh[1], '9');
     s1.addParam('allowfullscreen','true');
     s1.addParam('allowscriptaccess','always');
     s1.addParam('flashvars','autostart=true&file=' + url);
     s1.write('flash-player');
 
+    $('#flash-player').createAppend(
+     'div', { className: 'close-button' }, [
+        'a', { onclick: '$.unblockUI()' }, "Click here to close the Player"
+      ]
+    );
+
     $.blockUI({
       message: $('#flash-player'),
-      css: { top:  ($(window).height() - 600) / 2 + 'px',
-             left: ($(window).width()  - 800) / 2 + 'px',
-             width: '800px' }
+      css: { top:  ($(window).height() - wh[1]) / 2 - 6 + 'px',
+             left: ($(window).width()  - wh[0]) / 2 + 'px',
+             width:  wh[0] + 'px' }
     });
+  },
+
+  calculate_window: function(window_width) {
+    var widths = [ 1920, 1280, 1024, 704 ];
+    var i = 0;
+    while (window_width < widths[i]) {
+      i++;
+      if (!widths[i]) {
+        i--; break;
+      }
+    }
+    return [ widths[i], widths[i] * 9/16 ];
   },
 
   toggleNewChannel: function(display) {

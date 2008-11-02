@@ -116,5 +116,11 @@ div.item-separator {
 }
 
 #flash-player {
-  display:none
+  display:none;
+  background: #000;
+}
+
+.close-button {
+  margin-right: 0.6em;
+  text-align:right
 }
