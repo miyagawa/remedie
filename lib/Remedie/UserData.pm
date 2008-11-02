@@ -9,6 +9,10 @@ has 'base' => (
     default => sub { Path::Class::Dir->new($ENV{HOME}, '.remedie') },
 );
 
+__PACKAGE__->meta->make_immutable;
+
+no Moose;
+
 sub path_to {
     my($self, @path) = @_;
 
