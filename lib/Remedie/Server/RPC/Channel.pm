@@ -31,10 +31,18 @@ sub create {
     $channel->parent(0);
     $channel->save;
 
-    ## TODO make it async
+    return { channel => $channel };
+}
+
+sub refresh {
+    my($self, $req, $res) = @_;
+
+    my $channel = Remedie::DB::Channel->new( id => $req->param('id') )->load;
     Remedie::Worker->work_channel($channel);
 
-    return { channel => $channel };
+    $channel->load; # reload
+
+    return { success => 1, channel => $channel };
 }
 
 sub show {

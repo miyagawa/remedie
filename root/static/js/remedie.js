@@ -51,7 +51,7 @@ Remedie.prototype = {
   },
 
   playVideoInline: function(url, id) {
-    var wh = this.calculate_window($(window).width());
+    var wh = RemedieUtil.calcWindowSize($(window).width());
     var width  = wh[0];
     var height = wh[1] + 20; // slider and buttons
 
@@ -73,18 +73,6 @@ Remedie.prototype = {
              left: ($(window).width()  - width) / 2 + 'px',
              width:  wh[0] + 'px' }
     });
-  },
-
-  calculate_window: function(window_width) {
-    var widths = [ 1920, 1280, 1024, 704 ];
-    var i = 0;
-    while (window_width < widths[i]) {
-      i++;
-      if (!widths[i]) {
-        i--; break;
-      }
-    }
-    return [ widths[i], widths[i] * 9/16 ];
   },
 
   toggleNewChannel: function(display) {
@@ -129,16 +117,15 @@ Remedie.prototype = {
             color: '#fff' } });
     $.ajax({
       url: "/rpc/channel/create",
-      data: { url: $("#new-channel-url").attr('value') },
+      data: { url: jQuery.trim( $("#new-channel-url").attr('value') ) },
       type: 'post',
       dataType: 'json',
       success: function(r) {
         if (r.success) {
-// TODO maybe a flash message
-//          alert(r.channel.name + " was added to your subscription");
           $("#new-channel-url").attr('value', '');
           self.toggleNewChannel(false);
           self.renderChannel(r.channel, $("#subscription"));
+          self.refreshChannel(r.channel, true)
         } else {
           alert(r.error);
         }
@@ -157,13 +144,13 @@ Remedie.prototype = {
       dataType: 'json',
       success: function(r) {
         var channel = r.channel;
-        var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/default_channel.png";
+        var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/images/feed_128x128.png";
         $("#channel-pane").createAppend(
          'div', { className: 'channel-header', id: 'channel-header-' + channel.id  }, [
            'div', { className: 'channel-header-thumbnail' }, [
              'img', { src: thumbnail, alt: channel.name }, null
            ],
-           'div', { className: 'channel-header-infobox', style: 'width: ' + ($(window).width()-200) + 'px' }, [
+           'div', { className: 'channel-header-infobox', style: 'width: ' + ($(window).width()-220) + 'px' }, [
               'h2', {}, [ 'a', { href: channel.props.link, target: "_blank" }, channel.name ],
               'p', { className: 'channel-header-description' }, channel.props.description
             ],
@@ -179,14 +166,15 @@ Remedie.prototype = {
              'div', { className: 'item-thumbnail' }, [
                'a', { className: 'item-thumbnail-clickable', href: item.ident, id: "item-thumbnail-" + item.id,
                       onclick: 'r.playVideo(this.href, '+ item.id +');return false' }, [
-                 'img', { src: item_thumb || thumbnail, alt: item.name, style: 'width: 120px',
+                 // TODO load placeholder default image and replace later with new Image + onload
+                 'img', { src: item_thumb || thumbnail, alt: item.name, style: 'width: 128px',
                           onload: "r.resizeThumb(this)" }, null
                ]
              ],
-             'div', { className: 'item-infobox', style: "width: " + ($(window).width()-200) + "px" }, [
+             'div', { className: 'item-infobox', style: "width: " + ($(window).width()-220) + "px" }, [
                'div', { className: 'item-infobox-misc' }, [
                   'ul', { className: 'inline' }, [
-                    'li', { className: 'first' }, "size: " + self.format_bytes(item.props.size),
+                    'li', { className: 'first' }, "size: " + RemedieUtil.formatBytes(item.props.size),
                     'li', {}, "updated: " + item.props.updated,
                   ],
                ],
@@ -205,17 +193,25 @@ Remedie.prototype = {
     });
   },
 
-  format_bytes: function(bytes) {
-    if (bytes == 0) return '(Unknown)';
-    var units = [ 'bytes', 'KB', 'MB', 'GB', 'TB' ];
-    var i = 0;
-    while (bytes > 1024) {
-      bytes = bytes / 1024;
-      i++;
-      if (!units[i]) break;
-    }
+  refreshChannel : function(channel, first_time) {
+    var self = this;
+    // TODO animated icon on top of thumbnail
+    $.ajax({
+      url: "/rpc/channel/refresh",
+      data: { id: channel.id },
+      type: 'post',
+      dataType: 'json',
+      success: function(r) {
+        if (r.success) {
+          // TODO remove nimated icon
+          if (first_time) 
+            self.redrawChannel(r.channel);
+        } else {
+          alert(r.error);
+        }
+      },
+    });
 
-    return $.sprintf('%.1f %s', bytes, units[i]);    
   },
 
   loadSubscription: function() {
@@ -236,7 +232,7 @@ Remedie.prototype = {
   },
 
   renderChannel: function(channel, container) {
-    var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/default_channel.png";
+    var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/images/feed_256x256.png";
     container.createAppend(
       'div', { className: 'channel', id: 'channel-' + channel.id  }, [
         'a', { className: 'channel-clickable', href: '#channel-' + channel.id, onclick: 'r.showChannel(' + channel.id + ')' }, [
@@ -247,12 +243,25 @@ Remedie.prototype = {
     );
   },
 
+  redrawChannel: function(channel) {
+    var id = "#channel-" + channel.id;
+    if (!$(id))
+       return this.renderChannel(channel, $("#subscription"));
+
+    if (channel.props.thumbnail) 
+      $(id + " .channel-thumbnail").attr('src', channel.props.thumbnail.url);
+
+    if (channel.name) 
+      $(id + " .channel-title").text(channel.name);
+
+  },
+
   resizeThumb: function(el) {
-    el.style.width = 120;
+    el.style.width = 128;
     if (el.height > el.width) {
-      el.style.height = 120;
+      el.style.height = 128;
     } else {
-      el.style.height = 120 * el.height / el.width;
+      el.style.height = 128 * el.height / el.width;
     }
   },
 };

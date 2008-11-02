@@ -2,7 +2,7 @@ html,body,div,h1,h2,h3,h4,h5,h6,p,span,input,ul,li,td{font-family:"Lucida Grande
 
 body {
   background: #000;
-  color: #ddd;
+  color: #fff;
 }
 #menu-nav {
   position: relative;
@@ -38,13 +38,13 @@ a {color:#fff;text-decoration:none}
 .channel {
   margin: 1em;
   float: left;
-  width: 200px;
-  height: 240px;
+  width: 256x;
+  height: 280px;
 }
 
 img.channel-thumbnail {
-  width: 200px;
-  height: 200px;
+  width: 256px;
+  height: 256px;
 }
 
 .channel-title {
@@ -74,8 +74,8 @@ img.channel-thumbnail {
 }
 
 .channel-header-thumbnail img {
-  width: 120px;
-  height: 120px;
+  width: 128px;
+  height: 128px;
 }
 
 .channel-header-infobox {
@@ -122,6 +122,8 @@ div.item-separator {
   float: right;
 /*  top: 10px;*/
   text-align: right;
+  font-weight: none;
+  color: #888;
 }
 
 #flash-player {
