@@ -16,6 +16,10 @@ has 'channels' => (
     builder => 'build_default_channels',
 );
 
+__PACKAGE__->meta->make_immutable;
+
+no Moose;
+
 use constant NS_ITUNES  => 'http://www.itunes.com/dtds/Podcast-1.0.dtd';
 use constant NS_ITUNES2 => 'http://www.itunes.com/DTDs/Podcast-1.0.dtd';
 use constant NS_MEDIA   => 'http://search.yahoo.com/mrss/';

@@ -1,16 +1,22 @@
 package Remedie::UserData;
-use strict;
 use Moose;
-use Path::Class;
+use MooseX::Types::Path::Class qw(Dir);
+
+has 'base' => (
+    is => 'rw',
+    isa => Dir,
+    coerce => 1,
+    default => sub { Path::Class::Dir->new($ENV{HOME}, '.remedie') },
+);
 
 sub path_to {
-    my($class, @path) = @_;
+    my($self, @path) = @_;
 
     ## TODO change this to something like Library/Application\ Support/Remedie
-    my $base = dir($ENV{HOME}, ".remedie");
-    mkdir $base, 0777 unless -e $base;
+    my $base = $self->base;
+    $base->mkpath(0777) unless -e $base;
 
-    return dir($base, @path);
+    return $base->subdir(@path);
 }
 
 1;

@@ -1,6 +1,10 @@
 package Remedie::DB::Schema;
-use strict;
 use Moose;
+
+__PACKAGE__->meta->make_immutable;
+
+no Moose;
+
 use Remedie::DB;
 
 sub install {

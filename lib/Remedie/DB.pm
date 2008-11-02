@@ -4,7 +4,7 @@ use base qw( Rose::DB );
 
 use Remedie::UserData;
 
-my $db_path = Remedie::UserData->path_to("remedie.db");
+my $db_path = Remedie::UserData->new->path_to("remedie.db");
 
 __PACKAGE__->register_db(
     domain => "development",

@@ -1,7 +1,10 @@
 package Remedie::Server::RPC;
-use strict;
 use Moose;
 
 has conf => is => 'rw';
+
+__PACKAGE__->meta->make_immutable;
+
+no Moose;
 
 1;
