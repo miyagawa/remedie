@@ -34,9 +34,9 @@ Remedie.prototype = {
     // QuickTime/VLC to stream from the proxy
     var config = { player: 'Flash' }; // or VLC
     if (config.player == 'Flash') {
-       this.playVideoInline(url, id);
+      this.playVideoInline(url, id, false, channel_id);
     } else if (config.player == 'QTEmbed') {
-       this.playVideoInline(url, id, 1);
+      this.playVideoInline(url, id, true, channel_id);
     } else if (config.player == 'VLC' || config.player == 'QuickTime') {
       $.ajax({
         url: "/rpc/player/play",
@@ -50,11 +50,13 @@ Remedie.prototype = {
           }
         },
       });
+      this.markItemAsWatched(channel_id, id);
     }
-    this.markItemAsWatched(channel_id, id);
   },
 
-  playVideoInline: function(url, id, useQTEmbed) {
+  playVideoInline: function(url, id, useQTEmbed, channel_id) {
+    var self = this;
+
     var wh = RemedieUtil.calcWindowSize($(window).width());
     var width  = wh[0];
     var height = wh[1] + 20; // slider and buttons
@@ -77,6 +79,10 @@ Remedie.prototype = {
         'a', { onclick: '$.unblockUI()' }, "Click here to close the Player"
       ]
     );
+
+    $('#flash-player .close-button').click(function(){
+      self.markItemAsWatched(channel_id, id);
+    });
 
     $.blockUI({
       message: $('#flash-player'),
