@@ -3,6 +3,7 @@ name 'Remedie';
 all_from 'lib/Remedie.pm';
 
 requires 'DateTime';
+requires 'Encode';
 requires 'Feed::Find';
 requires 'FindBin::libs';
 requires 'HTTP::Engine';
