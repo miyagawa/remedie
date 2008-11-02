@@ -83,6 +83,10 @@ img.channel-thumbnail {
   margin-left: 2em;
 }
 
+.channel-header-data {
+  padding-bottom: 1em;
+}
+
 div.separator {
   clear: both;
   padding-top: 1em;

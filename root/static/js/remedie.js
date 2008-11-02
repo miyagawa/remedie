@@ -32,7 +32,7 @@ Remedie.prototype = {
     // TODO this only works when you're browsing from Local machine
     // If you're from remote, we should serve files from HTTP and run local
     // QuickTime/VLC to stream from the proxy
-    var config = { player: 'Flash' }; // or VLC
+    var config = { player: 'VLC' }; // or VLC
     if (config.player == 'Flash') {
       this.playVideoInline(url, id, false, channel_id);
     } else if (config.player == 'QTEmbed') {
@@ -193,6 +193,8 @@ Remedie.prototype = {
            ],
            'div', { className: 'channel-header-infobox', style: 'width: ' + ($(window).width()-220) + 'px' }, [
               'h2', {}, [ 'a', { href: channel.props.link, target: "_blank" }, channel.name ],
+              'p', { className: 'channel-header-data' }, r.items.length + ' items, ' +
+                  (channel.unwatched_count ? channel.unwatched_count : 0) + ' unwatched',
               'p', { className: 'channel-header-description' }, channel.props.description
             ],
             'div', { className: 'separator' }, [ 'hr', {}, null ],
