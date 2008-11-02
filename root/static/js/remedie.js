@@ -34,6 +34,8 @@ Remedie.prototype = {
     var config = { player: 'Flash' }; // or VLC
     if (config.player == 'Flash') {
        this.playVideoInline(url, id);
+    } else if (config.player == 'QTEmbed') {
+       this.playVideoInline(url, id, 1);
     } else if (config.player == 'VLC' || config.player == 'QuickTime') {
       $.ajax({
         url: "/rpc/player/play",
@@ -50,16 +52,24 @@ Remedie.prototype = {
     }
   },
 
-  playVideoInline: function(url, id) {
+  playVideoInline: function(url, id, useQTEmbed) {
     var wh = RemedieUtil.calcWindowSize($(window).width());
     var width  = wh[0];
     var height = wh[1] + 20; // slider and buttons
 
-    var s1 = new SWFObject('/static/player.swf', 'player-' + id, width, height, '9');
-    s1.addParam('allowfullscreen','true');
-    s1.addParam('allowscriptaccess','always');
-    s1.addParam('flashvars','autostart=true&file=' + url);
-    s1.write('flash-player');
+    if (useQTEmbed) {
+        var s1 = new QTObject(url, 'player-' + id, width,  height);
+        s1.addParam('scale', 'Aspect');
+        s1.addParam('target', 'QuickTimePlayer');
+        s1.write('flash-player');
+    } else {
+        var s1 = new SWFObject('/static/player.swf', 'player-' + id, width, height, '9');
+        s1.addParam('allowfullscreen','true');
+        s1.addParam('allowscriptaccess','always');
+        s1.addParam('flashvars','autostart=true&file=' + url);
+        s1.write('flash-player');
+    }
+    alert(url);
 
     $('#flash-player').createAppend(
      'div', { className: 'close-button' }, [
