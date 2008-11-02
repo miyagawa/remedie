@@ -2,9 +2,9 @@
 use strict;
 use warnings;
 use FindBin::libs;
-use Remedie::Worker;
+use Remedie::CLI::Worker;
 
-Remedie::Worker->run();
+Remedie::CLI::Worker->new_with_options->run();
 
 __END__
 

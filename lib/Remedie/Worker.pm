@@ -1,5 +1,5 @@
 package Remedie::Worker;
-use strict;
+use Moose;
 use Remedie::DB::Channel;
 use Remedie::DB::Item;
 
@@ -8,21 +8,31 @@ use LWP::UserAgent;
 use XML::RSS::LibXML;
 use URI;
 
+has 'channels' => (
+    is => 'rw',
+    isa => 'ArrayRef',
+    auto_deref => 1,
+    lazy => 1,
+    builder => 'build_default_channels',
+);
+
 use constant NS_ITUNES  => 'http://www.itunes.com/dtds/Podcast-1.0.dtd';
 use constant NS_ITUNES2 => 'http://www.itunes.com/DTDs/Podcast-1.0.dtd';
 use constant NS_MEDIA   => 'http://search.yahoo.com/mrss/';
 
-sub run {
-    my $class = shift;
+sub build_default_channels { Remedie::DB::Channel::Manager->get_channels }
 
-    my $channels = Remedie::DB::Channel::Manager->get_channels;
+sub run {
+    my $self = shift;
+
+    my $channels = $self->channels;
     for my $channel (@$channels) {
-        $class->work_channel($channel);
+        $self->work_channel($channel);
     }
 }
 
 sub work_channel {
-    my($class, $channel) = @_;
+    my($self, $channel) = @_;
 
     my $uri = $channel->ident;
     warn "Updating $uri";
