@@ -10,6 +10,7 @@ requires 'LWP::UserAgent';
 requires 'MIME::Types';
 requires 'Moose';
 requires 'Path::Class';
+requires 'String::CamelCase';
 requires 'URI';
 requires 'XML::RSS::LibXML';
 
