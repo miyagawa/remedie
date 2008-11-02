@@ -71,7 +71,6 @@ QTObject.prototype.getHTML = function() {
         }
         qtHTML += '</object>';
     }
-    alert(qtHTML);
     return qtHTML;
 }
 
