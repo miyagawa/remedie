@@ -31,7 +31,7 @@ Remedie.prototype = {
     // TODO this only works when you're browsing from Local machine
     // If you're from remote, we should serve files from HTTP and run local
     // QuickTime/VLC to stream from the proxy
-    var config = { player: 'QuickTime' }; // or VLC
+    var config = { player: 'VLC' }; // or VLC
     if (config.player == 'Flash') {
        this.playVideoInline(url, id);
     } else if (config.player == 'VLC' || config.player == 'QuickTime') {

@@ -12,8 +12,6 @@ my %map = (
 sub play {
     my($self, $req, $res) = @_;
 
-    my $url = $req->param('url');
-
     my $player = $req->param('player')
         or die "No player defined";
 
@@ -30,13 +28,13 @@ sub vlc {
 
     my $ua  = LWP::UserAgent->new;
     my $uri = URI->new("http://localhost:8080/requests/status.xml");
-    $uri->query_form( command => 'in_play', input => $uri );
+    $uri->query_form( command => 'in_play', input => $url );
     my $res = $ua->get($uri);
 
     if ($res->is_success) {
         return { success => 1 };
     } else {
-        return { error => "VLC is not responding. Make sure HTTP interface is enabled." };
+        die "VLC is not responding. Make sure HTTP interface is enabled.";
     }
 }
 
