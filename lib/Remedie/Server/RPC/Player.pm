@@ -34,7 +34,7 @@ sub vlc {
     if ($res->is_success) {
         return { success => 1 };
     } else {
-        die "VLC is not responding. Make sure HTTP interface is enabled.";
+        die "VLC is not responding. Make sure VLC is running and HTTP interface is enabled.";
     }
 }
 
