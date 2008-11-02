@@ -338,4 +338,3 @@ Remedie.prototype = {
   },
 
 };
-

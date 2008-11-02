@@ -13,7 +13,7 @@ RemedieUtil.calcWindowSize = function(window_width) {
 };
 
 RemedieUtil.formatBytes = function(bytes) {
-  if (bytes == 0) return '(Unknown)';
+  if (bytes <= 0) return '(Unknown)';
   var units = [ 'bytes', 'KB', 'MB', 'GB', 'TB' ];
   var i = 0;
   while (bytes > 1024) {
