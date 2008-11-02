@@ -31,7 +31,7 @@ Remedie.prototype = {
     // TODO this only works when you're browsing from Local machine
     // If you're from remote, we should serve files from HTTP and run local
     // QuickTime/VLC to stream from the proxy
-    var config = { player: 'VLC' }; // or VLC
+    var config = { player: 'Flash' }; // or VLC
     if (config.player == 'Flash') {
        this.playVideoInline(url, id);
     } else if (config.player == 'VLC' || config.player == 'QuickTime') {
@@ -89,13 +89,20 @@ Remedie.prototype = {
 
   toggleNewChannel: function(display) {
     if (display) {
-      $("#new-channel-dialog").show();
-      $("#subscription").hide();
-      $("#channel-pane").hide();
+      $.blockUI({
+        message: $("#new-channel-dialog"),
+        css: {
+            border: 'none',
+            padding: '15px',
+            backgroundColor: '#222',
+            '-webkit-border-radius': '10px',
+            '-moz-border-radius': '10px',
+            opacity: '.8',
+            color: '#fff'
+        },
+      });
     } else {
-      $("#subscription").show();
-      $("#new-channel-dialog").hide();
-      $("#channel-pane").hide();
+      $.unblockUI();
     }
     return false;
   },
@@ -104,11 +111,9 @@ Remedie.prototype = {
     if (display) {
       $("#subscription").hide();
       $("#channel-pane").show();
-      $("#new-channel-dialog").hide();
     } else {
       $("#subscription").show();
       $("#channel-pane").hide();
-      $("#new-channel-dialog").hide();
     }
     return false;
   },

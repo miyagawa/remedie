@@ -51,8 +51,17 @@ img.channel-thumbnail {
 }
 
 #new-channel-dialog {
-  clear:both;
+  text-align:left;
   display:none;
+}
+
+#new-channel-url {
+  width: 100%
+}
+
+.ok-cancel-buttons {
+  float:right;
+  position:relative;
 }
 
 .channel-header {
