@@ -7,6 +7,8 @@ use MIME::Types;
 use Path::Class;
 use String::CamelCase;
 
+use Remedie::Log;
+
 has 'conf' => is => 'rw';
 
 has 'engine' => (
@@ -28,8 +30,26 @@ sub bootstrap {
     $self->run;
 }
 
+sub BUILD {
+    my $self = shift;
+
+    my $conf = $self->conf;
+    local $ENV{REMEDIE_ACCESS_LOG} = 
+        $ENV{REMEDIE_ACCESS_LOG} || $conf->{access_log} || 'access.log';
+    local $ENV{REMEDIE_ERROR_LOG} = 
+        $ENV{REMEDIE_ERROR_LOG} || $conf->{error_log} || 'error.log';
+    local $ENV{REMEDIE_DEBUG_LOG} = 
+        $ENV{REMEDIE_DEBUG_LOG} || $conf->{debug_log} || 'debug.log';
+
+    Remedie::Log->init();
+
+    return $self;
+}
+
 sub build_engine {
     my $self = shift;
+
+    DEBUG "Initializing with HTTP::Engine version $HTTP::Engine::VERSION";
     return HTTP::Engine->new(
         interface => {
             module => 'ServerSimple',
@@ -65,8 +85,7 @@ sub handle_request {
         $res->body("Internal Server Error");
         warn $@;
     }
-
-    $self->log_request($req, $res);
+    LOG_REQUEST($req, $res);
 
     return $res;
 }
@@ -115,17 +134,6 @@ sub serve_static_file {
     } else {
         die "Not found";
     }
-}
-
-sub log_request {
-    my($self, $req, $res) = @_;
-
-    warn sprintf "%s %s %s [%s] \"%s %s %s\" %s %s \"%s\" \"%s\"\n",
-        $req->address,
-        '-', $req->user || '-',
-        scalar localtime, # not compatible with CLF
-        $req->method, $req->uri->path_query, $req->protocol, $res->status, length($res->body) || '-',
-        $req->referer || '-', $req->user_agent || '-';
 }
 
 1;
