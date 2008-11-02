@@ -83,7 +83,7 @@ sub handle_request {
     } elsif ($@) {
         $res->status(500);
         $res->body("Internal Server Error");
-        warn $@;
+        ERROR $@;
     }
     LOG_REQUEST($req, $res);
 
@@ -117,7 +117,7 @@ sub dispatch_rpc {
     $res->status(200);
     $res->content_type("application/json; charset=utf-8");
     $res->body( JSON::XS->new->allow_blessed->convert_blessed->utf8->encode($result) );
-    warn $res->body;
+    DEBUG $res->body;
 }
 
 sub serve_static_file {

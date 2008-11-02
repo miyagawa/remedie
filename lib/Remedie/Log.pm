@@ -40,7 +40,7 @@ sub init {
             log4perl.appender.AppDebug = Log::Log4perl::Appender::File
             log4perl.appender.AppDebug.filename = sub { $ENV{REMEDIE_DEBUG_LOG} }
             log4perl.appender.AppDebug.layout   = SimpleLayout
-            log4perl.appender.AppWarn.Filter   = MatchWarn
+            log4perl.appender.AppDebug.Filter   = MatchDebug
         EOCONF
     } else {
         $conf .= <<'        EOCONF'
