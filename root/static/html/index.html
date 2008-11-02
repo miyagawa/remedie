@@ -8,19 +8,23 @@
   <script language="JavaScript" type="text/javascript" src="/static/js/jquery.flash.js"></script>
   <script language="JavaScript" type="text/javascript" src="/static/js/jquery.flydom-3.1.1.js"></script>
   <script language="JavaScript" type="text/javascript" src="/static/js/jquery.blockUI.js"></script>
-  <script language="JavaScript" type="text/javascript" src="/static/js/ui/ui.core.js"></script>
-  <script language="JavaScript" type="text/javascript" src="/static/js/ui/ui.dialog.js"></script>
+  <script language="JavaScript" type="text/javascript" src="/static/js/jquery.livequery.min.js"></script>
+  <script language="JavaScript" type="text/javascript" src="/static/js/swfobject.js"></script>
   <script language="JavaScript" type="text/javascript" src="/static/js/remedie.js"></script>
-  <script language="JavaScript" type="text/javascript">$( function(){ var r = new Remedie() })</script>
+  <script language="JavaScript" type="text/javascript">$( function(){ window.r = new Remedie() })</script>
  </head>
  <body>
   <div class="container">
-   <div id="header"><h1>Remedie Media Center</h1></div>
-   <ul class="menu">
-   <li><a href="#" id="new-channel-menu">New Channel</a></li>
+   <div id="menu-nav">
+   <ul class="inline">
+   <li class="first"><a href="#" id="new-channel-menu">New Channel</a></li>
+   <li><a href="#" id="channel-list-menu">Channels List</a></li>
    </ul>
+   </div>
+
+   <div id="header"><h1>Remedie Media Center</h1></div>
    <div id="subscription"></div>
-   <div id="meidia-items"></div>
+   <div id="channel-pane"></div>
 
    <div id="new-channel-dialog">
    <form id="new-channel-form">
@@ -29,6 +33,8 @@
    <input type="button" value="Cancel" id="new-channel-cancel" />
    </form>
    </div>
+
+   <div id="flash-player"></div>
 
   </div>
  </body>

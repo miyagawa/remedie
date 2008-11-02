@@ -81,7 +81,7 @@ sub dispatch_rpc {
     }
 
     $res->status(200);
-    $res->content_type("application/json; charset=utf-8");
+#    $res->content_type("application/json; charset=utf-8");
     $res->body( JSON::XS->new->allow_blessed->convert_blessed->utf8->encode($result) );
     warn $res->body;
 }

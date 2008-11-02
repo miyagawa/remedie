@@ -36,6 +36,7 @@ sub work_channel {
 
     $feed->parse($res->content);
     $channel->name( $feed->{channel}{title} );
+    $channel->props->{link}        = $feed->{channel}{link};
     $channel->props->{description} = $feed->{channel}{description};
 
     if (my $image = $feed->{channel}{image}) {
@@ -55,7 +56,7 @@ sub work_channel {
         } if $media->{thumbnail};
     }
 
-    for my $entry (@{$feed->{items}}) {
+    for my $entry (reverse @{$feed->{items}}) {
         if (my $enclosure = $entry->{enclosure}) {
             my $item = Remedie::DB::Item::Manager->lookup(
                 channel_id => $channel->id,
@@ -75,6 +76,7 @@ sub work_channel {
             $item->props->{type} = $enclosure->{type};
             $item->props->{link} = $entry->{link};
             $item->props->{description} = $entry->{description};
+            $item->props->{updated} = $entry->{pubDate} || $entry->{dc}{date};
 
             if (my $itunes = $entry->{itunes} || $entry->{itunes2}) {
                 $item->props->{description} = $itunes->{summary}

@@ -37,6 +37,17 @@ sub create {
     return { channel => $channel };
 }
 
+sub show {
+    my($self, $req, $res) = @_;
+
+    my $channel = Remedie::DB::Channel->new( id => $req->param('id') )->load;
+
+    return {
+        channel => $channel,
+        items   => $channel->items,
+    };
+}
+
 sub normalize_uri {
     my $uri = shift;
     $uri =~ s/^feed:/http:/;

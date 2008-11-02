@@ -5,13 +5,27 @@ use base qw( Rose::DB::Object::Manager );
 sub lookup {
     my $self = shift;
 
-    my $objs = $self->get_objects(
+    my $objs = $self->search(@_);
+    return $objs->[0] if @$objs;
+    return;
+}
+
+sub search {
+    my $self = shift;
+
+    return $self->get_objects(
         query => [ @_ ],
         object_class => $self->object_class,
     );
+}
 
-    return $objs->[0] if @$objs;
-    return;
+sub search_iter {
+    my $self = shift;
+
+    return $self->get_objects_iterator(
+        query => [ @_ ],
+        object_class => $self->object_class,
+    );
 }
 
 1;

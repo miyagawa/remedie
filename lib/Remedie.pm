@@ -26,6 +26,9 @@ Tatsuhiko Miyagawa E<lt>miyagawa@cpan.orgE<gt>
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
+This software uses JW FLV MEDIA PLAYER 4.2 licensed under Creative Commons by-nc-sa
+L<http://www.jeroenwijering.com/?item=JW_FLV_Player>
+
 =head1 SEE ALSO
 
 L<http://code.google.com/p/remedie>
