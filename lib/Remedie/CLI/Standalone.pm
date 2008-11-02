@@ -7,24 +7,30 @@ use Pod::Usage;
 with 'MooseX::Getopt';
 
 has 'root' => (
-    is       => 'rw',
-    isa      => Dir,
-    required => 1,
-    coerce   => 1,
-    default  => sub { Path::Class::Dir->new('root')->absolute },
+    traits      => [ 'Getopt' ],
+    cmd_aliases => 'r',
+    is          => 'rw',
+    isa         => Dir,
+    required    => 1,
+    coerce      => 1,
+    default     => sub { Path::Class::Dir->new('root')->absolute },
 );
 
 has 'host' => (
-    is       => 'rw',
-    isa      => 'Str',
-    default  => 0
+    traits      => [ 'Getopt' ],
+    cmd_aliases => 'h',
+    is          => 'rw',
+    isa         => 'Str',
+    default     => 0,
 );
 
 has 'port' => (
-    is       => 'rw',
-    isa      => 'Int',
-    default  => 10010,
-    required => 1,
+    traits      => [ 'Getopt' ],
+    cmd_aliases => 'p',
+    is          => 'rw',
+    isa         => 'Int',
+    default     => 10010,
+    required    => 1,
 );
 
 has 'debug' => (
@@ -34,27 +40,33 @@ has 'debug' => (
 );
 
 has 'help' => (
-    is       => 'rw',
-    isa      => 'Bool',
-    default  => 0
+    traits      => [ 'Getopt' ],
+    cmd_aliases => 'h',
+    is          => 'rw',
+    isa         => 'Bool',
+    default     => 0
 );
 
 has 'access_log' => (
-    is       => 'rw',
-    isa      => File,
-    required => 1,
-    lazy     => 1,
-    coerce   => 1,
-    builder  => 'build_access_log'
+    traits      => [ 'Getopt' ],
+    cmd_aliases => 'a',
+    is          => 'rw',
+    isa         => File,
+    required    => 1,
+    lazy        => 1,
+    coerce      => 1,
+    builder     => 'build_access_log'
 );
 
 has 'error_log' => (
-    is       => 'rw',
-    isa      => File,
-    required => 1,
-    lazy     => 1,
-    coerce   => 1,
-    builder  => 'build_error_log'
+    traits      => [ 'Getopt' ],
+    cmd_aliases => 'e',
+    is          => 'rw',
+    isa         => File,
+    required    => 1,
+    lazy        => 1,
+    coerce      => 1,
+    builder     => 'build_error_log'
 );
 
 __PACKAGE__->meta->make_immutable;
