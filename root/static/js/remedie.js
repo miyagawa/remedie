@@ -20,11 +20,31 @@ Remedie.prototype = {
 //      return false;
 //    });
 //    $(".item-thumbnail-clickable").livequery('click', function(){
-//      self.playVideoInline(this.href, this.id.replace("item-thumbnail-", ""));
+//      self.playVideo(this.href, this.id.replace("item-thumbanil-", ""));
 //      return false;
 //    });
 
     this.loadSubscription();
+  },
+
+  playVideo: function(url, id) {
+    var config = { player: 'QuickTime' }; // or VLC
+    if (config.player == 'Flash') {
+       this.playVideoInline(url, id);
+    } else if (config.player == 'VLC' || config.player == 'QuickTime') {
+      $.ajax({
+        url: "/rpc/player/play",
+        data: { url: url, player: config.player },
+        type: 'post',
+        dataType: 'json',
+        success: function(r) {
+          if (r.success) {
+          } else {
+            alert(r.error);
+          }
+        },
+      });
+    }
   },
 
   playVideoInline: function(url, id) {
@@ -150,7 +170,7 @@ Remedie.prototype = {
            'div', { className: 'channel-item', id: 'channel-item-' + item.id  }, [
              'div', { className: 'item-thumbnail' }, [
                'a', { className: 'item-thumbnail-clickable', href: item.ident, id: "item-thumbnail-" + item.id,
-                      onclick: 'r.playVideoInline(this.href, ' + item.id + ')' }, [
+                      onclick: 'r.playVideo(this.href, '+ item.id +');return false' }, [
                  'img', { src: item_thumb || thumbnail, alt: item.name }, null
                ]
              ],
