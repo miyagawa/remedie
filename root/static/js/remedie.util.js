@@ -25,3 +25,6 @@ RemedieUtil.formatBytes = function(bytes) {
   return $.sprintf('%.1f %s', bytes, units[i]);    
 };
 
+RemedieUtil.encodeFlashVars = function(string) {
+  return string.replace(/&/g, '%3F').replace(/=/g, '%3D').replace(/&/g, '%26');
+};
