@@ -28,8 +28,10 @@ Remedie.prototype = {
 
   playVideoInline: function(url, id) {
     var wh = this.calculate_window($(window).width());
+    var width  = wh[0];
+    var height = wh[1] + 20; // slider and buttons
 
-    var s1 = new SWFObject('/static/player.swf', 'player-' + id, wh[0], wh[1], '9');
+    var s1 = new SWFObject('/static/player.swf', 'player-' + id, width, height, '9');
     s1.addParam('allowfullscreen','true');
     s1.addParam('allowscriptaccess','always');
     s1.addParam('flashvars','autostart=true&file=' + url);
@@ -43,8 +45,8 @@ Remedie.prototype = {
 
     $.blockUI({
       message: $('#flash-player'),
-      css: { top:  ($(window).height() - wh[1]) / 2 - 6 + 'px',
-             left: ($(window).width()  - wh[0]) / 2 + 'px',
+      css: { top:  ($(window).height() - height) / 2 - 6 + 'px',
+             left: ($(window).width()  - width) / 2 + 'px',
              width:  wh[0] + 'px' }
     });
   },
