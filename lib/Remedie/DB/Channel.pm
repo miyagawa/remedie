@@ -13,7 +13,10 @@ __PACKAGE__->json_encoded_columns('props');
 
 sub items {
     my $self = shift;
-    return Remedie::DB::Item::Manager->search( channel_id => $self->id );
+    return Remedie::DB::Item::Manager->get_items(
+       query => [ channel_id => $self->id ],
+       sort_by => 'id DESC',
+   );
 }
 
 package Remedie::DB::Channel::Manager;
