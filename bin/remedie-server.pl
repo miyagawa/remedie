@@ -20,7 +20,7 @@ GetOptions(\%config, qw/
     host=s
     access_log=s
     error_log=s
-    debug_log=s
+    debug
     help
 /);
 
