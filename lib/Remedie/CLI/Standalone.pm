@@ -1,0 +1,86 @@
+package Remedie::CLI::Standalone;
+use Moose;
+use MooseX::Types::Path::Class qw(File Dir);
+use Remedie::Server;
+use Pod::Usage;
+
+with 'MooseX::Getopt';
+
+has 'root' => (
+    is       => 'rw',
+    isa      => Dir,
+    required => 1,
+    coerce   => 1,
+    default  => sub { Path::Class::Dir->new('root')->absolute },
+);
+
+has 'host' => (
+    is       => 'rw',
+    isa      => 'Str',
+    default  => 0
+);
+
+has 'port' => (
+    is       => 'rw',
+    isa      => 'Int',
+    default  => 10010,
+    required => 1,
+);
+
+has 'debug' => (
+    is       => 'rw',
+    isa      => 'Bool',
+    default  => 0
+);
+
+has 'help' => (
+    is       => 'rw',
+    isa      => 'Bool',
+    default  => 0
+);
+
+has 'access_log' => (
+    is       => 'rw',
+    isa      => File,
+    required => 1,
+    lazy     => 1,
+    coerce   => 1,
+    builder  => 'build_access_log'
+);
+
+has 'error_log' => (
+    is       => 'rw',
+    isa      => File,
+    required => 1,
+    lazy     => 1,
+    coerce   => 1,
+    builder  => 'build_error_log'
+);
+
+__PACKAGE__->meta->make_immutable;
+
+no Moose;
+
+sub build_access_log { shift->root->file('access.log') }
+sub build_error_log  { shift->root->file('error.log') }
+
+sub run {
+    my $self = shift;
+    if ($self->help) {
+        pod2usage(
+            -input => (caller(0))[1],
+            -exitval => 1,
+        );
+    }
+
+    Remedie::Server->bootstrap({
+        host       => $self->host,
+        port       => $self->port,
+        root       => $self->root,
+        error_log  => $self->error_log,
+        access_log => $self->access_log,
+        debug      => $self->debug,
+    });
+}
+
+1;

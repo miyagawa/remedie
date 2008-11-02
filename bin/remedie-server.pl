@@ -2,33 +2,9 @@
 use strict;
 use warnings;
 use FindBin::libs;
-use Getopt::Long;
-use Pod::Usage;
-use Cwd;
-use Path::Class;
+use Remedie::CLI::Standalone;
 
-use Remedie::Server;
-
-my %config = (
-    port => 10010,
-    host => 0, # ANY
-    root => dir( Cwd::cwd, 'root' ),
-);
-
-GetOptions(\%config, qw/
-    port=i
-    host=s
-    access_log=s
-    error_log=s
-    debug
-    help
-/);
-
-if ($config{help}) {
-    pod2usage(1);
-}
-
-Remedie::Server->bootstrap(\%config);
+Remedie::CLI::Standalone->new_with_options->run();
 
 __END__
 

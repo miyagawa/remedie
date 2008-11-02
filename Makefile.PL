@@ -12,6 +12,8 @@ requires 'Log::Log4perl';
 requires 'LWP::UserAgent';
 requires 'MIME::Types';
 requires 'Moose';
+requires 'MooseX::Getopt';
+requires 'MooseX::Types::Path::Class';
 requires 'Path::Class';
 requires 'Rose::DB';
 requires 'Rose::DB::Object';
