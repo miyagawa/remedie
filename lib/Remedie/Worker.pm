@@ -26,13 +26,10 @@ sub work_channel {
 
     my $uri = $channel->ident;
     warn "Updating $uri";
-    my $res = LWP::UserAgent->new->get($uri);
+    my $res = LWP::UserAgent->new(timeout => 15)->get($uri);
     next if $res->is_error;
 
     my $feed = XML::RSS::LibXML->new;
-    $feed->add_module( uri => NS_ITUNES,  prefix => 'itunes' );
-    $feed->add_module( uri => NS_ITUNES2, prefix => 'itunes2' );
-    $feed->add_module( uri => NS_MEDIA,   prefix => 'media' );
 
     $feed->parse($res->content);
     $channel->name( $feed->{channel}{title} );
@@ -44,13 +41,13 @@ sub work_channel {
             if $image->{url};
     }
 
-    if (my $itunes = $feed->{channel}{itunes} || $feed->{channel}{itunes2}) {
+    if (my $itunes = $feed->{channel}{+NS_ITUNES} || $feed->{channel}{+NS_ITUNES2}) {
         $channel->props->{thumbnail} = {
             url => $itunes->{image}{href},
         } if $itunes->{image};
     }
 
-    if (my $media = $feed->{channel}{media}) {
+    if (my $media = $feed->{channel}{+NS_MEDIA}) {
         $channel->props->{thumbnail} = {
             url => $media->{thumbnail}{url},
         } if $media->{thumbnail};
@@ -78,14 +75,17 @@ sub work_channel {
             $item->props->{description} = $entry->{description};
             $item->props->{updated} = $entry->{pubDate} || $entry->{dc}{date};
 
-            if (my $itunes = $entry->{itunes} || $entry->{itunes2}) {
+            if (my $itunes = $entry->{+NS_ITUNES} || $entry->{+NS_ITUNES2}) {
                 $item->props->{description} = $itunes->{summary}
                     if $itunes->{summary};
             }
 
-            if (my $media = $entry->{media}) {
-                $item->props->{thumbnail}{url} = $media->{thumbnail}{url}
-                    if $media->{thumbnail}{url};
+            if (my $media = $entry->{+NS_MEDIA}) {
+                $media = $media->{content}{+NS_MEDIA}
+                    if exists $media->{content}{+NS_MEDIA};
+                $item->props->{thumbnail} = {
+                    url => $media->{thumbnail}{url},
+                } if $media->{thumbnail}{url};
             }
 
             eval { $item->save };
