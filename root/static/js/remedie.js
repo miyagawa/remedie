@@ -163,7 +163,7 @@ Remedie.prototype = {
            'div', { className: 'channel-header-thumbnail' }, [
              'img', { src: thumbnail, alt: channel.name }, null
            ],
-           'div', { className: 'channel-header-infobox' }, [
+           'div', { className: 'channel-header-infobox', style: 'width: ' + ($(window).width()-200) + 'px' }, [
               'h2', {}, [ 'a', { href: channel.props.link, target: "_blank" }, channel.name ],
               'p', { className: 'channel-header-description' }, channel.props.description
             ],
@@ -182,7 +182,7 @@ Remedie.prototype = {
                  'img', { src: item_thumb || thumbnail, alt: item.name }, null
                ]
              ],
-             'div', { className: 'item-infobox' }, [
+             'div', { className: 'item-infobox', style: "width: " + ($(window).width()-200) + "px" }, [
                'div', { className: 'item-infobox-misc' }, [
                   'ul', { className: 'inline' }, [
                     'li', { className: 'first' }, "size: " + self.format_bytes(item.props.size),
