@@ -69,7 +69,6 @@ Remedie.prototype = {
         s1.addParam('flashvars','autostart=true&file=' + url);
         s1.write('flash-player');
     }
-    alert(url);
 
     $('#flash-player').createAppend(
      'div', { className: 'close-button' }, [
