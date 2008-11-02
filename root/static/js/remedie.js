@@ -12,6 +12,8 @@ Remedie.prototype = {
     $("#new-channel-form").submit( function(e) { self.newChannel(e); return false; } );
     $("#new-channel-cancel").click( function() { self.toggleNewChannel(false) } );
 
+    $(".about-dialog-menu").click(function(){ self.showAboutDialog(true) });
+
     $().ajaxStop($.unblockUI);
 
 // I just don't know but livequery SOMETIMES doesn't work with Safari on my Mac mini
@@ -309,5 +311,31 @@ Remedie.prototype = {
       el.style.height = 128 * el.height / el.width;
     }
   },
+
+  showAboutDialog: function() {
+      var message = $('<div/>').createAppend(
+           'div', { id: "about-dialog" }, [
+              'h2', {}, 'Remedie Media Center',
+              'p', {}, [
+                  'a', { href: "http://code.google.com/p/remedie/", target: "_blank" }, 'Source code'
+              ],
+              'a', { className: 'command-unblock' }, 'Close this window'
+          ])
+      message.children("a.command-unblock").click($.unblockUI);
+      $.blockUI({
+        message: message,
+        css: {
+            border: 'none',
+            padding: '15px',
+            backgroundColor: '#222',
+            '-webkit-border-radius': '10px',
+            '-moz-border-radius': '10px',
+            opacity: '.8',
+            color: '#fff'
+        },
+      });
+      return false;
+  },
+
 };
 
