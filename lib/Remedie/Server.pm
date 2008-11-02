@@ -1,8 +1,6 @@
 package Remedie::Server;
-use strict;
-use warnings;
-
 use Moose;
+
 use JSON::XS;
 use HTTP::Engine;
 use MIME::Types;
@@ -11,20 +9,34 @@ use String::CamelCase;
 
 has 'conf' => is => 'rw';
 
+has 'engine' => (
+    is      => 'rw',
+    isa     => 'HTTP::Engine',
+    lazy    => 1,
+    builder => 'build_engine',
+    handles => [ qw(run) ],
+);
+
+__PACKAGE__->meta->make_immutable;
+
+no Moose;
+
 sub bootstrap {
     my($class, $conf) = @_;
 
     my $self = $class->new(conf => $conf);
+    $self->run;
+}
 
-    my $engine = HTTP::Engine->new(
+sub build_engine {
+    my $self = shift;
+    return HTTP::Engine->new(
         interface => {
             module => 'ServerSimple',
-            args   => $conf,
+            args   => $self->conf,
             request_handler => sub { $self->handle_request(@_) },
         },
     );
-
-    $engine->run;
 }
 
 sub handle_request {
