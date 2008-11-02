@@ -1,7 +1,7 @@
 package Remedie;
 
 use strict;
-use 5.8.1;
+use 5.008_001;
 our $VERSION = '0.1.0';
 
 1;
