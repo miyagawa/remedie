@@ -41,9 +41,6 @@ sub BUILD {
     local $ENV{REMEDIE_DEBUG} = 
         $ENV{REMEDIE_DEBUG} || $conf->{debug};
 
-use Data::Dumper;
-warn Dumper(\%ENV);
-
     Remedie::Log->init();
 
     return $self;
