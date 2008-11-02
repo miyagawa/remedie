@@ -1,10 +1,14 @@
 package Remedie::Server::RPC::Channel;
-use strict;
-use base qw( Remedie::Server::RPC );
-
+use Moose;
 use Remedie::DB::Channel;
 use Remedie::Worker;
 use Feed::Find;
+
+extends 'Remedie::Server::RPC';
+
+__PACKAGE__->meta->make_immutable;
+
+no Moose;
 
 sub load {
     my($self, $req, $res) = @_;

@@ -1,8 +1,12 @@
 package Remedie::Server::RPC::Player;
-use strict;
-use base qw( Remedie::Server::RPC );
-
+use Moose;
 use LWP::UserAgent;
+
+extends 'Remedie::Server::RPC';
+
+__PACKAGE__->meta->make_immutable;
+
+no Moose;
 
 my %map = (
     VLC => 'vlc',
