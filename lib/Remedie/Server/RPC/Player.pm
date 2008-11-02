@@ -26,8 +26,12 @@ sub vlc {
 
     my $url = $req->param('url');
 
+    system("open", "-a", "VLC");
+
     $self->_run_vlc( command => 'pl_empty' );
     $self->_run_vlc( command => 'in_play', input => $url );
+
+    system("open", "-a", "VLC"); # make it foreground
 
     return { success => 1 };
 }
