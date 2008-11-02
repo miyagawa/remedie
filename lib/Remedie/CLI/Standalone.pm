@@ -2,6 +2,7 @@ package Remedie::CLI::Standalone;
 use Moose;
 use MooseX::Types::Path::Class qw(File Dir);
 use Remedie::Server;
+use Remedie::UserData;
 use Pod::Usage;
 
 with 'MooseX::Getopt';
@@ -14,6 +15,14 @@ has 'root' => (
     required    => 1,
     coerce      => 1,
     default     => sub { Path::Class::Dir->new('root')->absolute },
+);
+
+has 'user_data' => (
+    is          => 'rw',
+    isa         => 'Remedie::UserData',
+    required    => 1,
+    coerce      => 1,
+    default     => sub { Remedie::UserData->new },
 );
 
 has 'host' => (
@@ -73,8 +82,8 @@ __PACKAGE__->meta->make_immutable;
 
 no Moose;
 
-sub build_access_log { shift->root->file('access.log') }
-sub build_error_log  { shift->root->file('error.log') }
+sub build_access_log { shift->user_data->path_to('access.log') }
+sub build_error_log  { shift->user_data->path_to('error.log') }
 
 sub run {
     my $self = shift;

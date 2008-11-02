@@ -143,3 +143,11 @@ div.item-separator {
 .channel-item-unwatched {
   color: #fa0
 }
+
+.hover-channel {
+  background: #222;
+}
+
+.hover-channel-item {
+  background: #222;
+}

@@ -16,7 +16,12 @@ sub path_to {
     my $base = $self->base;
     $base->mkpath(0777) unless -e $base;
 
-    return $base->subdir(@path);
+    if (@path > 1) {
+        my $file = pop @path;
+        return $base->subdir(@path)->file($file);
+    } else {
+        return $base->file($path[0]);
+    }
 }
 
 1;

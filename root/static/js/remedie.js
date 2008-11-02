@@ -26,23 +26,27 @@ Remedie.prototype = {
 //      return false;
 //    });
 
-    this.loadSubscription();
+    this.loadCollection();
   },
 
-  playVideo: function(url, channel_id, id) {
+  channels: [],
+  items:    [],
+
+  playVideo: function(item) {
     var self = this;
     // TODO this only works when you're browsing from Local machine
     // If you're from remote, we should serve files from HTTP and run local
     // QuickTime/VLC to stream from the proxy
     var config = { player: 'Flash' }; // or VLC
+    var channel = this.channels[ item.channel_id ];
     if (config.player == 'Flash') {
-      this.playVideoInline(url, id, false, channel_id);
+      this.playVideoInline(item.ident, item.id, false, channel.id);
     } else if (config.player == 'QTEmbed') {
-      this.playVideoInline(url, id, true, channel_id);
+      this.playVideoInline(item.ident, item.id, true, channel.id);
     } else if (config.player == 'VLC' || config.player == 'QuickTime') {
       $.ajax({
         url: "/rpc/player/play",
-        data: { url: url, player: config.player },
+        data: { url: item.ident, player: config.player },
         type: 'post',
         dataType: 'json',
         success: function(r) {
@@ -52,7 +56,7 @@ Remedie.prototype = {
           }
         },
       });
-      this.markItemAsWatched(channel_id, id);
+      this.markItemAsWatched(channel.id, item.id);
     }
   },
 
@@ -78,11 +82,10 @@ Remedie.prototype = {
 
     $('#flash-player').createAppend(
      'div', { className: 'close-button' }, [
-        'a', { onclick: '$.unblockUI()' }, "Click here to close the Player"
+        'a', {}, "Click here to close the Player"
       ]
-    );
-
-    $('#flash-player .close-button').click(function(){
+    ).click(function() {
+      $.unblockUI();
       self.markItemAsWatched(channel_id, id);
     });
 
@@ -205,12 +208,12 @@ Remedie.prototype = {
         );
         for (i = 0; i < r.items.length; i++) {
           var item = r.items[i];
+          self.items[item.id] = item;
           var item_thumb = item.props.thumbnail ? item.props.thumbnail.url : null;
           $("#channel-items").createAppend(
-           'div', { className: 'channel-item', id: 'channel-item-' + item.id  }, [
+           'div', { className: 'channel-item channel-item-clickable', id: 'channel-item-' + item.id  }, [
              'div', { className: 'item-thumbnail' }, [
-               'a', { className: 'item-thumbnail-clickable', href: item.ident, id: "item-thumbnail-" + item.id,
-                      onclick: 'r.playVideo(this.href, '+ channel.id + ', ' + item.id +');return false' }, [
+               'a', { href: item.ident, id: "item-thumbnail-" + item.id }, [
                  // TODO load placeholder default image and replace later with new Image + onload
                  'img', { src: item_thumb || thumbnail, alt: item.name, style: 'width: 128px',
                           onload: "r.resizeThumb(this)" }, null
@@ -231,6 +234,11 @@ Remedie.prototype = {
            ]
           );
         }
+
+        $(".channel-item-clickable")
+          .click(function(){ self.playVideo( self.items[this.id.replace("channel-item-", "")] ) })
+          .hover(function(){}, function(){});
+
         self.toggleChannelView(true);
       },
       error: function(r) {
@@ -260,7 +268,7 @@ Remedie.prototype = {
 
   },
 
-  loadSubscription: function() {
+  loadCollection: function() {
     var self = this;
     $.ajax({
       url: "/rpc/channel/load",
@@ -268,7 +276,9 @@ Remedie.prototype = {
       dataType: 'json',
       success: function(r) {
         for (i = 0; i < r.channels.length; i++) {
-          self.renderChannel(r.channels[i], $("#subscription"));
+          var channel = r.channels[i];
+          self.channels[channel.id] = channel;
+          self.renderChannel(channel, $("#subscription"));
         }
       },
       error: function(r) {
