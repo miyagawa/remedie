@@ -1,6 +1,7 @@
 package Remedie::Server;
 use Moose;
 
+use attributes ();
 use JSON::XS;
 use HTTP::Engine;
 use MIME::Types;
@@ -113,6 +114,12 @@ sub dispatch_rpc {
 
     my $result;
     eval {
+        my $code = $rpc->can($method) or die "Not found";
+        my @attr = attributes::get($code);
+        if ( grep $_ eq 'POST', @attr ) {
+            die "Request should be POST and have X-Remedie-Client header"
+                unless $req->method eq 'POST' && $req->header('X-Remedie-Client');
+        }
         $result = $rpc->$method($req, $res);
     };
 

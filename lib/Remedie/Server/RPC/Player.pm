@@ -2,18 +2,18 @@ package Remedie::Server::RPC::Player;
 use Moose;
 use LWP::UserAgent;
 
-extends 'Remedie::Server::RPC';
+BEGIN { extends 'Remedie::Server::RPC' }
 
 __PACKAGE__->meta->make_immutable;
 
 no Moose;
 
 my %map = (
-    VLC => 'vlc',
-    QuickTime => 'quicktime',
+    VLC => '_vlc',
+    QuickTime => '_quicktime',
 );
 
-sub play {
+sub play : POST {
     my($self, $req, $res) = @_;
 
     my $player = $req->param('player')
@@ -25,7 +25,7 @@ sub play {
     $self->$p($req, $res);
 }
 
-sub vlc {
+sub _vlc {
     my($self, $req, $res) = @_;
 
     my $url = $req->param('url');
@@ -53,7 +53,7 @@ sub _run_vlc {
     return $res;
 }
 
-sub quicktime {
+sub _quicktime {
     my($self, $req, $res) = @_;
 
     my $url = $req->param('url');

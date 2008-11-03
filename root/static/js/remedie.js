@@ -1,3 +1,5 @@
+Remedie.version = '0.1.0';
+
 function Remedie() {
   this.initialize();
 }
@@ -12,6 +14,9 @@ Remedie.prototype = {
 
     $(".about-dialog-menu").click(function(){ remedie.showAboutDialog(true) });
 
+    $().ajaxSend(function(event,xhr,options) {
+      xhr.setRequestHeader('X-Remedie-Client', 'Remedie Media Center/' + Remedie.version);
+    });
     $().ajaxStop($.unblockUI);
 
 // I just don't know but livequery SOMETIMES doesn't work with Safari on my Mac mini

@@ -4,7 +4,7 @@ use Remedie::DB::Channel;
 use Remedie::Worker;
 use Feed::Find;
 
-extends 'Remedie::Server::RPC';
+BEGIN { extends 'Remedie::Server::RPC' };
 
 __PACKAGE__->meta->make_immutable;
 
@@ -16,7 +16,7 @@ sub load {
     return { channels => $channels };
 }
 
-sub create {
+sub create : POST {
     my($self, $req, $res) = @_;
 
     my $uri = $req->param('url');
@@ -40,7 +40,7 @@ sub create {
     return { channel => $channel };
 }
 
-sub refresh {
+sub refresh : POST {
     my($self, $req, $res) = @_;
 
     my $channel = Remedie::DB::Channel->new( id => $req->param('id') )->load;
@@ -62,7 +62,7 @@ sub show {
     };
 }
 
-sub update_status {
+sub update_status : POST {
     my($self, $req, $res) = @_;
 
     my $id      = $req->param('id');
