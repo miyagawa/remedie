@@ -202,10 +202,14 @@ Remedie.prototype = {
                   (channel.unwatched_count ? channel.unwatched_count : 0) + ' unwatched',
               'p', { className: 'channel-header-description' }, channel.props.description
             ],
-            'div', { className: 'separator' }, [ 'hr', {}, null ],
-            'div', { id: 'channel-items' }, null
+            'div', { className: "claer" }, null
           ]
         );
+
+        $("#channel-pane").createAppend(
+          'div', { id: 'channel-items', className: "clear" }, null
+        );
+
         for (i = 0; i < r.items.length; i++) {
           var item = r.items[i];
           self.items[item.id] = item;
@@ -230,14 +234,14 @@ Remedie.prototype = {
                        className: item.is_unwatched ? 'channel-item-unwatched' : '' }, item.name,
                'p', { className: 'item-infobox-description' }, item.props.description
              ],
-             'div', { className: 'item-separator' }, [ 'hr', {}, null ]
+             'div', { className: "clear" }, null
            ]
           );
         }
 
         $(".channel-item-clickable")
           .click(function(){ self.playVideo( self.items[this.id.replace("channel-item-", "")] ) })
-          .hover(function(){}, function(){});
+          .hover(function(){ $(this).addClass("hover-channel-item")}, function(){ $(this).removeClass("hover-channel-item")});
 
         self.toggleChannelView(true);
       },

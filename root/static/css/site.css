@@ -89,7 +89,7 @@ img.channel-thumbnail {
 
 div.separator {
   clear: both;
-  padding-top: 1em;
+  padding-top: 1em; 
   color: #444;
 }
 
@@ -110,16 +110,17 @@ div.separator {
   float: left;
   margin-left: 2em;
 }
-
+ 
 div.item-separator {
   clear: both;
-  padding-top: 1em;
+/*  padding-top: 1em; */
   color: #444;
 }
 
 .item-separator hr {
   background-color: #444;
 }
+
 
 .item-infobox-misc {
   position: relative;
@@ -140,6 +141,12 @@ div.item-separator {
   text-align:right
 }
 
+.channel-item {
+  border-top: 1px solid #444;
+  padding-top: 12px; 
+  padding-bottom: 12px; 
+}
+
 .channel-item-unwatched {
   color: #fa0
 }
@@ -149,5 +156,5 @@ div.item-separator {
 }
 
 .hover-channel-item {
-  background: #222;
+  background: #111;
 }
