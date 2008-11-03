@@ -17,7 +17,7 @@ ul.inline {
 
 ul.inline li {
   display:inline;
-  border-left: 1px solid #ccc;
+  border-left: 1px solid #888;
   margin-left: 6px;
   padding-left: 8px;
 }
