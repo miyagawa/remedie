@@ -4,25 +4,23 @@ function Remedie() {
 
 Remedie.prototype = {
   initialize: function() {
-    var self = this;
+    $(".new-channel-menu").click(function(){ remedie.toggleNewChannel(true) });
+    $(".channel-list-menu").click(function(){ remedie.toggleChannelView(false) });
 
-    $(".new-channel-menu").click(function(){ self.toggleNewChannel(true) });
-    $(".channel-list-menu").click(function(){ self.toggleChannelView(false) });
+    $("#new-channel-form").submit( function(e) { remedie.newChannel(e); return false; } );
+    $("#new-channel-cancel").click( function() { remedie.toggleNewChannel(false) } );
 
-    $("#new-channel-form").submit( function(e) { self.newChannel(e); return false; } );
-    $("#new-channel-cancel").click( function() { self.toggleNewChannel(false) } );
-
-    $(".about-dialog-menu").click(function(){ self.showAboutDialog(true) });
+    $(".about-dialog-menu").click(function(){ remedie.showAboutDialog(true) });
 
     $().ajaxStop($.unblockUI);
 
 // I just don't know but livequery SOMETIMES doesn't work with Safari on my Mac mini
 //    $(".channel-clickable").livequery('click', function(){
-//      self.showChannel(this.href.replace(/.*#channel-/, ""));
+//      remedie.showChannel(this.href.replace(/.*#channel-/, ""));
 //      return false;
 //    });
 //    $(".item-thumbnail-clickable").livequery('click', function(){
-//      self.playVideo(this.href, this.id.replace("item-thumbanil-", ""));
+//      remedie.playVideo(this.href, this.id.replace("item-thumbanil-", ""));
 //      return false;
 //    });
 
@@ -32,21 +30,21 @@ Remedie.prototype = {
   channels: [],
   items:    [],
 
-  playVideo: function(item) {
-    var self = this;
+  playVideo: function(item, player) {
     // TODO this only works when you're browsing from Local machine
     // If you're from remote, we should serve files from HTTP and run local
     // QuickTime/VLC to stream from the proxy
     var config = { player: 'Flash' }; // or VLC
+    if (!player) player = config.player;
     var channel = this.channels[ item.channel_id ];
-    if (config.player == 'Flash') {
+    if (player == 'Flash') {
       this.playVideoInline(item.ident, item.id, false, channel.id);
-    } else if (config.player == 'QTEmbed') {
+    } else if (player == 'QTEmbed') {
       this.playVideoInline(item.ident, item.id, true, channel.id);
-    } else if (config.player == 'VLC' || config.player == 'QuickTime') {
+    } else if (player == 'VLC' || player == 'QuickTime') {
       $.ajax({
         url: "/rpc/player/play",
-        data: { url: item.ident, player: config.player },
+        data: { url: item.ident, player: player },
         type: 'post',
         dataType: 'json',
         success: function(r) {
@@ -61,8 +59,6 @@ Remedie.prototype = {
   },
 
   playVideoInline: function(url, id, useQTEmbed, channel_id) {
-    var self = this;
-
     var wh = RemedieUtil.calcWindowSize($(window).width());
     var width  = wh[0];
     var height = wh[1] + 20; // slider and buttons
@@ -86,7 +82,7 @@ Remedie.prototype = {
       ]
     ).click(function() {
       $.unblockUI();
-      self.markItemAsWatched(channel_id, id);
+      remedie.markItemAsWatched(channel_id, id);
     });
 
     $.blockUI({
@@ -103,6 +99,14 @@ Remedie.prototype = {
     var count = $('#unwatched-count-' + channel_id);
     if (count.text()) 
       count.text( count.text() - 1 );
+  },
+
+  markItemAsUnwatched: function(channel_id, id) {
+    this.updateStatus({ item_id: id, status: 'new' }); // # XXX should be 'downloaded' if it has local file
+    $('#channel-item-title-' + id).addClass('channel-item-unwatched');
+    var count = $('#unwatched-count-' + channel_id);
+    if (count.text()) 
+      count.text( count.text() + 1 );
   },
 
   updateStatus: function(obj) {
@@ -153,7 +157,6 @@ Remedie.prototype = {
   },
 
   newChannel: function(el) {
-    var self = this;
     $.blockUI({ css: {   border: 'none',
             padding: '15px',
             backgroundColor: '#222',
@@ -169,10 +172,10 @@ Remedie.prototype = {
       success: function(r) {
         if (r.success) {
           $("#new-channel-url").attr('value', '');
-          self.toggleNewChannel(false);
-          self.channels[r.channel.id] = r.channel;
-          self.renderChannel(r.channel, $("#subscription"));
-          self.refreshChannel(r.channel, true)
+          remedie.toggleNewChannel(false);
+          remedie.channels[r.channel.id] = r.channel;
+          remedie.renderChannel(r.channel, $("#subscription"));
+          remedie.refreshChannel(r.channel, true)
         } else {
           alert(r.error);
         }
@@ -182,7 +185,6 @@ Remedie.prototype = {
   },
 
   showChannel: function(channel) {
-    var self = this;
     $("#channel-pane").children().remove();
     $.ajax({
       url: "/rpc/channel/show",
@@ -217,15 +219,15 @@ Remedie.prototype = {
 
         for (i = 0; i < r.items.length; i++) {
           var item = r.items[i];
-          self.items[item.id] = item;
+          remedie.items[item.id] = item;
           var item_thumb = item.props.thumbnail ? item.props.thumbnail.url : null;
           $("#channel-items").createAppend(
-           'div', { className: 'channel-item channel-item-clickable', id: 'channel-item-' + item.id  }, [
+           'div', { className: 'channel-item channel-item-selectable', id: 'channel-item-' + item.id  }, [
              'div', { className: 'item-thumbnail' }, [
-               'a', { href: item.ident, id: "item-thumbnail-" + item.id }, [
+               'a', { className: 'channel-item-clickable', href: item.ident, id: "item-thumbnail-" + item.id }, [
                  // TODO load placeholder default image and replace later with new Image + onload
                  'img', { src: item_thumb || thumbnail, alt: item.name, style: 'width: 128px',
-                          onload: "r.resizeThumb(this)" }, null
+                          onload: "remedie.resizeThumb(this)" }, null
                ]
              ],
              'div', { className: 'item-infobox', style: "width: " + ($(window).width()-220) + "px" }, [
@@ -241,14 +243,36 @@ Remedie.prototype = {
              ],
              'div', { className: "clear" }, null
            ]
-          );
-        }
+         );
+       }
+
+       $(".channel-item-selectable")
+         .hover(function(){
+           $(this).addClass("hover-channel-item")},
+           function(){ $(this).removeClass("hover-channel-item")})
+         .each(function() {
+            var item = remedie.items[ this.id.replace("channel-item-", "") ];
+            $(this).contextMenu("channel-item-context-menu", {
+              bindings: {
+                item_context_play:      function(){remedie.playVideo(item)},
+                item_context_watched:   function(){remedie.markItemAsWatched(item.channel_id, item.id)},
+                item_context_unwatched: function(){remedie.markItemAsUnwatched(item.channel_id, item.id)},
+                item_context_play_vlc:  function(){remedie.playVideo(item, 'VLC')},
+                item_context_play_qt:   function(){remedie.playVideo(item, 'QuickTime')},
+              },
+              menuStyle:         Menu.context.menu_style,
+              itemStyle:         Menu.context.item_style,
+              itemHoverStyle:    Menu.context.item_hover_style,
+              itemDisabledStyle: Menu.context.item_disabled_style,
+              shadow:            false,
+           });
+         });
 
         $(".channel-item-clickable")
-          .click(function(){ self.playVideo( self.items[this.id.replace("channel-item-", "")] ) })
-          .hover(function(){ $(this).addClass("hover-channel-item")}, function(){ $(this).removeClass("hover-channel-item")});
+          .click(function(){
+            remedie.playVideo( remedie.items[this.id.replace("item-thumbnail-", "")] ) });
 
-        self.toggleChannelView(true);
+         remedie.toggleChannelView(true);
       },
       error: function(r) {
         alert("Can't load the channel");
@@ -257,7 +281,6 @@ Remedie.prototype = {
   },
 
   refreshChannel : function(channel, first_time) {
-    var self = this;
     // TODO animated icon on top of thumbnail
     $.ajax({
       url: "/rpc/channel/refresh",
@@ -268,7 +291,7 @@ Remedie.prototype = {
         if (r.success) {
           // TODO remove nimated icon
           if (first_time) 
-            self.redrawChannel(r.channel);
+            remedie.redrawChannel(r.channel);
         } else {
           alert(r.error);
         }
@@ -278,7 +301,6 @@ Remedie.prototype = {
   },
 
   loadCollection: function() {
-    var self = this;
     $.ajax({
       url: "/rpc/channel/load",
       type: 'get',
@@ -286,8 +308,8 @@ Remedie.prototype = {
       success: function(r) {
         for (i = 0; i < r.channels.length; i++) {
           var channel = r.channels[i];
-          self.channels[channel.id] = channel;
-          self.renderChannel(channel, $("#subscription"));
+          remedie.channels[channel.id] = channel;
+          remedie.renderChannel(channel, $("#subscription"));
         }
       },
       error: function(r) {
@@ -308,7 +330,7 @@ Remedie.prototype = {
       ]
     );
     $("#channel-" + channel.id)
-      .click( function(){ r.showChannel(channel) } )
+      .click( function(){ remedie.showChannel(channel) } )
       .hover( function(){ $(this).addClass("hover-channel") },
               function(){ $(this).removeClass("hover-channel") } );
   },

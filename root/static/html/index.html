@@ -10,11 +10,13 @@
   <script language="JavaScript" type="text/javascript" src="/static/js/jquery.blockUI.js"></script>
   <script language="JavaScript" type="text/javascript" src="/static/js/jquery.livequery.min.js"></script>
   <script language="JavaScript" type="text/javascript" src="/static/js/jquery.sprintf.js"></script>
+  <script language="JavaScript" type="text/javascript" src="/static/js/jquery.contextmenu.min.js"></script>
+  <script language="JavaScript" type="text/javascript" src="/static/js/menu.js"></script>
   <script language="JavaScript" type="text/javascript" src="/static/js/swfobject.js"></script>
   <script language="javaScript" type="text/javascript" src="/static/js/qtobject.js"></script>
   <script language="JavaScript" type="text/javascript" src="/static/js/remedie.util.js"></script>
   <script language="JavaScript" type="text/javascript" src="/static/js/remedie.js"></script>
-  <script language="JavaScript" type="text/javascript">$( function(){ window.r = new Remedie() })</script>
+  <script language="JavaScript" type="text/javascript">var remedie; $( function(){ remedie = new Remedie() })</script>
  </head>
  <body>
   <div class="container">
@@ -43,6 +45,15 @@
 
    <div id="flash-player"></div>
 
-  </div>
+   <div id="channel-item-context-menu" class="contextMenu">
+      <ul>
+        <li id="item_context_play">Play</li>
+        <li id="item_context_watched">Mark as watched</li>
+        <li id="item_context_unwatched">Mark as unwatched</li>
+        <!--li id="item_reveal_finder" class="disabled">Reveal in Finder</li-->
+        <li id="item_context_play_vlc">Play with VLC</li>
+        <li id="item_context_play_qt">Play with QuickTime</li>
+      </ul>
+   </div>
  </body>
 </html>

@@ -168,4 +168,17 @@ div.item-separator {
   color: #666;
 }
 
-  
+div#jqContextMenu {
+        -webkit-border-radius: 5px;
+        border: 1px solid rgba(0,0,0,0.1);
+        -moz-user-select: none;
+        -webkit-user-select: none;
+}
+
+div#jqContextMenu ul {
+        filter: alpha(opacity=98);
+        -moz-opacity: .98;
+        opacity: .98;
+        -webkit-box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        -webkit-border-radius: 5px;
+}
