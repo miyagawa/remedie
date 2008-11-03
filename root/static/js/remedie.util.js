@@ -29,11 +29,17 @@ RemedieUtil.encodeFlashVars = function(string) {
   return string.replace(/&/g, '%3F').replace(/=/g, '%3D').replace(/&/g, '%26');
 };
 
+RemedieUtil.mangleDate = function(date) {
+  // TODO should localize the date as well
+  return date.replace(/^(.*\w{3} \d{4}) \d\d:\d\d.*$/i, "$1");
+};
+
 String.prototype.trimChars = function(length, append) {
   var string = this;
   if (string.length > length) {
     string = string.substring(0, length);
-    string += append || "..";
+    string += append ? append : "..";
   }
-  return string;
+  return string + '';
 };
+

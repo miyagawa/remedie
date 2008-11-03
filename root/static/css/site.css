@@ -159,3 +159,13 @@ div.item-separator {
 .hover-channel-item {
   background: #111;
 }
+
+.channel-header-title {
+  margin-bottom:0
+}
+
+.channel-header-data, .channel-header-data a {
+  color: #666;
+}
+
+  

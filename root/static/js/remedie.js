@@ -198,9 +198,13 @@ Remedie.prototype = {
              'img', { src: thumbnail, alt: channel.name }, null
            ],
            'div', { className: 'channel-header-infobox', style: 'width: ' + ($(window).width()-220) + 'px' }, [
-              'h2', {}, [ 'a', { href: channel.props.link, target: "_blank" }, channel.name ],
-              'p', { className: 'channel-header-data' }, r.items.length + ' items, ' +
-                  (channel.unwatched_count ? channel.unwatched_count : 0) + ' unwatched',
+              'h2', { className: 'channel-header-title' }, [ 'a', { href: channel.props.link, target: "_blank" }, channel.name ],
+              'div', { className: 'channel-header-data' }, [
+                'a', { href: channel.ident, target: "_blank" }, channel.ident.trimChars(128),
+                'br', {}, null,
+                'span', {}, r.items.length + ' items, ' +
+                  (channel.unwatched_count ? channel.unwatched_count : 0) + ' unwatched'
+              ],
               'p', { className: 'channel-header-description' }, channel.props.description
             ],
             'div', { className: "claer" }, null
@@ -228,7 +232,7 @@ Remedie.prototype = {
                'div', { className: 'item-infobox-misc' }, [
                   'ul', { className: 'inline' }, [
                     'li', { className: 'first' }, "size: " + RemedieUtil.formatBytes(item.props.size),
-                    'li', {}, "updated: " + item.props.updated,
+                    'li', {}, "updated: " + RemedieUtil.mangleDate(item.props.updated),
                   ],
                ],
                'h3', { id: 'channel-item-title-' + item.id,
