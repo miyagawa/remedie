@@ -82,6 +82,7 @@ Remedie.prototype = {
       ]
     ).click(function() {
       $.unblockUI();
+      $('#flash-player').children().remove();
       remedie.markItemAsWatched(channel_id, id);
     });
 
