@@ -326,7 +326,7 @@ Remedie.prototype = {
     var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/images/feed_256x256.png";
     container.createAppend(
       'div', { className: 'channel channel-clickable', id: 'channel-' + channel.id  }, [
-        'a', { href: '#channel-' + channel.id }, [
+        'a', { }, [
           'img', { src: thumbnail, alt: channel.name, className: 'channel-thumbnail' }, [],
           'div', { className: 'channel-title' },
                  channel.unwatched_count ? channel.name.trimChars(24) + ' (<span class="unwatched-count-' + channel.id + '">' + channel.unwatched_count + '</span>)' : channel.name.trimChars(24)
