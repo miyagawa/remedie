@@ -36,6 +36,7 @@ tell application "VLC"
   activate
   fullscreen
   play
+  next
 end tell
 SCRIPT
 
