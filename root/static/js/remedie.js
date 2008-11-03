@@ -204,7 +204,7 @@ Remedie.prototype = {
            'div', { className: 'channel-header-infobox', style: 'width: ' + ($(window).width()-220) + 'px' }, [
               'h2', { className: 'channel-header-title' }, [ 'a', { href: channel.props.link, target: "_blank" }, channel.name ],
               'div', { className: 'channel-header-data' }, [
-                'a', { href: channel.ident, target: "_blank" }, channel.ident.trimChars(128),
+                'a', { href: channel.ident, target: "_blank" }, channel.ident.trimChars(100),
                 'br', {}, null,
                 'span', {}, r.items.length + ' items, ' +
                   '<span class="unwatched-count-' + channel.id + '">' + 
@@ -262,6 +262,7 @@ Remedie.prototype = {
                 item_context_unwatched: function(){remedie.markItemAsUnwatched(item.channel_id, item.id)},
                 item_context_play_vlc:  function(){remedie.playVideo(item, 'VLC')},
                 item_context_play_qt:   function(){remedie.playVideo(item, 'QuickTime')},
+                item_context_play_qt_embed: function(){remedie.playVideo(item, 'QTEmbed')},
               },
               menuStyle:         Menu.context.menu_style,
               itemStyle:         Menu.context.item_style,

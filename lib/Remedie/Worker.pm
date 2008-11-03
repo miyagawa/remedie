@@ -2,6 +2,7 @@ package Remedie::Worker;
 use Moose;
 use Remedie::DB::Channel;
 use Remedie::DB::Item;
+use Remedie::Log;
 
 use DateTime;
 use LWP::UserAgent;
@@ -31,7 +32,8 @@ sub run {
 
     my $channels = $self->channels;
     for my $channel (@$channels) {
-        $self->work_channel($channel);
+        eval { $self->work_channel($channel) };
+        WARN $@ if $@;
     }
 }
 
