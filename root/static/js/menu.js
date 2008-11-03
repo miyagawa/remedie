@@ -27,7 +27,7 @@ Menu = {
 			border: 'none'},
 		
 		item_hover_style: {
-			backgroundColor: '#24e',
+			backgroundColor: '#48e',
 			color: '#fff',
 			border: 'none'},
 		
