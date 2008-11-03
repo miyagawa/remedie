@@ -258,6 +258,7 @@ Remedie.prototype = {
             $(this).contextMenu("channel-item-context-menu", {
               bindings: {
                 item_context_play:      function(){remedie.playVideo(item)},
+                item_context_copy:      function(){$.copy(item.ident)},
                 item_context_watched:   function(){remedie.markItemAsWatched(item.channel_id, item.id)},
                 item_context_unwatched: function(){remedie.markItemAsUnwatched(item.channel_id, item.id)},
                 item_context_play_vlc:  function(){remedie.playVideo(item, 'VLC')},
