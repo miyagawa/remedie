@@ -170,6 +170,7 @@ Remedie.prototype = {
         if (r.success) {
           $("#new-channel-url").attr('value', '');
           self.toggleNewChannel(false);
+          self.channels[r.channel.id] = r.channel;
           self.renderChannel(r.channel, $("#subscription"));
           self.refreshChannel(r.channel, true)
         } else {
@@ -298,7 +299,7 @@ Remedie.prototype = {
         'a', { href: '#channel-' + channel.id }, [
           'img', { src: thumbnail, alt: channel.name, className: 'channel-thumbnail' }, [],
           'div', { className: 'channel-title' },
-                 channel.unwatched_count ? channel.name + ' (<span id="unwatched-count-' + channel.id + '">' + channel.unwatched_count + '</span>)' : channel.name
+                 channel.unwatched_count ? channel.name.trimChars(24) + ' (<span id="unwatched-count-' + channel.id + '">' + channel.unwatched_count + '</span>)' : channel.name.trimChars(24)
         ]
       ]
     );

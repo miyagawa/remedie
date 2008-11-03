@@ -28,3 +28,12 @@ RemedieUtil.formatBytes = function(bytes) {
 RemedieUtil.encodeFlashVars = function(string) {
   return string.replace(/&/g, '%3F').replace(/=/g, '%3D').replace(/&/g, '%26');
 };
+
+String.prototype.trimChars = function(length, append) {
+  var string = this;
+  if (string.length > length) {
+    string = string.substring(0, length);
+    string += append || "..";
+  }
+  return string;
+};
