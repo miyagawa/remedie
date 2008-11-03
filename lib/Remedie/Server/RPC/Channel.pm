@@ -24,14 +24,16 @@ sub create {
     # TODO make this pluggable
     $uri = normalize_uri($uri);
     my @feeds = Feed::Find->find($uri);
-    unless (@feeds) {
+    unless ($feeds[0]) {
         die "Can't find any feed in $uri";
     }
 
+    my $feed_uri = $feeds[0]->as_string;
+
     my $channel = Remedie::DB::Channel->new;
-    $channel->ident($feeds[0]);
+    $channel->ident($feed_uri);
     $channel->type( Remedie::DB::Channel->TYPE_FEED );
-    $channel->name($feeds[0]);
+    $channel->name($feed_uri);
     $channel->parent(0);
     $channel->save;
 
