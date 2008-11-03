@@ -142,6 +142,10 @@ div.item-separator {
   text-align:right
 }
 
+#channel-items {
+  padding-top: 10;
+}
+
 .channel-item {
   border-top: 1px solid #444;
   padding-top: 12px; 
