@@ -47,7 +47,13 @@ sub _quicktime {
     my($self, $req, $res) = @_;
 
     my $url = $req->param('url');
-    system("open", "-a", "QuickTime Player", $url);
+    _run_apple_script(<<SCRIPT) or die "Can't launch QuickTime with AppleScript";
+tell application "QuickTime Player"
+  activate
+  getURL "$url"
+  present front movie scale screen
+end tell
+SCRIPT
 }
 
 sub _run_apple_script {
