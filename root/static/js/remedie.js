@@ -180,13 +180,13 @@ Remedie.prototype = {
     return false;
   },
 
-  showChannel: function(channel_id) {
+  showChannel: function(channel) {
     var self = this;
     $("#channel-pane").children().remove();
     $.ajax({
       url: "/rpc/channel/show",
       type: 'get',
-      data: { id: channel_id },
+      data: { id: channel.id },
       dataType: 'json',
       success: function(r) {
         var channel = r.channel;
@@ -294,14 +294,18 @@ Remedie.prototype = {
   renderChannel: function(channel, container) {
     var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/images/feed_256x256.png";
     container.createAppend(
-      'div', { className: 'channel', id: 'channel-' + channel.id  }, [
-        'a', { className: 'channel-clickable', href: '#channel-' + channel.id, onclick: 'r.showChannel(' + channel.id + ')' }, [
+      'div', { className: 'channel channel-clickable', id: 'channel-' + channel.id  }, [
+        'a', { href: '#channel-' + channel.id }, [
           'img', { src: thumbnail, alt: channel.name, className: 'channel-thumbnail' }, [],
           'div', { className: 'channel-title' },
                  channel.unwatched_count ? channel.name + ' (<span id="unwatched-count-' + channel.id + '">' + channel.unwatched_count + '</span>)' : channel.name
         ]
       ]
     );
+    $("#channel-" + channel.id)
+      .click( function(){ r.showChannel(channel) } )
+      .hover( function(){ $(this).addClass("hover-channel") },
+              function(){ $(this).removeClass("hover-channel") } );
   },
 
   redrawChannel: function(channel) {

@@ -45,6 +45,7 @@ a {color:#fff;text-decoration:none}
 img.channel-thumbnail {
   width: 192px;
   height: 192px;
+  border: 1px solid black; // for hover
 }
 
 .channel-title {
@@ -151,8 +152,8 @@ div.item-separator {
   color: #fa0
 }
 
-.hover-channel {
-  background: #222;
+.hover-channel img {
+  border: 1px #fff solid;
 }
 
 .hover-channel-item {
