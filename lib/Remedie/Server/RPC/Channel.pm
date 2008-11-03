@@ -78,6 +78,7 @@ sub update_status {
         $items = $channel->items;
     } else {
         my $item = Remedie::DB::Item->new( id => $item_id )->load;
+        $id    = $item->channel_id;
         $items = [ $item ];
     }
 
@@ -86,7 +87,8 @@ sub update_status {
         $item->save;
     }
 
-    return { success => 1 };
+    my $channel = Remedie::DB::Channel->new( id => $id )->load;
+    return { channel => $channel, success => 1 };
 }
 
 sub normalize_uri {

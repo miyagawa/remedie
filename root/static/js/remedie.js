@@ -96,17 +96,18 @@ Remedie.prototype = {
   markItemAsWatched: function(channel_id, id) {
     this.updateStatus({ item_id: id, status: 'watched' });
     $('#channel-item-title-' + id).removeClass('channel-item-unwatched');
-    var count = $('#unwatched-count-' + channel_id);
-    if (count.text()) 
-      count.text( count.text() - 1 );
   },
 
   markItemAsUnwatched: function(channel_id, id) {
     this.updateStatus({ item_id: id, status: 'new' }); // # XXX should be 'downloaded' if it has local file
     $('#channel-item-title-' + id).addClass('channel-item-unwatched');
-    var count = $('#unwatched-count-' + channel_id);
-    if (count.text()) 
-      count.text( count.text() + 1 );
+  },
+
+  redrawUnwatchedCount: function(channel_id) {
+    var count = remedie.channels[channel_id].unwatched_count || 0;
+    $('.unwatched-count-' + channel_id).each(function(){
+      $(this).text(count);
+    });
   },
 
   updateStatus: function(obj) {
@@ -117,7 +118,8 @@ Remedie.prototype = {
       dataType: 'json',
       success: function(r) {
         if (r.success) {
-
+          remedie.channels[r.channel.id] = r.channel;
+          remedie.redrawUnwatchedCount(r.channel.id);
         } else {
           alert(r.error);
         }
@@ -205,7 +207,8 @@ Remedie.prototype = {
                 'a', { href: channel.ident, target: "_blank" }, channel.ident.trimChars(128),
                 'br', {}, null,
                 'span', {}, r.items.length + ' items, ' +
-                  (channel.unwatched_count ? channel.unwatched_count : 0) + ' unwatched'
+                  '<span class="unwatched-count-' + channel.id + '">' + 
+                  (channel.unwatched_count ? channel.unwatched_count : 0) + '</span> unwatched'
               ],
               'p', { className: 'channel-header-description' }, channel.props.description
             ],
@@ -325,7 +328,7 @@ Remedie.prototype = {
         'a', { href: '#channel-' + channel.id }, [
           'img', { src: thumbnail, alt: channel.name, className: 'channel-thumbnail' }, [],
           'div', { className: 'channel-title' },
-                 channel.unwatched_count ? channel.name.trimChars(24) + ' (<span id="unwatched-count-' + channel.id + '">' + channel.unwatched_count + '</span>)' : channel.name.trimChars(24)
+                 channel.unwatched_count ? channel.name.trimChars(24) + ' (<span class="unwatched-count-' + channel.id + '">' + channel.unwatched_count + '</span>)' : channel.name.trimChars(24)
         ]
       ]
     );
