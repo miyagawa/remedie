@@ -1,12 +1,13 @@
 package Remedie::Server::RPC::Player;
 use Moose;
-use LWP::UserAgent;
 
 BEGIN { extends 'Remedie::Server::RPC' }
 
 __PACKAGE__->meta->make_immutable;
 
 no Moose;
+
+eval { require Mac::AppleScript };
 
 my %map = (
     VLC => '_vlc',
@@ -27,34 +28,18 @@ sub play : POST {
 
 sub _vlc {
     my($self, $req, $res) = @_;
-
     my $url = $req->param('url');
 
-    eval {
-        $self->_run_vlc( command => 'pl_empty' );
-    }; if ($@) {
-        system("open", "-a", "VLC");
-        sleep 1;
-        $self->_run_vlc( command => 'pl_empty' );
-    }
+    _run_apple_script(<<SCRIPT) or die "Can't launch VLC with AppleScript";
+tell application "VLC"
+  OpenURL "$url"
+  activate
+  fullscreen
+  play
+end tell
+SCRIPT
 
-    $self->_run_vlc( command => 'in_play', input => $url );
-    system("open", "-a", "VLC"); # make it foreground
-
-    return { success => 1 };
-}
-
-sub _run_vlc {
-    my $slef = shift;
-
-    my $ua  = LWP::UserAgent->new;
-    my $uri = URI->new("http://localhost:8080/requests/status.xml");
-    $uri->query_form(@_);
-    my $res = $ua->get($uri);
-    $res->is_success
-        or die "VLC is not responding. Make sure VLC is running and HTTP interface is enabled.";
-
-    return $res;
+    return 1;
 }
 
 sub _quicktime {
@@ -62,6 +47,18 @@ sub _quicktime {
 
     my $url = $req->param('url');
     system("open", "-a", "QuickTime Player", $url);
+}
+
+sub _run_apple_script {
+    my $script = shift;
+
+    if (defined &Mac::AppleScript::RunAppleScript) {
+        return Mac::AppleScript::RunAppleScript($script);
+    } else {
+        open my $fh, " osascript" or die "Can't launch osascript: $!";
+        print $fh $script;
+        close $fh
+    }
 }
 
 1;
