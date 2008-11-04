@@ -32,11 +32,41 @@ Remedie.prototype = {
     $(document).bind('keydown', 'Shift+n', this.displayNewChannel);
     $(document).bind('keydown', 'esc', $.unblockUI);
 
+    $.blockUI.defaults.css = {
+      padding:        '15px',
+      margin:         0,
+      width:          '30%',
+      top:            '40%',
+      left:           '35%',
+      textAlign:      'center',
+      color:          '#fff',
+      border:         'none',
+      backgroundColor:'#222',
+      cursor:         'wait',
+      opacity:        '.8',
+      '-webkit-border-radius': '10px',
+      '-moz-border-radius': '10px'
+    };
+
+    $.blockUI.defaults.onUnblock = function(){ remedie.runUnblockCallbacks() };
+
     this.loadCollection();
   },
 
   channels: [],
   items:    [],
+  unblockCallbacks: [],
+
+  runOnUnblock: function(callback) {
+    this.unblockCallbacks.push(callback);
+  },
+
+  runUnblockCallbacks: function() {
+    jQuery.each(this.unblockCallbacks, function() {
+      this.call();
+    });
+    this.unblockCallbacks = [];
+  },
 
   playVideo: function(item, player) {
     // TODO this only works when you're browsing from Local machine
@@ -97,17 +127,19 @@ Remedie.prototype = {
       ]
     ).click($.unblockUI);
 
+    this.runOnUnblock(function(){
+      $('#flash-player').children().remove();
+      remedie.markItemAsWatched(channel_id, id);
+    });
+
     $.blockUI({
       message: $('#flash-player'),
       css: { top:  ($(window).height() - height) / 2 - 6 + 'px',
              left: ($(window).width()  - width) / 2 + 'px',
-             width:  wh[0] + 'px' },
-      onUnblock: function(){
-alert("removing");
-        $('#flash-player').children().remove();
-        remedie.markItemAsWatched(channel_id, id);
-      }
-    });
+             width:  wh[0] + 'px',
+             opacity: 1, padding: 0, border: '1px solid #fff', backgroundColor: '#fff',
+             '-webkit-border-radius': 0, '-moz-border-radius': 0 }
+      });
   },
 
   autoPlaySilverlight: function(ply) {
@@ -155,15 +187,6 @@ alert("removing");
   displayNewChannel: function() {
     $.blockUI({
       message: $("#new-channel-dialog"),
-      css: {
-          border: 'none',
-          padding: '15px',
-          backgroundColor: '#222',
-          '-webkit-border-radius': '10px',
-          '-moz-border-radius': '10px',
-          opacity: '.8',
-          color: '#fff'
-      },
     });
     return false;
   },
@@ -182,13 +205,7 @@ alert("removing");
   },
 
   newChannel: function(el) {
-    $.blockUI({ css: {   border: 'none',
-            padding: '15px',
-            backgroundColor: '#222',
-            '-webkit-border-radius': '10px',
-            '-moz-border-radius': '10px',
-            opacity: '.8',
-            color: '#fff' } });
+    $.blockUI({ message: "Fetching ..." });
     $.ajax({
       url: "/rpc/channel/create",
       data: { url: jQuery.trim( $("#new-channel-url").attr('value') ) },
@@ -399,7 +416,7 @@ alert("removing");
       message.children("a.command-unblock").click($.unblockUI);
       $.blockUI({
         message: message,
-        css: {
+        cssA: {
             border: 'none',
             padding: '15px',
             backgroundColor: '#222',
