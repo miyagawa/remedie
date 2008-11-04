@@ -129,6 +129,9 @@ sub dispatch_rpc {
         $result->{success} = 1;
     }
 
+    local *URI::TO_JSON      = sub { $_[0]->as_string };
+    local *DateTime::TO_JSON = sub { $_[0]->iso8601 . 'Z' };
+
     $res->status(200);
     $res->content_type("application/json; charset=utf-8");
     $res->body( JSON::XS->new->allow_blessed->convert_blessed->utf8->encode($result) );

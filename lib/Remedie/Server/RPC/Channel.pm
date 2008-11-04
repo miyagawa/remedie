@@ -29,12 +29,10 @@ sub create : POST {
         die "Can't find any feed in $uri";
     }
 
-    my $feed_uri = $feeds[0]->as_string;
-
     my $channel = Remedie::DB::Channel->new;
-    $channel->ident($feed_uri);
+    $channel->ident($feeds[0]);
     $channel->type( Remedie::DB::Channel->TYPE_FEED );
-    $channel->name($feed_uri);
+    $channel->name($feeds[0]);
     $channel->parent(0);
     $channel->save;
 
