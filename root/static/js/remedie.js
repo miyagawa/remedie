@@ -42,10 +42,8 @@ Remedie.prototype = {
     var config = { player: 'Flash' }; // or VLC
     if (!player) player = config.player;
     var channel = this.channels[ item.channel_id ];
-    if (player == 'Flash') {
-      this.playVideoInline(item.ident, item.id, false, channel.id);
-    } else if (player == 'QTEmbed') {
-      this.playVideoInline(item.ident, item.id, true, channel.id);
+    if (player == 'Flash' || player == 'QTEmbed' || player == 'Silverlight') {
+      this.playVideoInline(item.ident, item.id, player, channel.id);
     } else if (player == 'VLC' || player == 'QuickTime') {
       $.ajax({
         url: "/rpc/player/play",
@@ -63,16 +61,24 @@ Remedie.prototype = {
     }
   },
 
-  playVideoInline: function(url, id, useQTEmbed, channel_id) {
+  playVideoInline: function(url, id, player, channel_id) {
     var wh = RemedieUtil.calcWindowSize($(window).width());
     var width  = wh[0];
     var height = wh[1] + 20; // slider and buttons
 
-    if (useQTEmbed) {
+    if (player == 'QTEmbed') {
         var s1 = new QTObject(url, 'player-' + id, width,  height);
         s1.addParam('scale', 'Aspect');
         s1.addParam('target', 'QuickTimePlayer');
         s1.write('flash-player');
+    } else if (player == 'Silverlight') {
+        var elm = document.getElementById("flash-player");
+        var ply = new jeroenwijering.Player(elm, '/static/js/wmvplayer/wmvplayer.xaml', {
+          file: url,
+          width: width,
+          height: height,
+          autostart: true // does this work?
+        });
     } else {
         var s1 = new SWFObject('/static/player.swf', 'player-' + id, width, height, '9');
         s1.addParam('allowfullscreen','true');
@@ -158,6 +164,8 @@ Remedie.prototype = {
       $("#subscription").hide();
       $("#channel-pane").show();
     } else {
+      // Ugh, shouldn't be here
+      document.title = "Remedie Media Center";
       $("#subscription").show();
       $("#channel-pane").hide();
     }
@@ -201,6 +209,7 @@ Remedie.prototype = {
       dataType: 'json',
       success: function(r) {
         var channel = r.channel;
+        document.title = "Remedie: " + channel.name;
         var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/images/feed_128x128.png";
         $("#channel-pane").createAppend(
          'div', { className: 'channel-header', id: 'channel-header-' + channel.id  }, [
@@ -270,6 +279,7 @@ Remedie.prototype = {
                 item_context_play_vlc:  function(){remedie.playVideo(item, 'VLC')},
                 item_context_play_qt:   function(){remedie.playVideo(item, 'QuickTime')},
                 item_context_play_qt_embed: function(){remedie.playVideo(item, 'QTEmbed')},
+                item_context_play_sl:   function(){remedie.playVideo(item, 'Silverlight')}
               },
               menuStyle:         Menu.context.menu_style,
               itemStyle:         Menu.context.item_style,
@@ -371,7 +381,7 @@ Remedie.prototype = {
   showAboutDialog: function() {
       var message = $('<div/>').createAppend(
            'div', { id: "about-dialog" }, [
-              'h2', {}, 'Remedie Media Center',
+              'h2', {}, 'Remedie Media Center ' + Remedie.version,
               'p', {}, [
                   'a', { href: "http://code.google.com/p/remedie/", target: "_blank" }, 'Source code'
               ],

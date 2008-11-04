@@ -23,6 +23,7 @@ sub create : POST {
 
     # TODO make this pluggable
     $uri = normalize_uri($uri);
+    warn $uri;
     my @feeds = Feed::Find->find($uri);
     unless ($feeds[0]) {
         die "Can't find any feed in $uri";
