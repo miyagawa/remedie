@@ -113,12 +113,26 @@ Remedie.prototype = {
 //          autostart: true
         });
         this.autoPlaySilverlight(ply);
+
+        // space key to play and pause the video
+        $(document).bind('keydown', 'space', function(){
+          if (ply.view) ply.sendEvent("PLAY");
+          return false;
+        });
+        this.runOnUnblock(function(){$(document).unbind('keydown', 'space')});
     } else {
         var s1 = new SWFObject('/static/player.swf', 'player-' + id, width, height, '9');
         s1.addParam('allowfullscreen','true');
         s1.addParam('allowscriptaccess','always');
         s1.addParam('flashvars','autostart=true&file=' + url);
         s1.write('flash-player');
+
+        // space key to play and pause the video
+        $(document).bind('keydown', 'space', function(){
+          document.getElementById('player-'+id).sendEvent("PLAY");
+          return false;
+        });
+        this.runOnUnblock(function(){$(document).unbind('keydown', 'space')});
     }
 
     $('#flash-player').createAppend(
