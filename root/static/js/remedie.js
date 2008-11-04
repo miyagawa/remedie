@@ -119,7 +119,7 @@ Remedie.prototype = {
           if (ply.view) ply.sendEvent("PLAY");
           return false;
         });
-        this.runOnUnblock(function(){$(document).unbind('keydown', 'space')});
+        this.runOnUnblock(function(){$(document).unbind('keydown', 'space', function(){})});
     } else {
         var s1 = new SWFObject('/static/player.swf', 'player-' + id, width, height, '9');
         s1.addParam('allowfullscreen','true');
@@ -132,7 +132,7 @@ Remedie.prototype = {
           document.getElementById('player-'+id).sendEvent("PLAY");
           return false;
         });
-        this.runOnUnblock(function(){$(document).unbind('keydown', 'space')});
+        this.runOnUnblock(function(){$(document).unbind('keydown', 'space', function(){})});
     }
 
     $('#flash-player').createAppend(
