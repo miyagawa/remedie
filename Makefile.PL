@@ -12,6 +12,7 @@ requires 'Log::Log4perl';
 requires 'LWP::UserAgent';
 requires 'MIME::Types';
 requires 'Moose';
+requires 'MooseX::ConfigFromFile';
 requires 'MooseX::Getopt';
 requires 'MooseX::Types::Path::Class';
 requires 'Path::Class';

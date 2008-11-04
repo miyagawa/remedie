@@ -4,8 +4,14 @@ use MooseX::Types::Path::Class qw(File Dir);
 use Remedie::Server;
 use Remedie::UserData;
 use Pod::Usage;
+use YAML();
 
-with 'MooseX::Getopt';
+with 'MooseX::Getopt',
+     'MooseX::ConfigFromFile';
+
+has '+configfile' => (
+    default => Remedie::UserData->new->path_to("config.yaml")->stringify,
+);
 
 has 'root' => (
     traits      => [ 'Getopt' ],
@@ -84,6 +90,16 @@ no Moose;
 
 sub build_access_log { shift->user_data->path_to('access.log') }
 sub build_error_log  { shift->user_data->path_to('error.log') }
+
+sub get_config_from_file {
+    my ($class, $file) = @_;
+
+    if (-f $file) {
+        return YAML::LoadFile($file);
+    } else {
+        return {};
+    }
+}
 
 sub run {
     my $self = shift;
