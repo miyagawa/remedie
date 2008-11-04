@@ -2,9 +2,9 @@
 use strict;
 use warnings;
 use FindBin::libs;
-use Remedie::CLI::Standalone;
+use Remedie::CLI::Server;
 
-Remedie::CLI::Standalone->new_with_options->run();
+Remedie::CLI::Server->new_with_options->run();
 
 __END__
 

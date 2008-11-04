@@ -1,4 +1,4 @@
-package Remedie::CLI::Standalone;
+package Remedie::CLI::Server;
 use Moose;
 use MooseX::Types::Path::Class qw(File Dir);
 use Remedie::Server;
