@@ -414,18 +414,7 @@ Remedie.prototype = {
               'a', { className: 'command-unblock' }, 'Close this window'
           ])
       message.children("a.command-unblock").click($.unblockUI);
-      $.blockUI({
-        message: message,
-        cssA: {
-            border: 'none',
-            padding: '15px',
-            backgroundColor: '#222',
-            '-webkit-border-radius': '10px',
-            '-moz-border-radius': '10px',
-            opacity: '.8',
-            color: '#fff'
-        },
-      });
+      $.blockUI({ message: message });
       return false;
   },
 
