@@ -6,18 +6,18 @@ function Remedie() {
 
 Remedie.prototype = {
   initialize: function() {
-    $(".new-channel-menu").click(function(){ remedie.toggleNewChannel(true) });
+    $(".new-channel-menu").click(this.displayNewChannel);
     $(".channel-list-menu").click(function(){ remedie.toggleChannelView(false) });
 
     $("#new-channel-form").submit( function(e) { remedie.newChannel(e); return false; } );
-    $("#new-channel-cancel").click( function() { remedie.toggleNewChannel(false) } );
+    $("#new-channel-cancel").click( $.unblockUI );
 
     $(".about-dialog-menu").click(function(){ remedie.showAboutDialog(true) });
 
     $().ajaxSend(function(event,xhr,options) {
       xhr.setRequestHeader('X-Remedie-Client', 'Remedie Media Center/' + Remedie.version);
     });
-    $().ajaxStop($.unblockUI);
+    $().ajaxStop($.unblockUI); // XXX This might cause issues when AJAX calls are made during flash playback
 
 // I just don't know but livequery SOMETIMES doesn't work with Safari on my Mac mini
 //    $(".channel-clickable").livequery('click', function(){
@@ -28,6 +28,9 @@ Remedie.prototype = {
 //      remedie.playVideo(this.href, this.id.replace("item-thumbanil-", ""));
 //      return false;
 //    });
+
+    $(document).bind('keydown', 'Shift+n', this.displayNewChannel);
+    $(document).bind('keydown', 'esc', $.unblockUI);
 
     this.loadCollection();
   },
@@ -92,17 +95,18 @@ Remedie.prototype = {
      'div', { className: 'close-button' }, [
         'a', {}, "Click here to close the Player"
       ]
-    ).click(function() {
-      $.unblockUI();
-      $('#flash-player').children().remove();
-      remedie.markItemAsWatched(channel_id, id);
-    });
+    ).click($.unblockUI);
 
     $.blockUI({
       message: $('#flash-player'),
       css: { top:  ($(window).height() - height) / 2 - 6 + 'px',
              left: ($(window).width()  - width) / 2 + 'px',
-             width:  wh[0] + 'px' }
+             width:  wh[0] + 'px' },
+      onUnblock: function(){
+alert("removing");
+        $('#flash-player').children().remove();
+        remedie.markItemAsWatched(channel_id, id);
+      }
     });
   },
 
@@ -148,23 +152,19 @@ Remedie.prototype = {
     });
   },
 
-  toggleNewChannel: function(display) {
-    if (display) {
-      $.blockUI({
-        message: $("#new-channel-dialog"),
-        css: {
-            border: 'none',
-            padding: '15px',
-            backgroundColor: '#222',
-            '-webkit-border-radius': '10px',
-            '-moz-border-radius': '10px',
-            opacity: '.8',
-            color: '#fff'
-        },
-      });
-    } else {
-      $.unblockUI();
-    }
+  displayNewChannel: function() {
+    $.blockUI({
+      message: $("#new-channel-dialog"),
+      css: {
+          border: 'none',
+          padding: '15px',
+          backgroundColor: '#222',
+          '-webkit-border-radius': '10px',
+          '-moz-border-radius': '10px',
+          opacity: '.8',
+          color: '#fff'
+      },
+    });
     return false;
   },
 
@@ -197,7 +197,7 @@ Remedie.prototype = {
       success: function(r) {
         if (r.success) {
           $("#new-channel-url").attr('value', '');
-          remedie.toggleNewChannel(false);
+          $.unblockUI();
           remedie.channels[r.channel.id] = r.channel;
           remedie.renderChannel(r.channel, $("#subscription"));
           remedie.refreshChannel(r.channel, true)
