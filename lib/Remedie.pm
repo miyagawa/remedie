@@ -23,10 +23,11 @@ Tatsuhiko Miyagawa E<lt>miyagawa@cpan.orgE<gt>
 
 =head1 LICENSE
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+Unless otherwise noted, Remedie perl code and remedie*.js are licensed
+under Perl Artistic or GPL 2 License.
 
-This software uses following works.
+This software also includes the following material which have their
+own license:
 
 =over 4
 
