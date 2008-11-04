@@ -77,8 +77,9 @@ Remedie.prototype = {
           file: url,
           width: width,
           height: height,
-          autostart: true // does this work?
+//          autostart: true
         });
+        this.autoPlaySilverlight(ply);
     } else {
         var s1 = new SWFObject('/static/player.swf', 'player-' + id, width, height, '9');
         s1.addParam('allowfullscreen','true');
@@ -103,6 +104,14 @@ Remedie.prototype = {
              left: ($(window).width()  - width) / 2 + 'px',
              width:  wh[0] + 'px' }
     });
+  },
+
+  autoPlaySilverlight: function(ply) {
+    if (ply.view) {
+      ply.sendEvent('PLAY')
+    } else {
+      setTimeout(function(){remedie.autoPlaySilverlight(ply)}, 100)
+    }
   },
 
   markItemAsWatched: function(channel_id, id) {
