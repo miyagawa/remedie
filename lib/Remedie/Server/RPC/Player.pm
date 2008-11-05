@@ -62,9 +62,11 @@ sub _run_apple_script {
     if (defined &Mac::AppleScript::RunAppleScript) {
         return Mac::AppleScript::RunAppleScript($script);
     } else {
-        open my $fh, " osascript" or die "Can't launch osascript: $!";
+        open my $fh, "|osascript" or die "Can't launch osascript: $!";
         print $fh $script;
-        close $fh
+        close $fh;
+
+        return 1;
     }
 }
 
