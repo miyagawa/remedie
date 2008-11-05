@@ -431,7 +431,7 @@ Remedie.prototype = {
       var count = parseInt($(this).text());
       if (count > 0) {
         $(this).show();
-        $(this).corners("transparent");
+        $(this).corners("10px transparent");
       } else {
         $(this).hide();
       }
