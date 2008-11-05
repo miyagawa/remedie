@@ -316,8 +316,11 @@ Remedie.prototype = {
 
        $(".channel-item-selectable")
          .hover(function(){
-           $(this).addClass("hover-channel-item")},
-           function(){ $(this).removeClass("hover-channel-item")})
+           $(this).addClass("hover-channel-item");
+           $(this).css('opacity',0.8)},
+         function(){
+           $(this).removeClass("hover-channel-item");
+           $(this).css('opacity',1)})
          .each(function() {
             var item = remedie.items[ this.id.replace("channel-item-", "") ];
             $(this).contextMenu("channel-item-context-menu", {

@@ -72,6 +72,7 @@ img.channel-thumbnail {
 
 .channel-header-thumbnail {
   float:left;
+  margin-left:8px;
 }
 
 .channel-header-thumbnail img {
@@ -81,7 +82,7 @@ img.channel-thumbnail {
 
 .channel-header-infobox {
   float:left;
-  margin-left: 2em;
+  margin-left: 1em;
 }
 
 .channel-header-data {
@@ -100,6 +101,7 @@ div.separator {
 
 .item-thumbnail {
   float:left;
+  margin-left:8px;
 }
 
 .item-thumbnail img {
@@ -109,7 +111,7 @@ div.separator {
 
 .item-infobox {
   float: left;
-  margin-left: 2em;
+  margin-left: 1em;
 }
  
 div.item-separator {
