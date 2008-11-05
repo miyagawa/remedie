@@ -42,6 +42,7 @@ a {color:#ddd;text-decoration:none}
   width: 192x;
   height: 210px;
   position: relative;
+  margin-bottom: 2em;
 }
 
 img.channel-thumbnail {
