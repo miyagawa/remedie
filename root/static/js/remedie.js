@@ -29,7 +29,17 @@ Remedie.prototype = {
 //      return false;
 //    });
 
-    $(document).bind('keydown', 'Shift+n', this.displayNewChannel);
+    // Emacs and KeyRemap4Macbook users have problems with ctrl+ modifier key because
+    // ctrl+n for example is remapped to 'down' key. For now, hijack the cmd+ modifier
+    // key if the userAgent is Mac. We may need to be careful not stealing frequently
+    // used hotkeys like cmd+r
+    if (/mac/i.test(navigator.userAgent)) {
+      modifier = 'command+';
+    } else {
+      modifier = 'ctrl+';
+    }
+
+    $(document).bind('keydown', modifier+'n', this.displayNewChannel);
     $(document).bind('keydown', 'esc', $.unblockUI);
 
     $.blockUI.defaults.css = {
