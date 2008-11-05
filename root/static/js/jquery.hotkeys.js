@@ -208,8 +208,8 @@ Note:
                     var modif = '';
                     if(alt) modif +='alt+';
                     if(ctrl) modif+= 'ctrl+';
-                    if(shift) modif += 'shift+';
                     if(cmd) modif += 'command+';
+                    if(shift) modif += 'shift+';
                     
                     // modifiers + special keys or modifiers + character or modifiers + shift character or just shift character
                     trigger = mapPoint[modif+special];
