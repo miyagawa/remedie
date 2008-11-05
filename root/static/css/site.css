@@ -28,7 +28,7 @@ ul.inline li.first {
   border: 0px;
 }
 
-a:focus, a:hover {color:#fff;text-decoration:underline}
+/*a:focus, a:hover {color:#fff;text-decoration:underline}*/
 a {color:#fff;text-decoration:none}
 
 #channel-pane {
@@ -51,17 +51,13 @@ img.channel-thumbnail {
 
 .channel-unwatched-hover {
   position:absolute;
-  width:30px;
+  width:18%;
   text-align:center;
-  top:10px;right:10px;
+  top:5%;right:5%;
   font-size: 1.2em;
   font-family: Helvetica, trebuchet MS;
   background: #a00;
   display:none; // should badgify with JS
-}
-
-.channel-unwatched-hover a:hover {
-  text-decoration: none;
 }
 
 .channel-title {
