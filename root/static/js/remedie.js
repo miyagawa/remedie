@@ -400,7 +400,6 @@ Remedie.prototype = {
       'div', { className: 'channel channel-clickable', id: 'channel-' + channel.id  }, [
         'a', { }, [
           'img', { src: thumbnail, alt: channel.name, className: 'channel-thumbnail' }, null,
-          'img', { src: '/static/images/badge_red.png', className: 'channel-unwatched-badge-bg' }, null,
           'div', { className: 'channel-unwatched-hover unwatched-count-' + channel.id },
                  (channel.unwatched_count || 0) + '',
           'div', { className: 'channel-title' }, channel.name.trimChars(24)
@@ -432,10 +431,9 @@ Remedie.prototype = {
       var count = parseInt($(this).text());
       if (count > 0) {
         $(this).show();
-        $(this).prev().show();
+        $(this).corners("transparent");
       } else {
         $(this).hide();
-        $(this).prev().hide();
       }
      });
   },

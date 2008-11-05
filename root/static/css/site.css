@@ -50,24 +50,14 @@ img.channel-thumbnail {
 }
 
 .channel-unwatched-hover {
-  margin-top: 10px;
   position:absolute;
-  width:40px;height:40px;
+  width:30px;
   text-align:center;
-  vertical-align: middle;
   top:10px;right:10px;
+  font-size: 1.2em;
+  font-family: Helvetica, trebuchet MS;
+  background: #a00;
   display:none; // should badgify with JS
-  z-index:2;
-  font-size: 13px;
-}
-
-.channel-unwatched-badge-bg {
-  width:40px;
-  height:40px;
-  position: absolute;
-  top:10px;right:10px;
-  display:none;
-  z-index:0;
 }
 
 .channel-unwatched-hover a:hover {
