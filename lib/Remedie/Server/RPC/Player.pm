@@ -12,6 +12,7 @@ eval { require Mac::AppleScript };
 my %map = (
     VLC => '_vlc',
     QuickTime => '_quicktime',
+    iTunes => '_itunes',
 );
 
 sub play : POST {

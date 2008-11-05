@@ -33,13 +33,10 @@ Remedie.prototype = {
     // ctrl+n for example is remapped to 'down' key. For now, hijack the cmd+ modifier
     // key if the userAgent is Mac. We may need to be careful not stealing frequently
     // used hotkeys like cmd+r
-    if (/mac/i.test(navigator.userAgent)) {
-      modifier = 'command+';
-    } else {
-      modifier = 'ctrl+';
-    }
+    if (/mac/i.test(navigator.userAgent))
+      this.modifier = 'command+';
 
-    $(document).bind('keydown', modifier+'n', this.displayNewChannel);
+    $(document).bind('keydown', this.modifier+'n', this.displayNewChannel);
     $(document).bind('keydown', 'esc', $.unblockUI);
 
     $.blockUI.defaults.css = {
@@ -63,6 +60,7 @@ Remedie.prototype = {
     this.loadCollection();
   },
 
+  modifier: 'ctrl+',
   channels: [],
   items:    [],
   unblockCallbacks: [],
@@ -78,33 +76,28 @@ Remedie.prototype = {
     this.unblockCallbacks = [];
   },
 
-  playVideo: function(item, player) {
-    // TODO this only works when you're browsing from Local machine
-    // If you're from remote, we should serve files from HTTP and run local
-    // QuickTime/VLC to stream from the proxy
-    var config = { player: 'Flash' }; // or VLC
-    if (!player) player = config.player;
+  launchVideoPlayer: function(item, player) {
     var channel = this.channels[ item.channel_id ];
-    if (player == 'Flash' || player == 'QTEmbed' || player == 'Silverlight') {
-      this.playVideoInline(item.ident, item.id, player, channel.id);
-    } else if (player == 'VLC' || player == 'QuickTime') {
-      $.ajax({
-        url: "/rpc/player/play",
-        data: { url: item.ident, player: player },
-        type: 'post',
-        dataType: 'json',
-        success: function(r) {
-          if (r.success) {
-          } else {
-            alert(r.error);
-          }
-        },
-      });
-      this.markItemAsWatched(channel.id, item.id);
-    }
+    $.ajax({
+      url: "/rpc/player/play",
+      data: { url: item.ident, player: player },
+      type: 'post',
+      dataType: 'json',
+      success: function(r) {
+        if (r.success) {
+        } else {
+          alert(r.error);
+        }
+      },
+    });
+    this.markItemAsWatched(channel.id, item.id);
   },
 
-  playVideoInline: function(url, id, player, channel_id) {
+  playVideoInline: function(item, player) {
+    var channel_id = item.channel_id;
+    var id   = item.id;
+    var url  = item.ident;
+
     var wh = RemedieUtil.calcWindowSize($(window).width());
     var width  = wh[0];
     var height = wh[1] + 20; // slider and buttons
@@ -253,13 +246,13 @@ Remedie.prototype = {
   },
 
   showChannel: function(channel) {
-    $("#channel-pane").children().remove();
     $.ajax({
       url: "/rpc/channel/show",
       type: 'get',
       data: { id: channel.id },
       dataType: 'json',
       success: function(r) {
+        $("#channel-pane").children().remove();
         var channel = r.channel;
         document.title = "Remedie: " + channel.name;
         var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/images/feed_128x128.png";
@@ -327,14 +320,14 @@ Remedie.prototype = {
             var item = remedie.items[ this.id.replace("channel-item-", "") ];
             $(this).contextMenu("channel-item-context-menu", {
               bindings: {
-                item_context_play:      function(){remedie.playVideo(item)},
+                item_context_play:      function(){remedie.playVideoInline(item)},
                 item_context_copy:      function(){$.copy(item.ident)},
                 item_context_watched:   function(){remedie.markItemAsWatched(item.channel_id, item.id)},
                 item_context_unwatched: function(){remedie.markItemAsUnwatched(item.channel_id, item.id)},
-                item_context_play_vlc:  function(){remedie.playVideo(item, 'VLC')},
-                item_context_play_qt:   function(){remedie.playVideo(item, 'QuickTime')},
-                item_context_play_qt_embed: function(){remedie.playVideo(item, 'QTEmbed')},
-                item_context_play_sl:   function(){remedie.playVideo(item, 'Silverlight')}
+                item_context_play_vlc:  function(){remedie.launchVideoPlayer(item, 'VLC')},
+                item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QuickTime')},
+                item_context_play_qt_embed: function(){remedie.playVideoInline(item, 'QTEmbed')},
+                item_context_play_sl:   function(){remedie.playVideoInline(item, 'Silverlight')}
               },
               menuStyle:         Menu.context.menu_style,
               itemStyle:         Menu.context.item_style,
@@ -346,9 +339,14 @@ Remedie.prototype = {
 
         $(".channel-item-clickable")
           .click(function(){
-            remedie.playVideo( remedie.items[this.id.replace("item-thumbnail-", "")] ) });
+            remedie.playVideoInline( remedie.items[this.id.replace("item-thumbnail-", "")], 'Flash' ) });
 
-         remedie.toggleChannelView(true);
+// TODO Should be unbound when this view is gone
+//        $(document).bind('keydown', remedie.modifier+'shift+r', function(){
+//          remedie.refreshChannel(channel, true);
+//        });
+
+        remedie.toggleChannelView(true);
       },
       error: function(r) {
         alert("Can't load the channel");
@@ -356,7 +354,7 @@ Remedie.prototype = {
     });
   },
 
-  refreshChannel : function(channel) {
+  refreshChannel : function(channel, refreshView) {
     // TODO animated icon on top of thumbnail
     $.ajax({
       url: "/rpc/channel/refresh",
@@ -367,6 +365,8 @@ Remedie.prototype = {
         if (r.success) {
           // TODO remove animated icon
           remedie.redrawChannel(r.channel);
+          if (refreshView)
+            remedie.showChannel(r.channel);
         } else {
           alert(r.error);
         }
