@@ -189,6 +189,7 @@ Remedie.prototype = {
     $('.unwatched-count-' + channel_id).each(function(){
       $(this).text(count);
     });
+    this.renderUnwatchedBadges();
   },
 
   updateStatus: function(obj) {
@@ -241,7 +242,8 @@ Remedie.prototype = {
           $.unblockUI();
           remedie.channels[r.channel.id] = r.channel;
           remedie.renderChannel(r.channel, $("#subscription"));
-          remedie.refreshChannel(r.channel, true)
+          remedie.renderUnwatchedBadges();
+          remedie.refreshChannel(r.channel)
         } else {
           alert(r.error);
         }
@@ -354,7 +356,7 @@ Remedie.prototype = {
     });
   },
 
-  refreshChannel : function(channel, first_time) {
+  refreshChannel : function(channel) {
     // TODO animated icon on top of thumbnail
     $.ajax({
       url: "/rpc/channel/refresh",
@@ -363,9 +365,8 @@ Remedie.prototype = {
       dataType: 'json',
       success: function(r) {
         if (r.success) {
-          // TODO remove nimated icon
-          if (first_time) 
-            remedie.redrawChannel(r.channel);
+          // TODO remove animated icon
+          remedie.redrawChannel(r.channel);
         } else {
           alert(r.error);
         }
@@ -385,6 +386,7 @@ Remedie.prototype = {
           remedie.channels[channel.id] = channel;
           remedie.renderChannel(channel, $("#subscription"));
         }
+        remedie.renderUnwatchedBadges();
       },
       error: function(r) {
         alert("Can't load subscription");
@@ -397,9 +399,12 @@ Remedie.prototype = {
     container.createAppend(
       'div', { className: 'channel channel-clickable', id: 'channel-' + channel.id  }, [
         'a', { }, [
-          'img', { src: thumbnail, alt: channel.name, className: 'channel-thumbnail' }, [],
-          'div', { className: 'channel-title' },
-                 channel.unwatched_count ? channel.name.trimChars(24) + ' (<span class="unwatched-count-' + channel.id + '">' + channel.unwatched_count + '</span>)' : channel.name.trimChars(24)
+          'img', { src: thumbnail, alt: channel.name, className: 'channel-thumbnail' }, null,
+          'img', { src: '/static/images/badge_red.png', className: 'channel-unwatched-badge-bg' }, null,
+          'div', { className: 'channel-unwatched-hover unwatched-count-' + channel.id },
+                 (channel.unwatched_count || 0) + '',
+          'div', { className: 'channel-title' }, channel.name.trimChars(24)
+//                 channel.unwatched_count ? channel.name.trimChars(24) + ' (<span class="unwatched-count-' + channel.id + '">' + channel.unwatched_count + '</span>)' : channel.name.trimChars(24)
         ]
       ]
     );
@@ -411,8 +416,8 @@ Remedie.prototype = {
 
   redrawChannel: function(channel) {
     var id = "#channel-" + channel.id;
-    if ($(id).size() == 0)
-       return this.renderChannel(channel, $("#subscription"));
+//    if ($(id).size() == 0)
+//       return this.renderChannel(channel, $("#subscription"));
 
     if (channel.props.thumbnail) 
       $(id + " .channel-thumbnail").attr('src', channel.props.thumbnail.url);
@@ -420,6 +425,19 @@ Remedie.prototype = {
     if (channel.name) 
       $(id + " .channel-title").text(channel.name);
 
+  },
+
+  renderUnwatchedBadges: function() {
+    $(".channel-unwatched-hover").each(function(){
+      var count = parseInt($(this).text());
+      if (count > 0) {
+        $(this).show();
+        $(this).prev().show();
+      } else {
+        $(this).hide();
+        $(this).prev().hide();
+      }
+     });
   },
 
   resizeThumb: function(el) {
