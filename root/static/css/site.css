@@ -29,7 +29,8 @@ ul.inline li.first {
 }
 
 /*a:focus, a:hover {color:#fff;text-decoration:underline}*/
-a {color:#fff;text-decoration:none}
+a:focus, a:hover {color:#fff}
+a {color:#ddd;text-decoration:none}
 
 #channel-pane {
   display:none;
@@ -60,9 +61,15 @@ img.channel-thumbnail {
   display:none; // should badgify with JS
 }
 
+.channel-clickable a {
+  font-weight: bold
+}
+
 .channel-title {
   margin-top: 0.8em;
   text-align: center;
+  font-weight: bold;
+  color: #aaa;
 }
 
 #new-channel-dialog {
@@ -172,6 +179,10 @@ div.item-separator {
 
 .hover-channel img.channel-thumbnail {
   border: 1px #fff solid;
+}
+
+.hover-channel .channel-title {
+  color: #fff;
 }
 
 .hover-channel-item {

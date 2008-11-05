@@ -398,13 +398,10 @@ Remedie.prototype = {
     var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/images/feed_256x256.png";
     container.createAppend(
       'div', { className: 'channel channel-clickable', id: 'channel-' + channel.id  }, [
-        'a', { }, [
-          'img', { src: thumbnail, alt: channel.name, className: 'channel-thumbnail' }, null,
-          'div', { className: 'channel-unwatched-hover unwatched-count-' + channel.id },
-                 (channel.unwatched_count || 0) + '',
-          'div', { className: 'channel-title' }, channel.name.trimChars(24)
-//                 channel.unwatched_count ? channel.name.trimChars(24) + ' (<span class="unwatched-count-' + channel.id + '">' + channel.unwatched_count + '</span>)' : channel.name.trimChars(24)
-        ]
+        'img', { src: thumbnail, alt: channel.name, className: 'channel-thumbnail' }, null,
+        'div', { className: 'channel-unwatched-hover unwatched-count-' + channel.id },
+              (channel.unwatched_count || 0) + '',
+        'div', { className: 'channel-title' }, channel.name.trimChars(24)
       ]
     );
     $("#channel-" + channel.id)
