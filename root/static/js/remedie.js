@@ -93,7 +93,21 @@ Remedie.prototype = {
     var width  = wh[0];
     var height = wh[1] + 20; // slider and buttons
 
-    if (player == 'QTEmbed') {
+    // WMV + Mac -> QuickTime (Flip4Mac)
+    // WMV + Win -> Silverlight
+    if (!player) {
+      if (/wmv/i.test(item.props.type)) {
+        if (/mac/i.test(navigator.userAgent)) {
+          player = 'QuickTime';
+        } else {
+          player = 'Silverlight';
+        }
+      } else {
+        player = 'Flash';
+      }
+    }
+
+    if (player == 'QuickTime') {
         var s1 = new QTObject(url, 'player-' + id, width,  height);
         s1.addParam('scale', 'Aspect');
         s1.addParam('target', 'QuickTimePlayer');
@@ -161,11 +175,13 @@ Remedie.prototype = {
   markItemAsWatched: function(channel_id, id) {
     this.updateStatus({ item_id: id, status: 'watched' });
     $('#channel-item-title-' + id).removeClass('channel-item-unwatched');
+    this.items[id].is_unwatched = false;
   },
 
   markItemAsUnwatched: function(channel_id, id) {
     this.updateStatus({ item_id: id, status: 'new' }); // # XXX should be 'downloaded' if it has local file
     $('#channel-item-title-' + id).addClass('channel-item-unwatched');
+    this.items[id].is_unwatched = true;
   },
 
   redrawUnwatchedCount: function(channel_id) {
@@ -317,7 +333,7 @@ Remedie.prototype = {
                 item_context_unwatched: function(){remedie.markItemAsUnwatched(item.channel_id, item.id)},
                 item_context_play_vlc:  function(){remedie.launchVideoPlayer(item, 'VLC')},
                 item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QuickTime')},
-                item_context_play_qt_embed: function(){remedie.playVideoInline(item, 'QTEmbed')},
+                item_context_play_qt_embed: function(){remedie.playVideoInline(item, 'QuickTime')},
                 item_context_play_sl:   function(){remedie.playVideoInline(item, 'Silverlight')}
               },
               menuStyle:         Menu.context.menu_style,
@@ -325,12 +341,34 @@ Remedie.prototype = {
               itemHoverStyle:    Menu.context.item_hover_style,
               itemDisabledStyle: Menu.context.item_disabled_style,
               shadow:            false,
+              onContextMenu: function(e, menu) {
+                item = remedie.items[ item.id ]; // refresh the status
+                var el = $('#channel-item-context-menu ul'); el.children().remove();
+                el.createAppend('li', { id: 'item_context_play' }, 'Play');
+                if (item.is_unwatched) {
+                  el.createAppend('li', { id: 'item_context_watched' }, 'Mark as watched');
+                } else {
+                  el.createAppend('li', { id: 'item_context_unwatched' }, 'Mark as unwatched');
+                }
+
+                if (/video/i.test(item.props.type)) {
+                  el.createAppend('li', { id: 'item_context_play_vlc' }, 'Launch VLC');
+                  el.createAppend('li', { id: 'item_context_play_qt' }, 'Launch QuickTime');
+                  el.createAppend('li', { id: 'item_context_play_qt_embd' }, 'Play inline with QuickTime');
+                }
+
+                if (/wmv/i.test(item.props.type)) {
+                  el.createAppend('li', { id: 'item_context_play_qt_embd' }, 'Play inline with Silverlight');
+                }
+
+                return true;
+              }
            });
          });
 
         $(".channel-item-clickable")
           .click(function(){
-            remedie.playVideoInline( remedie.items[this.id.replace("item-thumbnail-", "")], 'Flash' ) });
+            remedie.playVideoInline( remedie.items[this.id.replace("item-thumbnail-", "")] ) });
 
 // TODO Should be unbound when this view is gone
 //        $(document).bind('keydown', remedie.modifier+'shift+r', function(){

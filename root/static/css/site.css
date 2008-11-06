@@ -58,7 +58,7 @@ img.channel-thumbnail {
   top:5%;right:5%;
   font-size: 1.2em;
   font-family: Helvetica, trebuchet MS;
-  background: #a00;
+  background: #c00;
   display:none; // should badgify with JS
 }
 
