@@ -382,6 +382,7 @@ Remedie.prototype = {
                 item = remedie.items[ item.id ]; // refresh the status
                 var el = $('#channel-item-context-menu ul'); el.children().remove();
                 el.createAppend('li', { id: 'item_context_play' }, 'Play');
+                el.createAppend('li', { id: 'item_context_copy' }, 'Copy Item URL');
                 if (item.is_unwatched) {
                   el.createAppend('li', { id: 'item_context_watched' }, 'Mark as watched');
                 } else {
