@@ -38,8 +38,14 @@ Remedie.prototype = {
       this.modifier = 'command+';
 
     $(document).bind('keydown', this.modifier+'n', this.displayNewChannel);
-    $(document).bind('keydown', this.modifier+'shift+r', function(){ remedie.manuallyRefreshChannel() });
-    $(document).bind('keydown', this.modifier+'shift+d', function(){ remedie.removeChannel() });
+    $(document).bind('keydown', this.modifier+'shift+r', function(){
+      if (remedie.currentChannel) remedie.manuallyRefreshChannel(remedie.currentChannel);
+      return false;
+    });
+    $(document).bind('keydown', this.modifier+'shift+d', function(){
+      if (remedie.currentChannel) remedie.removeChannel(remedie.currentChannel);
+      return false;
+    });
 
     $(document).bind('keydown', 'esc', $.unblockUI);
 
@@ -59,6 +65,7 @@ Remedie.prototype = {
       '-moz-border-radius': '10px'
     };
 
+    var preload = new Image(); preload.src = '/static/images/spinner.gif';
     $.blockUI.defaults.message   = '<img src="/static/images/spinner.gif" style="vertical-align:middle;margin-right:1em" />Loading...';
     $.blockUI.defaults.onUnblock = function(){ remedie.runUnblockCallbacks() };
 
@@ -98,7 +105,7 @@ Remedie.prototype = {
         }
       },
     });
-    this.markItemAsWatched(channel.id, item.id);
+    this.markItemAsWatched(channel.id, item.id); // TODO setTimeout?
   },
 
   playVideoInline: function(item, player) {
@@ -168,7 +175,7 @@ Remedie.prototype = {
 
     this.runOnUnblock(function(){
       $('#flash-player').children().remove();
-      remedie.markItemAsWatched(channel_id, id);
+      remedie.markItemAsWatched(channel_id, id); // TODO setTimeout?
     });
 
     $.blockUI({
@@ -418,8 +425,6 @@ Remedie.prototype = {
 
   refreshChannel : function(channel, refreshView) {
     if (!channel)
-      channel = this.currentChannel;
-    if (!channel)
       return; // TODO error message?
 
     // TODO animated icon on top of thumbnail
@@ -442,8 +447,6 @@ Remedie.prototype = {
   },
 
   removeChannel : function(channel) {
-    if (!channel)
-      channel = this.currentChannel;
     if (!channel)
       return; // TODO error message?
 
