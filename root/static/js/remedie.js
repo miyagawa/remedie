@@ -122,13 +122,13 @@ Remedie.prototype = {
     var height = wh[1] + 20; // slider and buttons
 
     // WMV + Mac -> QuickTime (Flip4Mac)
-    // WMV + Win -> Silverlight
+    // WMV + Win -> Windows Media Player
     if (!player) {
       if (/wmv/i.test(item.props.type)) {
         if (/mac/i.test(navigator.userAgent)) {
           player = 'QuickTime';
         } else {
-          player = 'Silverlight';
+          player = 'WMP';
         }
       } else {
         player = 'Flash';
@@ -139,9 +139,13 @@ Remedie.prototype = {
         var s1 = new QTObject(url, 'player-' + id, width,  height);
         s1.addParam('scale', 'Aspect');
         s1.addParam('target', 'QuickTimePlayer');
-        s1.write('flash-player');
+        s1.write('embed-player');
+    } else if (player == 'WMP') {
+        var s1 = new MPObject(url, 'player-' + id, width,  height);
+        s1.addParam("autostart", "1");
+        s1.write('embed-player');
     } else if (player == 'Silverlight') {
-        var elm = document.getElementById("flash-player");
+        var elm = document.getElementById("embed-player");
         var ply = new jeroenwijering.Player(elm, '/static/js/wmvplayer/wmvplayer.xaml', {
           file: url,
           width: width,
@@ -161,7 +165,7 @@ Remedie.prototype = {
         s1.addParam('allowfullscreen','true');
         s1.addParam('allowscriptaccess','always');
         s1.addParam('flashvars','autostart=true&file=' + url);
-        s1.write('flash-player');
+        s1.write('embed-player');
 
         // space key to play and pause the video
         $(document).bind('keydown', 'space', function(){
@@ -171,19 +175,19 @@ Remedie.prototype = {
         this.runOnUnblock(function(){$(document).unbind('keydown', 'space', function(){})});
     }
 
-    $('#flash-player').createAppend(
+    $('#embed-player').createAppend(
      'div', { className: 'close-button' }, [
         'a', {}, "Click here to close the Player"
       ]
     ).click($.unblockUI);
 
     this.runOnUnblock(function(){
-      $('#flash-player').children().remove();
+      $('#embed-player').children().remove();
       remedie.markItemAsWatched(channel_id, id); // TODO setTimeout?
     });
 
     $.blockUI({
-      message: $('#flash-player'),
+      message: $('#embed-player'),
       css: { top:  ($(window).height() - height) / 2 - 6 + 'px',
              left: ($(window).width()  - width) / 2 + 'px',
              width:  wh[0] + 'px',
@@ -383,6 +387,7 @@ Remedie.prototype = {
                 item_context_play_vlc:  function(){remedie.launchVideoPlayer(item, 'VLC')},
                 item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QuickTime')},
                 item_context_play_qt_embed: function(){remedie.playVideoInline(item, 'QuickTime')},
+                item_context_play_wmp:  function(){remedie.playVideoInline(item, 'WMP')},
                 item_context_play_sl:   function(){remedie.playVideoInline(item, 'Silverlight')}
               },
               onContextMenu: function(e, menu) {
@@ -399,11 +404,13 @@ Remedie.prototype = {
                 if (/video/i.test(item.props.type)) {
                   el.createAppend('li', { id: 'item_context_play_vlc' }, 'Launch VLC');
                   el.createAppend('li', { id: 'item_context_play_qt' }, 'Launch QuickTime');
-                  el.createAppend('li', { id: 'item_context_play_qt_embd' }, 'Play inline with QuickTime');
+                  el.createAppend('li', { id: 'item_context_play_qt_embed' }, 'Play inline with QuickTime');
                 }
 
                 if (/wmv/i.test(item.props.type)) {
-                  el.createAppend('li', { id: 'item_context_play_qt_embd' }, 'Play inline with Silverlight');
+                  if (!/mac/i.test(navigator.userAgent))
+                    el.createAppend('li', { id: 'item_context_play_wmp' }, 'Play inline with WMP');
+                  el.createAppend('li', { id: 'item_context_play_sl' }, 'Play inline with Silverlight');
                 }
 
                 return true;
