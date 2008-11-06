@@ -38,7 +38,7 @@ Remedie.prototype = {
       this.modifier = 'command+';
 
     $(document).bind('keydown', this.modifier+'n', this.displayNewChannel);
-    $(document).bind('keydown', this.modifier+'shift+r', function(){ remedie.refreshChannel() });
+    $(document).bind('keydown', this.modifier+'shift+r', function(){ $.blockUI(); remedie.refreshChannel() });
     $(document).bind('keydown', this.modifier+'shift+d', function(){ remedie.removeChannel() });
 
     $(document).bind('keydown', 'esc', $.unblockUI);
@@ -420,7 +420,7 @@ Remedie.prototype = {
     if (!channel)
       return; // TODO error message?
 
-    if (!window.confirm("Are you sure?"))
+    if (!window.confirm("Are you sure you want to delete " + channel.name + "?"))
       return;
 
     $.ajax({
