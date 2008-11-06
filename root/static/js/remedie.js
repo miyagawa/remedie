@@ -20,7 +20,7 @@ Remedie.prototype = {
     $(".new-channel-menu").click(this.displayNewChannel);
     $(".channel-list-menu").click(function(){ remedie.toggleChannelView(false) });
 
-    $("#new-channel-form").submit( function(e) { remedie.newChannel(e); return false; } );
+    $("#new-channel-form").submit( function(e) { remedie.createNewChannel(e); return false; } );
     $("#new-channel-cancel").click( $.unblockUI );
 
     $(".about-dialog-menu").click(function(){ remedie.showAboutDialog(true) });
@@ -189,9 +189,9 @@ Remedie.prototype = {
     }
   },
 
-  markAllAsWatched: function(channel) {
+  markAllAsWatched: function(channel, showChannelView) {
     this.updateStatus({ id: channel.id, status: 'watched' }, function() {
-      remedie.showChannel(channel);
+      if (showChannelView) remedie.showChannel(channel);
     });
   },
 
@@ -210,9 +210,9 @@ Remedie.prototype = {
     });
   },
 
-  redrawUnwatchedCount: function(channel_id) {
-    var count = remedie.channels[channel_id].unwatched_count || 0;
-    $('.unwatched-count-' + channel_id).each(function(){
+  redrawUnwatchedCount: function(channel) {
+    var count = channel.unwatched_count || 0;
+    $('.unwatched-count-' + channel.id).each(function(){
       $(this).text(count);
     });
     this.renderUnwatchedBadges();
@@ -228,7 +228,7 @@ Remedie.prototype = {
         if (r.success) {
           remedie.channels[r.channel.id] = r.channel;
           callback.call();
-          remedie.redrawUnwatchedCount(r.channel.id);
+          remedie.redrawUnwatchedCount(r.channel);
         } else {
           alert(r.error);
         }
@@ -257,7 +257,7 @@ Remedie.prototype = {
     return false;
   },
 
-  newChannel: function(el) {
+  createNewChannel: function(el) {
     $.blockUI({ message: "Fetching ..." });
     $.ajax({
       url: "/rpc/channel/create",
@@ -269,8 +269,7 @@ Remedie.prototype = {
           $("#new-channel-url").attr('value', '');
           $.unblockUI();
           remedie.channels[r.channel.id] = r.channel;
-          remedie.renderChannel(r.channel, $("#subscription"));
-          remedie.renderUnwatchedBadges();
+          remedie.renderChannelList(r.channel, $("#subscription"));
           remedie.refreshChannel(r.channel)
         } else {
           alert(r.error);
@@ -349,14 +348,10 @@ Remedie.prototype = {
         .contextMenu("channel-context-menu", {
           bindings: {
             channel_context_refresh:      function(){ remedie.manuallyRefreshChannel(channel) },
-            channel_context_mark_watched: function(){ remedie.markAllAsWatched(channel) },
+            channel_context_mark_watched: function(){ remedie.markAllAsWatched(channel, true) },
             channel_context_remove:       function(){ remedie.removeChannel(channel) }
           }
         });
-
-       $(".channel-header-thumbnail").click(function(){
-         $(".channel-header").trigger("contextmenu");
-       });
 
        $(".channel-item-selectable")
          .hover(function(){
@@ -382,7 +377,7 @@ Remedie.prototype = {
                 item = remedie.items[ item.id ]; // refresh the status
                 var el = $('#channel-item-context-menu ul'); el.children().remove();
                 el.createAppend('li', { id: 'item_context_play' }, 'Play');
-                el.createAppend('li', { id: 'item_context_copy' }, 'Copy Item URL');
+                el.createAppend('li', { id: 'item_context_copy' }, 'Copy Item URL (' + RemedieUtil.fileType(item.ident, item.props.type) + ')');
                 if (item.is_unwatched) {
                   el.createAppend('li', { id: 'item_context_watched' }, 'Mark as watched');
                 } else {
@@ -435,7 +430,7 @@ Remedie.prototype = {
       dataType: 'json',
       success: function(r) {
         if (r.success) {
-          // TODO remove animated icon
+          remedie.channels[r.channel.id] = r.channel;
           remedie.redrawChannel(r.channel);
           if (refreshView)
             remedie.showChannel(r.channel);
@@ -481,7 +476,7 @@ Remedie.prototype = {
         for (i in r.channels) {
           var channel = r.channels[i];
           remedie.channels[channel.id] = channel;
-          remedie.renderChannel(channel, $("#subscription"));
+          remedie.renderChannelList(channel, $("#subscription"));
         }
         remedie.renderUnwatchedBadges();
       },
@@ -491,7 +486,7 @@ Remedie.prototype = {
     });
   },
 
-  renderChannel: function(channel, container) {
+  renderChannelList: function(channel, container) {
     var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/images/feed_256x256.png";
     container.createAppend(
       'div', { className: 'channel channel-clickable', id: 'channel-' + channel.id  }, [
@@ -504,13 +499,20 @@ Remedie.prototype = {
     $("#channel-" + channel.id)
       .click( function(){ remedie.showChannel(channel) } )
       .hover( function(){ $(this).addClass("hover-channel") },
-              function(){ $(this).removeClass("hover-channel") } );
+              function(){ $(this).removeClass("hover-channel") } )
+      .contextMenu("channel-context-menu", {
+        bindings: {
+          channel_context_refresh:      function(){ remedie.refreshChannel(channel) },
+          channel_context_mark_watched: function(){ remedie.markAllAsWatched(channel, false) },
+          channel_context_remove:       function(){ remedie.removeChannel(channel) }
+        }
+      });
   },
 
   redrawChannel: function(channel) {
     var id = "#channel-" + channel.id;
 //    if ($(id).size() == 0)
-//       return this.renderChannel(channel, $("#subscription"));
+//       return this.renderChannelList(channel, $("#subscription"));
 
     if (channel.props.thumbnail) 
       $(id + " .channel-thumbnail").attr('src', channel.props.thumbnail.url);
@@ -518,6 +520,7 @@ Remedie.prototype = {
     if (channel.name) 
       $(id + " .channel-title").text(channel.name);
 
+    this.redrawUnwatchedCount(channel);
   },
 
   renderUnwatchedBadges: function() {

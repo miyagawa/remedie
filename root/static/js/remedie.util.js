@@ -35,6 +35,17 @@ RemedieUtil.mangleDate = function(date) {
   return date.replace(/^(.*\w{3} \d{4}) \d\d:\d\d.*$/i, "$1");
 };
 
+RemedieUtil.fileType = function(url, mime) {
+  if (/\.(\w{2,4})$/.test(url))
+    return "." + RegExp.$1;
+
+  var t = mime.split('/');
+  if (t.length == 2)
+    return t[1];
+
+  return 'Unknown';
+};
+
 String.prototype.trimChars = function(length, append) {
   var string = this;
   if (string.length > length) {
