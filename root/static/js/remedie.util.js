@@ -31,6 +31,7 @@ RemedieUtil.encodeFlashVars = function(string) {
 
 RemedieUtil.mangleDate = function(date) {
   // TODO should localize the date as well
+  if (!date) return "(Unknown)";
   return date.replace(/^(.*\w{3} \d{4}) \d\d:\d\d.*$/i, "$1");
 };
 
