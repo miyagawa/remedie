@@ -9,7 +9,7 @@ Remedie.prototype = {
   channels: [],
   items:    [],
   unblockCallbacks: [],
-  currentChannel: null,
+  current_id: null,
 
   initialize: function() {
     if (!jQuery.browser.safari && !jQuery.browser.mozilla) {
@@ -39,11 +39,11 @@ Remedie.prototype = {
 
     $(document).bind('keydown', this.modifier+'n', this.displayNewChannel);
     $(document).bind('keydown', this.modifier+'shift+r', function(){
-      if (remedie.currentChannel) remedie.manuallyRefreshChannel(remedie.currentChannel);
+      if (remedie.currentChannel())  remedie.manuallyRefreshChannel(remedie.currentChannel())
       return false;
     });
     $(document).bind('keydown', this.modifier+'shift+d', function(){
-      if (remedie.currentChannel) remedie.removeChannel(remedie.currentChannel);
+      if (remedie.currentChannel()) remedie.removeChannel(remedie.currentChannel());
       return false;
     });
 
@@ -78,6 +78,10 @@ Remedie.prototype = {
     });
 
     this.loadCollection();
+  },
+
+  currentChannel: function() {
+    return this.channels[ this.current_id ];
   },
 
   runOnUnblock: function(callback) {
@@ -257,7 +261,7 @@ Remedie.prototype = {
     } else {
       // Ugh, shouldn't be here
       document.title = "Remedie Media Center";
-      this.currentChannel = null;
+      this.current_id = null;
       $("#subscription").show();
       $("#channel-pane").hide();
     }
@@ -275,6 +279,7 @@ Remedie.prototype = {
         if (r.success) {
           $("#new-channel-url").attr('value', '');
           $.unblockUI();
+
           remedie.channels[r.channel.id] = r.channel;
           remedie.renderChannelList(r.channel, $("#subscription"));
           remedie.refreshChannel(r.channel)
@@ -296,7 +301,7 @@ Remedie.prototype = {
         $("#channel-pane").children().remove();
         var channel = r.channel;
         document.title = "Remedie: " + channel.name;
-        remedie.currentChannel = channel;
+        remedie.current_id = channel.id;
         var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/images/feed_128x128.png";
         $("#channel-pane").createAppend(
          'div', { className: 'channel-header', id: 'channel-header-' + channel.id  }, [
