@@ -6,6 +6,11 @@ function Remedie() {
 
 Remedie.prototype = {
   initialize: function() {
+    if (!jQuery.browser.safari && !jQuery.browser.mozilla) {
+      alert("Your browser " + navigator.userAgent + " is not supported.");
+      return;
+    }
+
     $(".new-channel-menu").click(this.displayNewChannel);
     $(".channel-list-menu").click(function(){ remedie.toggleChannelView(false) });
 
@@ -287,7 +292,7 @@ Remedie.prototype = {
           'div', { id: 'channel-items', className: "clear" }, null
         );
 
-        for (i = 0; i < r.items.length; i++) {
+        for (i in r.items) {
           var item = r.items[i];
           remedie.items[item.id] = item;
           var item_thumb = item.props.thumbnail ? item.props.thumbnail.url : null;
@@ -411,7 +416,7 @@ Remedie.prototype = {
       type: 'get',
       dataType: 'json',
       success: function(r) {
-        for (i = 0; i < r.channels.length; i++) {
+        for (i in r.channels) {
           var channel = r.channels[i];
           remedie.channels[channel.id] = channel;
           remedie.renderChannel(channel, $("#subscription"));
