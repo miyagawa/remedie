@@ -55,6 +55,7 @@ Remedie.prototype = {
       '-moz-border-radius': '10px'
     };
 
+    $.blockUI.defaults.message   = '<img src="/static/images/spinner.gif" style="vertical-align:middle;margin-right:1em" />Loading...';
     $.blockUI.defaults.onUnblock = function(){ remedie.runUnblockCallbacks() };
 
     this.loadCollection();
@@ -376,6 +377,7 @@ Remedie.prototype = {
   },
 
   loadCollection: function() {
+    $.blockUI();
     $.ajax({
       url: "/rpc/channel/load",
       type: 'get',
