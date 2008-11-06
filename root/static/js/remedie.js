@@ -5,6 +5,12 @@ function Remedie() {
 }
 
 Remedie.prototype = {
+  modifier: 'ctrl+',
+  channels: [],
+  items:    [],
+  unblockCallbacks: [],
+  currentChannel: null,
+
   initialize: function() {
     if (!jQuery.browser.safari && !jQuery.browser.mozilla) {
       alert("Your browser " + navigator.userAgent + " is not supported.");
@@ -32,6 +38,9 @@ Remedie.prototype = {
       this.modifier = 'command+';
 
     $(document).bind('keydown', this.modifier+'n', this.displayNewChannel);
+    $(document).bind('keydown', this.modifier+'shift+r', function(){ remedie.refreshChannel() });
+    $(document).bind('keydown', this.modifier+'shift+d', function(){ remedie.removeChannel() });
+
     $(document).bind('keydown', 'esc', $.unblockUI);
 
     $.blockUI.defaults.css = {
@@ -55,11 +64,6 @@ Remedie.prototype = {
 
     this.loadCollection();
   },
-
-  modifier: 'ctrl+',
-  channels: [],
-  items:    [],
-  unblockCallbacks: [],
 
   runOnUnblock: function(callback) {
     this.unblockCallbacks.push(callback);
@@ -228,6 +232,7 @@ Remedie.prototype = {
     } else {
       // Ugh, shouldn't be here
       document.title = "Remedie Media Center";
+      this.currentChannel = null;
       $("#subscription").show();
       $("#channel-pane").hide();
     }
@@ -267,6 +272,7 @@ Remedie.prototype = {
         $("#channel-pane").children().remove();
         var channel = r.channel;
         document.title = "Remedie: " + channel.name;
+        remedie.currentChannel = channel;
         var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/images/feed_128x128.png";
         $("#channel-pane").createAppend(
          'div', { className: 'channel-header', id: 'channel-header-' + channel.id  }, [
@@ -375,11 +381,6 @@ Remedie.prototype = {
           .click(function(){
             remedie.playVideoInline( remedie.items[this.id.replace("item-thumbnail-", "")] ) });
 
-// TODO Should be unbound when this view is gone
-//        $(document).bind('keydown', remedie.modifier+'shift+r', function(){
-//          remedie.refreshChannel(channel, true);
-//        });
-
         remedie.toggleChannelView(true);
       },
       error: function(r) {
@@ -389,6 +390,11 @@ Remedie.prototype = {
   },
 
   refreshChannel : function(channel, refreshView) {
+    if (!channel)
+      channel = this.currentChannel;
+    if (!channel)
+      return; // TODO error message?
+
     // TODO animated icon on top of thumbnail
     $.ajax({
       url: "/rpc/channel/refresh",
@@ -406,7 +412,31 @@ Remedie.prototype = {
         }
       },
     });
+  },
 
+  removeChannel : function(channel) {
+    if (!channel)
+      channel = this.currentChannel;
+    if (!channel)
+      return; // TODO error message?
+
+    if (!window.confirm("Are you sure?"))
+      return;
+
+    $.ajax({
+      url: "/rpc/channel/remove",
+      data: { id: channel.id },
+      type: 'post',
+      dataType: 'json',
+      success: function(r) {
+        if (r.success) {
+          $('#channel-'+channel.id).remove();
+          remedie.toggleChannelView(false);
+        } else {
+          alert(r.error);
+        }
+      },
+    });
   },
 
   loadCollection: function() {
@@ -492,5 +522,4 @@ Remedie.prototype = {
       $.blockUI({ message: message });
       return false;
   },
-
 };

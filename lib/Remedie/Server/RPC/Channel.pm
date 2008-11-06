@@ -100,4 +100,23 @@ sub normalize_uri {
     return URI->new($uri)->canonical;
 }
 
+
+sub remove : POST {
+    my($self, $req, $res) = @_;
+
+    my $id      = $req->param('id');
+    my $channel = Remedie::DB::Channel->new( id => $id )->load;
+    my $items   = $channel->items;
+
+    $channel->delete;
+
+    # TODO remove local files if downloaded (optional)
+    for my $item (@$items) {
+        $item->delete;
+    }
+
+    return { success => 1, id => $id };
+}
+
+
 1;
