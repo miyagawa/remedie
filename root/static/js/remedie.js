@@ -19,16 +19,6 @@ Remedie.prototype = {
     });
     $().ajaxStop($.unblockUI); // XXX This might cause issues when AJAX calls are made during flash playback
 
-// I just don't know but livequery SOMETIMES doesn't work with Safari on my Mac mini
-//    $(".channel-clickable").livequery('click', function(){
-//      remedie.showChannel(this.href.replace(/.*#channel-/, ""));
-//      return false;
-//    });
-//    $(".item-thumbnail-clickable").livequery('click', function(){
-//      remedie.playVideo(this.href, this.id.replace("item-thumbanil-", ""));
-//      return false;
-//    });
-
     // Emacs and KeyRemap4Macbook users have problems with ctrl+ modifier key because
     // ctrl+n for example is remapped to 'down' key. For now, hijack the cmd+ modifier
     // key if the userAgent is Mac. We may need to be careful not stealing frequently
