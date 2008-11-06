@@ -38,7 +38,7 @@ Remedie.prototype = {
       this.modifier = 'command+';
 
     $(document).bind('keydown', this.modifier+'n', this.displayNewChannel);
-    $(document).bind('keydown', this.modifier+'shift+r', function(){ $.blockUI(); remedie.refreshChannel() });
+    $(document).bind('keydown', this.modifier+'shift+r', function(){ remedie.manuallyRefreshChannel() });
     $(document).bind('keydown', this.modifier+'shift+d', function(){ remedie.removeChannel() });
 
     $(document).bind('keydown', 'esc', $.unblockUI);
@@ -61,6 +61,14 @@ Remedie.prototype = {
 
     $.blockUI.defaults.message   = '<img src="/static/images/spinner.gif" style="vertical-align:middle;margin-right:1em" />Loading...';
     $.blockUI.defaults.onUnblock = function(){ remedie.runUnblockCallbacks() };
+
+    $.contextMenu.defaults({
+      menuStyle:         Menu.context.menu_style,
+      itemStyle:         Menu.context.item_style,
+      itemHoverStyle:    Menu.context.item_hover_style,
+      itemDisabledStyle: Menu.context.item_disabled_style,
+      shadow:            false
+    });
 
     this.loadCollection();
   },
@@ -181,16 +189,25 @@ Remedie.prototype = {
     }
   },
 
+  markAllAsWatched: function(channel) {
+    this.updateStatus({ id: channel.id, status: 'watched' }, function() {
+      remedie.showChannel(channel);
+    });
+  },
+
   markItemAsWatched: function(channel_id, id) {
-    this.updateStatus({ item_id: id, status: 'watched' });
-    $('#channel-item-title-' + id).removeClass('channel-item-unwatched');
-    this.items[id].is_unwatched = false;
+    this.updateStatus({ item_id: id, status: 'watched' }, function() {
+      $('#channel-item-title-' + id).removeClass('channel-item-unwatched');
+      remedie.items[id].is_unwatched = false;
+    });
   },
 
   markItemAsUnwatched: function(channel_id, id) {
-    this.updateStatus({ item_id: id, status: 'new' }); // # XXX should be 'downloaded' if it has local file
-    $('#channel-item-title-' + id).addClass('channel-item-unwatched');
-    this.items[id].is_unwatched = true;
+    // XXX should be 'downloaded' if it has local file
+    this.updateStatus({ item_id: id, status: 'new' }, function() {
+      $('#channel-item-title-' + id).addClass('channel-item-unwatched');
+      remedie.items[id].is_unwatched = true;
+    });
   },
 
   redrawUnwatchedCount: function(channel_id) {
@@ -201,7 +218,7 @@ Remedie.prototype = {
     this.renderUnwatchedBadges();
   },
 
-  updateStatus: function(obj) {
+  updateStatus: function(obj, callback) {
     $.ajax({
       url: "/rpc/channel/update_status",
       data: obj,
@@ -210,6 +227,7 @@ Remedie.prototype = {
       success: function(r) {
         if (r.success) {
           remedie.channels[r.channel.id] = r.channel;
+          callback.call();
           remedie.redrawUnwatchedCount(r.channel.id);
         } else {
           alert(r.error);
@@ -315,7 +333,7 @@ Remedie.prototype = {
                'div', { className: 'item-infobox-misc' }, [
                   'ul', { className: 'inline' }, [
                     'li', { className: 'first' }, "size: " + RemedieUtil.formatBytes(item.props.size),
-                    'li', {}, "updated: " + RemedieUtil.mangleDate(item.props.updated),
+                    'li', {}, "updated: " + RemedieUtil.mangleDate(item.props.updated)
                   ],
                ],
                'h3', { id: 'channel-item-title-' + item.id,
@@ -326,6 +344,19 @@ Remedie.prototype = {
            ]
          );
        }
+
+       $(".channel-header")
+        .contextMenu("channel-context-menu", {
+          bindings: {
+            channel_context_refresh:      function(){ remedie.manuallyRefreshChannel(channel) },
+            channel_context_mark_watched: function(){ remedie.markAllAsWatched(channel) },
+            channel_context_remove:       function(){ remedie.removeChannel(channel) }
+          }
+        });
+
+       $(".channel-header-thumbnail").click(function(){
+         $(".channel-header").trigger("contextmenu");
+       });
 
        $(".channel-item-selectable")
          .hover(function(){
@@ -347,11 +378,6 @@ Remedie.prototype = {
                 item_context_play_qt_embed: function(){remedie.playVideoInline(item, 'QuickTime')},
                 item_context_play_sl:   function(){remedie.playVideoInline(item, 'Silverlight')}
               },
-              menuStyle:         Menu.context.menu_style,
-              itemStyle:         Menu.context.item_style,
-              itemHoverStyle:    Menu.context.item_hover_style,
-              itemDisabledStyle: Menu.context.item_disabled_style,
-              shadow:            false,
               onContextMenu: function(e, menu) {
                 item = remedie.items[ item.id ]; // refresh the status
                 var el = $('#channel-item-context-menu ul'); el.children().remove();
@@ -387,6 +413,11 @@ Remedie.prototype = {
         alert("Can't load the channel");
       }
     });
+  },
+
+  manuallyRefreshChannel: function(channel) {
+    $.blockUI();
+    this.refreshChannel(channel, true);
   },
 
   refreshChannel : function(channel, refreshView) {
