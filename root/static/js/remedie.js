@@ -17,13 +17,16 @@ Remedie.prototype = {
       return;
     }
 
-    $(".new-channel-menu").click(this.displayNewChannel);
+    $(".new-channel-menu").click(this.newChannelDialog);
     $(".channel-list-menu").click(function(){ remedie.toggleChannelView(false) });
 
     $("#new-channel-form").submit( function(e) { remedie.createNewChannel(e); return false; } );
-    $("#new-channel-cancel").click( $.unblockUI );
+    $(".cancel-dialog").click( $.unblockUI );
 
     $(".about-dialog-menu").click(function(){ remedie.showAboutDialog() });
+
+    $("#import-opml").click(this.importDialog);
+    $("#import-opml-upload").click(function(){ remedie.uploadOPMLFile() });
 
     $().ajaxSend(function(event,xhr,options) {
       xhr.setRequestHeader('X-Remedie-Client', 'Remedie Media Center/' + Remedie.version);
@@ -37,7 +40,7 @@ Remedie.prototype = {
     if (/mac/i.test(navigator.userAgent))
       this.modifier = 'command+';
 
-    this.installHotKey('n', this.displayNewChannel);
+    this.installHotKey('n', this.newChannelDialog);
     this.installHotKey('shift+r', function(){
       if (remedie.currentChannel())  remedie.manuallyRefreshChannel(remedie.currentChannel())
     });
@@ -263,23 +266,46 @@ Remedie.prototype = {
     });
   },
 
-  displayNewChannel: function() {
+  newChannelDialog: function() {
     $.blockUI({
       message: $("#new-channel-dialog"),
     });
     return false;
   },
 
+  importDialog: function() {
+    $.blockUI({
+      message: $("#import-opml-dialog"),
+    });
+    return false;
+  },
+
+  uploadOPMLFile: function() {
+    $('#import-opml-form').ajaxSubmit({
+      url: "/rpc/collection/import_opml",
+      type: 'post',
+      dataType: 'text', // iframe downloads JSON
+      iframe: true,
+      success: function(r) {
+        remedie.loadCollection(function(){
+          $(r).text().split(/,/).forEach(function(id) {
+            if (remedie.channels[id])
+              remedie.refreshChannel(remedie.channels[id]);
+          })
+        });
+      }
+    });
+  },
+
   toggleChannelView: function(display) {
     if (display) {
-      $("#subscription").hide();
+      $("#collection").hide();
       $("#channel-pane").show();
     } else {
-      // Ugh, shouldn't be here
       document.title = "Remedie Media Center";
       this.current_id = null;
       this.items = [];
-      $("#subscription").show();
+      $("#collection").show();
       $("#channel-pane").hide();
     }
     return false;
@@ -298,7 +324,7 @@ Remedie.prototype = {
           $("#new-channel-url").attr('value', '');
 
           remedie.channels[r.channel.id] = r.channel;
-          remedie.renderChannelList(r.channel, $("#subscription"));
+          remedie.renderChannelList(r.channel, $("#collection"));
           remedie.refreshChannel(r.channel)
         } else {
           alert(r.error);
@@ -511,10 +537,11 @@ Remedie.prototype = {
       type: 'get',
       dataType: 'json',
       success: function(r) {
+        $("#collection").children().remove();
         for (i in r.channels) {
           var channel = r.channels[i];
           remedie.channels[channel.id] = channel;
-          remedie.renderChannelList(channel, $("#subscription"));
+          remedie.renderChannelList(channel, $("#collection"));
         }
         remedie.renderUnwatchedBadges();
         $.unblockUI();
@@ -555,7 +582,7 @@ Remedie.prototype = {
   redrawChannel: function(channel) {
     var id = "#channel-" + channel.id;
 //    if ($(id).size() == 0)
-//       return this.renderChannelList(channel, $("#subscription"));
+//       return this.renderChannelList(channel, $("#collection"));
 
     if (channel.props.thumbnail) 
       $(id + " .channel-thumbnail").attr('src', channel.props.thumbnail.url);

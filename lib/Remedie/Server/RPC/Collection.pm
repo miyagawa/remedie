@@ -7,13 +7,13 @@ __PACKAGE__->meta->make_immutable;
 
 no Moose;
 
-
 use Remedie;
 use Remedie::DB::Channel;
 use DateTime;
 use DateTime::Format::Mail;
 use Encode;
 use Template;
+use XML::OPML::LibXML;
 
 sub opml {
     my($self, $req, $res) = @_;
@@ -58,6 +58,38 @@ TEMPLATE
     $res->status(200);
     $res->content_type("text/xml; charset=utf-8");
     $res->body( encode_utf8($out) );
+
+    return { success => 1 };
+}
+
+# Don't set :POST because file upload can't set X-Remedie-Client header
+sub import_opml {
+    my($self, $req, $res) = @_;
+
+    my $upload = $req->uploads->{file};
+    my $parser = XML::OPML::LibXML->new;
+    my $doc = $parser->parse_fh($upload->fh);
+
+    my @channel_ids;
+    my $callback = sub {
+        my $outline = shift;
+        return unless $outline->xml_url;
+
+        my $channel = Remedie::DB::Channel->new;
+        $channel->ident($outline->xml_url);
+        $channel->type( Remedie::DB::Channel->TYPE_FEED );
+        $channel->name($outline->title || $outline->text);
+        $channel->parent(0); # TODO support tree
+
+        eval {
+            $channel->save;
+            push @channel_ids, $channel->id;
+        }; # ignore dupe
+    };
+    $doc->walkdown($callback);
+
+    $res->content_type('text/plain');
+    $res->body( join(",", @channel_ids) );
 
     return { success => 1 };
 }

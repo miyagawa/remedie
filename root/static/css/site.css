@@ -77,11 +77,21 @@ img.channel-thumbnail {
   display:none;
 }
 
+#import-opml-dialog {
+  text-align:left;
+  display:none;
+}
+
 #new-channel-url {
   width: 100%
 }
 
-.ok-cancel-buttons {
+.float-left {
+  float:left;
+  position:relative;
+}
+
+.float-right {
   float:right;
   position:relative;
 }
@@ -221,4 +231,16 @@ div#jqContextMenu ul {
         opacity: .98;
         -webkit-box-shadow: 0 10px 25px rgba(0,0,0,0.4);
         -webkit-border-radius: 5px;
+}
+
+iframe#upload-frame {
+        display: block; /* Don't change this : safari forms won't target hidden frames (they open a new window) */
+        position: absolute;
+        top: -1000px;
+        left: -1000px;
+        width: 0px;
+        height: 0px;
+        border: none;
+        padding: 0;
+        margin: 0;
 }

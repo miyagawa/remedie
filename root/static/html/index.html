@@ -13,6 +13,7 @@
   <script language="JavaScript" type="text/javascript" src="/static/js/jquery.copy.js"></script>
   <script language="JavaScript" type="text/javascript" src="/static/js/jquery.hotkeys.js"></script>
   <script language="JavaScript" type="text/javascript" src="/static/js/jquery.corners.js"></script>
+  <script language="JavaScript" type="text/javascript" src="/static/js/jquery.form.js"></script>
   <script language="JavaScript" type="text/javascript" src="/static/js/menu.js"></script>
   <script language="JavaScript" type="text/javascript" src="/static/js/swfobject.js"></script>
   <script language="javaScript" type="text/javascript" src="/static/js/qtobject.js"></script>
@@ -34,16 +35,29 @@
    </div>
 
    <div id="header"><h1 class="channel-list-menu"><a href="#menu">Remedie Media Center</a></h1></div>
-   <div id="subscription"></div>
+   <div id="collection"></div>
    <div id="channel-pane"></div>
 
    <div id="new-channel-dialog">
    <form id="new-channel-form">
    Enter Channel URL (Usually RSS Feed) <br/>
    <input type="text" value="" id="new-channel-url" />
-   <div class="ok-cancel-buttons">
-   <input type="button" value="Cancel" id="new-channel-cancel" />
+   <div class="float-left">
+   <input type="button" id="import-opml" value="Import OPML" />
+   </div>
+   <div class="float-right">
+   <input type="button" value="Cancel" class="cancel-dialog" />
    <input type="submit" value="Add" />
+   </div>
+   </form>
+   </div>
+
+   <div id="import-opml-dialog">
+   <form action="#" method="post" id="import-opml-form" enctype="multipart/form-data" target="upload-frame">
+   OPML file: <input type="file" name="file" id="import-file" />
+   <div class="float-right">
+   <input type="button" value="Cancel" class="cancel-dialog" />
+   <input type="button" value="Import" id="import-opml-upload" />
    </div>
    </form>
    </div>
@@ -57,5 +71,7 @@
     <li id="channel_context_mark_watched">Mark All items as Watched</li>
     <li id="channel_context_remove">Delete Channel</li>
    </ul></div>
+
+   <iframe name="upload-frame" id="upload-frame" src="about:blank"></iframe>
  </body>
 </html>
