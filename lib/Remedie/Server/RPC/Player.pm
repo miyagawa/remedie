@@ -8,6 +8,7 @@ __PACKAGE__->meta->make_immutable;
 no Moose;
 
 eval { require Mac::AppleScript };
+use File::Temp;
 
 my %map = (
     VLC => '_vlc',
@@ -31,43 +32,51 @@ sub _vlc {
     my($self, $req, $res) = @_;
     my $url = $req->param('url');
 
-    _run_apple_script(<<SCRIPT) or die "Can't launch VLC with AppleScript";
-tell application "VLC"
-  OpenURL "$url"
-  activate
-  fullscreen
-  play
-  next
-end tell
+    _run_apple_script('VLC', <<SCRIPT);
+OpenURL "$url"
+activate
+play
+next
 SCRIPT
 
-    return 1;
+    if ($req->param('fullscreen')) {
+        _run_apple_script('VLC', 'fullscreen');
+    }
+
+    return { success => 1 };
 }
 
 sub _quicktime {
     my($self, $req, $res) = @_;
 
     my $url = $req->param('url');
-    _run_apple_script(<<SCRIPT) or die "Can't launch QuickTime with AppleScript";
-tell application "QuickTime Player"
-  activate
-  getURL "$url"
-  present front movie scale screen
-end tell
+    _run_apple_script('QuickTime Player', <<SCRIPT);
+activate
+getURL "$url"
 SCRIPT
+
+    if ($req->param('fullscreen')) {
+        _run_apple_script('QuickTime Player', 'present front movie scale screen');
+    }
 }
 
 sub _run_apple_script {
-    my $script = shift;
+    my($app, $script) = @_;
+
+    chomp $script;
+    my $as = qq(tell Application "$app"\n$script\nend tell);
 
     if (defined &Mac::AppleScript::RunAppleScript) {
-        return Mac::AppleScript::RunAppleScript($script);
+        return Mac::AppleScript::RunAppleScript($as)
+            or die "Can't launch $app via AppleScript";
     } else {
-        open my $fh, "|osascript" or die "Can't launch osascript: $!";
-        print $fh $script;
-        close $fh;
+        my $temp = File::Temp->new( UNLINK => 1 );
+        my $fname = $temp->filename;
+        print $temp $as;
+        close $temp;
 
-        return 1;
+        my $ret = qx(osascript $fname);
+        return $ret;
     }
 }
 

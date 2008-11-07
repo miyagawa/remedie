@@ -107,11 +107,11 @@ Remedie.prototype = {
     this.unblockCallbacks = [];
   },
 
-  launchVideoPlayer: function(item, player) {
+  launchVideoPlayer: function(item, player, fullscreen) {
     var channel = this.channels[ item.channel_id ];
     $.ajax({
       url: "/rpc/player/play",
-      data: { url: item.ident, player: player },
+      data: { url: item.ident, player: player, fullscreen: fullscreen },
       type: 'post',
       dataType: 'json',
       success: function(r) {
@@ -381,6 +381,7 @@ Remedie.prototype = {
           }
         });
 
+       var fullscreen = 1; // TODO make it channel preference
        $(".channel-item-selectable")
          .hover(function(){
            $(this).addClass("hover-channel-item");
@@ -396,8 +397,8 @@ Remedie.prototype = {
                 item_context_copy:      function(){$.copy(item.ident)},
                 item_context_watched:   function(){remedie.markItemAsWatched(item.channel_id, item.id)},
                 item_context_unwatched: function(){remedie.markItemAsUnwatched(item.channel_id, item.id)},
-                item_context_play_vlc:  function(){remedie.launchVideoPlayer(item, 'VLC')},
-                item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QuickTime')},
+                item_context_play_vlc:  function(){remedie.launchVideoPlayer(item, 'VLC', fullscreen)},
+                item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QuickTime', fullscreen)},
                 item_context_play_qt_embed: function(){remedie.playVideoInline(item, 'QuickTime')},
                 item_context_play_wmp:  function(){remedie.playVideoInline(item, 'WMP')},
                 item_context_play_sl:   function(){remedie.playVideoInline(item, 'Silverlight')}
