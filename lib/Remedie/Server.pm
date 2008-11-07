@@ -131,7 +131,7 @@ sub dispatch_rpc {
 
     unless ( $res->body ) {
         local *URI::TO_JSON      = sub { $_[0]->as_string };
-        local *DateTime::TO_JSON = sub { $_[0]->iso8601 . 'Z' };
+        local *DateTime::TO_JSON = sub { $_[0]->set_time_zone('UTC')->iso8601 . 'Z' };
 
         $res->status(200);
         $res->content_type("application/json; charset=utf-8");
