@@ -278,6 +278,7 @@ Remedie.prototype = {
       // Ugh, shouldn't be here
       document.title = "Remedie Media Center";
       this.current_id = null;
+      this.items = [];
       $("#subscription").show();
       $("#channel-pane").hide();
     }
