@@ -92,8 +92,12 @@ sub work_channel {
             $item->props->{updated} = $entry->{pubDate} || $entry->{dc}{date};
 
             if (my $itunes = $entry->{+NS_ITUNES} || $entry->{+NS_ITUNES2}) {
-                $item->props->{description} = $itunes->{summary}
-                    if $itunes->{summary};
+                for my $field (qw( subtitle summary )) {
+                    if ($itunes->{$field}) {
+                        $item->props->{description} = $itunes->{$field};
+                        last;
+                    }
+                }
             }
 
             if (my $media = $entry->{+NS_MEDIA}) {
