@@ -360,7 +360,8 @@ Remedie.prototype = {
                'div', { className: 'item-infobox-misc' }, [
                   'ul', { className: 'inline' }, [
                     'li', { className: 'first' }, "size: " + RemedieUtil.formatBytes(item.props.size),
-                    'li', {}, "updated: " + RemedieUtil.mangleDate(item.props.updated)
+                    'li', {}, "updated: " + RemedieUtil.mangleDate(item.props.updated),
+                    'li', {}, [ "a", { href: item.props.link, target: "_blank" }, "Link" ]
                   ],
                ],
                'h3', { id: 'channel-item-title-' + item.id,
