@@ -44,7 +44,10 @@ Remedie.prototype = {
     this.installHotKey('shift+r', function(){
       if (remedie.currentChannel())  remedie.manuallyRefreshChannel(remedie.currentChannel())
     });
-    this.installHotKey('u', function(){ remedie.toggleChannelView(false) });
+    this.installHotKey('shift+d', function(){
+      if (remedie.currentChannel())  remedie.removeChannel(remedie.currentChannel())
+    });
+    this.installHotKey('shift+u', function(){ remedie.toggleChannelView(false) });
   
     $(document).bind('keydown', 'esc', $.unblockUI);
 
