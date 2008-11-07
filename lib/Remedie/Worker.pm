@@ -43,7 +43,7 @@ sub work_channel {
     my $uri = $channel->ident;
     warn "Updating $uri";
     my $res = LWP::UserAgent->new(timeout => 15)->get($uri);
-    next if $res->is_error;
+    return if $res->is_error;
 
     my $feed = XML::RSS::LibXML->new;
 
@@ -111,6 +111,8 @@ sub work_channel {
 
     $channel->props->{updated_on} = DateTime->now->iso8601;
     $channel->save;
+
+    return 1;
 }
 
 1;

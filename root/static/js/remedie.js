@@ -280,9 +280,9 @@ Remedie.prototype = {
       type: 'post',
       dataType: 'json',
       success: function(r) {
+        $.unblockUI();
         if (r.success) {
           $("#new-channel-url").attr('value', '');
-          $.unblockUI();
 
           remedie.channels[r.channel.id] = r.channel;
           remedie.renderChannelList(r.channel, $("#subscription"));

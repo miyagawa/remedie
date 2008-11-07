@@ -43,7 +43,7 @@ sub refresh : POST {
     my($self, $req, $res) = @_;
 
     my $channel = Remedie::DB::Channel->new( id => $req->param('id') )->load;
-    Remedie::Worker->work_channel($channel);
+    Remedie::Worker->work_channel($channel) or die "Refreshing failed";
 
     $channel->load; # reload
 
