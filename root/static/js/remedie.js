@@ -37,16 +37,12 @@ Remedie.prototype = {
     if (/mac/i.test(navigator.userAgent))
       this.modifier = 'command+';
 
-    $(document).bind('keydown', this.modifier+'n', this.displayNewChannel);
-    $(document).bind('keydown', this.modifier+'shift+r', function(){
+    this.installHotKey('n', this.displayNewChannel);
+    this.installHotKey('shift+r', function(){
       if (remedie.currentChannel())  remedie.manuallyRefreshChannel(remedie.currentChannel())
-      return false;
     });
-    $(document).bind('keydown', this.modifier+'shift+d', function(){
-      if (remedie.currentChannel()) remedie.removeChannel(remedie.currentChannel());
-      return false;
-    });
-
+    this.installHotKey('u', function(){ remedie.toggleChannelView(false) });
+  
     $(document).bind('keydown', 'esc', $.unblockUI);
 
     $.blockUI.defaults.css = {
@@ -78,6 +74,13 @@ Remedie.prototype = {
     });
 
     this.loadCollection( this.dispatchAction );
+  },
+
+  installHotKey: function(key, callback) {
+    $(document).bind('keydown', this.modifier+key, function(){
+      callback.call(this);
+      return false;
+    });
   },
 
   dispatchAction: function() {
