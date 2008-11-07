@@ -39,10 +39,9 @@ a {color:#ddd;text-decoration:none}
 .channel {
   margin: 1em;
   float: left;
-  width: 192x;
-  height: 210px;
+  width: 192px;
+  height: 240px;
   position: relative;
-  margin-bottom: 2em;
 }
 
 img.channel-thumbnail {
