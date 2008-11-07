@@ -427,9 +427,17 @@ Remedie.prototype = {
            });
          });
 
-        $(".channel-item-clickable")
-          .click(function(){
-            remedie.playVideoInline( remedie.items[this.id.replace("item-thumbnail-", "")] ) });
+         $(".channel-item-clickable").click(function(){
+           remedie.playVideoInline( remedie.items[this.id.replace("item-thumbnail-", "")] );
+         });
+         $(".item-thumbnail")
+          .hover(function(){
+             $(this).prepend($("<div/>").attr('id', 'play-button-'+channel.id)
+               .addClass("channel-item-play").corners("10px transparent").css({opacity:0.6})
+               .append($("<a/>").text("PLAY").click(function(){$(this).parent().next().trigger('click')})))
+          }, function(){
+             $('.channel-item-play').remove();
+          });
 
         remedie.toggleChannelView(true);
       },

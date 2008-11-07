@@ -119,6 +119,7 @@ div.separator {
 }
 
 .item-thumbnail {
+  position:relative;
   float:left;
   margin-left:8px;
 }
@@ -187,6 +188,16 @@ div.item-separator {
 
 .hover-channel-item {
   background: #111;
+}
+
+.channel-item-play {
+  position:absolute;
+  border: 1px #aaa solid;
+  background: #000;
+  color: #ddd;
+  text-align:center;
+  left: 25%; right:25%;
+  bottom:5%;
 }
 
 .channel-header-title {
