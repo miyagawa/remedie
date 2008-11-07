@@ -23,7 +23,7 @@ Remedie.prototype = {
     $("#new-channel-form").submit( function(e) { remedie.createNewChannel(e); return false; } );
     $("#new-channel-cancel").click( $.unblockUI );
 
-    $(".about-dialog-menu").click(function(){ remedie.showAboutDialog(true) });
+    $(".about-dialog-menu").click(function(){ remedie.showAboutDialog() });
 
     $().ajaxSend(function(event,xhr,options) {
       xhr.setRequestHeader('X-Remedie-Client', 'Remedie Media Center/' + Remedie.version);
@@ -77,7 +77,16 @@ Remedie.prototype = {
       shadow:            false
     });
 
-    this.loadCollection();
+    this.loadCollection( this.dispatchAction );
+  },
+
+  dispatchAction: function() {
+    var args = [];
+    args = location.hash.split('/');
+    if (args[0] == '#channel') {
+      if (this.channels[args[1]])
+        this.showChannel( this.channels[args[1]] );
+    }
   },
 
   currentChannel: function() {
@@ -481,7 +490,7 @@ Remedie.prototype = {
     });
   },
 
-  loadCollection: function() {
+  loadCollection: function(callback) {
     $.blockUI();
     $.ajax({
       url: "/rpc/channel/load",
@@ -494,6 +503,9 @@ Remedie.prototype = {
           remedie.renderChannelList(channel, $("#subscription"));
         }
         remedie.renderUnwatchedBadges();
+        $.unblockUI();
+        if (callback)
+          callback.call(remedie);
       },
       error: function(r) {
         alert("Can't load subscription");
@@ -505,10 +517,12 @@ Remedie.prototype = {
     var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/images/feed_256x256.png";
     container.createAppend(
       'div', { className: 'channel channel-clickable', id: 'channel-' + channel.id  }, [
-        'img', { src: thumbnail, alt: channel.name, className: 'channel-thumbnail' }, null,
-        'div', { className: 'channel-unwatched-hover unwatched-count-' + channel.id },
-              (channel.unwatched_count || 0) + '',
-        'div', { className: 'channel-title' }, channel.name.trimChars(24)
+        'a', { href: '#channel/' + channel.id }, [
+          'img', { src: thumbnail, alt: channel.name, className: 'channel-thumbnail' }, null,
+          'div', { className: 'channel-unwatched-hover unwatched-count-' + channel.id },
+                (channel.unwatched_count || 0) + '',
+          'div', { className: 'channel-title' }, channel.name.trimChars(24)
+        ]
       ]
     );
     $("#channel-" + channel.id)
