@@ -47,7 +47,7 @@ a {color:#ddd;text-decoration:none}
 img.channel-thumbnail {
   width: 192px;
   height: 192px;
-  border: 1px solid black; // for hover
+  border: 1px solid black; /* for hover */
 }
 
 .channel-unwatched-hover {
@@ -58,7 +58,14 @@ img.channel-thumbnail {
   font-size: 1.2em;
   font-family: Helvetica, trebuchet MS;
   background: #c00;
-  display:none; // should badgify with JS
+  display:none; /* should badgify with JS */
+}
+
+.channel-refresh-hover {
+  position:absolute;
+  top:70%;right:5%;
+  font-size: 1.2em;
+  display:none; /* should badgify with JS */
 }
 
 .channel-clickable a {

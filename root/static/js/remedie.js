@@ -42,7 +42,13 @@ Remedie.prototype = {
 
     this.installHotKey('n', this.newChannelDialog);
     this.installHotKey('shift+r', function(){
-      if (remedie.currentChannel())  remedie.manuallyRefreshChannel(remedie.currentChannel())
+      if (remedie.currentChannel()) {
+        remedie.manuallyRefreshChannel(remedie.currentChannel());
+      } else {
+        for (i in remedie.channels) {
+          remedie.refreshChannel(remedie.channels[i]);
+        }
+      }
     });
     this.installHotKey('shift+d', function(){
       if (remedie.currentChannel())  remedie.removeChannel(remedie.currentChannel())
@@ -491,7 +497,8 @@ Remedie.prototype = {
     if (!channel)
       return; // TODO error message?
 
-    // TODO animated icon on top of thumbnail
+    $("#channel-" + channel.id + " .channel-thumbnail").css({opacity:0.3});
+    $("#channel-" + channel.id + " .channel-refresh-hover").show();
     $.ajax({
       url: "/rpc/channel/refresh",
       data: { id: channel.id },
@@ -565,6 +572,9 @@ Remedie.prototype = {
           'img', { src: thumbnail, alt: channel.name, className: 'channel-thumbnail' }, null,
           'div', { className: 'channel-unwatched-hover unwatched-count-' + channel.id },
                 (channel.unwatched_count || 0) + '',
+          'div', { className: 'channel-refresh-hover' }, [
+            'img', { src: "/static/images/spinner.gif" }
+          ],
           'div', { className: 'channel-title' }, channel.name.trimChars(24)
         ]
       ]
@@ -586,6 +596,9 @@ Remedie.prototype = {
     var id = "#channel-" + channel.id;
 //    if ($(id).size() == 0)
 //       return this.renderChannelList(channel, $("#collection"));
+
+    $(id + " .channel-thumbnail").css({opacity:1});
+    $(id + " .channel-refresh-hover").hide();
 
     if (channel.props.thumbnail) 
       $(id + " .channel-thumbnail").attr('src', channel.props.thumbnail.url);
