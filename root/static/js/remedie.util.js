@@ -1,15 +1,17 @@
 function RemedieUtil() { }
 RemedieUtil.prototype = { };
-RemedieUtil.calcWindowSize = function(window_width) {
-  var widths = [ 1920, 1280, 1024, 704 ];
-  var i = 0;
-  while (window_width < widths[i]) {
-    i++;
-    if (!widths[i]) {
-      i--; break;
-    }
+RemedieUtil.calcWindowSize = function(width, height, aspect) {
+  width  += 16 - Math.ceil(width % 16);
+  height += 9  - Math.ceil(height % 9);
+  var ratio = aspect == '16x9' ? 9/16 : 3/4;
+
+  if (ratio * width > height) {
+    width = height / ratio;
+  } else {
+    height = width * ratio;
   }
-  return [ widths[i], widths[i] * 9/16 ];
+
+  return { width: width, height: height };
 };
 
 RemedieUtil.formatBytes = function(bytes) {

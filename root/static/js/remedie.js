@@ -170,9 +170,10 @@ Remedie.prototype = {
     var id   = item.id;
     var url  = item.ident;
 
-    var wh = RemedieUtil.calcWindowSize($(window).width());
-    var width  = wh[0];
-    var height = wh[1] + 20; // slider and buttons
+    var aspect = '16x9'; // TODO
+    var res    = RemedieUtil.calcWindowSize($(window).width()-100, $(window).height()-80, aspect);
+    var width  = res.width;
+    var height = res.height + 18; // slider and buttons
 
     // WMV + Mac -> QuickTime (Flip4Mac)
     // WMV + Win -> Windows Media Player
@@ -228,7 +229,7 @@ Remedie.prototype = {
       message: $('#embed-player'),
       css: { top:  ($(window).height() - height) / 2 + 'px',
              left: ($(window).width()  - width) / 2 + 'px',
-             width:  wh[0] + 'px',
+             width:  width + 'px',
              opacity: 1, padding: 0, border: '1px solid #fff', backgroundColor: '#fff',
              '-webkit-border-radius': 0, '-moz-border-radius': 0 }
       });
