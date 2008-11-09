@@ -230,6 +230,7 @@ div#jqContextMenu {
         border: 1px solid rgba(0,0,0,0.1);
         -moz-user-select: none;
         -webkit-user-select: none;
+        white-space: nowrap;
 }
 
 div#jqContextMenu ul {
