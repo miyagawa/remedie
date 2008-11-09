@@ -2,9 +2,10 @@ Remedie is under development and requires lots of hacking
 
 For now, run
 
+  > rm -r ~/.remedie
   > perl -Ilib -MRemedie::DB::Schema -e 'Remedie::DB::Schema->install'
 
-to initialize SQLite database. Remove ~/.remedie/remedie.db if needed to run it more than twice.
+to initialize SQLite database.
 
 Run
 
@@ -12,10 +13,9 @@ Run
 
 and access http://localhost:10010/
 
-You need to perioridically run
+You can type Ctrl-shift-r (Cmd-shift-r if you're on Mac) to refresh all feeds from UI, but you might
+need to perioridically run the following command to update feeds automatically.
 
   > perl -Ilib ./bin/remedie-worker.pl
-
-to update the feeds.
 
 I hope this will eventually become standalone installable app using preferencePanes etc.
