@@ -100,15 +100,15 @@ Remedie.prototype = {
   },
 
   setupEventListeners: function() {
-    $("#events").bind('remedieChannelUpdated', function(ev, channel) {
+    $(document).bind('remedieChannelUpdated', function(ev, channel) {
       remedie.redrawChannel(channel);
       remedie.redrawUnwatchedCount(channel);
     });
-    $("#events").bind('remedieChannelDisplayed', function(ev, channel) {
+    $(document).bind('remedieChannelDisplayed', function(ev, channel) {
       document.title = 'Remedie: ' + channel.name;
       remedie.current_id = channel.id;
     });
-    $("#events").bind('remedieChannelUndisplayed', function(ev, channel) {
+    $(document).bind('remedieChannelUndisplayed', function(ev, channel) {
       document.title = "Remedie Media Center";
       remedie.current_id = null;
       remedie.items = [];
