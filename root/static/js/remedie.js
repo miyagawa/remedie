@@ -82,7 +82,7 @@ Remedie.prototype = {
       itemStyle:         Menu.context.item_style,
       itemHoverStyle:    Menu.context.item_hover_style,
       itemDisabledStyle: Menu.context.item_disabled_style,
-      shadow:            false
+      shadow:            true
     });
 
     $(".blockOverlay").livequery('click', $.unblockUI);
