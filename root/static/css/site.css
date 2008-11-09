@@ -63,8 +63,8 @@ img.channel-thumbnail {
 
 .channel-refresh-hover {
   position:absolute;
+  text-align:center;
   top:70%;right:5%;
-  font-size: 1.2em;
   display:none; /* should badgify with JS */
 }
 
@@ -250,4 +250,8 @@ iframe#upload-frame {
         border: none;
         padding: 0;
         margin: 0;
+}
+
+#events {
+  display:none
 }

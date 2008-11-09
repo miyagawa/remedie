@@ -17,22 +17,20 @@ Remedie.prototype = {
       return;
     }
 
-    $(".new-channel-menu").click(this.newChannelDialog);
-    $(".channel-list-menu").click(function(){ remedie.toggleChannelView(false) });
-
-    $("#new-channel-form").submit( function(e) { remedie.createNewChannel(e); return false; } );
-    $(".cancel-dialog").click( $.unblockUI );
-
-    $(".about-dialog-menu").click(function(){ remedie.showAboutDialog() });
-
-    $("#import-opml").click(this.importDialog);
-    $("#import-opml-upload").click(function(){ remedie.uploadOPMLFile() });
-
     $().ajaxSend(function(event,xhr,options) {
-      xhr.setRequestHeader('X-Remedie-Client', 'Remedie Media Center/' + Remedie.version);
+      xhr.setRequestHeader('X-Remedie-Client', 'Remedie/' + Remedie.version);
     });
     $().ajaxStop($.unblockUI); // XXX This might cause issues when AJAX calls are made during flash playback
 
+    this.setupMenuActions();
+    this.setupEventListeners();
+    this.setupHotKeys();
+    this.setupPluginDefaults();
+ 
+    this.loadCollection( this.dispatchAction );
+  },
+
+  setupHotKeys: function() {
     // Emacs and KeyRemap4Macbook users have problems with ctrl+ modifier key because
     // ctrl+n for example is remapped to 'down' key. For now, hijack the cmd+ modifier
     // key if the userAgent is Mac. We may need to be careful not stealing frequently
@@ -56,7 +54,9 @@ Remedie.prototype = {
     this.installHotKey('shift+u', function(){ remedie.toggleChannelView(false) });
   
     $(document).bind('keydown', 'esc', $.unblockUI);
+  },
 
+  setupPluginDefaults: function() {
     $.blockUI.defaults.css = {
       padding:        '15px',
       margin:         0,
@@ -84,8 +84,35 @@ Remedie.prototype = {
       itemDisabledStyle: Menu.context.item_disabled_style,
       shadow:            false
     });
+  },
 
-    this.loadCollection( this.dispatchAction );
+  setupMenuActions: function() {
+    $(".new-channel-menu").click(this.newChannelDialog);
+    $(".channel-list-menu").click(function(){ remedie.toggleChannelView(false) });
+
+    $("#new-channel-form").submit( function(e) { remedie.createNewChannel(e); return false; } );
+    $(".cancel-dialog").click( $.unblockUI );
+
+    $(".about-dialog-menu").click(function(){ remedie.showAboutDialog() });
+
+    $("#import-opml").click(this.importDialog);
+    $("#import-opml-upload").click(function(){ remedie.uploadOPMLFile() });
+  },
+
+  setupEventListeners: function() {
+    $("#events").bind('remedieChannelUpdated', function(ev, channel) {
+      remedie.redrawChannel(channel);
+      remedie.redrawUnwatchedCount(channel);
+    });
+    $("#events").bind('remedieChannelDisplayed', function(ev, channel) {
+      document.title = 'Remedie: ' + channel.name;
+      remedie.current_id = channel.id;
+    });
+    $("#events").bind('remedieChannelUndisplayed', function(ev, channel) {
+      document.title = "Remedie Media Center";
+      remedie.current_id = null;
+      remedie.items = [];
+    });
   },
 
   installHotKey: function(key, callback) {
@@ -267,7 +294,7 @@ Remedie.prototype = {
         if (r.success) {
           remedie.channels[r.channel.id] = r.channel;
           callback.call();
-          remedie.redrawUnwatchedCount(r.channel);
+          $.event.trigger('remedieChannelUpdated', r.channel);
         } else {
           alert(r.error);
         }
@@ -311,9 +338,7 @@ Remedie.prototype = {
       $("#collection").hide();
       $("#channel-pane").show();
     } else {
-      document.title = "Remedie Media Center";
-      this.current_id = null;
-      this.items = [];
+      $.event.trigger('remedieChannelUndisplayed');
       $("#collection").show();
       $("#channel-pane").hide();
     }
@@ -352,8 +377,8 @@ Remedie.prototype = {
       success: function(r) {
         $("#channel-pane").children().remove();
         var channel = r.channel;
-        document.title = "Remedie: " + channel.name;
-        remedie.current_id = channel.id;
+        $.event.trigger("remedieChannelDisplayed", channel);
+
         var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/images/feed_128x128.png";
         $("#channel-pane").createAppend(
          'div', { className: 'channel-header', id: 'channel-header-' + channel.id  }, [
@@ -507,10 +532,11 @@ Remedie.prototype = {
       success: function(r) {
         if (r.success) {
           remedie.channels[r.channel.id] = r.channel;
-          remedie.redrawChannel(r.channel);
+          $.event.trigger('remedieChannelUpdated', r.channel);
           if (refreshView)
             remedie.showChannel(r.channel);
         } else {
+          $.event.trigger('remedieChannelUpdated', channel); // Fake updated Event to cancel animation
           alert(r.error);
         }
       },
@@ -532,6 +558,7 @@ Remedie.prototype = {
       success: function(r) {
         if (r.success) {
           $('#channel-'+channel.id).remove();
+          remedie.channels[channel.id] = null;
           remedie.toggleChannelView(false);
         } else {
           alert(r.error);
@@ -552,8 +579,8 @@ Remedie.prototype = {
           var channel = r.channels[i];
           remedie.channels[channel.id] = channel;
           remedie.renderChannelList(channel, $("#collection"));
+          remedie.redrawUnwatchedCount(channel);
         }
-        remedie.renderUnwatchedBadges();
         $.unblockUI();
         if (callback)
           callback.call(remedie);
@@ -594,8 +621,6 @@ Remedie.prototype = {
 
   redrawChannel: function(channel) {
     var id = "#channel-" + channel.id;
-//    if ($(id).size() == 0)
-//       return this.renderChannelList(channel, $("#collection"));
 
     $(id + " .channel-thumbnail").css({opacity:1});
     $(id + " .channel-refresh-hover").hide();
@@ -605,8 +630,6 @@ Remedie.prototype = {
 
     if (channel.name) 
       $(id + " .channel-title").text(channel.name);
-
-    this.redrawUnwatchedCount(channel);
   },
 
   renderUnwatchedBadges: function() {
