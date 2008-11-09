@@ -219,12 +219,6 @@ Remedie.prototype = {
         this.runOnUnblock(function(){$(document).unbind('keydown', 'space', function(){})});
     }
 
-    $('#embed-player').createAppend(
-     'div', { className: 'close-button' }, [
-        'a', {}, "Click here to close the Player"
-      ]
-    ).click($.unblockUI);
-
     this.runOnUnblock(function(){
       $('#embed-player').children().remove();
       remedie.markItemAsWatched(channel_id, id); // TODO setTimeout?
@@ -232,7 +226,7 @@ Remedie.prototype = {
 
     $.blockUI({
       message: $('#embed-player'),
-      css: { top:  ($(window).height() - height) / 2 - 6 + 'px',
+      css: { top:  ($(window).height() - height) / 2 + 'px',
              left: ($(window).width()  - width) / 2 + 'px',
              width:  wh[0] + 'px',
              opacity: 1, padding: 0, border: '1px solid #fff', backgroundColor: '#fff',
