@@ -343,6 +343,7 @@ Remedie.prototype = {
       $("#collection").show();
       $("#channel-pane").hide();
     }
+    $.scrollTo({top:0});
     return false;
   },
 
