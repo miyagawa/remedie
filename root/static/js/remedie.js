@@ -174,17 +174,8 @@ Remedie.prototype = {
 
     // WMV + Mac -> QuickTime (Flip4Mac)
     // WMV + Win -> Windows Media Player
-    if (!player) {
-      if (/wmv/i.test(item.props.type)) {
-        if (/mac/i.test(navigator.userAgent)) {
-          player = 'QuickTime';
-        } else {
-          player = 'WMP';
-        }
-      } else {
-        player = 'Flash';
-      }
-    }
+    if (!player)
+      player = this.defaultPlayerFor(item.props.type);
 
     if (player == 'QuickTime') {
         var s1 = new QTObject(url, 'player-' + id, width,  height);
@@ -245,6 +236,19 @@ Remedie.prototype = {
              opacity: 1, padding: 0, border: '1px solid #fff', backgroundColor: '#fff',
              '-webkit-border-radius': 0, '-moz-border-radius': 0 }
       });
+  },
+
+  defaultPlayerFor: function(type) {
+    if (/wmv/i.test(type)) {
+      if (/mac/i.test(navigator.userAgent)) {
+        player = 'QuickTime';
+      } else {
+        player = 'WMP';
+      }
+    } else {
+      player = 'Flash';
+    }
+    return player;
   },
 
   autoPlaySilverlight: function(ply) {
