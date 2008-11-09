@@ -43,9 +43,9 @@ Remedie.prototype = {
       if (remedie.currentChannel()) {
         remedie.manuallyRefreshChannel(remedie.currentChannel());
       } else {
-        for (i in remedie.channels) {
-          remedie.refreshChannel(remedie.channels[i]);
-        }
+        remedie.channels.forEach(function(channel) {
+          remedie.refreshChannel(channel);
+        });
       }
     });
     this.installHotKey('shift+d', function(){
@@ -404,8 +404,7 @@ Remedie.prototype = {
           'div', { id: 'channel-items', className: "clear" }, null
         );
 
-        for (i in r.items) {
-          var item = r.items[i];
+        r.items.forEach(function(item) {
           remedie.items[item.id] = item;
           var item_thumb = item.props.thumbnail ? item.props.thumbnail.url : null;
           $("#channel-items").createAppend(
@@ -432,7 +431,7 @@ Remedie.prototype = {
              'div', { className: "clear" }, null
            ]
          );
-       }
+       });
 
        $(".channel-header")
         .contextMenu("channel-context-menu", {
@@ -575,12 +574,11 @@ Remedie.prototype = {
       dataType: 'json',
       success: function(r) {
         $("#collection").children().remove();
-        for (i in r.channels) {
-          var channel = r.channels[i];
+        r.channels.forEach(function(channel) {
           remedie.channels[channel.id] = channel;
           remedie.renderChannelList(channel, $("#collection"));
           remedie.redrawUnwatchedCount(channel);
-        }
+        });
         $.unblockUI();
         if (callback)
           callback.call(remedie);
