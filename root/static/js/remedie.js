@@ -84,6 +84,8 @@ Remedie.prototype = {
       itemDisabledStyle: Menu.context.item_disabled_style,
       shadow:            false
     });
+
+    $(".blockOverlay").livequery('click', $.unblockUI);
   },
 
   setupMenuActions: function() {
