@@ -171,8 +171,13 @@ Remedie.prototype = {
     var url  = item.ident;
 
     var ratio;
-    // XXX YouTube feed has both media:player (HTML) and enclosure (SWF)
-    if (item.props.type && item.props.type.match(/shockwave-flash/)) {
+    if (item.props.link.match(/youtube\.com\/.*\?v=(\w+)/) ) {
+      // XXX This should be done in the server side
+      // Giant hack to normalize for yt.swf
+      player = 'Flash';
+      url = "http://www.youtube.com/watch?v=" + RegExp.$1;
+      ratio = 3/4;
+    } else if (item.props.type && item.props.type.match(/shockwave-flash/)) {
       player = 'Web';
       item.props.embed = { url: item.ident };
       ratio = 3/4;
