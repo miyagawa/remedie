@@ -172,7 +172,7 @@ Remedie.prototype = {
 
     var ratio;
     // XXX YouTube feed has both media:player (HTML) and enclosure (SWF)
-    if (item.props.type.match(/shockwave-flash/)) {
+    if (item.props.type && item.props.type.match(/shockwave-flash/)) {
       player = 'Web';
       item.props.embed = { url: item.ident };
       ratio = 3/4;
