@@ -171,16 +171,12 @@ Remedie.prototype = {
     var url  = item.ident;
 
     var ratio;
-    if (item.props.link && item.props.link.match(/youtube\.com\/.*\?v=(\w+)/) ) {
-      // XXX This should be done in the server side
-      // Giant hack to normalize for yt.swf
-      player = 'Flash';
-      url = "http://www.youtube.com/watch?v=" + RegExp.$1;
-      ratio = 3/4;
-    } else if (item.props.link && item.props.link.match(/nicovideo\.jp/)) {
+    var offset = {};
+    if (item.props.link && item.props.link.match(/nicovideo\.jp/)) {
       // XXX
       player = 'Web';
       ratio = 3/4;
+      offset.height = 24;
     } else if (item.props.type && item.props.type.match(/shockwave-flash/)) {
       player = 'Web';
       item.props.embed = { url: item.ident };
@@ -194,17 +190,13 @@ Remedie.prototype = {
       }
     } else {
       ratio = 9/16; // TODO
+      offset.height = 18;
     }
 
     var res    = RemedieUtil.calcWindowSize($(window).width()-100, $(window).height()-80, ratio);
     var width  = res.width;
     var height = res.height;
 
-    if (player != 'Web')
-      height = height + 18; // slider and buttons
-
-    // WMV + Mac -> QuickTime (Flip4Mac)
-    // WMV + Win -> Windows Media Player
     if (!player)
       player = this.defaultPlayerFor(item.props.type);
 
@@ -220,6 +212,9 @@ Remedie.prototype = {
         },
       });
     }
+
+    if (offset.width)  width  += offset.width;
+    if (offset.height) height += offset.height;
 
     if (player == 'Web') {
       if (item.props.embed.code) {
@@ -279,13 +274,15 @@ Remedie.prototype = {
       message: $('#embed-player'),
       css: { top:  ($(window).height() - height) / 2 + 'px',
              left: ($(window).width()  - width) / 2 + 'px',
-             width:  width + 'px',
+             width:  width + 'px', height: 'auto',
              opacity: 1, padding: 0, border: '1px solid #fff', backgroundColor: '#fff',
              '-webkit-border-radius': 0, '-moz-border-radius': 0 }
       });
   },
 
   defaultPlayerFor: function(type) {
+    // WMV + Mac -> QuickTime (Flip4Mac)
+    // WMV + Win -> Windows Media Player
     if (/wmv/i.test(type)) {
       if (/mac/i.test(navigator.userAgent)) {
         player = 'QuickTime';
