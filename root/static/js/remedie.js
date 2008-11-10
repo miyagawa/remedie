@@ -20,7 +20,7 @@ Remedie.prototype = {
     $().ajaxSend(function(event,xhr,options) {
       xhr.setRequestHeader('X-Remedie-Client', 'Remedie/' + Remedie.version);
     });
-    $().ajaxStop($.unblockUI); // XXX This might cause issues when AJAX calls are made during flash playback
+//    $().ajaxStop($.unblockUI); // XXX This might cause issues when AJAX calls are made during flash playback
 
     this.setupMenuActions();
     this.setupEventListeners();
@@ -177,13 +177,21 @@ Remedie.prototype = {
       player = 'Flash';
       url = "http://www.youtube.com/watch?v=" + RegExp.$1;
       ratio = 3/4;
+    } else if (item.props.link.match(/nicovideo\.jp/)) {
+      // XXX
+      player = 'Web';
+      ratio = 3/4;
     } else if (item.props.type && item.props.type.match(/shockwave-flash/)) {
       player = 'Web';
       item.props.embed = { url: item.ident };
       ratio = 3/4;
     } else if (item.props.embed) {
       player = 'Web';
-      ratio  = item.props.embed.height / item.props.embed.width;
+      if (item.props.embed.width && item.props.embed.height) {
+        ratio  = item.props.embed.height / item.props.embed.width;
+      } else {
+        ratio = 3/4;
+      }
     } else {
       ratio = 9/16; // TODO
     }
@@ -200,12 +208,28 @@ Remedie.prototype = {
     if (!player)
       player = this.defaultPlayerFor(item.props.type);
 
+    if (item.props.link.match(/nicovideo\.jp/)) {
+      $.ajax({
+        url: "/rpc/player/nicovideo",
+        type: 'post',
+        data: { url: item.props.link, width: width, height: height },
+        async: false,
+        dataType: 'json',
+        success: function(r) {
+          item.props.embed = { code: r.code };
+        },
+      });
+    }
+
     if (player == 'Web') {
-      var s1 = new SWFObject(item.props.embed.url, 'player-' + item.id, width, height, '9');
-      s1.addParam('allowfullscreen','true');
-      s1.addParam('allowscriptaccess','always');
-      s1.addParam('bitrate', "700000"); // XXX for Hulu, but doesn't work
-      s1.write('embed-player');
+      if (item.props.embed.code) {
+         $('head').append("<script>" + item.props.embed.code + "</script>");
+      } else {
+        var s1 = new SWFObject(item.props.embed.url, 'player-' + item.id, width, height, '9');
+        s1.addParam('allowfullscreen','true');
+        s1.addParam('allowscriptaccess','always');
+        s1.write('embed-player');
+      }
     } else if (player == 'QuickTime') {
         var s1 = new QTObject(url, 'player-' + id, width,  height);
         s1.addParam('scale', 'Aspect');

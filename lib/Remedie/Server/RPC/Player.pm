@@ -9,12 +9,39 @@ no Moose;
 
 eval { require Mac::AppleScript };
 use File::Temp;
+use LWP::UserAgent;
 
 my %map = (
     VLC => '_vlc',
     QuickTime => '_quicktime',
     iTunes => '_itunes',
 );
+
+# XXX This needs to be pluggable
+sub nicovideo : POST {
+    my($self, $req, $res) = @_;
+
+    my $uri = URI->new( $req->param('url') );
+    $uri->host("ext.nicovideo.jp");
+    my $path = $uri->path;
+    $path =~ s!^/watch/!/thumb_watch/!;
+    $uri->path($path);
+    $uri->query_form(w => $req->param('width'), h => $req->param('height'));
+
+    my $request = HTTP::Request->new( GET => $uri );
+    $request->header('Referer', "http://www.nicovideo.jp/");
+
+    my $ua = LWP::UserAgent->new( $req->header('User-Agent') );
+    my $response = $ua->request($request);
+    $response->is_success or die "Request failed: " . $response->status_line;
+
+    ## Whoa HACK
+    my $code = $response->content;
+    $code =~ s/document\.write\((.*?)\)/\$("#embed-player").html($1)/g;
+    $code =~ s/(wv_title.*?)$/$1\n, fv_autoplay: 1/m;
+
+    return { success => 1, code => $code };
+}
 
 sub play : POST {
     my($self, $req, $res) = @_;

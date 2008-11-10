@@ -119,6 +119,16 @@ sub work_channel {
             }
         }
 
+        # XXX I know, this should become plugin
+        if ($entry->{link} =~ m!nicovideo\.jp/watch!) {
+            my $id = ( $entry->{link} =~ m!watch/\w\w(\d+)! )[0];
+            $item->type( Remedie::DB::Item->TYPE_WEB_MEDIA );
+            $item->props->{thumbnail} = {
+                # TODO: use getthumbinfo
+                url => "http://tn-skr1.smilevideo.jp/smile?i=$id",
+            };
+        }
+
         if ($item->type) {
             eval { $item->save };
             warn $@ if $@;
