@@ -171,7 +171,12 @@ Remedie.prototype = {
     var url  = item.ident;
 
     var ratio;
-    if (item.props.embed) {
+    // XXX YouTube feed has both media:player (HTML) and enclosure (SWF)
+    if (item.props.type.match(/shockwave-flash/)) {
+      player = 'Web';
+      item.props.embed = { url: item.ident };
+      ratio = 3/4;
+    } else if (item.props.embed) {
       player = 'Web';
       ratio  = item.props.embed.height / item.props.embed.width;
     } else {

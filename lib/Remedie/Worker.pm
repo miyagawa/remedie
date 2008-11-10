@@ -89,7 +89,7 @@ sub work_channel {
         $item->props->{description} = $entry->{description};
         $item->props->{updated} = $entry->{pubDate} || $entry->{dc}{date};
 
-        my $enclosure = $item->{enclosure};
+        my $enclosure = $entry->{enclosure};
         if ($enclosure && $enclosure->{url}) {
             $item->type( Remedie::DB::Item->TYPE_HTTP_MEDIA );
             $item->props->{size} = $enclosure->{length};
