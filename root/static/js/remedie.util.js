@@ -1,9 +1,8 @@
 function RemedieUtil() { }
 RemedieUtil.prototype = { };
-RemedieUtil.calcWindowSize = function(width, height, aspect) {
+RemedieUtil.calcWindowSize = function(width, height, ratio) {
   width  += 16 - Math.ceil(width % 16);
   height += 9  - Math.ceil(height % 9);
-  var ratio = aspect == '16x9' ? 9/16 : 3/4;
 
   if (ratio * width > height) {
     width = height / ratio;
@@ -15,7 +14,7 @@ RemedieUtil.calcWindowSize = function(width, height, aspect) {
 };
 
 RemedieUtil.formatBytes = function(bytes) {
-  if (bytes <= 0) return '(Unknown)';
+  if (typeof bytes == 'undefined' || bytes <= 0) return '(Unknown)';
   var units = [ 'bytes', 'KB', 'MB', 'GB', 'TB' ];
   var i = 0;
   while (bytes > 1024) {
@@ -41,9 +40,11 @@ RemedieUtil.fileType = function(url, mime) {
   if (/\.(\w{2,4})$/.test(url))
     return "." + RegExp.$1;
 
-  var t = mime.split('/');
-  if (t.length == 2)
-    return t[1];
+  if (mime) {
+    var t = mime.split('/');
+    if (t.length == 2)
+      return t[1];
+  }
 
   return 'Unknown';
 };

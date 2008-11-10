@@ -70,44 +70,56 @@ sub work_channel {
     }
 
     for my $entry (reverse @{$feed->{items}}) {
-        if (my $enclosure = $entry->{enclosure}) {
-            my $item = Remedie::DB::Item::Manager->lookup(
-                channel_id => $channel->id,
-                ident      => $enclosure->{url},
-            );
+        my $ident = $entry->{enclosure}{url} || $entry->{link};
 
-            unless ($item) {
-                $item = Remedie::DB::Item->new;
-                $item->channel_id($channel->id);
-                $item->ident($enclosure->{url});
-                $item->status( Remedie::DB::Item->STATUS_NEW );
-            }
+        my $item = Remedie::DB::Item::Manager->lookup(
+            channel_id => $channel->id,
+            ident      => $ident,
+        );
 
+        unless ($item) {
+            $item = Remedie::DB::Item->new;
+            $item->channel_id($channel->id);
+            $item->ident($ident);
+            $item->status( Remedie::DB::Item->STATUS_NEW );
+        }
+
+        $item->name($entry->{title});
+        $item->props->{link} = $entry->{link};
+        $item->props->{description} = $entry->{description};
+        $item->props->{updated} = $entry->{pubDate} || $entry->{dc}{date};
+
+        my $enclosure = $item->{enclosure};
+        if ($enclosure && $enclosure->{url}) {
             $item->type( Remedie::DB::Item->TYPE_HTTP_MEDIA );
-            $item->name($entry->{title});
             $item->props->{size} = $enclosure->{length};
             $item->props->{type} = $enclosure->{type};
-            $item->props->{link} = $entry->{link};
-            $item->props->{description} = $entry->{description};
-            $item->props->{updated} = $entry->{pubDate} || $entry->{dc}{date};
+        }
 
-            if (my $itunes = $entry->{+NS_ITUNES} || $entry->{+NS_ITUNES2}) {
-                for my $field (qw( subtitle summary )) {
-                    if ($itunes->{$field}) {
-                        $item->props->{description} = $itunes->{$field};
-                        last;
-                    }
+        if (my $itunes = $entry->{+NS_ITUNES} || $entry->{+NS_ITUNES2}) {
+            for my $field (qw( subtitle summary )) {
+                if ($itunes->{$field}) {
+                    $item->props->{description} = $itunes->{$field};
+                    last;
                 }
             }
+        }
 
-            if (my $media = $entry->{+NS_MEDIA}) {
-                $media = $media->{content}{+NS_MEDIA}
-                    if exists $media->{content}{+NS_MEDIA};
-                $item->props->{thumbnail} = {
-                    url => $media->{thumbnail}{url},
-                } if $media->{thumbnail}{url};
+        if (my $media = $entry->{+NS_MEDIA}) {
+            $media = $media->{content}{+NS_MEDIA}
+                if exists $media->{content}{+NS_MEDIA};
+            $item->props->{thumbnail} = {
+                url => $media->{thumbnail}{url},
+            } if $media->{thumbnail}{url};
+
+            if ($media->{player} && $media->{player}{url}) {
+                $item->type( Remedie::DB::Item->TYPE_WEB_MEDIA );
+                my %embed = map { $_ => $media->{player}{$_} } $media->{player}->attributes;
+                $item->props->{embed} = \%embed;
             }
+        }
 
+        if ($item->type) {
             eval { $item->save };
             warn $@ if $@;
         }

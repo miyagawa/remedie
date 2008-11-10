@@ -6,7 +6,9 @@ __PACKAGE__->meta->table('item');
 __PACKAGE__->meta->auto_initialize;
 __PACKAGE__->json_encoded_columns('props');
 
-use constant TYPE_HTTP_MEDIA => 1;
+use constant TYPE_HTTP_MEDIA    => 1;
+use constant TYPE_TORRENT_MEDIA => 2;
+use constant TYPE_WEB_MEDIA     => 3; # Hulu etc.
 
 use constant STATUS_NEW         => 1;
 use constant STATUS_DOWNLOADING => 2;

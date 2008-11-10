@@ -36,7 +36,7 @@ sub bootstrap {
         local $SIG{TERM} = $exit;
         $self->run;
     };
-    ERROR 'Exiting feed...';
+    ERROR "Exiting feed... $@";
 }
 
 sub BUILD {

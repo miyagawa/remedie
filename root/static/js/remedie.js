@@ -170,17 +170,34 @@ Remedie.prototype = {
     var id   = item.id;
     var url  = item.ident;
 
-    var aspect = '16x9'; // TODO
-    var res    = RemedieUtil.calcWindowSize($(window).width()-100, $(window).height()-80, aspect);
+    var ratio;
+    if (item.props.embed) {
+      player = 'Web';
+      ratio  = item.props.embed.height / item.props.embed.width;
+    } else {
+      ratio = 9/16; // TODO
+    }
+
+    var res    = RemedieUtil.calcWindowSize($(window).width()-50, $(window).height()-40, ratio);
     var width  = res.width;
-    var height = res.height + 18; // slider and buttons
+    var height = res.height;
+
+    if (player != 'Web')
+      height = height + 18; // slider and buttons
 
     // WMV + Mac -> QuickTime (Flip4Mac)
     // WMV + Win -> Windows Media Player
     if (!player)
       player = this.defaultPlayerFor(item.props.type);
 
-    if (player == 'QuickTime') {
+    if (player == 'Web') {
+      var s1 = new SWFObject(item.props.embed.url, 'player-' + item.id, width, height, '9');
+      s1.addParam('allowfullscreen','true');
+      s1.addParam('allowscriptaccess','always');
+//      s1.addParam('flashvars','autostart=true&file=' + url);
+      s1.addParam('bitrate', 7000000); // Hulu
+      s1.write('embed-player');
+    } else if (player == 'QuickTime') {
         var s1 = new QTObject(url, 'player-' + id, width,  height);
         s1.addParam('scale', 'Aspect');
         s1.addParam('target', 'QuickTimePlayer');
