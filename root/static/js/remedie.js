@@ -171,13 +171,13 @@ Remedie.prototype = {
     var url  = item.ident;
 
     var ratio;
-    if (item.props.link.match(/youtube\.com\/.*\?v=(\w+)/) ) {
+    if (item.props.link && item.props.link.match(/youtube\.com\/.*\?v=(\w+)/) ) {
       // XXX This should be done in the server side
       // Giant hack to normalize for yt.swf
       player = 'Flash';
       url = "http://www.youtube.com/watch?v=" + RegExp.$1;
       ratio = 3/4;
-    } else if (item.props.link.match(/nicovideo\.jp/)) {
+    } else if (item.props.link && item.props.link.match(/nicovideo\.jp/)) {
       // XXX
       player = 'Web';
       ratio = 3/4;
@@ -208,7 +208,7 @@ Remedie.prototype = {
     if (!player)
       player = this.defaultPlayerFor(item.props.type);
 
-    if (item.props.link.match(/nicovideo\.jp/)) {
+    if (item.props.link && item.props.link.match(/nicovideo\.jp/)) {
       $.ajax({
         url: "/rpc/player/nicovideo",
         type: 'post',
