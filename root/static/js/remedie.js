@@ -581,6 +581,7 @@ Remedie.prototype = {
       type: 'post',
       dataType: 'json',
       success: function(r) {
+        $.unblockUI();
         if (r.success) {
           remedie.channels[r.channel.id] = r.channel;
           $.event.trigger('remedieChannelUpdated', r.channel);

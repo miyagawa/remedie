@@ -112,7 +112,7 @@ sub work_channel {
                 url => $media->{thumbnail}{url},
             } if $media->{thumbnail}{url};
 
-            if ($media->{player} && $media->{player}{url}) {
+            if (!$item->type && $media->{player} && $media->{player}{url}) {
                 $item->type( Remedie::DB::Item->TYPE_WEB_MEDIA );
                 my %embed = map { $_ => $media->{player}{$_} } $media->{player}->attributes;
                 $item->props->{embed} = \%embed;
