@@ -16,7 +16,7 @@ $INC{'Remedie/Log/Filter/MultiLevels.pm'} = 1;
 sub unimport {
     my $package = caller(0);
     foreach my $name qw(TRACE DEBUG ERROR INFO WARN FATAL) {
-        no strict 'refs';
+        no strict 'refs'; ## no critic
 
         if ( defined &{ $package . '::' . $name } ) {
             my $sub = \&{ $package . '::' . $name };

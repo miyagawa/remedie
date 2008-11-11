@@ -18,7 +18,7 @@ sub path_to {
 
     ## TODO change this to something like Library/Application\ Support/Remedie
     my $base = $self->base;
-    $base->mkpath(0777) unless -e $base;
+    $base->mkpath(oct 777) unless -e $base;
 
     if (@path > 1) {
         my $file = pop @path;

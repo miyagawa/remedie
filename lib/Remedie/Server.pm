@@ -108,7 +108,7 @@ sub dispatch_rpc {
     die "Access to non-public methods" if $method =~ /^_/;
 
     my $rpc_class = join "::", "Remedie::Server::RPC", map String::CamelCase::camelize($_), @class;
-    eval "require $rpc_class; 1" or die $@;
+    eval "require $rpc_class; 1" or die $@; ## no critic
 
     my $rpc = $rpc_class->new( conf => $self->conf );
 
