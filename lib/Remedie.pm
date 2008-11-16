@@ -33,12 +33,19 @@ own license:
 
 =item *
 
-JW FLV MEDIA PLAYER 4.2 licensed under Creative Commons by-nc-sa
-L<http://www.jeroenwijering.com/?item=JW_FLV_Player>
+jQuery L<http://www.jquery.com/> (MIT and GPL)
+
+jQuery plugins (Refer to each individual file for their licenses)
 
 =item *
 
-Royalty free icons from Fast Icon L<http://www.fasticon.com/>
+JW FLV MEDIA PLAYER 4.2 <http://www.jeroenwijering.com/?item=JW_FLV_Player> (Creative Commons by-nc-sa)
+
+=item *
+
+Fast Icon L<http://www.fasticon.com/> (Royalty free icons)
+
+Ben Fleming L<http://www.yellowicon.com/> (CC by-nc)
 
 =back
 

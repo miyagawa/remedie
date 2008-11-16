@@ -223,6 +223,7 @@ Remedie.prototype = {
         var s1 = new SWFObject(item.props.embed.url, 'player-' + item.id, width, height, '9');
         s1.addParam('allowfullscreen','true');
         s1.addParam('allowscriptaccess','always');
+        s1.addParam('flashvars', 'bitrate=700000'); // Hulu
         s1.write('embed-player');
       }
     } else if (player == 'QuickTime') {
@@ -428,7 +429,7 @@ Remedie.prototype = {
         var channel = r.channel;
         $.event.trigger("remedieChannelDisplayed", channel);
 
-        var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/images/feed_128x128.png";
+        var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/images/feed_256x256.png";
         $("#channel-pane").createAppend(
          'div', { className: 'channel-header', id: 'channel-header-' + channel.id  }, [
            'div', { className: 'channel-header-thumbnail' }, [
