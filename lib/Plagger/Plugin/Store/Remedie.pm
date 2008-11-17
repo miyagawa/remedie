@@ -26,8 +26,10 @@ sub store {
 
     my %found;
     for my $entry (reverse $feed->entries) {
+        my $permalink = $entry->permalink || $entry->link or next;
+
         my $enclosure = $entry->enclosure;
-        my $ident = $enclosure ? $enclosure->url : $entry->link;
+        my $ident = $enclosure ? $enclosure->url : $permalink;
 
         my $item = Remedie::DB::Item::Manager->lookup(
             channel_id => $channel->id,
@@ -42,7 +44,7 @@ sub store {
         }
 
         $item->name($entry->title);
-        $item->props->{link} = $entry->permalink || $entry->link;
+        $item->props->{link} = $permalink;
         $item->props->{description} = $entry->summary && !$entry->summary->is_empty
            ? $entry->summary : $entry->body;
         $item->props->{updated} = $entry->date->set_time_zone('UTC')->iso8601
