@@ -12,13 +12,7 @@ sub register {
         module => 'CustomFeed::FindLinks',
         config => {
             follow_xpath => "//a[" . join(" or ", map "contains(\@href, '.$_')", @want_ext) . "]",
-        },
-    });
-
-    $context->load_plugin({
-        module => 'CustomFeed::FindLinks',
-        config => {
-            follow_xpath => "//a[" . join(" or ", map "contains(\@type, '$_')", @want_mime) . "]",
+            follow_link  => "//a[" . join(" or ", map "contains(\@type, '$_')", @want_mime) . "]",
         },
     });
 
