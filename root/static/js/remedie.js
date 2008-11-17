@@ -279,7 +279,7 @@ Remedie.prototype = {
           flashvars.push('image=' + thumbnail);
         if (item.props.link)
           flashvars.push('link=' + item.props.link);
-alert(width+":"+height);
+      
         var s1 = new SWFObject('/static/player.swf', 'player-' + id, width, height, '9');
         s1.addParam('allowfullscreen','true');
         s1.addParam('allowscriptaccess','always');
