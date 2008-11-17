@@ -11,6 +11,8 @@ sub register {
 sub store {
     my($self, $context, $args) = @_;
 
+    # TODO handle multiple channels. Check channel matches with feed etc.
+
     my $channel = $self->conf->{channel};
     my $feed    = $args->{feed};
 

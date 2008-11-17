@@ -16,7 +16,7 @@ sub register {
 
 sub initialize {
     my $self = shift;
-    $self->conf->{min_size} ||= 32;
+    $self->conf->{min_size} ||= 512;
 }
 
 sub update {
