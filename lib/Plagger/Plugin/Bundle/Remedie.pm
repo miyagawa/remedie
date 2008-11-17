@@ -16,7 +16,7 @@ sub register {
         },
     });
 
-    $context->autoload_plugin({ module => 'Filter::TruePermalink' });
+#    $context->autoload_plugin({ module => 'Filter::TruePermalink' });
     $context->autoload_plugin({ module => 'Filter::FindEnclosures' });
     $context->autoload_plugin({ module => 'Filter::ExtractThumbnail' });
     $context->autoload_plugin({ module => 'Filter::HTMLScrubber',
