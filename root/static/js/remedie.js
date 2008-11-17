@@ -275,11 +275,11 @@ Remedie.prototype = {
     } else if (player == 'Flash') {
         var flashvars = [];
         flashvars.push('autostart=true');
-        flashvars.push('file=' + url);
+        flashvars.push('file=' + encodeURIComponent(url));
         if (thumbnail)
-          flashvars.push('image=' + thumbnail);
+          flashvars.push('image=' + encodeURIComponent(thumbnail));
         if (item.props.link)
-          flashvars.push('link=' + item.props.link);
+          flashvars.push('link=' + encodeURIComponent(item.props.link));
       
         var s1 = new SWFObject('/static/player.swf', 'player-' + id, width, height, '9');
         s1.addParam('allowfullscreen','true');
