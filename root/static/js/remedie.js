@@ -261,6 +261,7 @@ Remedie.prototype = {
           file: url,
           width: width,
           height: height,
+          link: item.props.link
 //          autostart: true
         });
         this.autoPlaySilverlight(ply);
@@ -310,11 +311,16 @@ Remedie.prototype = {
   },
 
   defaultPlayerFor: function(type) {
-    // WMV + Mac -> QuickTime (Flip4Mac)
+    // ASF + Mac -> QuickTime (Flip4Mac)
+    // WMV + Mac -> Silverlight
     // WMV + Win -> Windows Media Player
-    if (/wmv/i.test(type)) {
+    if (type.match(/wmv|asf/)) {
       if (/mac/i.test(navigator.userAgent)) {
-        player = 'QuickTime';
+        if (type.match(/wmv/i)) {
+          player = 'Silverlight';
+        } else {
+          player = 'QuickTime';
+        }
       } else {
         player = 'WMP';
       }

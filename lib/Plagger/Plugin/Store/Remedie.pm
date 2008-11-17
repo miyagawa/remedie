@@ -42,7 +42,7 @@ sub store {
         }
 
         $item->name($entry->title);
-        $item->props->{link} = $entry->link;
+        $item->props->{link} = $entry->permalink || $entry->link;
         $item->props->{description} = $entry->summary && !$entry->summary->is_empty
            ? $entry->summary : $entry->body;
         $item->props->{updated} = $entry->date->set_time_zone('UTC')->iso8601

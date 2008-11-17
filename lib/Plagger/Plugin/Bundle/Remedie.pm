@@ -22,6 +22,7 @@ sub register {
         },
     });
 
+    $context->autoload_plugin({ module => 'Filter::TruePermalink' });
     $context->autoload_plugin({ module => 'Filter::FindEnclosures' });
     $context->autoload_plugin({ module => 'Filter::ExtractThumbnail' });
     $context->autoload_plugin({ module => 'Filter::HTMLScrubber',
@@ -31,7 +32,6 @@ sub register {
     $context->autoload_plugin({ module => 'Namespace::iTunesDTD' });
     $context->autoload_plugin({ module => 'Filter::GuessImageSize' });
     $context->autoload_plugin({ module => 'Filter::ImageInfo' });
-    $context->autoload_plugin({ module => 'Filter::TruePermalink' });
 }
 
 1;
