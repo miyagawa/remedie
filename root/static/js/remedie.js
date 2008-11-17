@@ -228,6 +228,14 @@ Remedie.prototype = {
     if (offset.width)  width  += offset.width;
     if (offset.height) height += offset.height;
 
+    var thumbnail;
+    if (item.props.type.match(/audio/)) {
+      var thumb = item.props.thumbnail || this.channels[item.channel_id].props.thumbnail;
+      width  = thumb.width  || 256;
+      height = thumb.height || 256;
+      thumbnail = thumb.url;
+    }
+
     if (player == 'Web') {
       if (item.props.embed.code) {
          $('head').append("<script>" + item.props.embed.code + "</script>");
@@ -263,11 +271,19 @@ Remedie.prototype = {
           return false;
         });
         this.runOnUnblock(function(){$(document).unbind('keydown', 'space', function(){})});
-    } else {
+    } else if (player == 'Flash') {
+        var flashvars = [];
+        flashvars.push('autostart=true');
+        flashvars.push('file=' + url);
+        if (thumbnail)
+          flashvars.push('image=' + thumbnail);
+        if (item.props.link)
+          flashvars.push('link=' + item.props.link);
+alert(width+":"+height);
         var s1 = new SWFObject('/static/player.swf', 'player-' + id, width, height, '9');
         s1.addParam('allowfullscreen','true');
         s1.addParam('allowscriptaccess','always');
-        s1.addParam('flashvars','autostart=true&file=' + url);
+        s1.addParam('flashvars', flashvars.join('&'));
         s1.write('embed-player');
 
         // space key to play and pause the video
