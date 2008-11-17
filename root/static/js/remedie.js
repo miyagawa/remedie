@@ -490,14 +490,13 @@ Remedie.prototype = {
 
         r.items.forEach(function(item) {
           remedie.items[item.id] = item;
-          var item_thumb = item.props.thumbnail ? item.props.thumbnail.url : null;
           $("#channel-items").createAppend(
            'div', { className: 'channel-item channel-item-selectable', id: 'channel-item-' + item.id  }, [
              'div', { className: 'item-thumbnail' }, [
                'a', { className: 'channel-item-clickable', href: item.ident, id: "item-thumbnail-" + item.id }, [
                  // TODO load placeholder default image and replace later with new Image + onload
-                 'img', { src: item_thumb || thumbnail, alt: item.name, style: 'width: 128px',
-                          onload: "remedie.resizeThumb(this)" }, null
+                 'img', { id: 'item-thumbnail-image-' + item.id,
+                          src: thumbnail, alt: item.name, style: 'width: 128px' }, null
                ]
              ],
              'div', { className: 'item-infobox', style: "width: " + ($(window).width()-220) + "px" }, [
@@ -515,6 +514,15 @@ Remedie.prototype = {
              'div', { className: "clear" }, null
            ]
          );
+
+         if (item.props.thumbnail) {
+           var img = new Image();
+           img.onload = function(){
+             var height = 128 * this.height / this.width;
+             $("#item-thumbnail-image-" + item.id).attr("src", this.src).css({ height: height });
+           };
+           img.src = item.props.thumbnail.url;
+         }
        });
 
        $(".channel-header")
@@ -733,15 +741,6 @@ Remedie.prototype = {
         $(this).hide();
       }
      });
-  },
-
-  resizeThumb: function(el) {
-    el.style.width = 128;
-    if (el.height > el.width) {
-      el.style.height = 128;
-    } else {
-      el.style.height = 128 * el.height / el.width;
-    }
   },
 
   showAboutDialog: function() {
