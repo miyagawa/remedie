@@ -1,4 +1,3 @@
-# XXX This doesn't work
 # author: Tatsuhiko Miyagawa
 
 sub handle {
@@ -11,14 +10,14 @@ sub needs_content { 1 }
 sub find {
     my ($self, $args) = @_;
 
-    $args->{content} =~ m!(/news/video/FNN_viewer)\?(.*?jpg_name=(.*?\.jpg))!
+    $args->{content} =~ m!/news/video/flv/(.*?_hd)\.txt&jpg_name=(.*?\.jpg)!
         or return;
 
-    my($swf, $query, $thumb) = ($1, $2, $3);
+    my($id, $thumb) = ($1, $2);
 
     my $enclosure = Plagger::Enclosure->new;
-    $enclosure->url("http://www.fnn-news.com${swf}.swf?${query}");
-    $enclosure->type("application/x-shockwave-flash");
+    $enclosure->url("http://www.fnn-news.com/news/video/wmv/${id}_300.asx");
+    $enclosure->type("video/wmv");
     $enclosure->thumbnail({ url => "http://www.fnn-news.com${thumb}" });
     return $enclosure;
 }
