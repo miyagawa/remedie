@@ -148,20 +148,32 @@ Remedie.prototype = {
     this.unblockCallbacks = [];
   },
 
-  launchVideoPlayer: function(item, player, fullscreen) {
+  launchVideoPlayer: function(item, player, fullscreen, iframe) {
     var channel = this.channels[ item.channel_id ];
-    $.ajax({
-      url: "/rpc/player/play",
-      data: { url: item.ident, player: player, fullscreen: fullscreen },
-      type: 'post',
-      dataType: 'json',
-      success: function(r) {
-        if (r.success) {
-        } else {
-          alert(r.error);
-        }
-      },
-    });
+    if (iframe) {
+      var form = $("<form></form>").attr("target", "upload-frame")
+        .attr("method", "post").ajaxSubmit({
+        url: "/rpc/player/play_inline",
+        data: { url: item.ident, player: player, fullscreen: fullscreen },
+        type: 'post',
+        dataType: 'html',
+        iframe: true
+      });
+    } else {
+      $.ajax({
+        url: "/rpc/player/play",
+        data: { url: item.ident, player: player, fullscreen: fullscreen },
+        type: 'post',
+        dataType: 'json',
+        success: function(r) {
+          if (r.success) {
+          } else {
+            alert(r.error);
+          }
+        },
+      });
+    }
+
     this.markItemAsWatched(channel.id, item.id); // TODO setTimeout?
   },
 
@@ -509,7 +521,7 @@ Remedie.prototype = {
                 item_context_watched:   function(){remedie.markItemAsWatched(item.channel_id, item.id)},
                 item_context_unwatched: function(){remedie.markItemAsUnwatched(item.channel_id, item.id)},
                 item_context_play_vlc:  function(){remedie.launchVideoPlayer(item, 'VLC', fullscreen)},
-                item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QuickTime', fullscreen)},
+                item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QTL', fullscreen, 1)},
                 item_context_play_qt_embed: function(){remedie.playVideoInline(item, 'QuickTime')},
                 item_context_play_wmp:  function(){remedie.playVideoInline(item, 'WMP')},
                 item_context_play_sl:   function(){remedie.playVideoInline(item, 'Silverlight')}

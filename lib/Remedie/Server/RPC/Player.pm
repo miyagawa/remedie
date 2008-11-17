@@ -6,15 +6,21 @@ BEGIN { extends 'Remedie::Server::RPC' }
 __PACKAGE__->meta->make_immutable;
 
 no Moose;
+use Path::Class;
 
 eval { require Mac::AppleScript };
 use File::Temp;
 use LWP::UserAgent;
+use URI::filename;
 
 my %map = (
     VLC => '_vlc',
     QuickTime => '_quicktime',
     iTunes => '_itunes',
+);
+
+my %map_inline = (
+    QTL => '_qtl',
 );
 
 # XXX This needs to be pluggable
@@ -51,6 +57,19 @@ sub play : POST {
     $self->$p($req, $res);
 }
 
+# Do not set :Post because of iframe :/
+sub play_inline {
+    my($self, $req, $res) = @_;
+
+    my $player = $req->param('player')
+        or die "No player defined";
+
+    my $p = $map_inline{$player}
+        or die "Unkown player $player";
+
+    $self->$p($req, $res);
+}
+
 sub _vlc {
     my($self, $req, $res) = @_;
     my $url = $req->param('url');
@@ -81,6 +100,26 @@ SCRIPT
     if ($req->param('fullscreen')) {
         _run_apple_script('QuickTime Player', 'present front movie scale screen');
     }
+
+    return { success => 1 };
+}
+
+sub _qtl {
+    my($self, $req, $res) = @_;
+
+    my $url = $req->param('url');
+    my $fullscreen = $req->param('fullscreen');
+
+    my $name = URI->new($url)->filename || "play";
+    $res->header('Content-Disposition', "inline; filename=$name.qtl");
+    $res->content_type("application/x-quicktimeplayer");
+    $res->body(<<QTL);
+<?xml version="1.0"?>
+<?quicktime type="application/x-quicktime-media-link"?>
+<embed src="$url" autoplay="false" @{[ $fullscreen ? 'fullscreen="full"' : '' ]} quitwhendone="true" />
+QTL
+
+    return { success => 1 };
 }
 
 sub _run_apple_script {
