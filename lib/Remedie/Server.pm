@@ -2,13 +2,13 @@ package Remedie::Server;
 use Moose;
 
 use attributes ();
-use JSON::XS;
 use HTTP::Engine;
 use MIME::Types;
 use Path::Class;
 use String::CamelCase;
 
 use Remedie::Log;
+use Remedie::JSON;
 
 has 'conf' => is => 'rw';
 
@@ -36,7 +36,7 @@ sub bootstrap {
         local $SIG{TERM} = $exit;
         $self->run;
     };
-    ERROR "Exiting feed... $@";
+    Remedie::Log->log(error => "Exiting feed... $@");
 }
 
 sub BUILD {
@@ -58,7 +58,7 @@ sub BUILD {
 sub build_engine {
     my $self = shift;
 
-    DEBUG "Initializing with HTTP::Engine version $HTTP::Engine::VERSION";
+    Remedie::Log->log(debug => "Initializing with HTTP::Engine version $HTTP::Engine::VERSION");
     return HTTP::Engine->new(
         interface => {
             module => 'ServerSimple',
@@ -92,9 +92,9 @@ sub handle_request {
     } elsif ($@) {
         $res->status(500);
         $res->body("Internal Server Error");
-        ERROR $@;
+        Remedie::Log->log(error => $@);
     }
-    LOG_REQUEST($req, $res);
+    Remedie::Log->log_request($req, $res);
 
     return $res;
 }
@@ -130,13 +130,10 @@ sub dispatch_rpc {
     }
 
     unless ( $res->body ) {
-        local *URI::TO_JSON      = sub { $_[0]->as_string };
-        local *DateTime::TO_JSON = sub { $_[0]->set_time_zone('UTC')->iso8601 . 'Z' };
-
         $res->status(200);
         $res->content_type("application/json; charset=utf-8");
-        $res->body( JSON::XS->new->allow_blessed->convert_blessed->utf8->encode($result) );
-        DEBUG $res->body;
+        $res->body( Remedie::JSON->encode($result) );
+        Remedie::Log->log(debug => $res->body);
     }
 }
 

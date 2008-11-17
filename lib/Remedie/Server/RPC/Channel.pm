@@ -1,7 +1,7 @@
 package Remedie::Server::RPC::Channel;
 use Moose;
 use Remedie::DB::Channel;
-use Remedie::Worker;
+use Remedie::Updater;
 use Feed::Find;
 
 BEGIN { extends 'Remedie::Server::RPC' };
@@ -25,14 +25,16 @@ sub create : POST {
     $uri = normalize_uri($uri);
     warn $uri;
     my @feeds = Feed::Find->find($uri);
-    unless ($feeds[0]) {
-        die "Can't find any feed in $uri";
-    }
+
+    my $type = $feeds[0] ? Remedie::DB::Channel->TYPE_FEED : Remedie::DB::Channel->TYPE_CUSTOM;
+    my $channel_uri = $feeds[0] || $uri;
+
+    # TODO maybe prompt or ask plugin if $type is CUSTOM
 
     my $channel = Remedie::DB::Channel->new;
-    $channel->ident($feeds[0]);
-    $channel->type( Remedie::DB::Channel->TYPE_FEED );
-    $channel->name($feeds[0]);
+    $channel->ident($channel_uri);
+    $channel->type($type);
+    $channel->name($channel_uri);
     $channel->parent(0);
     $channel->save;
 
@@ -43,7 +45,8 @@ sub refresh : POST {
     my($self, $req, $res) = @_;
 
     my $channel = Remedie::DB::Channel->new( id => $req->param('id') )->load;
-    Remedie::Worker->work_channel($channel) or die "Refreshing failed";
+    Remedie::Updater->new( conf => $self->conf )->update_channel($channel)
+        or die "Refreshing failed";
 
     $channel->load; # reload
 

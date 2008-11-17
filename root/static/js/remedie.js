@@ -172,7 +172,7 @@ Remedie.prototype = {
 
     var ratio;
     var offset = {};
-    if (item.props.link && item.props.link.match(/nicovideo\.jp/)) {
+    if (item.props.link && url.match(/nicovideo\.jp/)) {
       // XXX
       player = 'Web';
       ratio = 3/4;
@@ -200,11 +200,11 @@ Remedie.prototype = {
     if (!player)
       player = this.defaultPlayerFor(item.props.type);
 
-    if (item.props.link && item.props.link.match(/nicovideo\.jp/)) {
+    if (url.match(/nicovideo\.jp/)) {
       $.ajax({
         url: "/rpc/player/nicovideo",
         type: 'post',
-        data: { url: item.props.link, width: width, height: height },
+        data: { url: url, width: width, height: height },
         async: false,
         dataType: 'json',
         success: function(r) {
@@ -641,7 +641,14 @@ Remedie.prototype = {
   },
 
   renderChannelList: function(channel, container) {
-    var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/images/feed_256x256.png";
+    var thumbnail;
+    if (channel.props.thumbnail)
+      thumbnail = channel.props.thumbnail.url;
+    else if (channel.first_item && channel.first_item.props.thumbnail)
+      thumbnail = channel.first_item.props.thumbnail.url;
+    else 
+      thumbnail = "/static/images/feed_256x256.png";
+
     container.createAppend(
       'div', { className: 'channel channel-clickable', id: 'channel-' + channel.id  }, [
         'a', { href: '#channel/' + channel.id }, [

@@ -22,10 +22,6 @@ sub nicovideo : POST {
     my($self, $req, $res) = @_;
 
     my $uri = URI->new( $req->param('url') );
-    $uri->host("ext.nicovideo.jp");
-    my $path = $uri->path;
-    $path =~ s!^/watch/!/thumb_watch/!;
-    $uri->path($path);
     $uri->query_form(w => $req->param('width'), h => $req->param('height'));
 
     my $request = HTTP::Request->new( GET => $uri );
