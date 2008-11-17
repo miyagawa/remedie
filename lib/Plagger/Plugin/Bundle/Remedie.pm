@@ -6,7 +6,7 @@ sub register {
     my($self, $context) = @_;
 
     my @want_mime = qw( audio video bittorrent );
-    my @want_ext  = qw( avi mp4 divx mp3 m4a m4v mkv flv torrent );
+    my @want_ext  = qw( avi mp4 divx mp3 m4a m4v mkv flv wmv asx torrent );
 
     $context->load_plugin({
         module => 'CustomFeed::FindLinks',
