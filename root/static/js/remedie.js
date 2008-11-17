@@ -225,16 +225,16 @@ Remedie.prototype = {
       });
     }
 
-    if (offset.width)  width  += offset.width;
-    if (offset.height) height += offset.height;
-
     var thumbnail;
     if (item.props.type.match(/audio/)) {
       var thumb = item.props.thumbnail || this.channels[item.channel_id].props.thumbnail;
-      width  = thumb.width  || 256;
-      height = thumb.height || 256;
+      width  = parseInt(thumb.width  || 256);
+      height = parseInt(thumb.height || 256);
       thumbnail = thumb.url;
     }
+
+    if (offset.width)  width  += offset.width;
+    if (offset.height) height += offset.height;
 
     if (player == 'Web') {
       if (item.props.embed.code) {
