@@ -494,7 +494,6 @@ Remedie.prototype = {
            'div', { className: 'channel-item channel-item-selectable', id: 'channel-item-' + item.id  }, [
              'div', { className: 'item-thumbnail' }, [
                'a', { className: 'channel-item-clickable', href: item.ident, id: "item-thumbnail-" + item.id }, [
-                 // TODO load placeholder default image and replace later with new Image + onload
                  'img', { id: 'item-thumbnail-image-' + item.id,
                           src: thumbnail, alt: item.name, style: 'width: 128px' }, null
                ]
@@ -519,7 +518,9 @@ Remedie.prototype = {
            var img = new Image();
            img.onload = function(){
              var height = 128 * this.height / this.width;
-             $("#item-thumbnail-image-" + item.id).attr("src", this.src).css({ height: height });
+             var margin = (128 * 3/4 - height) / 2;
+             if (margin < 0) margin = 0;
+             $("#item-thumbnail-image-" + item.id).attr("src", this.src).css({ "margin-top": margin, "margin-bottom": margin });
            };
            img.src = item.props.thumbnail.url;
          }
@@ -685,17 +686,23 @@ Remedie.prototype = {
 
   renderChannelList: function(channel, container) {
     var thumbnail;
-    if (channel.props.thumbnail)
+    var default_thumbnail;
+    if (channel.props.thumbnail) {
       thumbnail = channel.props.thumbnail.url;
-    else if (channel.first_item && channel.first_item.props.thumbnail)
+    } else if (channel.first_item && channel.first_item.props.thumbnail) {
       thumbnail = channel.first_item.props.thumbnail.url;
-    else 
+    } else {
       thumbnail = "/static/images/feed_256x256.png";
+      default_thumbnail = 1;
+    }
 
     container.createAppend(
       'div', { className: 'channel channel-clickable', id: 'channel-' + channel.id  }, [
         'a', { href: '#channel/' + channel.id }, [
-          'img', { src: thumbnail, alt: channel.name, className: 'channel-thumbnail' }, null,
+          'div', { className: 'channel-thumbnail-wrapper' }, [
+            'img', { id: "channel-thumbnail-image-" + channel.id,
+                     src: "/static/images/feed_256x256.png", alt: channel.name, className: 'channel-thumbnail' }, null
+          ],
           'div', { className: 'channel-unwatched-hover unwatched-count-' + channel.id },
                 (channel.unwatched_count || 0) + '',
           'div', { className: 'channel-refresh-hover' }, [
@@ -716,6 +723,17 @@ Remedie.prototype = {
           channel_context_remove:       function(){ remedie.removeChannel(channel) }
         }
       });
+
+    if (!default_thumbnail) {
+       var img = new Image();
+       img.onload = function(){
+         var height = 192 * this.height / this.width;
+         var margin = (192  - height) / 2;
+         if (margin < 0) margin = 0;
+         $("#channel-thumbnail-image-" + channel.id).attr("src", this.src).css({ "margin-top": margin, "margin-bottom": margin });
+       };
+       img.src = thumbnail;
+     }
   },
 
   redrawChannel: function(channel) {

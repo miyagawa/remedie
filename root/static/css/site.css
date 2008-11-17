@@ -44,10 +44,16 @@ a {color:#ddd;text-decoration:none}
   position: relative;
 }
 
-img.channel-thumbnail {
+.channel-thumbnail-wrapper {
   width: 192px;
   height: 192px;
   border: 1px solid black; /* for hover */
+}
+
+img.channel-thumbnail {
+  width: 192px;
+/*  height: 192px; */
+  vertical-align: middle;
 }
 
 .channel-unwatched-hover {
@@ -195,7 +201,7 @@ div.item-separator {
   color: #fa0
 }
 
-.hover-channel img.channel-thumbnail {
+.hover-channel .channel-thumbnail-wrapper {
   border: 1px #fff solid;
 }
 
