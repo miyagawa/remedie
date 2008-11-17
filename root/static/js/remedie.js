@@ -566,7 +566,7 @@ Remedie.prototype = {
                   el.createAppend('li', { id: 'item_context_play_qt_embed' }, 'Play inline with QuickTime');
                 }
 
-                if (/wmv/i.test(item.props.type)) {
+                if (/wmv|asf/i.test(item.props.type)) {
                   if (!/mac/i.test(navigator.userAgent))
                     el.createAppend('li', { id: 'item_context_play_wmp' }, 'Play inline with WMP');
                   el.createAppend('li', { id: 'item_context_play_sl' }, 'Play inline with Silverlight');
@@ -610,7 +610,7 @@ Remedie.prototype = {
     $("#channel-" + channel.id + " .channel-refresh-hover").show();
     $.ajax({
       url: "/rpc/channel/refresh",
-      data: { id: channel.id, clear_stale: clearStaleItems },
+      data: { id: channel.id, clear_stale: clearStaleItems ? 1 : 0 },
       type: 'post',
       dataType: 'json',
       success: function(r) {
