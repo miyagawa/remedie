@@ -226,7 +226,7 @@ Remedie.prototype = {
     }
 
     var thumbnail;
-    if (item.props.type.match(/audio/)) {
+    if (item.props.type && item.props.type.match(/audio/)) {
       var thumb = item.props.thumbnail || this.channels[item.channel_id].props.thumbnail;
       width  = parseInt(thumb.width  || 256);
       height = parseInt(thumb.height || 256);
