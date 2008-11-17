@@ -15,7 +15,7 @@ no Moose;
 use Path::Class;
 
 sub update_channel {
-    my($self, $channel) = @_;
+    my($self, $channel, $opt) = @_;
 
     my $uri = $channel->ident;
 
@@ -31,7 +31,7 @@ sub update_channel {
             { module => "Subscription::Config",
               config => { feed => [ $uri ] } },
             { module => "Store::Remedie",
-              config => { channel => $channel } },
+              config => { channel => $channel, clear_stale => $opt->{clear_stale} } },
         ],
     };
 

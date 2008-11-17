@@ -499,6 +499,7 @@ Remedie.prototype = {
         .contextMenu("channel-context-menu", {
           bindings: {
             channel_context_refresh:      function(){ remedie.manuallyRefreshChannel(channel) },
+            channel_context_clear_stale:  function(){ remedie.manuallyRefreshChannel(channel, true) },
             channel_context_mark_watched: function(){ remedie.markAllAsWatched(channel, true) },
             channel_context_remove:       function(){ remedie.removeChannel(channel) }
           }
@@ -574,12 +575,12 @@ Remedie.prototype = {
     });
   },
 
-  manuallyRefreshChannel: function(channel) {
+  manuallyRefreshChannel: function(channel, clearStaleItems) {
     $.blockUI();
-    this.refreshChannel(channel, true);
+    this.refreshChannel(channel, true, clearStaleItems);
   },
 
-  refreshChannel : function(channel, refreshView) {
+  refreshChannel : function(channel, refreshView, clearStaleItems) {
     if (!channel)
       return; // TODO error message?
 
@@ -587,7 +588,7 @@ Remedie.prototype = {
     $("#channel-" + channel.id + " .channel-refresh-hover").show();
     $.ajax({
       url: "/rpc/channel/refresh",
-      data: { id: channel.id },
+      data: { id: channel.id, clear_stale: clearStaleItems },
       type: 'post',
       dataType: 'json',
       success: function(r) {

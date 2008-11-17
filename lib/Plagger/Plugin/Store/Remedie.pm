@@ -22,6 +22,7 @@ sub store {
         $channel->props->{thumbnail} = $image
     }
 
+    my %found;
     for my $entry (reverse $feed->entries) {
         my $enclosure = $entry->enclosure;
         my $ident = $enclosure ? $enclosure->url : $entry->link;
@@ -68,6 +69,17 @@ sub store {
         if ($item->type) {
             eval { $item->save };
             warn $@ if $@;
+        }
+
+        $found{$ident}++;
+    }
+
+    if ($self->conf->{clear_stale}) {
+        for my $item (@{ $channel->items }) {
+            unless ($found{$item->ident}) {
+                $context->log(info => "Removing stale entry " . $item->ident);
+                $item->delete;
+            }
         }
     }
 

@@ -23,7 +23,6 @@ sub create : POST {
 
     # TODO make this pluggable
     $uri = normalize_uri($uri);
-    warn $uri;
     my @feeds = Feed::Find->find($uri);
 
     my $type = $feeds[0] ? Remedie::DB::Channel->TYPE_FEED : Remedie::DB::Channel->TYPE_CUSTOM;
@@ -45,7 +44,9 @@ sub refresh : POST {
     my($self, $req, $res) = @_;
 
     my $channel = Remedie::DB::Channel->new( id => $req->param('id') )->load;
-    Remedie::Updater->new( conf => $self->conf )->update_channel($channel)
+    my $updater = Remedie::Updater->new( conf => $self->conf );
+
+    $updater->update_channel($channel, { clear_stale => scalar $req->param('clear_stale') })
         or die "Refreshing failed";
 
     $channel->load; # reload
