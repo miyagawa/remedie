@@ -4,7 +4,11 @@ use strict;
 use Feed::Find;
 use XML::Atom;
 use XML::Feed;
-use XML::Feed::RSS;
+BEGIN {
+    eval { require XML::Feed::RSS };
+    eval { require XML::Feed::Format::RSS };
+}
+
 $XML::Feed::Format::RSS::PREFERRED_PARSER = $XML::Feed::RSS::PREFERRED_PARSER = "XML::RSS::LibXML";
 $XML::Atom::ForceUnicode = 1;
 
