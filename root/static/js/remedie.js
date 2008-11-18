@@ -189,10 +189,6 @@ Remedie.prototype = {
       player = 'Web';
       ratio = 3/4;
       offset.height = 24;
-    } else if (item.props.type && item.props.type.match(/shockwave-flash/)) {
-      player = 'Web';
-      item.props.embed = { url: item.ident };
-      ratio = 3/4;
     } else if (item.props.embed) {
       player = 'Web';
       if (item.props.embed.width && item.props.embed.height) {

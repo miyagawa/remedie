@@ -102,9 +102,14 @@ sub add_enclosure_from_object {
 
     # get param tags and find appropriate FLV movies
     my @params;
-    while (my $tag = $parser->get_tag('param', '/object')) {
+    while (my $tag = $parser->get_tag('param', 'embed', '/object')) {
         last if $tag->[0] eq '/object';
-        push @params, $tag;
+
+        if ($tag->[0] eq 'param') {
+            push @params, $tag;
+        } elsif ($tag->[0] eq 'embed') {
+            $self->add_enclosure($entry, $tag, 'src', { type => $tag->[1]->{type} });
+        }
     }
 
     # find URL inside flashvars parameter
@@ -140,6 +145,8 @@ sub add_enclosure {
         $enclosure->url($tag->[1]{$attr});
         $enclosure->auto_set_type($opt->{type});
         $enclosure->is_inline(1) if $opt->{inline};
+        $enclosure->width($tag->[1]{width})   if $tag->[1]{width};
+        $enclosure->height($tag->[1]{height}) if $tag->[1]{height};
         $entry->add_enclosure($enclosure);
         return;
     }

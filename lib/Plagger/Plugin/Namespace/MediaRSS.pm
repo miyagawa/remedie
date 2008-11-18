@@ -39,7 +39,7 @@ sub handle {
             if ($player->{url}) {
                 my $enclosure = Plagger::Enclosure->new;
                 $enclosure->url($player->{url});
-                $enclosure->type("text/html");
+                $enclosure->type("application/x-shockwave-flash"); # hopefully
                 for my $attr (qw( width height )) {
                     $enclosure->$attr($player->{$attr}) if $player->{$attr};
                 }

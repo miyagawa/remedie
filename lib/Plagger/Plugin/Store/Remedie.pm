@@ -51,11 +51,11 @@ sub store {
             if $entry->date;
 
         if ($enclosure && $enclosure->url) {
-            if ($enclosure->type =~ m!text/html!) {
+            if ($enclosure->type =~ m!shockwave-flash|x?html!) {
                 $item->type( Remedie::DB::Item->TYPE_WEB_MEDIA );
                 $item->props->{embed} = {
-                    url => $enclosure->url,
-                    width => $enclosure->width,
+                    url    => $enclosure->url,
+                    width  => $enclosure->width,
                     height => $enclosure->height,
                 };
 #            } elsif ($enclosure->type =~ m!torrent!) {
