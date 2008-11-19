@@ -21,6 +21,7 @@ requires 'Rose::DB::Object';
 requires 'String::CamelCase';
 requires 'URI';
 requires 'XML::RSS::LibXML';
+requires 'Image::Info';
 
 build_requires 'Test::More';
 use_test_base;

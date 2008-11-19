@@ -12,7 +12,7 @@ Remedie.prototype = {
   current_id: null,
 
   initialize: function() {
-    if (!jQuery.browser.safari && !jQuery.browser.mozilla) {
+    if (!jQuery.browser.safari && !jQuery.browser.mozilla && !jQuery.browser.msie) {
       alert("Your browser " + navigator.userAgent + " is not supported.");
       return;
     }
@@ -170,7 +170,7 @@ Remedie.prototype = {
           } else {
             alert(r.error);
           }
-        },
+        }
       });
     }
 
@@ -217,7 +217,7 @@ Remedie.prototype = {
         dataType: 'json',
         success: function(r) {
           item.props.embed = { code: r.code };
-        },
+        }
       });
     }
 
@@ -377,20 +377,20 @@ Remedie.prototype = {
         } else {
           alert(r.error);
         }
-      },
+      }
     });
   },
 
   newChannelDialog: function() {
     $.blockUI({
-      message: $("#new-channel-dialog"),
+      message: $("#new-channel-dialog")
     });
     return false;
   },
 
   importDialog: function() {
     $.blockUI({
-      message: $("#import-opml-dialog"),
+      message: $("#import-opml-dialog")
     });
     return false;
   },
@@ -443,7 +443,7 @@ Remedie.prototype = {
         } else {
           alert(r.error);
         }
-      },
+      }
     });
     return false;
   },
@@ -484,7 +484,7 @@ Remedie.prototype = {
           'div', { id: 'channel-items', className: "clear" }, null
         );
 
-        r.items.forEach(function(item) {
+        $.each(r.items, function(index, item) {
           remedie.items[item.id] = item;
           $("#channel-items").createAppend(
            'div', { className: 'channel-item channel-item-selectable', id: 'channel-item-' + item.id  }, [
@@ -504,7 +504,7 @@ Remedie.prototype = {
                ],
                'h3', { id: 'channel-item-title-' + item.id,
                        className: item.is_unwatched ? 'channel-item-unwatched' : '' }, item.name,
-               'p', { className: 'item-infobox-description' }, item.props.description
+               'div', { className: 'item-infobox-description' }, item.props.description
              ],
              'div', { className: "clear" }, null
            ]
@@ -629,7 +629,7 @@ Remedie.prototype = {
           $.event.trigger('remedieChannelUpdated', channel); // Fake updated Event to cancel animation
           alert(r.error);
         }
-      },
+      }
     });
   },
 
@@ -653,7 +653,7 @@ Remedie.prototype = {
         } else {
           alert(r.error);
         }
-      },
+      }
     });
   },
 
@@ -665,7 +665,7 @@ Remedie.prototype = {
       dataType: 'json',
       success: function(r) {
         $("#collection").children().remove();
-        r.channels.forEach(function(channel) {
+        $.each(r.channels, function(index, channel) {
           remedie.channels[channel.id] = channel;
           remedie.renderChannelList(channel, $("#collection"));
           remedie.redrawUnwatchedCount(channel);
@@ -769,5 +769,5 @@ Remedie.prototype = {
       message.children("a.command-unblock").click($.unblockUI);
       $.blockUI({ message: message });
       return false;
-  },
+  }
 };
