@@ -17,7 +17,7 @@ sub find {
 
     my $enclosure = Plagger::Enclosure->new;
     $enclosure->url($url);
-    $enclosure->type("video/x-wmv");
+    $enclosure->type("video/x-ms-asf");
 
     if ($args->{content} =~ m!switchPlayer.*?src="(K[\d_]+\.jpg)" width="(\d+)" height="(\d+)"!) {
         $enclosure->thumbnail({ url => "http://www3.nhk.or.jp/news/$1", width => $2, height => $3 });
