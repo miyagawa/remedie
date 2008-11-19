@@ -76,18 +76,6 @@ sub cookie_jar {
     return $self->cache->cookie_jar;
 }
 
-sub templatize {
-    my($self, $file, $vars) = @_;
-
-    my $context = Plagger->context;
-    $vars->{context} ||= $context;
-
-    my $template = Plagger::Template->new($context, $self);
-    $template->process($file, $vars, \my $out) or $context->error($template->error);
-
-    $out;
-}
-
 sub load_assets {
     my($self, $rule, $callback) = @_;
 

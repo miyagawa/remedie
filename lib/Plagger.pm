@@ -25,7 +25,6 @@ use Plagger::Date;
 use Plagger::Entry;
 use Plagger::Feed;
 use Plagger::Subscription;
-use Plagger::Template;
 use Plagger::Update;
 use Plagger::UserAgent; # use to define $XML::Feed::RSS::PREFERRED_PARSER
 
