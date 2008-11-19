@@ -31,7 +31,7 @@ sub find {
 sub find_mms_url {
     my ($self, $asx_url, $key) = @_;
 
-    my $ua = LWP::UserAgent->new;
+    my $ua = Plagger::UserAgent->new;
     my $res = $ua->get($asx_url);
     my $content = $res->content;
     $content =~ m!<REF HREF="([^"]+${key}_mh.wmv)"!;
