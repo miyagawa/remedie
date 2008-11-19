@@ -22,6 +22,20 @@ You can type Ctrl-shift-r (Cmd-shift-r if you're on Mac) to refresh all feeds fr
 
 I hope this will eventually become standalone installable app using preferencePanes etc.
 
+== DEBUGGING
+
+Got a black screen or JavaScript alert "Can't load subscription"? Try:
+
+  > env REMEDIE_DEBUG=1 perl -Ilib ./bin/remedie-server.pl
+
+and see ~/.remedie/error.log for the errors. You can quick check the
+perl module dependencies by running
+
+  > ack -h ^use lib | sort -u | perl
+
+and we have a plan to write a full Makefile.PL and probably bundle
+required modules in extlib in the future.
+
 == TODO
 
 * Make the web server, jQuery interface and Plagger process asynchronous (non-blocking)
