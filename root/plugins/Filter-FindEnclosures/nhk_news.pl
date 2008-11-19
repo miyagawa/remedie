@@ -11,9 +11,11 @@ sub find {
     my ($self, $args) = @_;
 
     # flv uses rtmp. JW FLV player supports RTMP but needs a hack on the JS side
-    $args->{content} =~ m!wmvHigh = "(.*?)"!
+    $args->{content} =~ m!wmvHigh = "(.*/cgibin/((.*?)_(.*?)_(.*?))_(.*?)_mh.cgi)"!
         or return;
-    my $url = $1;
+    my $asx_url = $1;
+    my $key = $2;
+    my $url = $self->find_mms_url($asx_url, $key);
 
     my $enclosure = Plagger::Enclosure->new;
     $enclosure->url($url);
@@ -24,4 +26,14 @@ sub find {
     }
 
     return $enclosure;
+}
+
+sub find_mms_url {
+    my ($self, $asx_url, $key) = @_;
+
+    my $ua = LWP::UserAgent->new;
+    my $res = $ua->get($asx_url);
+    my $content = $res->content;
+    $content =~ m!<REF HREF="([^"]+${key}_mh.wmv)"!;
+    return $1;
 }
