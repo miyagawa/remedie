@@ -1,4 +1,5 @@
 use inc::Module::Install;
+
 name 'Remedie';
 all_from 'lib/Remedie.pm';
 
@@ -28,3 +29,22 @@ use_test_base;
 auto_include_deps;
 author_tests('xt');
 WriteAll;
+
+eval { require Plagger };
+unless ($@) {
+    warn <<WARN;
+
+WARNING WARNING WARNING WARNING WARNING WARNING
+
+You seem to have Plagger $Plagger::VERSION in your system. Running
+'make install' will overwrite forked Plagger modules and that will
+break your existent Plagger installation. I recommend you not doing
+that.
+
+  DO NOT RUN 'make install'
+
+You have been warned.
+
+WARNING WARNING WARNING WARNING WARNING WARNING
+WARN
+}

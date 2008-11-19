@@ -2,19 +2,12 @@ This is Perl module Remedie.
 
 INSTALLATION
 
-Remedie installation is straightforward. If your CPAN shell is set up,
-you should just be able to do
+Do not install Remeide (yet) but run the commands from svn checkout
+directory.
 
-    % cpan Remedie
-
-Download it, unpack it, then build it as per the usual:
-
-    % perl Makefile.PL
-    % make && make test
-
-Then install it:
-
-    % make install
+Especially, if you have Plagger installed in your system, running
+'make install' for Remedie breaks your existent Plagger installation
+because we forked Plagger. So, don't do that.
 
 DOCUMENTATION
 
