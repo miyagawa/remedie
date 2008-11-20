@@ -10,7 +10,6 @@ Remedie.prototype = {
   items:    [],
   unblockCallbacks: [],
   current_id: null,
-  actions: [],
 
   initialize: function() {
     if (!jQuery.browser.safari && !jQuery.browser.mozilla && !jQuery.browser.msie) {
@@ -27,7 +26,6 @@ Remedie.prototype = {
     this.setupEventListeners();
     this.setupHotKeys();
     this.setupPluginDefaults();
-    this.setupExtensions();
  
     this.loadCollection( this.dispatchAction );
   },
@@ -116,14 +114,6 @@ Remedie.prototype = {
       document.title = "Remedie Media Center";
       remedie.current_id = null;
       remedie.items = [];
-    });
-  },
-
-  setupExtensions: function() {
-    $.getJSON("/rpc/extension/list", function(r) {
-      $.each(r.extensions, function(index, name) {
-        $.getScript("/static/js/" + name);
-      });
     });
   },
 
@@ -551,54 +541,44 @@ Remedie.prototype = {
            $(this).removeClass("hover-channel-item");
            $(this).css('opacity',1)})
          .each(function() {
-           var item = remedie.items[ this.id.replace("channel-item-", "") ];
-           var bindings = {
-             item_context_play:      function(){remedie.playVideoInline(item)},
-             item_context_copy:      function(){$.copy(item.ident)},
-             item_context_watched:   function(){remedie.markItemAsWatched(item.channel_id, item.id)},
-             item_context_unwatched: function(){remedie.markItemAsUnwatched(item.channel_id, item.id)},
-             item_context_play_vlc:  function(){remedie.launchVideoPlayer(item, 'VLC', fullscreen)},
-             item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QTL', fullscreen, 1)},
-             item_context_play_qt_embed: function(){remedie.playVideoInline(item, 'QuickTime')},
-             item_context_play_wmp:  function(){remedie.playVideoInline(item, 'WMP')},
-             item_context_play_sl:   function(){remedie.playVideoInline(item, 'Silverlight')}
-           };
-           $.each(remedie.actions, function(index, action) {
-             if (channel.ident.match(action.mx))
-               bindings['item_context_ext' + index] = function(){action.callback(item)};
-           });
-           $(this).contextMenu("channel-item-context-menu", {
-             bindings: bindings,
-             onContextMenu: function(e, menu) {
-               item = remedie.items[ item.id ]; // refresh the status
-               var el = $('#channel-item-context-menu ul'); el.children().remove();
-               el.createAppend('li', { id: 'item_context_play' }, 'Play');
-               el.createAppend('li', { id: 'item_context_copy' }, 'Copy Item URL (' + RemedieUtil.fileType(item.ident, item.props.type) + ')');
-               if (item.is_unwatched) {
-                 el.createAppend('li', { id: 'item_context_watched' }, 'Mark as watched');
-               } else {
-                 el.createAppend('li', { id: 'item_context_unwatched' }, 'Mark as unwatched');
-               }
-  
-               if (/video/i.test(item.props.type)) {
-                 el.createAppend('li', { id: 'item_context_play_vlc' }, 'Launch VLC');
-                 el.createAppend('li', { id: 'item_context_play_qt' }, 'Launch QuickTime');
-                 el.createAppend('li', { id: 'item_context_play_qt_embed' }, 'Play inline with QuickTime');
-               }
-  
-               if (/wmv|asf/i.test(item.props.type)) {
-                 if (!/mac/i.test(navigator.userAgent))
-                   el.createAppend('li', { id: 'item_context_play_wmp' }, 'Play inline with WMP');
-                 el.createAppend('li', { id: 'item_context_play_sl' }, 'Play inline with Silverlight');
-               }
-  
-               $.each(remedie.actions, function(index, action) {
-                 if (channel.ident.match(action.mx))
-                   el.createAppend('li', { id: 'item_context_ext' + index }, action.label);
-               });
-  
-               return true;
-             }
+            var item = remedie.items[ this.id.replace("channel-item-", "") ];
+            $(this).contextMenu("channel-item-context-menu", {
+              bindings: {
+                item_context_play:      function(){remedie.playVideoInline(item)},
+                item_context_copy:      function(){$.copy(item.ident)},
+                item_context_watched:   function(){remedie.markItemAsWatched(item.channel_id, item.id)},
+                item_context_unwatched: function(){remedie.markItemAsUnwatched(item.channel_id, item.id)},
+                item_context_play_vlc:  function(){remedie.launchVideoPlayer(item, 'VLC', fullscreen)},
+                item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QTL', fullscreen, 1)},
+                item_context_play_qt_embed: function(){remedie.playVideoInline(item, 'QuickTime')},
+                item_context_play_wmp:  function(){remedie.playVideoInline(item, 'WMP')},
+                item_context_play_sl:   function(){remedie.playVideoInline(item, 'Silverlight')}
+              },
+              onContextMenu: function(e, menu) {
+                item = remedie.items[ item.id ]; // refresh the status
+                var el = $('#channel-item-context-menu ul'); el.children().remove();
+                el.createAppend('li', { id: 'item_context_play' }, 'Play');
+                el.createAppend('li', { id: 'item_context_copy' }, 'Copy Item URL (' + RemedieUtil.fileType(item.ident, item.props.type) + ')');
+                if (item.is_unwatched) {
+                  el.createAppend('li', { id: 'item_context_watched' }, 'Mark as watched');
+                } else {
+                  el.createAppend('li', { id: 'item_context_unwatched' }, 'Mark as unwatched');
+                }
+
+                if (/video/i.test(item.props.type)) {
+                  el.createAppend('li', { id: 'item_context_play_vlc' }, 'Launch VLC');
+                  el.createAppend('li', { id: 'item_context_play_qt' }, 'Launch QuickTime');
+                  el.createAppend('li', { id: 'item_context_play_qt_embed' }, 'Play inline with QuickTime');
+                }
+
+                if (/wmv|asf/i.test(item.props.type)) {
+                  if (!/mac/i.test(navigator.userAgent))
+                    el.createAppend('li', { id: 'item_context_play_wmp' }, 'Play inline with WMP');
+                  el.createAppend('li', { id: 'item_context_play_sl' }, 'Play inline with Silverlight');
+                }
+
+                return true;
+              }
            });
          });
 
@@ -789,13 +769,5 @@ Remedie.prototype = {
       message.children("a.command-unblock").click($.unblockUI);
       $.blockUI({ message: message });
       return false;
-  },
-
-  addAction: function(mx, label, callback) {
-    this.actions.push({
-      mx: mx,
-      label: label,
-      callback: callback
-    });
   }
 };

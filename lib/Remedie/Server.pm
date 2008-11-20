@@ -5,7 +5,6 @@ use attributes ();
 use HTTP::Engine;
 use MIME::Types;
 use Path::Class;
-use POSIX;
 use String::CamelCase;
 
 use Remedie::Log;
@@ -82,8 +81,6 @@ sub handle_request {
             $self->dispatch_rpc($path, $req, $res);
         } elsif ($path =~ s!^/static/!!) {
             $self->serve_static_file($path, $req, $res);
-        } elsif ($path =~ s!^/action/!!) {
-            $self->serve_action_cgi($path, $req, $res);
         } else {
             die "Not found";
         }
@@ -138,37 +135,6 @@ sub dispatch_rpc {
         $res->body( Remedie::JSON->encode($result) );
         Remedie::Log->log(debug => $res->body);
     }
-}
-
-sub serve_action_cgi {
-    my($self, $path, $req, $res) = @_;
-
-    my $root = $self->conf->{root};
-    my $file = file($root, "action");
-
-    my @targets = split(/\//, $path);
-    my $script_name = '';
-    while (my $target = shift(@targets)) {
-        $file = file($file->stringify, $target);
-        $script_name .= "/$target";
-        unless ($file->is_dir) {
-            my $pid = fork();
-            if ($pid) {
-                waitpid($pid, &POSIX::WNOHANG);
-                return;
-            } elsif ($pid == 0) {
-                local $ENV{SCRIPT_FILENAME} = "$file";
-                local $ENV{SCRIPT_NAME} = $script_name;
-                local $ENV{PATH_INFO} = '/'.join '/', @targets;
-                package main;
-                do "$file";
-                exit;
-            } else {
-                die $!;
-            }
-        }
-    }
-    die "Not found";
 }
 
 sub serve_static_file {
