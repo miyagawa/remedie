@@ -16,27 +16,38 @@ sub handle {
     # Ick, I need to try the URL with and without the trailing slash
     for my $media_ns ("http://search.yahoo.com/mrss", "http://search.yahoo.com/mrss/") {
         my $media = $args->{orig_entry}->{entry}->{$media_ns}->{group} || $args->{orig_entry}->{entry};
-        my $content = $media->{$media_ns}->{content} || [];
+
+        my $content = $media->{$media_ns}{content} || $media->{$media_ns} || [];
         $content = [ $content ] unless ref $content && ref $content eq 'ARRAY';
 
+        my $found_thumb;
         for my $media_content (@{$content}) {
-            my $enclosure = Plagger::Enclosure->new;
-            $enclosure->url( URI->new($media_content->{url}) );
-            $enclosure->auto_set_type($media_content->{type});
-            $args->{entry}->add_enclosure($enclosure);
-        }
+            $media_content = $media_content->{$media_ns}
+                if $media_content->{$media_ns};
 
-        if (my $thumbnail = $media->{$media_ns}->{thumbnail}) {
-            $args->{entry}->icon({
-                url   => $thumbnail->{url},
-                width => $thumbnail->{width},
-                height => $thumbnail->{height},
-            });
+            if ($media_content->{url}) {
+                $context->log(debug => "Found MediaRSS $media_content->{url}");
+                my $enclosure = Plagger::Enclosure->new;
+                $enclosure->url( URI->new($media_content->{url}) );
+                $enclosure->auto_set_type($media_content->{type});
+                $args->{entry}->add_enclosure($enclosure);
+            }
+
+            if (my $thumbnail = $media_content->{thumbnail} and !$found_thumb) {
+                $context->log(debug => "Found MediaRSS thumb $thumbnail->{url}");
+                $args->{entry}->icon({
+                    url   => $thumbnail->{url},
+                    width => $thumbnail->{width},
+                    height => $thumbnail->{height},
+                });
+                $found_thumb++;
+            }
         }
 
         # media:player
         if (my $player = $media->{$media_ns}{player}) {
             if ($player->{url}) {
+                $context->log(debug => "Found media:player $player->{url}");
                 my $enclosure = Plagger::Enclosure->new;
                 $enclosure->url($player->{url});
                 $enclosure->type("application/x-shockwave-flash"); # hopefully
