@@ -25,7 +25,7 @@ sub register {
                                             rules => { img => 0 } } });
     $context->autoload_plugin({ module => 'Namespace::iTunesDTD' });
     $context->autoload_plugin({ module => 'Filter::GuessImageSize' });
-    $context->autoload_plugin({ module => 'Filter::ImageInfo' });
+#    $context->autoload_plugin({ module => 'Filter::ImageInfo' });
 }
 
 1;
