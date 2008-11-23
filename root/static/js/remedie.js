@@ -280,7 +280,7 @@ Remedie.prototype = {
         s1.addVariable('link', encodeURIComponent(item.props.link));
       s1.write('embed-player');
 
-      $(document).bind('playerReadyRemedie', function(ev, id){
+      $(document).bind('remediePlayerReady', function(ev, id){
         var player = document.getElementById(id);
         // JW player needs a string representatin for callbacks
         player.addViewListener('STOP', '$.unblockUI');
@@ -782,5 +782,5 @@ Remedie.prototype = {
 };
 
 function playerReady(obj) {
-  $.event.trigger('playerReadyRemedie', obj.id);
+  $.event.trigger('remediePlayerReady', obj.id);
 }
