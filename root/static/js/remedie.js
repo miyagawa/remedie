@@ -216,7 +216,7 @@ Remedie.prototype = {
         async: false,
         dataType: 'json',
         success: function(r) {
-          item.props.embed = { code: r.code };
+          item.props.embed = { script: r.code };
         }
       });
     }
@@ -233,8 +233,8 @@ Remedie.prototype = {
     if (offset.height) height += offset.height;
 
     if (player == 'Web') {
-      if (item.props.embed.code) {
-         $('head').append("<script>" + item.props.embed.code + "</script>");
+      if (item.props.embed.script) {
+         $('head').append("<script>" + item.props.embed.script + "</script>");
       } else {
         var s1 = new SWFObject(item.props.embed.url, 'player-' + item.id, width, height, '9');
         s1.addParam('allowfullscreen','true');
