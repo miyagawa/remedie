@@ -17,6 +17,7 @@ sub register {
     $context->register_hook(
         $self,
         'update.entry.fixup' => \&filter,
+        'enclosure.add' => \&upgrade,
     );
 }
 
@@ -143,7 +144,7 @@ sub add_enclosure {
 
         if (my $enclosure = $plugin->find({ content => $content, url => $url })) {
             Plagger->context->log(info => "Found enclosure " . $enclosure->url ." with " . $plugin->site_name);
-            $entry->add_enclosure($enclosure, $plugin->override_default);
+            $entry->add_enclosure($enclosure);
 
             if ($enclosure->thumbnail) {
                 $entry->icon($enclosure->thumbnail);
@@ -180,13 +181,22 @@ sub has_enclosure_mime_type {
     Plagger::Util::mime_is_enclosure($mime);
 }
 
+sub upgrade {
+    my($self, $context, $args) = @_;
+
+    my $plugin = $self->plugin_for($args->{entry}->link);
+    if ($plugin) {
+        $context->log(debug => "Upgrading enclosure " . $args->{enclosure}->url . " with " . $plugin->site_name);
+        $plugin->upgrade($args);
+    }
+}
+
 package Plagger::Plugin::Filter::FindEnclosures::Site;
 sub new { bless {}, shift }
 sub init { Plagger->context->error($_[0]->site_name . " should override init()") }
 sub handle { "." }
 sub find { }
 sub needs_content { 1 }
-sub override_default { 0 }
 sub domain { '*' }
 
 sub fetch_content {

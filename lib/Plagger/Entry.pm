@@ -74,11 +74,11 @@ sub body_text {
 }
 
 sub add_enclosure {
-    my($self, $enclosure, $clear) = @_;
+    my($self, $enclosure) = @_;
 
     # don't add enclosure with the same URL again and again
     unless ($enclosure->url && grep { $_->url && $_->url eq $enclosure->url } $self->enclosures) {
-        $self->{enclosures} = [] if $clear;
+        Plagger->context->run_hook('enclosure.add', { entry => $self, enclosure => $enclosure });
         push @{ $self->{enclosures} }, $enclosure;
     }
 }

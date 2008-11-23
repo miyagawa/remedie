@@ -9,7 +9,7 @@ sub needs_content { 0 }
 
 sub find {
     my ($self, $args) = @_;
-    my $id = $args->{url} =~ qr!watch/(\w\w\d+)! ? $1 : ""
+    my($id) = $args->{url} =~ qr!watch/(\w\w\d+)!
         or return;
 
     my $enclosure = Plagger::Enclosure->new;
