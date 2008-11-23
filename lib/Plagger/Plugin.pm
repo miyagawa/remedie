@@ -116,7 +116,8 @@ sub plugins_for {
     my $self = shift;
     my($url, $first) = @_;
 
-    my $uri = URI->new(shift) or return;
+    my $uri = URI->new(shift);
+    return unless $uri && $uri->can('host');
 
     my $domain = $uri->host;
     my @domain = split /\./, $domain;
