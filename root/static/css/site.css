@@ -67,6 +67,11 @@ img.channel-thumbnail {
   display:none; /* should badgify with JS */
 }
 
+.channel-unwatched-hover-gray {
+  color: #888;
+  background: #600;
+}
+
 .channel-refresh-hover {
   position:absolute;
   text-align:center;

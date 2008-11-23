@@ -615,7 +615,7 @@ Remedie.prototype = {
       return; // TODO error message?
 
     $("#channel-" + channel.id + " .channel-thumbnail").css({opacity:0.3});
-    $("#channel-" + channel.id + " .channel-unwatched-hover").css({opacity:0.3});
+    $("#channel-" + channel.id + " .channel-unwatched-hover").addClass("channel-unwatched-hover-gray");
     $("#channel-" + channel.id + " .channel-refresh-hover").show();
     $.ajax({
       url: "/rpc/channel/refresh",
@@ -740,7 +740,7 @@ Remedie.prototype = {
     var id = "#channel-" + channel.id;
 
     $(id + " .channel-thumbnail").css({opacity:1});
-    $(id + " .channel-unwatched-hover").css({opacity:1});
+    $(id + " .channel-unwatched-hover").removeClass("channel-unwatched-hover-gray");
     $(id + " .channel-refresh-hover").hide();
 
     if (channel.props.thumbnail) 
