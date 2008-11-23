@@ -196,17 +196,9 @@ sub new { bless {}, shift }
 sub init { Plagger->context->error($_[0]->site_name . " should override init()") }
 sub handle { "." }
 sub find { }
+sub upgrade { }
 sub needs_content { 1 }
 sub domain { '*' }
-
-sub fetch_content {
-    my($self, $uri) = @_;
-
-    my $ua = Plagger::UserAgent->new;
-    my $res = $ua->fetch($uri, Plagger->context->current_plugin, { NoNetwork => 24 * 60 * 60 });
-
-    return $res->content;
-}
 
 1;
 

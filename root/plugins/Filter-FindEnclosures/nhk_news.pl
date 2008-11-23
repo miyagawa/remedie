@@ -31,7 +31,7 @@ sub find {
 sub find_mms_url {
     my ($self, $asx_url, $key) = @_;
 
-    my $content = $self->fetch_content($asx_url) or return;
+    my $content = Plagger->context->current_plugin->fetch_content($asx_url) or return;
     $content =~ m!<REF HREF="([^"]+${key}_mh.wmv)"!;
     return $1;
 }
