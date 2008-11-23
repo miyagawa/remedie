@@ -216,8 +216,12 @@ Remedie.prototype = {
         async: false,
         dataType: 'json',
         success: function(r) {
-          item.props.embed = { script: r.code };
-        }
+          if (r.code) {
+            item.props.embed = { script: r.code };
+          } else if (r.error) {
+            throw r.error;
+          }
+        },
       });
     }
 
@@ -601,7 +605,10 @@ Remedie.prototype = {
          });
 
          $(".channel-item-clickable").click(function(){
-           remedie.playVideoInline( remedie.items[this.id.replace("item-thumbnail-", "")] );
+           try{
+             remedie.playVideoInline( remedie.items[this.id.replace("item-thumbnail-", "")] );
+           } catch(e) { alert(e) };
+           return false;
          });
          $(".item-thumbnail")
           .hover(function(){

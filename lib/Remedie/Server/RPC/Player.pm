@@ -40,7 +40,8 @@ sub nicovideo : POST {
     ## Whoa HACK
     my $code = $response->content;
     $code =~ s/document\.write\((.*?)\)/\$("#embed-player").html($1)/g;
-    $code =~ s/(wv_title.*?)$/$1\n, fv_autoplay: 1/m;
+    $code =~ s/(wv_title.*?)$/$1\n, fv_autoplay: 1/m
+        or die "This video is deleted or does not allow embeds";
 
     return { success => 1, code => $code };
 }
