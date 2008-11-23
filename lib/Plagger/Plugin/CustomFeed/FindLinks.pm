@@ -40,17 +40,19 @@ sub load_plugin_yaml {
     Plagger->context->log(debug => "Load YAML $file");
     my @data = YAML::LoadFile($file);
 
-    push @{ $self->{plugins} },
-        map { Plagger::Plugin::Filter::FindLinks::YAML->new($_, $base) } @data;
+    for my $data (@data) {
+        my $plugin = Plagger::Plugin::Filter::FindLinks::YAML->new($data, $base);
+        $self->add_plugin($plugin);
+    }
 }
 
 sub handle {
     my($self, $context, $args) = @_;
 
-    my $handler = first { $_->custom_feed_handle($args) } @{ $self->{plugins} };
+    my $handler = $self->plugin_for($args->{feed}->url);
     if ($handler) {
-        $args->{match} = $handler->custom_feed_follow_link;
-        $args->{xpath} = $handler->custom_feed_follow_xpath;
+        $args->{match} = $handler->follow_link;
+        $args->{xpath} = $handler->follow_xpath;
     } else {
         $args->{match} = $args->{feed}->meta->{follow_link}  || $self->conf->{follow_link};
         $args->{xpath} = $args->{feed}->meta->{follow_xpath} || $self->conf->{follow_xpath};
@@ -152,7 +154,7 @@ sub new {
     my($class, $data, $base) = @_;
 
     # add ^ if handle method starts with http://
-    for my $key ( qw(custom_feed_handle handle handle_force) ) {
+    for my $key ( qw(handle handle_force) ) {
         next unless defined $data->{$key};
         $data->{$key} = "^$data->{$key}" if $data->{$key} =~ m!^https?://!;
     }
@@ -165,18 +167,12 @@ sub site_name {
     $self->{base};
 }
 
-sub custom_feed_handle {
-    my($self, $args) = @_;
-    $self->{custom_feed_handle} ?
-        $args->{feed}->url =~ /$self->{custom_feed_handle}/ : 0;
+sub follow_link {
+    $_[0]->{follow_link};
 }
 
-sub custom_feed_follow_link {
-    $_[0]->{custom_feed_follow_link};
-}
-
-sub custom_feed_follow_xpath {
-    $_[0]->{custom_feed_follow_xpath};
+sub follow_xpath {
+    $_[0]->{follow_xpath};
 }
 
 package Plagger::Plugin::CustomFeed::FindLinks;

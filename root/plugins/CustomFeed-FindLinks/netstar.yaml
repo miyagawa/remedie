@@ -1,3 +1,4 @@
 author: Tatsuhiko Miyagawa
-custom_feed_handle: http://www.nhk-ep.co.jp/netstar/
-custom_feed_follow_link: _mov_
+domain: www.nhk-ep.co.jp
+handle: /netstar/
+follow_link: _mov_

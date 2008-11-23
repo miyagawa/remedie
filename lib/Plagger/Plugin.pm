@@ -2,7 +2,7 @@ package Plagger::Plugin;
 use strict;
 use base qw( Class::Accessor::Fast );
 
-__PACKAGE__->mk_accessors( qw(conf cache) );
+__PACKAGE__->mk_accessors( qw(conf cache plugins) );
 
 use Plagger::Cookies;
 
@@ -10,6 +10,7 @@ use FindBin;
 use File::Find::Rule ();
 use File::Spec;
 use Scalar::Util qw(blessed);
+use URI;
 
 sub new {
     my($class, $opt) = @_;
@@ -94,6 +95,41 @@ sub load_assets {
         my $base = File::Basename::basename($file);
         $callback->($file, $base);
     }
+}
+
+sub add_plugin {
+    my $self = shift;
+    my($plugin) = @_;
+
+    my $domain = $plugin->{domain} || '*';
+    push @{ $self->{plugins}->{$domain} }, $plugin;
+}
+
+sub plugin_for {
+    my $self = shift;
+    my($url) = @_;
+
+    my $uri = URI->new(shift);
+
+    my $domain = $uri->host;
+    my @domain = split /\./, $domain;
+
+    my @try = map join(".", @domain[$_..$#domain]), 0..$#domain-1;
+    push @try, '*';
+
+    for my $try (@try) {
+        my $plugins = $self->{plugins}->{$try} || [];
+        for my $plugin (@{$plugins}) {
+            my $re   = $plugin->{handle} || ".";
+            my $test = $plugin->{handle} =~ m!https?://! ? $uri : $uri->path_query;
+            if ($test =~ /$re/i) {
+                $self->log(debug => "Handle $uri with plugin " . $plugin->site_name);
+                return $plugin;
+            }
+        }
+    }
+
+    return;
 }
 
 1;

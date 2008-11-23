@@ -1,6 +1,7 @@
 author: Tatsuhiko Miyagawa
-custom_feed_handle: http://www.macrossf.com/radio/radio.html
-custom_feed_follow_link: 500k.asx
+domain: macrossf.com
+handle: /radio/radio.html
+follow_link: 500k.asx
 
 
 
