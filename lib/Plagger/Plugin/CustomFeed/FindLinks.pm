@@ -122,10 +122,11 @@ sub aggregate {
 
         for my $child ( $tree->findnodes($xpath || '//a') ) {
             my $href  = $child->attr('href') or next;
-            my $title = $child->attr('title') || $child->as_text;
 
             my $item_url = URI->new_abs($href, $url);
             next if $found{$item_url}++;
+
+            my $title = $child->attr('title') || $child->as_text || $item_url->filename;
 
             my $entry = Plagger::Entry->new;
             $entry->title($title);
