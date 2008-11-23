@@ -239,7 +239,7 @@ Remedie.prototype = {
         var s1 = new SWFObject(item.props.embed.url, 'player-' + item.id, width, height, '9');
         s1.addParam('allowfullscreen','true');
         s1.addParam('allowscriptaccess','always');
-        s1.addParam('flashvars', 'bitrate=700000'); // Hulu
+//        s1.addVariable('bitrate', '700000'); // Hulu
         s1.write('embed-player');
       }
     } else if (player == 'QuickTime') {
@@ -269,26 +269,23 @@ Remedie.prototype = {
         });
         this.runOnUnblock(function(){$(document).unbind('keydown', 'space', function(){})});
     } else if (player == 'Flash') {
-        var flashvars = [];
-        flashvars.push('autostart=true');
-        flashvars.push('file=' + encodeURIComponent(url));
-        if (thumbnail)
-          flashvars.push('image=' + encodeURIComponent(thumbnail));
-        if (item.props.link)
-          flashvars.push('link=' + encodeURIComponent(item.props.link));
-      
-        var s1 = new SWFObject('/static/player.swf', 'player-' + id, width, height, '9');
-        s1.addParam('allowfullscreen','true');
-        s1.addParam('allowscriptaccess','always');
-        s1.addParam('flashvars', flashvars.join('&'));
-        s1.write('embed-player');
+      var s1 = new SWFObject('/static/player.swf', 'player-' + id, width, height, '9');
+      s1.addParam('allowfullscreen','true');
+      s1.addParam('allowscriptaccess','always');
+      s1.addVariable('autostart', 'true');
+      s1.addVariable('file', encodeURIComponent(url));
+      if (thumbnail)
+        s1.addVariable('image', encodeURIComponent(thumbnail));
+      if (item.props.link)
+        s1.addVariable('link', encodeURIComponent(item.props.link));
+      s1.write('embed-player');
 
-        // space key to play and pause the video
-        $(document).bind('keydown', 'space', function(){
-          document.getElementById('player-'+id).sendEvent("PLAY");
-          return false;
-        });
-        this.runOnUnblock(function(){$(document).unbind('keydown', 'space', function(){})});
+      // space key to play and pause the video
+      $(document).bind('keydown', 'space', function(){
+        document.getElementById('player-'+id).sendEvent("PLAY");
+        return false;
+      });
+      this.runOnUnblock(function(){$(document).unbind('keydown', 'space', function(){})});
     }
 
     this.runOnUnblock(function(){
