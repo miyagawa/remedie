@@ -340,8 +340,8 @@ Remedie.prototype = {
     });
   },
 
-  markItemAsWatched: function(item) {
-    this.updateStatus({ item_id: item.id, status: 'watched' }, function() {
+  markItemAsWatched: function(item, sync) {
+    this.updateStatus({ item_id: item.id, status: 'watched', sync: sync }, function() {
       $('#channel-item-title-' + item.id).removeClass('channel-item-unwatched');
       remedie.items[item.id].is_unwatched = false;
     });
@@ -369,6 +369,7 @@ Remedie.prototype = {
       data: obj,
       type: 'post',
       dataType: 'json',
+      async: (obj.sync ? false : true),
       success: function(r) {
         if (r.success) {
           remedie.channels[r.channel.id] = r.channel;
@@ -546,7 +547,7 @@ Remedie.prototype = {
               bindings: {
                 item_context_play:      function(){remedie.playVideoInline(item)},
                 item_context_copy:      function(){$.copy(item.ident)},
-                item_context_open:      function(){remedie.markItemAsWatched(item);location.href=item.ident},
+                item_context_open:      function(){remedie.markItemAsWatched(item, true);location.href=item.ident},
                 item_context_watched:   function(){remedie.markItemAsWatched(item)},
                 item_context_unwatched: function(){remedie.markItemAsUnwatched(item)},
                 item_context_play_vlc:  function(){remedie.launchVideoPlayer(item, 'VLC', fullscreen)},
