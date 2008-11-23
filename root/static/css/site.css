@@ -236,6 +236,12 @@ div.item-separator {
   color: #666;
 }
 
+#embed-player .closebox {
+  position:absolute;
+  top:-14px; left:-14px;
+  display: none;
+}
+
 div#jqContextMenu {
         -webkit-border-radius: 5px;
         border: 1px solid rgba(0,0,0,0.1);

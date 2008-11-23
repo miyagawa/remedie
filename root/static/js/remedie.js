@@ -313,6 +313,15 @@ Remedie.prototype = {
       remedie.markItemAsWatched(item); // TODO setTimeout?
     });
 
+    $('#embed-player').append(
+      $('<img/>').attr('class', 'closebox').attr('src', "/static/images/closebox.png").click($.unblockUI)
+    );
+    $('#embed-player').hover(
+      function(){ $(".closebox", this).show() },
+      function(){ $(".closebox", this).fadeOut(500) }
+    );
+
+
     $.blockUI({
       message: $('#embed-player'),
       css: { top:  ($(window).height() - height) / 2 + 'px',
