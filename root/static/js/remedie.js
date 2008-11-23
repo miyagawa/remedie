@@ -260,7 +260,7 @@ Remedie.prototype = {
           link: item.props.link
 //          autostart: true
         });
-        this.autoPlaySilverlight(ply);
+        this.setupSilverlightPlayer(ply);
 
         // space key to play and pause the video
         $(document).bind('keydown', 'space', function(){
@@ -330,11 +330,13 @@ Remedie.prototype = {
     return player;
   },
 
-  autoPlaySilverlight: function(ply) {
+  setupSilverlightPlayer: function(ply) {
     if (ply.view) {
-      ply.sendEvent('PLAY')
+      ply.addListener('STATE', function(ost,nst){if (nst == 'Completed') $.unblockUI()});
+      ply.sendEvent('PLAY');
     } else {
-      setTimeout(function(){remedie.autoPlaySilverlight(ply)}, 100)
+      // not ready yet
+      setTimeout(function(){remedie.setupSilverlightPlayer(ply)}, 100)
     }
   },
 
