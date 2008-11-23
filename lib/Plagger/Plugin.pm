@@ -109,7 +109,14 @@ sub plugin_for {
     my $self = shift;
     my($url) = @_;
 
-    my $uri = URI->new(shift);
+    return $self->plugins_for($url, 1);
+}
+
+sub plugins_for {
+    my $self = shift;
+    my($url, $first) = @_;
+
+    my $uri = URI->new(shift) or return;
 
     my $domain = $uri->host;
     my @domain = split /\./, $domain;
@@ -117,19 +124,22 @@ sub plugin_for {
     my @try = map join(".", @domain[$_..$#domain]), 0..$#domain-1;
     push @try, '*';
 
+    my @plugins;
     for my $try (@try) {
         my $plugins = $self->{plugins}->{$try} || [];
         for my $plugin (@{$plugins}) {
             my $re   = $plugin->{handle} || ".";
-            my $test = $plugin->{handle} =~ m!https?://! ? $uri : $uri->path_query;
+            my $test = $re =~ m!https?://! ? $uri : $uri->path_query;
             if ($test =~ /$re/i) {
                 $self->log(debug => "Handle $uri with plugin " . $plugin->site_name);
-                return $plugin;
+                return $plugin if $first;
+                push @plugins, $plugin;
             }
         }
     }
 
-    return;
+    return if $first;
+    return @plugins;
 }
 
 1;

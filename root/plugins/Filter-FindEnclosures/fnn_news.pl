@@ -1,8 +1,8 @@
 # author: Tatsuhiko Miyagawa
-
-sub handle {
-    my ($self, $url) = @_;
-    $url =~ qr!http://www.fnn-news.com/news/headlines/articles!;
+sub init {
+    my $self = shift;
+    $self->{domain} = "fnn-news.com";
+    $self->{handle} = "/news/headlines/articles";
 }
 
 sub needs_content { 1 }

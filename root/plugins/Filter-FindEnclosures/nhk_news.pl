@@ -1,8 +1,8 @@
 # author: Tatsuhiko Miyagawa
-
-sub handle {
-    my ($self, $url) = @_;
-    $url =~ qr!http://www3.nhk.or.jp/news/t\d+.html!;
+sub init {
+    my $self = shift;
+    $self->{domain} = 'www3.nhk.or.jp';
+    $self->{handle} = '/news/t\d+.html';
 }
 
 sub needs_content { 1 }
@@ -31,9 +31,7 @@ sub find {
 sub find_mms_url {
     my ($self, $asx_url, $key) = @_;
 
-    my $ua = Plagger::UserAgent->new;
-    my $res = $ua->get($asx_url);
-    my $content = $res->content;
+    my $content = $self->fetch_content($asx_url) or return;
     $content =~ m!<REF HREF="([^"]+${key}_mh.wmv)"!;
     return $1;
 }

@@ -23,30 +23,9 @@ sub register {
 sub init {
     my $self = shift;
     $self->SUPER::init(@_);
-    $self->load_plugins();
+    $self->load_assets('*.pl', sub { $self->load_plugin_perl(@_) });
 
     $self->{ua} = Plagger::UserAgent->new;
-}
-
-sub load_plugins {
-    my $self = shift;
-    my $context = Plagger->context;
-
-    my $dir = $self->assets_dir;
-    my $dh = DirHandle->new($dir) or $context->error("$dir: $!");
-    for my $file (grep -f $_->[0] && $_->[0] =~ /\.(?:pl|yaml)$/,
-                  map [ File::Spec->catfile($dir, $_), $_ ], sort $dh->read) {
-        $self->load_plugin(@$file);
-    }
-}
-
-sub load_plugin {
-    my($self, $file, $base) = @_;
-
-    Plagger->context->log(debug => "loading $file");
-
-    my $load_method = $file =~ /\.pl$/ ? 'load_plugin_perl' : 'load_plugin_yaml';
-    push @{ $self->{plugins} }, $self->$load_method($file, $base);
 }
 
 sub load_plugin_perl {
@@ -70,7 +49,9 @@ sub load_plugin_perl {
     eval $code;
     Plagger->context->error($@) if $@;
 
-    return $plugin_class->new;
+    my $plugin = $plugin_class->new;
+    $plugin->init;
+    $self->add_plugin($plugin);
 }
 
 sub load_plugin_yaml { Plagger->context->error("NOT IMPLEMENTED YET") }
@@ -152,13 +133,12 @@ sub add_enclosure {
     }
 
     my $url = $tag->[1]{$attr};
-    my $content;
-    for my $plugin (@{$self->{plugins}}) {
-        next unless $plugin->handle($url);
+    my $plugin = $self->plugin_for($url);
 
-        Plagger->context->log(debug => "Try $url with " . $plugin->site_name);
+    if ($plugin) {
+        my $content;
         if ($plugin->needs_content) {
-            $content ||= $self->fetch_content($url) or return;
+            $content = $self->fetch_content($url) or return;
         }
 
         if (my $enclosure = $plugin->find({ content => $content, url => $url })) {
@@ -202,10 +182,21 @@ sub has_enclosure_mime_type {
 
 package Plagger::Plugin::Filter::FindEnclosures::Site;
 sub new { bless {}, shift }
-sub handle { 0 }
+sub init { Plagger->context->error($_[0]->site_name . " should override init()") }
+sub handle { "." }
 sub find { }
 sub needs_content { 1 }
 sub override_default { 0 }
+sub domain { '*' }
+
+sub fetch_content {
+    my($self, $uri) = @_;
+
+    my $ua = Plagger::UserAgent->new;
+    my $res = $ua->fetch($uri, Plagger->context->current_plugin, { NoNetwork => 24 * 60 * 60 });
+
+    return $res->content;
+}
 
 1;
 

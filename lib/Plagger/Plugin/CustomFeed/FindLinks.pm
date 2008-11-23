@@ -22,16 +22,9 @@ sub register {
 sub init {
     my $self = shift;
     $self->SUPER::init(@_);
-    $self->load_plugins();
+    $self->load_assets('*.yaml', sub { $self->load_plugin_yaml(@_) });
 
     $self->{ua} = Plagger::UserAgent->new;
-}
-
-sub load_plugins {
-    my $self = shift;
-    my $context = Plagger->context;
-
-    $self->load_assets('*.yaml', sub { $self->load_plugin_yaml(@_) });
 }
 
 sub load_plugin_yaml {

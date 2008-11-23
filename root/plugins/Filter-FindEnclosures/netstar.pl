@@ -1,16 +1,19 @@
 # author: Tatsuhiko Miyagawa
-
-sub handle {
-    my ($self, $url) = @_;
-    $url =~ qr!http://www.nhk-ep.co.jp/netstar/.*_mov_!;
+sub init {
+    my $self = shift;
+    $self->{domain} = "www.nhk-ep.co.jp";
+    $self->{handle} = "/netstar/.*_mov_";
 }
 
 sub needs_content { 0 }
 
 sub find {
     my ($self, $args) = @_;
-    my($name, $id) = $args->{url} =~ qr!http://www.nhk-ep.co.jp/netstar/(\w+)_mov_(\w+\d+)\.html!;
-    return unless $name && $id;
+
+    warn $args->{url};
+    $args->{url} =~ qr!http://www.nhk-ep.co.jp/netstar/(\w+)_mov_(\w+\d+)\.html!
+        or return;
+    my($name, $id) = ($1, $2);
 
     my $enclosure = Plagger::Enclosure->new;
     $enclosure->url("http://www.nhk-ep.co.jp/netstar/flv/${name}_$id.flv");

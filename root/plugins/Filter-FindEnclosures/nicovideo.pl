@@ -1,8 +1,8 @@
 # author: Tatsuhiko Miyagawa
-
-sub handle {
-    my ($self, $url) = @_;
-    $url =~ qr!http://www.nicovideo.jp/watch/.*!;
+sub init {
+    my $self = shift;
+    $self->{domain} = "nicovideo.jp";
+    $self->{handle} = "/watch/";
 }
 
 sub needs_content { 0 }
