@@ -241,6 +241,14 @@ Remedie.prototype = {
         s1.addParam('allowscriptaccess','always');
 //        s1.addVariable('bitrate', '700000'); // Hulu
         s1.write('embed-player');
+
+        // Event handling for YouTube player. This might be better pluggable
+        // http://code.google.com/apis/youtube/js_api_reference.html
+        $(document).bind('remedieYouTubePlayerReady', function(ev, id){ // id is undefined for some reason
+          var player = document.getElementById('player-'+item.id);
+          player.addEventListener('onStateChange', 'function(newstate){if(newstate==0) $.unblockUI()}');
+          $(document).unbind('remedieYouTubePlayerReady');
+        });
       }
     } else if (player == 'QuickTime') {
         var s1 = new QTObject(url, 'player-' + id, width,  height);
@@ -285,6 +293,7 @@ Remedie.prototype = {
         // JW player needs a string representatin for callbacks
         player.addViewListener('STOP', '$.unblockUI');
         player.addModelListener('STATE', 'function(ev){if (ev.newstate=="COMPLETED") $.unblockUI()}');
+        $(document).unbind('remediePlayerReady');
       });
 
       // space key to play and pause the video
@@ -785,4 +794,8 @@ Remedie.prototype = {
 
 function playerReady(obj) {
   $.event.trigger('remediePlayerReady', obj.id);
+}
+
+function onYouTubePlayerReady(id) {
+  $.event.trigger('remedieYouTubePlayerReady', id);
 }
