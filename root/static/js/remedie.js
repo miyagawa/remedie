@@ -280,6 +280,13 @@ Remedie.prototype = {
         s1.addVariable('link', encodeURIComponent(item.props.link));
       s1.write('embed-player');
 
+      $(document).bind('playerReadyRemedie', function(ev, id){
+        var player = document.getElementById(id);
+        // JW player needs a string representatin for callbacks
+        player.addViewListener('STOP', '$.unblockUI');
+        player.addModelListener('STATE', 'function(ev){if (ev.newstate=="COMPLETED") $.unblockUI()}');
+      });
+
       // space key to play and pause the video
       $(document).bind('keydown', 'space', function(){
         document.getElementById('player-'+id).sendEvent("PLAY");
@@ -773,3 +780,7 @@ Remedie.prototype = {
       return false;
   }
 };
+
+function playerReady(obj) {
+  $.event.trigger('playerReadyRemedie', obj.id);
+}
