@@ -183,6 +183,7 @@ Remedie.prototype = {
     var url  = item.ident;
 
     var ratio;
+    var thumbnail;
     var offset = {};
     if (item.props.link && url.match(/nicovideo\.jp/)) {
       // XXX
@@ -197,7 +198,14 @@ Remedie.prototype = {
         ratio = 3/4;
       }
     } else {
-      ratio = 9/16; // TODO
+      if (item.props.type && item.props.type.match(/audio/)) {
+        var thumb = item.props.thumbnail || this.channels[item.channel_id].props.thumbnail;
+        ratio = parseInt(thumb.height  || 256) / parseInt(thumb.width || 256);
+        thumbnail = thumb ? thumb.url : undefined;
+      } else {
+        ratio = (item.props.height && item.props.width)
+          ? (item.props.height / item.props.width) : 9/16; // TODO
+      }
       offset.height = 18;
     }
 
@@ -223,14 +231,6 @@ Remedie.prototype = {
           }
         },
       });
-    }
-
-    var thumbnail;
-    if (item.props.type && item.props.type.match(/audio/)) {
-      var thumb = item.props.thumbnail || this.channels[item.channel_id].props.thumbnail;
-      width  = parseInt(thumb.width  || 256);
-      height = parseInt(thumb.height || 256);
-      thumbnail = thumb.url;
     }
 
     if (offset.width)  width  += offset.width;
