@@ -20,7 +20,6 @@ sub handle {
         my $content = $media->{$media_ns}{content} || $media->{$media_ns} || [];
         $content = [ $content ] unless ref $content && ref $content eq 'ARRAY';
 
-        my $found_thumb;
         for my $media_content (@{$content}) {
             $media_content = $media_content->{$media_ns}
                 if $media_content->{$media_ns};
@@ -32,16 +31,15 @@ sub handle {
                 $enclosure->auto_set_type($media_content->{type});
                 $args->{entry}->add_enclosure($enclosure);
             }
+        }
 
-            if (my $thumbnail = $media_content->{thumbnail} and !$found_thumb) {
-                $context->log(debug => "Found MediaRSS thumb $thumbnail->{url}");
-                $args->{entry}->icon({
-                    url   => $thumbnail->{url},
-                    width => $thumbnail->{width},
-                    height => $thumbnail->{height},
-                });
-                $found_thumb++;
-            }
+        if (my $thumbnail = $media->{$media_ns}{thumbnail}) {
+            $context->log(debug => "Found MediaRSS thumb $thumbnail->{url}");
+            $args->{entry}->icon({
+                url   => $thumbnail->{url},
+                width => $thumbnail->{width},
+                height => $thumbnail->{height},
+            });
         }
 
         # media:player

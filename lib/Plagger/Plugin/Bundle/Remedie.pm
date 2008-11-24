@@ -17,13 +17,13 @@ sub register {
     });
 
 #    $context->autoload_plugin({ module => 'Filter::TruePermalink' });
+    $context->autoload_plugin({ module => 'Namespace::iTunesDTD' });
     $context->autoload_plugin({ module => 'Filter::FindEnclosures' });
     $context->autoload_plugin({ module => 'Filter::ExtractThumbnail' });
     $context->autoload_plugin({ module => 'Filter::HTMLScrubber',
                                 config => { default_deny => 1,
                                             allow => [ qw( p br div ) ],
                                             rules => { img => 0 } } });
-    $context->autoload_plugin({ module => 'Namespace::iTunesDTD' });
     $context->autoload_plugin({ module => 'Filter::GuessImageSize' });
 #    $context->autoload_plugin({ module => 'Filter::ImageInfo' });
 }
