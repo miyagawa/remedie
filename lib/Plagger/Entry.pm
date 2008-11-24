@@ -92,7 +92,7 @@ sub enclosure {
 sub primary_enclosure {
     my $self = shift;
     my @enclosures = $self->enclosures;
-    my $primary = first { $_->type =~ /video|audio/ } @enclosures;
+    my $primary = first { $_->type =~ /video|audio|shockwave-flash/ } @enclosures;
     return $primary || $self->enclosure;
 }
 

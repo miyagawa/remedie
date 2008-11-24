@@ -91,8 +91,7 @@ sub add_enclosure_from_object {
         if ($tag->[0] eq 'param') {
             push @params, $tag;
         } elsif ($tag->[0] eq 'embed') {
-            push @embeds, [ $tag, 'src', { type => $tag->[1]->{type} } ];
-#            $self->add_enclosure($entry, $tag, 'src', { type => $tag->[1]->{type} });
+            push @embeds, [ $tag, 'src', { type => $tag->[1]->{type} || 'application/x-shockwave-flash' } ];
         }
     }
 
@@ -107,7 +106,7 @@ sub add_enclosure_from_object {
     # if URL isn't found in flash vars, then fallback to <param name="movie" />
     if (!$url) {
         my $movie = first { lc($_->[1]->{name}) eq 'movie' } @params;
-        $url = $movie->[1]->{value} if $movie;
+        $url = $movie->[1]->{value} if $movie && $movie->[1]->{value} =~ /\.flv/;
     }
 
     # found moviepath from flashvars: Just use them

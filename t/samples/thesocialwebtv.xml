@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:media="http://search.yahoo.com/mrss/" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:feedburner="http://rssnamespace.org/feedburner/ext/1.0" version="2.0"><channel><title>TheSocialWeb.tv</title><link>http://www.thesocialweb.tv/blog/</link><language>en</language><lastBuildDate>Thu, 20 Nov 2008 17:31:00 -0600</lastBuildDate><generator>TypePad http://www.typepad.com/</generator><description>Why don't the social networks and communication tools you use work well together? Tune in each week to learn about the progress being made toward opening up the Social Web. With a revolving cast of characters, we'll have some of the key technologists working on building the Social Web to explain what is going on; but this isn't a show about technology. It's about explaining what's going on in the fight to make sure you have control of your data, your content, and your privacy -- and the freedom to access your stuff from all over the Web.</description><media:keywords>web20,socialgraph,socialnetworking,opensource,dataportability</media:keywords><media:category scheme="http://www.itunes.com/dtds/podcast-1.0.dtd">Technology/Tech News</media:category><itunes:author>John McCrea, David Recordon, and Joseph Smarr</itunes:author><itunes:explicit>yes</itunes:explicit><itunes:keywords>web20,socialgraph,socialnetworking,opensource,dataportability</itunes:keywords><itunes:subtitle>Who owns your data and content?</itunes:subtitle><itunes:summary>Why don't the social networks and communication tools you use work well together? Tune in each week to learn about the progress being made toward opening up the Social Web. With a revolving cast of characters, we'll have some of the key technologists working on building the Social Web to explain what is going on; but this isn't a show about technology. It's about explaining what's going on in the fight to make sure you have control of your data, your content, and your privacy -- and the freedom to access your stuff from all over the Web.</itunes:summary><itunes:category text="Technology"><itunes:category text="Tech News" /></itunes:category><atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="self" href="http://feeds.feedburner.com/typepad/thesocialwebtv" type="application/rss+xml" /><feedburner:feedFlare href="http://add.my.yahoo.com/rss?url=http%3A%2F%2Ffeeds.feedburner.com%2Ftypepad%2Fthesocialwebtv" src="http://us.i1.yimg.com/us.yimg.com/i/us/my/addtomyyahoo4.gif">Subscribe with My Yahoo!</feedburner:feedFlare><feedburner:feedFlare href="http://www.newsgator.com/ngs/subscriber/subext.aspx?url=http%3A%2F%2Ffeeds.feedburner.com%2Ftypepad%2Fthesocialwebtv" src="http://www.newsgator.com/images/ngsub1.gif">Subscribe with NewsGator</feedburner:feedFlare><feedburner:feedFlare href="http://www.bloglines.com/sub/http://feeds.feedburner.com/typepad/thesocialwebtv" src="http://www.bloglines.com/images/sub_modern11.gif">Subscribe with Bloglines</feedburner:feedFlare><feedburner:feedFlare href="http://www.netvibes.com/subscribe.php?url=http%3A%2F%2Ffeeds.feedburner.com%2Ftypepad%2Fthesocialwebtv" src="http://www.netvibes.com/img/add2netvibes.gif">Subscribe with Netvibes</feedburner:feedFlare><feedburner:feedFlare href="http://fusion.google.com/add?feedurl=http%3A%2F%2Ffeeds.feedburner.com%2Ftypepad%2Fthesocialwebtv" src="http://buttons.googlesyndication.com/fusion/add.gif">Subscribe with Google</feedburner:feedFlare><feedburner:feedFlare href="http://www.pageflakes.com/subscribe.aspx?url=http%3A%2F%2Ffeeds.feedburner.com%2Ftypepad%2Fthesocialwebtv" src="http://www.pageflakes.com/ImageFile.ashx?instanceId=Static_4&amp;fileName=ATP_blu_91x17.gif">Subscribe with Pageflakes</feedburner:feedFlare><feedburner:feedFlare href="http://odeo.com/listen/subscribe?feed=http%3A%2F%2Ffeeds.feedburner.com%2Ftypepad%2Fthesocialwebtv" src="http://odeo.com/img/badge-channel-black.gif">Subscribe with ODEO</feedburner:feedFlare><feedburner:feedFlare href="http://www.podnova.com/add.srf?url=http%3A%2F%2Ffeeds.feedburner.com%2Ftypepad%2Fthesocialwebtv" src="http://www.podnova.com/img_chicklet_podnova.gif">Subscribe with Podnova</feedburner:feedFlare><item><title>Episode 20: "Yahoo Ups the Ante for Online Identity"</title><link>http://feeds.feedburner.com/~r/typepad/thesocialwebtv/~3/460130293/episode-20-yaho.html</link><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">John McCrea, David Recordon, and Joseph Smarr</dc:creator><pubDate>Thu, 20 Nov 2008 17:32:26 -0600</pubDate><guid isPermaLink="false">tag:typepad.com,2003:post-58791766</guid><content:encoded xmlns:content="http://purl.org/rss/1.0/modules/content/"><![CDATA[<div class="entry-video"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="540" height="346" id="viddler_962671ef"><param name="movie" value="http://www.viddler.com/player/962671ef/"></param><param name="allowScriptAccess" value="always"></param><param name="allowFullScreen" value="true"></param><embed src="http://www.viddler.com/player/962671ef/" width="540" height="346" type="application/x-shockwave-flash" allowScriptAccess="always" allowFullScreen="true" name="viddler_962671ef"></embed></object></div>
+
+<h3 class="entry-title"><a href="http://www.thesocialweb.tv/blog/2008/11/episode-20-yaho.html">Episode 20: "Yahoo Ups the Ante for Online Identity"</a></h3>
+
+<div class="entry-description"><p>John and Joseph cover another busy week for opening up the Social Web with a primary focus on Yahoo's latest iteration of their implementation of OpenID. In a test release that went live today between Yahoo and Plaxo, new users can sign up for Plaxo with their Yahoo OpenID and choose to bring over their basic profile info. John and Joseph give a "magical" demo of this much-improved onboarding flow.</p></div>
+
+
+<p class="entry-links">Links related to this episode:</p>
+
+<ul><li>From the OpenSocial blog: <a href="http://opensocialapis.blogspot.com/2008/07/glam-media-announces-new-opensocial.html">Glam Media announces new OpenSocial developer platform</a></li>
+
+<li>John McCrea's post on the great CitySearch/Facebook integration: <a href="http://therealmccrea.com/2008/11/19/citysearch-goes-social-with-great-facebook-connect-implementation/">CitySearch Goes Social with Great Facebook Connect Implementation</a></li>
+
+<li>Yahoo announces their test of the new OpenID implementation: <a href="http://developer.yahoo.net/blog/archives/2008/11/yahoo_openid_test.html">Yahoo! OpenID limited testing for Simple Registration support</a></li>
+
+
+</ul><div class="feedflare">
+<a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=mGZ7N"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=mGZ7N" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=feZOn"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=feZOn" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=b2HbN"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=b2HbN" border="0"></img></a>
+</div>]]></content:encoded><description>Episode 20: "Yahoo Ups the Ante for Online Identity" John and Joseph cover another busy week for opening up the Social Web with a primary focus on Yahoo's latest iteration of their implementation of OpenID. In a test release that...</description><feedburner:origLink>http://www.thesocialweb.tv/blog/2008/11/episode-20-yaho.html</feedburner:origLink></item><item><title>Episode 19: "Happy Birthday, OpenSocial!"</title><link>http://feeds.feedburner.com/~r/typepad/thesocialwebtv/~3/453105404/episode-19-happ.html</link><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">John McCrea, David Recordon, and Joseph Smarr</dc:creator><pubDate>Fri, 14 Nov 2008 10:46:04 -0600</pubDate><guid isPermaLink="false">tag:typepad.com,2003:post-58509936</guid><content:encoded xmlns:content="http://purl.org/rss/1.0/modules/content/"><![CDATA[<div class="entry-video"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="540" height="346" id="viddler_72cb3ef5"><param name="movie" value="http://www.viddler.com/player/72cb3ef5/"></param><param name="allowScriptAccess" value="always"></param><param name="allowFullScreen" value="true"></param><embed src="http://www.viddler.com/player/72cb3ef5/" width="540" height="346" type="application/x-shockwave-flash" allowScriptAccess="always" allowFullScreen="true" name="viddler_72cb3ef5"></embed></object></div>
+
+<h3 class="entry-title"><a href="http://www.thesocialweb.tv/blog/2008/11/episode-19-happ.html">Episode 19: "Happy Birthday, OpenSocial"</a></h3>
+
+<div class="entry-description"><p>John, Joseph, and David complete a "double header" week with an episode shot on location at the OpenSocial First Birthday event, hosted by MySpace in San Francisco. The special guest is David Glazer of Google and the OpenSocial Foundation. Happy birthday, OpenSocial!</p></div>
+
+
+<p class="entry-links">Links related to this episode:</p>
+
+<ul><li>John McCrea's coverage of the OpenSocial First Birthday event: <a href="http://therealmccrea.com/2008/11/13/from-the-opensocial-first-birthday-event/">From the OpenSocial First Birthday Event</a></li>
+
+<li>John McCrea's video from the "Open Stack" breakout session at the OpenSocial event: <a href="http://therealmccrea.com/2008/11/14/opensocial-birthday-open-stack-and-the-smarr-and-engel-show/">OpenSocial Birthday, Open Stack and the Smarr and Engel Show</a></li>
+
+<li>TechCrunch story on Microsoft launching a social network: <a href="http://www.techcrunch.com/2008/11/12/sweeping-changes-at-livecom-its-a-social-network/">Sweeping Changes At Live.com: It’s A Social Network!</a></li>
+
+
+</ul><div class="feedflare">
+<a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=aK5EN"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=aK5EN" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=oOdUn"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=oOdUn" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=mEOdN"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=mEOdN" border="0"></img></a>
+</div>]]></content:encoded><description>Episode 19: "Happy Birthday, OpenSocial" John, Joseph, and David complete a "double header" week with an episode shot on location at the OpenSocial First Birthday event, hosted by MySpace in San Francisco. The special guest is David Glazer of Google...</description><feedburner:origLink>http://www.thesocialweb.tv/blog/2008/11/episode-19-happ.html</feedburner:origLink></item><item><title>Episode 18: "Live at the Internet Identity Workshop"</title><link>http://feeds.feedburner.com/~r/typepad/thesocialwebtv/~3/450843242/episode-18-live.html</link><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">John McCrea, David Recordon, and Joseph Smarr</dc:creator><pubDate>Wed, 12 Nov 2008 11:31:08 -0600</pubDate><guid isPermaLink="false">tag:typepad.com,2003:post-58405492</guid><content:encoded xmlns:content="http://purl.org/rss/1.0/modules/content/"><![CDATA[<div class="entry-video"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="540" height="346" id="viddler_42266c9a"><param name="movie" value="http://www.viddler.com/player/42266c9a/"></param><param name="allowScriptAccess" value="always"></param><param name="allowFullScreen" value="true"></param><embed src="http://www.viddler.com/player/42266c9a/" width="540" height="346" type="application/x-shockwave-flash" allowScriptAccess="always" allowFullScreen="true" name="viddler_42266c9a"></embed></object></div>
+
+<h3 class="entry-title"><a href="http://www.thesocialweb.tv/blog/2008/11/episode-18-live.html">Episode 18: "Live at the Internet Identity Workshop"</a></h3>
+
+<div class="entry-description"><p>John, Joseph, and David kickoff a "double header" week with an episode shot on location at the Internet Identity Workshop at the Computer History Museum in Mountain View. Special guests include: Max Engel of MySpace, Eran Hammer of Yahoo, Dick Hardt of Sxipper, Paul Trevithick of Parity, and Doc Searls of the Berkman Center for Internet and Society. Plus, you can see a working Babbage Engine (a Victorian computer) in the background, and some amazing video editing work. Props to Redgee!</p></div>
+
+
+<p class="entry-links">Links related to this episode:</p>
+
+<ul><li>John McCrea's coverage of IIW, Day One: <a href="http://therealmccrea.com/2008/11/11/kicking-off-the-internet-identity-workshop/">Kicking Off the Internet Identity Workshop</a></li>
+
+<li>John McCrea's photos capturing Day Two of the Internet Identity Workshop: <a href="http://therealmccrea.com/2008/11/11/photo-blogging-day-two-of-the-internet-identity-workshop/">Photo-Blogging Day Two of the Internet Identity Workshop</a></li>
+
+<li>The official site for <a href="http://iiw.idcommons.net/Iiw2008b">IIW</a></li>
+
+<li>Eran Hammer's post on <a href="http://www.hueniverse.com/hueniverse/2008/09/discovery-and-h.html">Discovery</a></li>
+
+<li>Dick Hardt's company: <a href="http://sxipper.com/">Sxipper</a></li>
+
+<li>Paul Trevithick's company: <a href="http://parity.com/">Parity</a></li>
+
+<li>Doc Searls' effort: <a href="http://projectvrm.org/">Project VRM</a></li>
+
+</ul><div class="feedflare">
+<a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=frBlN"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=frBlN" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=SOSTn"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=SOSTn" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=HY4rN"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=HY4rN" border="0"></img></a>
+</div>]]></content:encoded><description>Episode 18: "Live at the Internet Identity Workshop" John, Joseph, and David kickoff a "double header" week with an episode shot on location at the Internet Identity Workshop at the Computer History Museum in Mountain View. Special guests include: Max...</description><feedburner:origLink>http://www.thesocialweb.tv/blog/2008/11/episode-18-live.html</feedburner:origLink></item><item><title>Episode 17: "People Power"</title><link>http://feeds.feedburner.com/~r/typepad/thesocialwebtv/~3/444601602/episode-17-peop.html</link><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">John McCrea, David Recordon, and Joseph Smarr</dc:creator><pubDate>Wed, 12 Nov 2008 11:31:39 -0600</pubDate><guid isPermaLink="false">tag:typepad.com,2003:post-58120064</guid><content:encoded xmlns:content="http://purl.org/rss/1.0/modules/content/"><![CDATA[<div class="entry-video"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="540" height="346" id="viddler_20df1f3f"><param name="movie" value="http://www.viddler.com/player/20df1f3f/"></param><param name="allowScriptAccess" value="always"></param><param name="allowFullScreen" value="true"></param><embed src="http://www.viddler.com/player/20df1f3f/" width="540" height="346" type="application/x-shockwave-flash" allowScriptAccess="always" allowFullScreen="true" name="viddler_20df1f3f"></embed></object></div>
+
+<h3 class="entry-title"><a href="http://www.thesocialweb.tv/blog/2008/11/episode-17-peop.html">Episode 17: "People Power"</a></h3>
+
+<div class="entry-description"><p>John and Joseph wade in on the historic election and the role of social media in tapping "people power". Plus highlights from three industry events: The Business of APIs, the Widget Summit, and Defrag. And talk of the "Open Stack" slide that's showing up in so many presentations:</p></div>
+
+<a href="http://www.flickr.com/photos/56624456@N00/3004108948/" title="MostBuildingOnOpenStack by Silverisdead, on Flickr"><img src="http://farm4.static.flickr.com/3035/3004108948_c5335faa4c.jpg" width="500" height="375" alt="MostBuildingOnOpenStack"></img></a>
+
+<p class="entry-links">Links related to this episode:</p>
+
+<ul><li>Technology Review article on Obama's social media strategy: <a href="https://www.technologyreview.com/web/21222/">How He <em>Really</em> Did It</a></li>
+
+<li>Joseph's talk at the Widget Summit: <a href="http://therealmccrea.com/2008/11/04/live-blogging-joseph-smarrs-talk-at-the-widget-summit/">Live-Blogging Joseph Smarr’s Talk at the Widget Summit</a></li>
+
+<li>Joseph's blog post on his talk at the Widget Summit: <a href="http://josephsmarr.com/2008/11/05/the-widgets-shall-inherit-the-web-widget-summit-2008/">The Widgets Shall Inherit the Web (Widget Summit 2008)</a></li>
+
+
+<li>Charlene Li's keynote presentation at Defrag: <a href="http://www.slideshare.net/charleneli/defrag-keynote-nov-4-2008-presentation/">Harnessing the Implicit Value of the Social Graph</a></li>
+
+</ul><div class="feedflare">
+<a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=5beYN"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=5beYN" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=dWNkn"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=dWNkn" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=4Jp0N"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=4Jp0N" border="0"></img></a>
+</div>]]></content:encoded><description>Episode 17: "People Power" John and Joseph wade in on the historic election and the role of social media in tapping "people power". Plus highlights from three industry events: The Business of APIs, the Widget Summit, and Defrag. And talk...</description><feedburner:origLink>http://www.thesocialweb.tv/blog/2008/11/episode-17-peop.html</feedburner:origLink></item><item><title>Episode 16: "OpenID's Historic Week: Microsoft and Google Go Live"</title><link>http://feeds.feedburner.com/~r/typepad/thesocialwebtv/~3/437183069/episode-16-open.html</link><category>Google</category><category>Microsoft</category><category>OpenID</category><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">John McCrea, David Recordon, and Joseph Smarr</dc:creator><pubDate>Fri, 31 Oct 2008 13:21:29 -0500</pubDate><guid isPermaLink="false">tag:typepad.com,2003:post-57786571</guid><content:encoded xmlns:content="http://purl.org/rss/1.0/modules/content/"><![CDATA[<div class="entry-video"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="540" height="346" id="viddler_fb9b7b9b"><param name="movie" value="http://www.viddler.com/player/fb9b7b9b/"></param><param name="allowScriptAccess" value="always"></param><param name="allowFullScreen" value="true"></param><embed src="http://www.viddler.com/player/fb9b7b9b/" width="540" height="346" type="application/x-shockwave-flash" allowScriptAccess="always" allowFullScreen="true" name="viddler_fb9b7b9b"></embed></object></div>
+
+<h3 class="entry-title"><a href="http://www.thesocialweb.tv/blog/2008/10/episode-16-open.html">Episode 16: "OpenID's Historic Week: Microsoft and Google Go Live"</a></h3>
+
+<div class="entry-description"><p>In what will likely be remembered as an historic week for OpenID and for opening up the Social Web, John, David, and Joseph take the show on the road, over to Google headquarters. Special guest Eric Sachs, from the Google's Security Team, shares the backstory behind Google becoming an OpenID provider and talks about how he sees OpenID and OAuth fitting together to solve problems on the Web and in the enterprise.  Since we shot this episode yesterday, <a href="http://google-code-updates.blogspot.com/2008/10/moving-another-step-closer-to-single.html">Google has now removed their whitelist</a> meaning that any OpenID site can use their OpenID Provider.</p><p><img src="http://www.thesocialweb.tv/images/quicktime_icon_16.gif"></img> <a href="http://thesocialwebtv.s3.amazonaws.com/TheSocialWebTV_ep016.m4v">Watch HiRes</a></p></div>
+
+<p class="entry-links">Links related to this episode:</p>
+
+<ul><li><a href="http://dev.live.com/blogs/devlive/archive/2008/10/27/421.aspx">Windows Live ID Becomes an OpenID Provider</a></li>
+
+<li>David's take: <a href="http://radar.oreilly.com/2008/10/microsoft-releases-a-technology-preview-of-openid-for-windows-live.html">Microsoft Releases a Technology Preview of OpenID for Windows Live</a></li>
+
+<li>Yahoo's OpenSocial Container: <a href="http://developer.yahoo.net/blog/archives/2008/10/yos_10_launch.html">Introducing Y!OS 1.0 - live today!</a></li>
+
+<li><a href="http://blog.linkedin.com/blog/2008/10/announcing-appl.html">Announcing Applications on LinkedIn</a></li>
+
+<li>Six Apart's LinkedIn OpenSocial app <a href="http://www.typepad.com/features/bloglink.html">Blog Link</a></li>
+
+<li>The New York Times: <a href="http://open.blogs.nytimes.com/2008/10/28/announcing-the-movie-reviews-api/">Announcing the Movie Reviews API</a></li>
+
+<li>Microsoft's <a href="http://www.visitmix.com/Lab/Oomph">Oomph: A Microformats Toolkit</a></li>
+
+<li><a href="http://google-code-updates.blogspot.com/2008/10/google-moves-towards-single-sign-on.html">Google moves toward single sign-on with OpenID</a></li>
+
+<li><a href="http://googledataapis.blogspot.com/2008/10/federated-login-for-google-account.html">Federated Login For Google Account Users</a></li>
+
+<li>John's take: <a href="http://therealmccrea.com/2008/10/29/google-becomes-openid-provider-plaxo-among-first-live-sites/">Google Becomes OpenID Provider; Plaxo and Zoho Among First Live Sites</a></li>
+
+<li><a href="http://blog.plaxo.com/archives/2008/10/google_becomes.html">Google becomes an OpenID Provider -- try it now on Plaxo</a></li>
+
+</ul><div class="feedflare">
+<a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=Yq8TM"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=Yq8TM" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=TGJlm"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=TGJlm" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=bUTNM"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=bUTNM" border="0"></img></a>
+</div>]]></content:encoded><description>In what will likely be remembered as an historic week for OpenID and for opening up the Social Web, John, David, and Joseph take the show on the road, over to Google headquarters. Special guest Eric Sachs, from the Google's Security Team, shares the backstory behind Google becoming an OpenID provider and talks about how he sees OpenID and OAuth fitting together to solve problems on the Web and in the enterprise.</description><enclosure url="http://thesocialwebtv.s3.amazonaws.com/TheSocialWebTV_ep016.m4v" length="910515012" type="binary/octet-stream" /><media:content url="http://thesocialwebtv.s3.amazonaws.com/TheSocialWebTV_ep016.m4v" fileSize="910515012" type="binary/octet-stream" /><itunes:explicit>yes</itunes:explicit><itunes:subtitle>In what will likely be remembered as an historic week for OpenID and for opening up the Social Web, John, David, and Joseph take the show on the road, over to Google headquarters. Special guest Eric Sachs, from the Google's Security Team, shares the backs</itunes:subtitle><itunes:author>John McCrea, David Recordon, and Joseph Smarr</itunes:author><itunes:summary>In what will likely be remembered as an historic week for OpenID and for opening up the Social Web, John, David, and Joseph take the show on the road, over to Google headquarters. Special guest Eric Sachs, from the Google's Security Team, shares the backstory behind Google becoming an OpenID provider and talks about how he sees OpenID and OAuth fitting together to solve problems on the Web and in the enterprise.</itunes:summary><itunes:keywords>web20,socialgraph,socialnetworking,opensource,dataportability</itunes:keywords><feedburner:origLink>http://www.thesocialweb.tv/blog/2008/10/episode-16-open.html</feedburner:origLink></item><item><title>Episode 15: "On location at Yahoo!"</title><link>http://feeds.feedburner.com/~r/typepad/thesocialwebtv/~3/430855079/episode-15-on-l.html</link><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">John McCrea, David Recordon, and Joseph Smarr</dc:creator><pubDate>Fri, 24 Oct 2008 11:24:42 -0500</pubDate><guid isPermaLink="false">tag:typepad.com,2003:post-57502445</guid><content:encoded xmlns:content="http://purl.org/rss/1.0/modules/content/"><![CDATA[
+<div xmlns="http://www.w3.org/1999/xhtml"><div class="entry-video"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="540" height="346" id="viddler_d445c609"><param name="movie" value="http://www.viddler.com/player/d445c609/" /><param name="allowScriptAccess" value="always" /><param name="allowFullScreen" value="true" /><embed src="http://www.viddler.com/player/d445c609/" width="540" height="346" type="application/x-shockwave-flash" allowScriptAccess="always" allowFullScreen="true" name="viddler_d445c609" ></embed></object></object></div>
+
+<h3 class="entry-title"><a href="http://www.thesocialweb.tv/blog/2008/10/episode-15-on-l.html">Episode 15: &quot;On location at Yahoo!&quot;</a></h3>
+
+<div class="entry-description"><p>John heads over to the Yahoo campus to chat with special guest Allen Tom, Architect, Yahoo! Membership about last week's launch of Y!OS and this week's historic OpenID/OAuth User Experience (UX) Summit. Plus, we get to see the gigantic "open" banner hanging up at Yahoo!</p></div>
+
+<p class="entry-links">Links related to this episode:</p>
+
+<ul><li>John McCrea's guest post on TechCrunchIT: <a href="http://www.techcrunchit.com/2008/10/22/facebook-connect-and-openid-relationship-status-“it’s-complicated”/">Facebook Connect and OpenID Relationship Status: “It’s Complicated”</a></li>
+
+<li>John McCrea's <a href="http://therealmccrea.com/2008/10/20/live-blogging-the-openidoauth-ux-summit/">Live Blogging the OpenID/OAuth UX Summit</a></li>
+
+<li>Yahoo's <a href="http://developer.yahoo.net/blog/archives/2008/10/open_id_research.html">OpenID Usability Study</a></li>
+
+<li>Google's <a href="http://sites.google.com/site/oauthgoog/UXFedLogin/CombineGoogYahoo">OpenID Usability Study</a></li>
+
+<li>Joseph Smarr's post on Plaxo's integration of the Netflix API: <a href="http://blog.plaxo.com/archives/2008/10/joseph_rated_ne.html">Joseph rated "New Netflix / Pulse Integration" 5 stars</a></li></div>
+<div class="feedflare">
+<a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=zveyM"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=zveyM" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=jcBsm"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=jcBsm" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=kWOUM"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=kWOUM" border="0"></img></a>
+</div>]]></content:encoded><description>Episode 15: "On location at Yahoo!" John heads over to the Yahoo campus to chat with special guest Allen Tom, Architect, Yahoo! Membership about last week's launch of Y!OS and this week's historic OpenID/OAuth User Experience (UX) Summit. Plus, we...</description><feedburner:origLink>http://www.thesocialweb.tv/blog/2008/10/episode-15-on-l.html</feedburner:origLink></item><item><title>Episode 14: "Mashin' it up with Mashery"</title><link>http://feeds.feedburner.com/~r/typepad/thesocialwebtv/~3/423795228/episode-14-mash.html</link><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">John McCrea, David Recordon, and Joseph Smarr</dc:creator><pubDate>Mon, 20 Oct 2008 15:46:23 -0500</pubDate><guid isPermaLink="false">tag:typepad.com,2003:post-57087101</guid><content:encoded xmlns:content="http://purl.org/rss/1.0/modules/content/"><![CDATA[
+<div xmlns="http://www.w3.org/1999/xhtml"><div class="entry-video"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="540" height="346" id="viddler_75d1d2cd"><param name="movie" value="http://www.viddler.com/player/75d1d2cd/" /><param name="allowScriptAccess" value="always" /><param name="allowFullScreen" value="true" /><embed src="http://www.viddler.com/player/75d1d2cd/" width="540" height="346" type="application/x-shockwave-flash" allowScriptAccess="always" allowFullScreen="true" name="viddler_75d1d2cd" ></embed></object></object></div>
+
+<h3 class="entry-title"><a href="http://www.thesocialweb.tv/blog/2008/10/episode-14-mash.html">Episode 14: &quot;Mashin' it up with Mashery&quot;</a></h3>
+
+<div class="entry-description"><p>John and Chris host special guest Clay Loveless, Mashery's chief architect. Topics include: Key sessions at FOWA, recent usability studies for OpenID (and how the "open stack" team is responding), and Mashery's behind-the-scenes role in launching APIs for New York Times, Netflix, Best Buy, and MTV. Things to watch for: John's voice cracking (twice), mysterious arm gestures in the background, and our first "Pailin moment"! </p></div>
+
+<p class="entry-links">Links related to this episode:</p>
+
+<ul><li>David Recordon at FOWA: <a href="http://www.viddler.com/explore/carsonified/videos/55/">"Blowing Up Social Networks with Open Tech"</a></li>
+
+<li>Mark Zuckerberg's <a href="http://www.viddler.com/explore/carsonified/videos/45/">fireside chat at FOWA</a></li>
+
+<li>Yahoo's <a href="http://developer.yahoo.net/blog/archives/2008/10/open_id_research.html">OpenID Usability Study</a></li>
+
+<li>Google's <a href="http://sites.google.com/site/oauthgoog/UXFedLogin/CombineGoogYahoo">OpenID Usability Study</a></li>
+
+
+<li><a href="<li>Yahoo's <a href="http://sites.google.com/site/oauthgoog/UXFedLogin/09nov-uxsummit">OpenID/OAuth UX Summit</a></li></a></li>
+
+<li>Mashery's <a href="http://www.apiconference.com/">Business of APIs</a> conference</li></div>
+<div class="feedflare">
+<a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=nMUmM"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=nMUmM" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=X7otm"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=X7otm" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=KxbTM"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=KxbTM" border="0"></img></a>
+</div>]]></content:encoded><description>Episode 14: "Mashin' it up with Mashery" John and Chris host special guest Clay Loveless, Mashery's chief architect. Topics include: Key sessions at FOWA, recent usability studies for OpenID (and how the "open stack" team is responding), and Mashery's behind-the-scenes...</description><feedburner:origLink>http://www.thesocialweb.tv/blog/2008/10/episode-14-mash.html</feedburner:origLink></item><item><title>Episode 13: "Dare to be Open?"</title><link>http://feeds.feedburner.com/~r/typepad/thesocialwebtv/~3/416889988/episode-13-dare.html</link><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">John McCrea, David Recordon, and Joseph Smarr</dc:creator><pubDate>Fri, 10 Oct 2008 15:14:09 -0500</pubDate><guid isPermaLink="false">tag:typepad.com,2003:post-56814063</guid><content:encoded xmlns:content="http://purl.org/rss/1.0/modules/content/"><![CDATA[
+<div xmlns="http://www.w3.org/1999/xhtml"><div class="entry-video"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="540" height="346" id="viddler_fca3196b"><param name="movie" value="http://www.viddler.com/player/fca3196b/" /><param name="allowScriptAccess" value="always" /><param name="allowFullScreen" value="true" /><embed src="http://www.viddler.com/player/fca3196b/" width="540" height="346" type="application/x-shockwave-flash" allowScriptAccess="always" allowFullScreen="true" name="viddler_fca3196b" ></embed></object></object></div>
+
+<h3 class="entry-title"><a href="http://www.thesocialweb.tv/blog/2008/10/episode-13-dare.html">Episode 13: &quot;Dare to be Open?&quot;</a></h3>
+
+<div class="entry-description"><p>With David and Chris in London for FOWA, John and Joseph host special guest Kaliya Hamlin, a.k.a "Identity Woman". Topics include: New York Times going social; Dare Obasanjo's blogpost on Portable Contacts; and the open, grass-roots community processes that helps the open building blocks come together. </p></div>
+
+<p class="entry-links">Links related to this episode:</p>
+
+<ul><li>David and Chris were at: <a href="http://www.futureofwebapps.com/">"FOWA"</a></li>
+
+<li><a href="http://timespeople.nytimes.com/home">TimesPeople</a> from the New York Times</li>
+
+<li>TechCrunch post: <a href="http://www.techcrunch.com/2008/10/09/janrain-promotes-openid-adoption-through-the-long-tail/">JanRain's RPX announcement</a></li>
+
+<li>Dare Obasanjo's <a href="http://www.25hoursaday.com/weblog/2008/10/05/ThePortableContactsAPIKillingThePasswordAntiPatternOnceAndForAll.aspx">The Portable Contacts API: Killing the Password Anti-Pattern Once and For All</a></li>
+
+<li><a href="http://gillmorgang.techcrunch.com/2008/10/06/the-gillmor-gang/">Gillmor Gang with Chris Messina</a> discussing Portable Contacts and Dare's blogpost</li>
+
+<li><a href="http://iiw.idcommons.net/Index.php/Main_Page">Internet Identity Workshop</a></li>
+
+<li><a href="http://kidsonline.eventbrite.com">Kids Online event</a></li>
+
+<li>Kaliya's blog: <a href="http://identitywoman.net">Identity Woman</a></li>
+
+
+</div>
+<div class="feedflare">
+<a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=MiuXM"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=MiuXM" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=TGUVm"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=TGUVm" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=9YQJM"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=9YQJM" border="0"></img></a>
+</div>]]></content:encoded><description>Episode 13: "Dare to be Open?" With David and Chris in London for FOWA, John and Joseph host special guest Kaliya Hamlin, a.k.a "Identity Woman". Topics include: New York Times going social; Dare Obasanjo's blogpost on Portable Contacts; and the...</description><feedburner:origLink>http://www.thesocialweb.tv/blog/2008/10/episode-13-dare.html</feedburner:origLink></item><item><title>Episode 12: "Netflix Opens Up"</title><link>http://feeds.feedburner.com/~r/typepad/thesocialwebtv/~3/410308034/episode-12-netf.html</link><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">John McCrea, David Recordon, and Joseph Smarr</dc:creator><pubDate>Fri, 03 Oct 2008 09:51:41 -0500</pubDate><guid isPermaLink="false">tag:typepad.com,2003:post-56467345</guid><content:encoded xmlns:content="http://purl.org/rss/1.0/modules/content/"><![CDATA[
+<div xmlns="http://www.w3.org/1999/xhtml"><div class="entry-video"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="540" height="346" id="viddler_7662049b"><param name="movie" value="http://www.viddler.com/player/7662049b/" /><param name="allowScriptAccess" value="always" /><param name="allowFullScreen" value="true" /><embed src="http://www.viddler.com/player/7662049b/" width="540" height="346" type="application/x-shockwave-flash" allowScriptAccess="always" allowFullScreen="true" name="viddler_7662049b" ></embed></object></object></div>
+
+<h3 class="entry-title"><a href="http://www.thesocialweb.tv/blog/2008/10/episode-12-netf.html">Episode 12: &quot;Netflix Opens Up&quot;</a></h3>
+
+<div class="entry-description"><p>David and Joseph are back from the East Coast to join John for a discussion with special guest Michael Hart from Netflix on the day after Netflix released its much anticipated API. Discussion also includes Mashery, a company that's becoming a key part of the new open Social Web ecosystem, providing API support to mainstream companies, like Netflix, Best Buy, and MTV. </p></div>
+
+<p class="entry-links">Links related to this episode:</p>
+
+<ul><li>Wall Street Journal's piece on OpenID: <a href="http://online.wsj.com/article/SB122227787438071729.html">"One Key Fits All"</a></li>
+
+<li>The <a href="http://developer.netflix.com/blog/read/Introducing_the_Netflix_API">announcement</a> on the Netflix blog</li>
+
+<li>John's <a href="http://therealmccrea.com/2008/10/01/netflix-welcoming-a-new-api-for-the-social-web/">post on the Netflix API</a></li>
+
+<li>Joseph's <a href="http://josephsmarr.com/2008/10/01/using-netflixs-new-api-a-step-by-step-guide/">Step-by-Step Guide to Using the Netflix API</a></li>
+
+<li><a href="http://openid.net/2008/10/01/openid-content-provider-advisory-committee-kickoff-meeting/">OpenID Meeting with Media Companies</a></li></div>
+<div class="feedflare">
+<a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=ZUuvM"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=ZUuvM" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=3I78m"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=3I78m" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=0HKGM"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=0HKGM" border="0"></img></a>
+</div>]]></content:encoded><description>Episode 12: "Netflix Opens Up" David and Joseph are back from the East Coast to join John for a discussion with special guest Michael Hart from Netflix on the day after Netflix released its much anticipated API. Discussion also includes...</description><feedburner:origLink>http://www.thesocialweb.tv/blog/2008/10/episode-12-netf.html</feedburner:origLink></item><item><title>Episode 11: "And then there was one"</title><link>http://feeds.feedburner.com/~r/typepad/thesocialwebtv/~3/403463855/episode-11-and.html</link><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">John McCrea, David Recordon, and Joseph Smarr</dc:creator><pubDate>Fri, 26 Sep 2008 16:44:59 -0500</pubDate><guid isPermaLink="false">tag:typepad.com,2003:post-56144400</guid><content:encoded xmlns:content="http://purl.org/rss/1.0/modules/content/"><![CDATA[
+<div xmlns="http://www.w3.org/1999/xhtml"><div class="entry-video"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="540" height="346" id="viddler_60ae059"><param name="movie" value="http://www.viddler.com/player/60ae059/" /><param name="allowScriptAccess" value="always" /><param name="allowFullScreen" value="true" /><embed src="http://www.viddler.com/player/60ae059/" width="540" height="346" type="application/x-shockwave-flash" allowScriptAccess="always" allowFullScreen="true" name="viddler_60ae059" ></embed></object></object></div>
+
+<h3 class="entry-title"><a href="http://www.thesocialweb.tv/blog/2008/09/episode-11-and.html">Episode 11: &quot;And then there was one&quot;</a></h3>
+
+<div class="entry-description"><p>With a lineup never before tried, The Social Web TV team tackles another week of big "opening up" news, including: Android, the soon-to-launch Google open source mobile platform; Facebook Connect spotted in the wild; and a discussion of the "new open stack". </p></div>
+
+<p class="entry-links">Links related to this episode:</p>
+
+<ul><li>Brad Stone of the New York Times on: <a href="http://bits.blogs.nytimes.com/2008/09/23/the-api-bug-hits-old-retail-and-old-media/">the emerging importance of APIs</a></li>
+
+<li>TechCrunch piece: <a href="http://www.techcrunch.com/2008/09/19/facebook-connect-spotted-in-the-wild-will-beacon-finally-die/">Facebook Connect Spotted in the Wild</a></li>
+
+<li>Example Facebook Connect site: <a href="http://theinsider.com/">The Insider</a></li>
+
+<li>Information Week piece on: <a href="http://weblog.infoworld.com/fatalexception/archives/2008/09/sdk_shootout_an.html">Google Android SDK vs. Apple iPhone SDK</a></li>
+
+<li><a href="http://josephsmarr.com/2008/09/22/tying-it-all-together-implementing-the-open-web-web-20-expo-new-york/">Joseph's blogpost</a> with his Web 2.0 Expo presentation</li>
+
+<li>The blog for our summer intern, Lauren Ellsworth: <a href="http://redyaffle.com/">Red Yaffle</a></li></div>
+<div class="feedflare">
+<a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=bfPuL"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=bfPuL" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=D4rDl"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=D4rDl" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?a=PYkbL"><img src="http://feeds.feedburner.com/~f/typepad/thesocialwebtv?i=PYkbL" border="0"></img></a>
+</div>]]></content:encoded><description>Episode 11: "And then there was one" With a lineup never before tried, The Social Web TV team tackles another week of big "opening up" news, including: Android, the soon-to-launch Google open source mobile platform; Facebook Connect spotted in the...</description><feedburner:origLink>http://www.thesocialweb.tv/blog/2008/09/episode-11-and.html</feedburner:origLink></item><media:credit role="author">John McCrea, David Recordon, and Joseph Smarr</media:credit><media:rating>adult</media:rating><media:description type="plain">Who owns your data and content?</media:description></channel></rss>
