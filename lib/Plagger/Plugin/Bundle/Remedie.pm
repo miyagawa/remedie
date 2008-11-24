@@ -19,6 +19,7 @@ sub register {
 #    $context->autoload_plugin({ module => 'Filter::TruePermalink' });
     $context->autoload_plugin({ module => 'Namespace::iTunesDTD' });
     $context->autoload_plugin({ module => 'Filter::FindEnclosures' });
+    $context->autoload_plugin({ module => 'Filter::EnclosureMetadata' });
     $context->autoload_plugin({ module => 'Filter::ExtractThumbnail' });
     $context->autoload_plugin({ module => 'Filter::HTMLScrubber',
                                 config => { default_deny => 1,

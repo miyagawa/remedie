@@ -15,6 +15,7 @@ sub url {
     $self->{url};
 }
 
+# deprecated
 sub auto_set_type {
     my($self, $type) = @_;
 

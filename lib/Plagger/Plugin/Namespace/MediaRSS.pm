@@ -28,7 +28,7 @@ sub handle {
                 $context->log(debug => "Found MediaRSS $media_content->{url}");
                 my $enclosure = Plagger::Enclosure->new;
                 $enclosure->url( URI->new($media_content->{url}) );
-                $enclosure->auto_set_type($media_content->{type});
+                $enclosure->type($media_content->{type});
                 $args->{entry}->add_enclosure($enclosure);
             }
         }

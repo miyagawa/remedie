@@ -157,7 +157,7 @@ sub handle_feed {
                 my $enclosure = Plagger::Enclosure->new;
                 $enclosure->url( URI->new_abs($encl->{url}, $remote->link) );
                 $enclosure->length($encl->{length});
-                $enclosure->auto_set_type($encl->{type});
+                $enclosure->type($encl->{type});
                 $entry->add_enclosure($enclosure);
             }
         } elsif ($remote->format eq 'Atom') {
@@ -165,7 +165,7 @@ sub handle_feed {
                 my $enclosure = Plagger::Enclosure->new;
                 $enclosure->url( URI->new_abs($link->href, $remote->link) );
                 $enclosure->length($link->length);
-                $enclosure->auto_set_type($link->type);
+                $enclosure->type($link->type);
                 $entry->add_enclosure($enclosure);
             }
         }

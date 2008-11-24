@@ -112,7 +112,6 @@ sub add_enclosure_from_object {
         Plagger->context->log(info => "Found enclosure $url");
         my $enclosure = Plagger::Enclosure->new;
         $enclosure->url( URI->new($url) );
-        $enclosure->auto_set_type;
         $entry->add_enclosure($enclosure); # XXX inline?
     }
 }
@@ -125,7 +124,7 @@ sub add_enclosure {
         Plagger->context->log(info => "Found enclosure $tag->[1]{$attr}");
         my $enclosure = Plagger::Enclosure->new;
         $enclosure->url($tag->[1]{$attr});
-        $enclosure->auto_set_type($opt->{type});
+        $enclosure->type($opt->{type});
         $enclosure->is_inline(1) if $opt->{inline};
         $enclosure->width($tag->[1]{width})   if $tag->[1]{width};
         $enclosure->height($tag->[1]{height}) if $tag->[1]{height};
