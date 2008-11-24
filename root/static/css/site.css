@@ -242,6 +242,18 @@ div.item-separator {
   display: none;
 }
 
+.embed-player-footer {
+  display: none;
+  text-align: left;
+  position: absolute;
+  background: #000;
+  left:0; right:0;
+  padding: 1em;
+  bottom:20px; height:8%;
+  margin:0px;
+  color:#fff;
+}
+
 div#jqContextMenu {
         -webkit-border-radius: 5px;
         border: 1px solid rgba(0,0,0,0.1);

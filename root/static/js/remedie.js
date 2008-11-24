@@ -316,11 +316,17 @@ Remedie.prototype = {
     $('#embed-player').append(
       $('<img/>').attr('class', 'closebox').attr('src', "/static/images/closebox.png").click($.unblockUI)
     );
-    $('#embed-player').hover(
-      function(){ $(".closebox", this).show() },
-      function(){ $(".closebox", this).fadeOut(500) }
-    );
 
+    if (player != 'Web') {
+      $('#embed-player').append(
+        $('<div></div>').attr('class', 'embed-player-footer').html($("<h4></h4>").text(item.name)).css({opacity:0.6})
+      );
+    }
+
+    $('#embed-player').hover(
+      function(){ $(".closebox, .embed-player-footer", this).show() },
+      function(){ $(".closebox, .embed-player-footer", this).fadeOut(500) }
+    );
 
     $.blockUI({
       message: $('#embed-player'),
