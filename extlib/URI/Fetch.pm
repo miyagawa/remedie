@@ -101,6 +101,7 @@ sub fetch {
         $fetch->etag($ref->{ETag});
         $fetch->last_modified($ref->{LastModified});
         $fetch->content_type($ref->{ContentType});
+        _store_cache($fetch, $cache, $p_cache_grep, $freeze);
         return $fetch;
     } elsif (!$res->is_success) {
         return $force ? $fetch : $class->error($res->message);
@@ -126,6 +127,13 @@ sub fetch {
 
     $fetch->content($content);
 
+    _store_cache($fetch, $cache, $p_cache_grep, $freeze);
+    $fetch;
+}
+
+sub _store_cache {
+    my($fetch, $cache, $p_cache_grep, $freeze) = @_;
+
     # cache by default, if there's a cache.  but let callers cancel
     # the cache action by defining a cache grep hook
     if ($cache &&
@@ -139,7 +147,6 @@ sub fetch {
             ContentType  => $fetch->content_type,
         }));
     }
-    $fetch;
 }
 
 1;
