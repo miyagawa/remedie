@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+<title>foo</title>
+<item>
+<title>猫</title>
+<description>犬</description>
+<link>http://plagger.org/</link>
+</item>
+<item>
+<title>エンコード確定用</title>
+<description>日本語のテスト</description>
+<link>http://plagger.org/</link>
+</item>
+</channel>
+</rss>

@@ -28,7 +28,7 @@ sub store {
     for my $entry (reverse $feed->entries) {
         my $permalink = $entry->permalink || $entry->link or next;
 
-        my $enclosure = $entry->enclosure;
+        my $enclosure = $entry->primary_enclosure;
         my $ident = $enclosure ? $enclosure->url : $permalink;
 
         my $item = Remedie::DB::Item::Manager->lookup(

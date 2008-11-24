@@ -175,7 +175,7 @@ sub mime_is_enclosure {
     return unless $mime;
 
     my %is_media = map { $_ => 1 } qw( shockwave-flash ogg bittorrent );
-    $mime->mediaType =~ m!^(?:audio|video)$! || $is_media{$mime->subType};
+    $mime->mediaType =~ m!^(?:audio|video|image)$! || $is_media{$mime->subType};
 }
 
 my %entities = (

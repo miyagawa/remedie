@@ -10,6 +10,7 @@ use Digest::MD5;
 use DateTime::Format::Mail;
 use Storable;
 use Plagger::Util;
+use List::Util qw( first );
 
 sub new {
     my $class = shift;
@@ -86,6 +87,13 @@ sub add_enclosure {
 sub enclosure {
     my $self = shift;
     wantarray ? @{$self->{enclosures}} : $self->{enclosures}->[0];
+}
+
+sub primary_enclosure {
+    my $self = shift;
+    my @enclosures = $self->enclosures;
+    my $primary = first { $_->type =~ /video|audio/ } @enclosures;
+    return $primary || $self->enclosure;
 }
 
 sub enclosures {

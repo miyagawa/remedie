@@ -1,0 +1,362 @@
+package t::TestPlagger;
+use Config;
+use FindBin;
+use File::Basename;
+use File::Spec;
+use Test::Base -Base;
+use URI::Escape ();
+use Plagger;
+use Remedie::Log;
+
+our @EXPORT = qw(test_requires test_requires_network test_requires_command test_plugin_deps
+                 run_eval_expected run_eval_expected_with_capture
+                 slurp_file file_contains file_doesnt_contain);
+
+our($BaseDir, $BaseDirURI);
+{
+    my @path = File::Spec->splitdir($FindBin::Bin);
+    while (defined(my $dir = pop @path)) {
+        if ($dir eq 't') {
+            $BaseDir = File::Spec->catfile(@path);
+            $BaseDirURI = join "/", map URI::Escape::uri_escape($_), @path;
+            last;
+        }
+    }
+}
+
+=item test_requires
+
+Checks to see if the module can be loaded.
+
+   test_requires("Your::Momma");
+   test_requires("Your::Momma",3.141); # version 3.141 or later
+
+If this fails rather than failing tests this B<skips all tests>.
+
+=cut
+
+sub test_requires() {
+    my($mod, $ver) = @_;
+
+    if ($ver) {
+        eval qq{use $mod $ver};
+    } else {
+        eval qq{use $mod};
+    }
+
+    if ($@) {
+        if ($@ =~ /^Can't locate/) {
+            plan skip_all => "Test requires module '$mod' but it's not found";
+        }
+        else {
+            plan skip_all => "$@";
+        }
+    }
+}
+
+=item has_network($spec)
+
+Returns true if and only if the specified port can be established.  The
+spec should be of the form:
+
+  hostname:port
+
+e.g.
+
+  plagger.org:80
+
+This function always returns false immediatly without connecting to the
+network if the enviroment varible C<NO_NETWORK> has been set.
+
+=cut
+
+sub has_network() {
+    my $host = shift;
+    return if $ENV{NO_NETWORK};
+
+    require IO::Socket::INET;
+    my $conn = IO::Socket::INET->new(PeerAddr => $host, Timeout => 15);
+    defined $conn;
+}
+
+=item test_requires_network
+
+This function skips all tests if the network is not reachable, e.g.
+
+  # can I reach google's web site?
+  test_requires_network();
+  
+  # can I reach plagger's web site?
+  test_requires_network("plagger.org")
+  
+  # can I reach a different port?
+  test_requires_network("gmail.com:443");
+
+=cut
+
+sub test_requires_network() {
+    my $host = shift || 'www.google.com:80';
+       $host .= ":80" if $host !~ /:/;
+
+    unless (has_network($host)) {
+        plan skip_all => "Test requires network($host) which is not available now.";
+    }
+}
+
+=item test_requires_command($command)
+
+This function skips all tests if the given command
+doesn't exist in your path (i.e. in the dirs in the PATH enviroment
+variable.)
+
+=cut
+
+sub test_requires_command() {
+    my $command = shift;
+    for my $path (split /$Config::Config{path_sep}/, $ENV{PATH}) {
+        if (-e File::Spec->catfile($path, $command) && -x _) {
+            return 1;
+        }
+    }
+    plan skip_all => "Test requires '$command' command but it's not found";
+}
+
+=item test_plugin_deps
+
+This function skips all tests if the module's requirements
+(modules, versions, platforms, bundles) aren't installed.
+
+If you pass an argument then it will check the requirement
+for that module:
+
+  # this will check the Foo-Bar.yaml file for deps
+  test_plugin_deps("Foo::Bar");
+
+Called with no arguments it works out magically the name of
+the plugin based on the directory the test file is located
+in.
+
+   # in the Foo-Bar/wobble.t file
+   # this will check the Foo-Bar.yaml file for deps   
+   test_plugin_deps();
+  
+The requirements are defined in YAML files located
+in the C<deps> directory inside the Plagger directory.  A typical
+YAML file looks like this:
+
+  name: Publish::Speech::MacOSX
+  author: Ryo Okamoto
+  platform: darwin
+  depends: 
+    Mac::Files: 0
+    Mac::Speech: 0
+
+Or
+
+  name: Subscription::Bookmarks::Mozilla
+  author: youpy
+  bundles:
+    - Subscription::XPath
+
+=cut
+
+sub test_plugin_deps() {
+    my($mod, $no_warning) = @_;
+    $mod ||= File::Basename::basename($FindBin::Bin);
+    $mod =~ s!::!-!g;
+
+    my $file = File::Spec->catfile( $BaseDir, "deps", "$mod.yaml" );
+    unless (-e $file) {
+#        warn "Can't find deps file for $mod" unless $no_warning;
+        return;
+    }
+
+    my $meta = eval { YAML::LoadFile($file) } or die "reading $file failed:\n$@";
+
+    if ($meta->{platform} && $meta->{platform} ne $^O) {
+        plan skip_all => "Test requires to be run on '$meta->{platform}'";
+    }
+
+    for my $plugin (@{ $meta->{bundles} || [] }) {
+        $plugin =~ s/::/-/g;
+        test_plugin_deps($plugin, 1);
+    }
+
+    while (my($mod, $ver) = each %{$meta->{depends} || {}}) {
+        test_requires($mod, $ver);
+    }
+}
+
+=item run_eval_expected
+
+Add a new test run across all blocks to check that
+the expected blocks can be evaled succesfully.  During
+these evaluations the expected input is availible from
+C<$context>.
+
+One extra test failure will happen per block that's expected
+output throws an error when evaluated.  No successes are
+generated by this code, but the expected code may in
+turn generate many sucesses or failures.
+
+=cut
+
+sub run_eval_expected {
+    run {
+        my $block = shift;
+        
+        # context is being pulled out here so that
+        # the eval box can see it
+        my $context = $block->input; # it's not always true
+        
+        eval $block->expected;
+        fail $@ if $@;
+    };
+}
+
+=item run_eval_expected_with_capture
+
+Add new test run across all blocks to check that
+the expected blocks can be evaled succesfully.  During
+these evaluations the expected input is availible from
+C<$context>, and warnings created by the filters
+are avalible from C<$warnings>.
+
+=cut
+
+sub run_eval_expected_with_capture {
+    filters_delay;
+    for my $block (blocks) {
+      
+        # capture all the warnings from the filters
+        # this is often used in the tests as a way to find
+        # out what has happened (e.g. the Growl plugin)
+        my $warnings;
+        {
+            local $SIG{__WARN__} = sub { $warnings .= "@_" };
+            $block->run_filters;
+        }
+        
+        # context is being pulled out here so that
+        # the eval box can see it
+        my $context = $block->input;
+        
+        eval $block->expected;
+        fail $@ if $@;
+    }
+}
+
+=item slurp_file($filename)
+
+Returns the contents of the file, as a single scalar
+
+=cut
+
+sub slurp_file() {
+    my $file = shift;
+    open my $fh, $file or return;
+    return join '', <$fh>;
+}
+
+=item file_contains($filename, $regexp)
+
+Test if the file (specified by filename) matches the passed regexp.
+
+=cut
+
+sub file_contains() {
+    my($file, $pattern) = @_;
+
+    like slurp_file($file), $pattern;
+}
+
+=item file_doesnt_contains($filename, $regexp)
+
+Test the file (specified by filename) doesnt matches the passed regexp.
+If the file doesn't exist, this test will fail.
+
+=cut
+
+sub file_doesnt_contain() {
+    my($file, $pattern) = @_;
+    $pattern = qr/\Q$pattern\E/ unless ref $pattern;
+
+    my $content = slurp_file($file) or return fail("$file: $!");
+    unlike $content, $pattern;
+}
+
+package t::TestPlagger::Filter;
+use Test::Base::Filter -base;
+use File::Temp ();
+
+
+=over
+
+=item interpolate
+
+Filter that replaces scalar values of the type
+
+  $foo
+  $foo::bar
+
+With their actual values.  But don't do backslash escaped things like
+
+  \$foo
+
+Note that you can't do this either:
+
+  ${foo}
+
+Meaning you can't use $foo like so:
+
+  BAR$fooHELLO
+  
+=cut
+
+sub interpolate {
+    my $stuff = shift;
+    
+    # interpolate in $foo::bar to their values in the string
+    # (but not \$foo::bar)
+    $stuff =~ s/(?<!\\)                         # check there's no backslash before this
+                (\$[\w\:]+(?:[\{\[]\w+[\]\}])?) # look for a $var possibly with packages
+               /$1/eegx;                        # replace it with its value
+
+    $stuff =~ s/\\\$/\$/g;  # turn the escaped \$ into $
+    $stuff;
+}
+
+=item config
+
+Filter that configures plagger based on the YAML passed in.
+
+=cut
+
+sub config {
+    my $yaml = shift;
+    
+    # replace $foo values with their actual values
+    $yaml = $self->interpolate($yaml);
+
+    # set sane defaults for testing
+    my $config = YAML::Load($yaml);
+    $config->{global}->{log}->{level}  ||= 'error' unless $ENV{TEST_VERBOSE};
+    $config->{global}->{assets_path}   ||= File::Spec->catfile($t::TestPlagger::BaseDir, 'root', 'plugins');
+    $config->{global}->{cache}->{base} ||= File::Temp::tempdir(CLEANUP => 1);
+
+    Plagger->bootstrap(config => $config);
+}
+
+=item output_file
+
+Reads the file who's filename is in $main::output and returns it (failing on problems)
+
+=cut
+
+sub output_file {
+    my $output = $main::output or die "\$main::output is undefined";
+    open my $fh, $output or return ::fail("$output: $!");
+    return join '', <$fh>;
+}
+
+1;

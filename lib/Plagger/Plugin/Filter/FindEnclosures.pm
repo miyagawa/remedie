@@ -84,13 +84,15 @@ sub add_enclosure_from_object {
 
     # get param tags and find appropriate FLV movies
     my @params;
+    my @embeds;
     while (my $tag = $parser->get_tag('param', 'embed', '/object')) {
         last if $tag->[0] eq '/object';
 
         if ($tag->[0] eq 'param') {
             push @params, $tag;
         } elsif ($tag->[0] eq 'embed') {
-            $self->add_enclosure($entry, $tag, 'src', { type => $tag->[1]->{type} });
+            push @embeds, [ $tag, 'src', { type => $tag->[1]->{type} } ];
+#            $self->add_enclosure($entry, $tag, 'src', { type => $tag->[1]->{type} });
         }
     }
 
@@ -108,11 +110,15 @@ sub add_enclosure_from_object {
         $url = $movie->[1]->{value} if $movie;
     }
 
+    # found moviepath from flashvars: Just use them
     if ($url) {
-        Plagger->context->log(info => "Found enclosure $url");
+        Plagger->context->log(info => "Found enclosure $url from flash params");
         my $enclosure = Plagger::Enclosure->new;
         $enclosure->url( URI->new($url) );
         $entry->add_enclosure($enclosure); # XXX inline?
+    } elsif (@embeds) {
+        Plagger->context->log(info => "Use embed tags to create SWF enclosure: $embeds[0][1]");
+        $self->add_enclosure($entry, @{ $embeds[0] });
     }
 }
 
