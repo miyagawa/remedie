@@ -319,7 +319,10 @@ Remedie.prototype = {
 
     if (player == 'Flash' || player == 'Silverlight') {
       $('#embed-player').append(
-        $('<div></div>').attr('class', 'embed-player-footer').html($("<h4></h4>").text(item.name)).css({opacity:0.6})
+        $('<div></div>').attr('class', 'embed-player-footer').append(
+           $("<span></span>").attr("class", "embed-player-item-title").text(item.name), "&nbsp;&nbsp;",
+           $("<span></span>").attr("class", "embed-player-channel-title").text(this.channels[item.channel_id].name)
+        ).css({opacity:0.6})
       );
     }
 

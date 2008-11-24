@@ -254,6 +254,16 @@ div.item-separator {
   color:#fff;
 }
 
+.embed-player-item-title {
+  font-size: 1.6em;
+  font-weight: bold;
+}
+
+.embed-player-channel-title {
+  font-size: 1.4em;
+  font-weight: normal;
+}
+
 div#jqContextMenu {
         -webkit-border-radius: 5px;
         border: 1px solid rgba(0,0,0,0.1);
