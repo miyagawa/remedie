@@ -25,7 +25,8 @@ sub filter {
     my $type = $enclosure->type;
     my $mime = Plagger::Util::mime_type_of($enclosure->url);
 
-    if (!$type or (Plagger::Util::mime_is_enclosure($mime) && $type ne $mime)) {
+    if (Plagger::Util::mime_is_enclosure($mime) and
+        (!$type or $type ne $mime->type)) {
         $context->log(info => "Auto-setting MIME type " .  $mime->type . " on " . $enclosure->url);
         $enclosure->type($mime->type);
     }
