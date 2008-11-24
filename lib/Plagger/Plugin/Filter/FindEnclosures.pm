@@ -185,7 +185,6 @@ sub upgrade {
 
     my $plugin = $self->plugin_for($args->{entry}->link);
     if ($plugin) {
-        $context->log(debug => "Upgrading enclosure " . $args->{enclosure}->url . " with " . $plugin->site_name);
         $plugin->upgrade($args);
     }
 }
