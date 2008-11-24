@@ -6,6 +6,7 @@ use Encode;
 use List::Util qw(first);
 use HTML::TokeParser;
 use HTML::ResolveLink;
+use HTML::Selector::XPath;
 use HTML::TreeBuilder::XPath;
 use Plagger::UserAgent;
 use Plagger::Util qw( decode_content extract_title );
@@ -44,11 +45,17 @@ sub handle {
 
     my $handler = $self->plugin_for($args->{feed}->url);
     if ($handler) {
-        $args->{match} = $handler->follow_link;
-        $args->{xpath} = $handler->follow_xpath;
+        $args->{match}    = $handler->follow_link;
+        $args->{xpath}    = $handler->follow_xpath;
+        $args->{selector} = $handler->follow_selector;
     } else {
-        $args->{match} = $args->{feed}->meta->{follow_link}  || $self->conf->{follow_link};
-        $args->{xpath} = $args->{feed}->meta->{follow_xpath} || $self->conf->{follow_xpath};
+        $args->{match}    = $args->{feed}->meta->{follow_link}     || $self->conf->{follow_link};
+        $args->{xpath}    = $args->{feed}->meta->{follow_xpath}    || $self->conf->{follow_xpath};
+        $args->{selector} = $args->{feed}->meta->{follow_selector} || $self->conf->{follow_selector};
+    }
+
+    if ($args->{selector}) {
+        $args->{xpath} = HTML::Selector::XPath::selector_to_xpath($args->{selector});
     }
 
     if ($args->{match} || $args->{xpath}) {
@@ -168,6 +175,11 @@ sub follow_link {
 sub follow_xpath {
     $_[0]->{follow_xpath};
 }
+
+sub follow_selector {
+    $_[0]->{follow_selector};
+}
+
 
 package Plagger::Plugin::CustomFeed::FindLinks;
 
