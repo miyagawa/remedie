@@ -6,6 +6,8 @@ __PACKAGE__->mk_accessors(qw( tags link feed_link rate icon meta source language
 __PACKAGE__->mk_text_accessors(qw( title author summary body ));
 __PACKAGE__->mk_date_accessors(qw( date ));
 
+*thumbnail = sub { shift->icon(@_) };
+
 use Digest::MD5;
 use DateTime::Format::Mail;
 use Storable;

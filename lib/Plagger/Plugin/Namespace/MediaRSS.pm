@@ -6,8 +6,26 @@ sub register {
     my($self, $context) = @_;
     $context->register_hook(
         $self,
+        'aggregator.feed.fixup' => \&handle_feed,
         'aggregator.entry.fixup' => \&handle,
     );
+}
+
+sub handle_feed {
+    my($self, $context, $args) = @_;
+
+    for my $ns ("http://search.yahoo.com/mrss", "http://search.yahoo.com/mrss/") {
+        my $media;
+        if ($args->{orig_feed}{rss}{channel} and $media = $args->{orig_feed}{rss}{channel}{$ns}) {
+            if ($media->{thumbnail}) {
+                $args->{feed}->image({
+                    url    => $media->{thumbnail}->{url},
+                    width  => $media->{thumbnail}->{width},
+                    height => $media->{thumbnail}->{height},
+                });
+            }
+        }
+    }
 }
 
 sub handle {

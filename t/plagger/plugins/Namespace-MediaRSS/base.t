@@ -3,7 +3,7 @@ use FindBin;
 
 use t::TestPlagger;
 
-plan tests => 8;
+plan tests => 20;
 run_eval_expected;
 
 __END__
@@ -20,6 +20,9 @@ plugins:
         - file://$t::TestPlagger::BaseDirURI/t/samples/monkey.rss
         - file://$t::TestPlagger::BaseDirURI/t/samples/googlevideo.xml
         - file://$t::TestPlagger::BaseDirURI/t/samples/flickr_new.xml
+        - file://$t::TestPlagger::BaseDirURI/t/samples/tekzilla.xml
+        - file://$t::TestPlagger::BaseDirURI/t/samples/hulu.xml
+        - file://$t::TestPlagger::BaseDirURI/t/samples/webbalert.xml
 --- expected
 my @feeds = $context->update->feeds;
 
@@ -34,5 +37,20 @@ is $feeds[1]->entries->[0]->icon->{url}, 'http://video.google.com/ThumbnailServe
 is $feeds[2]->entries->[0]->enclosures->[0]->type, 'image/jpeg';
 is $feeds[2]->entries->[0]->enclosures->[0]->url, 'http://static.flickr.com/109/313831333_60eb5e65b5_m.jpg';
 
+# tekzilla
+is $feeds[3]->entries->[0]->enclosures->[0]->length, 666811687;
+is $feeds[3]->entries->[0]->enclosures->[0]->type, "video/mp4";
+like $feeds[3]->entries->[0]->enclosures->[0]->url, qr/hd.h264.mp4/;
 
+# Hulu
+like $feeds[4]->entries->[0]->enclosure->url, qr/embed/;
+is $feeds[4]->entries->[0]->enclosure->type, "application/x-shockwave-flash";
+is $feeds[4]->entries->[0]->enclosure->width, "512";
+like $feeds[4]->entries->[0]->thumbnail->{url}, qr/thumbnails.hulu.com/;
+is $feeds[4]->entries->[0]->thumbnail->{width}, 145;
 
+# Webbalert
+like $feeds[5]->image->{url}, qr/webbalert-itunes/;
+like $feeds[5]->entries->[0]->enclosure->url, qr/\.mp4/;
+is $feeds[5]->entries->[0]->enclosure->type, "video/mp4";
+like $feeds[5]->entries->[0]->thumbnail->{url}, qr/cdn.episodic.com/;

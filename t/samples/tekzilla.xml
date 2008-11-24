@@ -1,0 +1,834 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:cnettv="http://cnettv.com/mrss/"
+	xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule"
+	xmlns:media="http://search.yahoo.com/mrss/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:amp="http://www.adobe.com/amp/1.0">
+  <channel>
+    <title>Tekzilla (HD Quicktime)</title>
+    <link>http://revision3.com/tekzilla</link>
+    <description>Embrace digital technology. Join the Tekzilla crew and make your tech work better for you.  Or you can go live in the woods with an axe.  Every Saturday, Patrick Norton  and Veronica  Belmont deliver product reviews, computer help, tech tips on everything from iPods to camcorders, HD to the Internet, plus do it yourself projects.  </description>
+    <language>en-us</language>
+    <cnettv:partnerId>27842</cnettv:partnerId>
+    <itunes:category text="Technology">
+      <itunes:category text="Gadgets" />
+    </itunes:category>
+    <itunes:category text="Science &amp; Medicine">
+      <itunes:category text="Natural Sciences" />
+    </itunes:category>
+    <itunes:category text="TV &amp; Film" />
+    <itunes:explicit>no</itunes:explicit>
+    <itunes:summary>Embrace digital technology. Join the Tekzilla crew and make your tech work better for you.  Or you can go live in the woods with an axe.  Every Saturday, Patrick Norton  and Veronica  Belmont deliver product reviews, computer help, tech tips on everything from iPods to camcorders, HD to the Internet, plus do it yourself projects.  </itunes:summary>
+    <itunes:subtitle>Embrace digital technology. Join the Tekzilla crew and make your tech work better for you.  Or you can go live in the woods with an axe.  Every Saturday, Patrick Norton  and Veronica  Belmont deliver product reviews, computer help, tech tips on everythin</itunes:subtitle>
+    <itunes:author>Revision3</itunes:author>
+    <itunes:owner>
+      <itunes:email>feedback@revision3.com</itunes:email>
+      <itunes:name>Revision3</itunes:name>
+    </itunes:owner>
+    <itunes:image href="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tekzilla.jpg" />
+    <itunes:keywords>tech, technology, reviews, tips, computer, help, how to, instructions, ipod, hd, DIY, fun, digital, work better, product reviews, ipod, camcorder, hdtv, dvd, hd dvd, blu-ray, cellphone, internet, do it yourself, instructions, how to, patrick norton, revision3, systm, twit, this week in tech, dl.tv, diggnation, techtv, the screen savers,veronica belmont,veronica,patrick </itunes:keywords>
+    <image>
+      <title>Tekzilla (HD Quicktime)</title>
+      <width>100</width>
+      <height>100</height>
+      <link>http://revision3.com/tekzilla</link>
+      <url>http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tekzilla.jpg</url>
+    </image>
+    <!-- Adobe Media Player Network Assets -->
+    <amp:networkLogo>http://revision3.com/static/images/revision3_networklogo.png</amp:networkLogo>
+    <amp:networkHalfBanner>http://revision3.com/static/images/revision3_halfbanner.jpg</amp:networkHalfBanner>
+    <amp:networkBackground>http://revision3.com/static/images/revision3_background.jpg</amp:networkBackground>
+    <!-- Adobe Media Player Show Assets -->
+    <amp:background>http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tekzilla_background.jpg</amp:background>
+    <amp:banner>http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tekzilla_fullbanner.jpg</amp:banner>
+    <amp:halfBanner>http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tekzilla_halfbanner.jpg</amp:halfBanner>
+    <atom:link rel="self" href="http://revision3.com/tekzilla/feed/quicktime-high-definition/" />
+
+    <item>
+      <title>Tekzilla - Auctioning Off Veronica, The Sock Mod, Manage All Your Social Apps, Avoid Thumbdrive Disaster!</title>
+      <link>http://revision3.com/tekzilla/netbooks</link>
+      <description>
+Manage All Your Social Apps in One Place, Sock + Headphones = Comfy, DIY PBX, Don't Use A Thumbdrive for That! 
+      </description>
+      <content:encoded>
+Manage All Your Social Apps in One Place, Sock + Headphones = Comfy, DIY PBX, Don't Use A Thumbdrive for That! 
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Sat, 22 Nov 2008 17:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Sat, 22 Nov 2008 17:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+Manage All Your Social Apps in One Place, Sock + Headphones = Comfy, DIY PBX, Don't Use A Thumbdrive for That! 
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/0060/tekzilla--0060--netbooks--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/0060/tekzilla--0060--netbooks--hd.h264.mp4" length="666811687" type="video/mp4" />
+      <media:content duration="2629" medium="video" fileSize="666811687" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/0060/tekzilla--0060--netbooks--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla - Auctioning Off Veronica, The Sock Mod, Manage All Your Social Apps, Avoid Thumbdrive Disaster!</media:title>
+        <media:description>
+Manage All Your Social Apps in One Place, Sock + Headphones = Comfy, DIY PBX, Don't Use A Thumbdrive for That! 
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/0060/tekzilla--0060--netbooks--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tekzilla/netbooks" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+      <cnettv:franchiseID>44</cnettv:franchiseID>
+    </item>
+    <item>
+      <title>Tekzilla Daily Tip - GMail: Simplify Your Email</title>
+      <link>http://revision3.com/tzdaily/2008-11-21GmailEOM</link>
+      <description>
+Need to send a short quick message? Veronica's got a tip that will make both your and your recipient's life easier.
+      </description>
+      <content:encoded>
+Need to send a short quick message? Veronica's got a tip that will make both your and your recipient's life easier.
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Fri, 21 Nov 2008 12:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Fri, 21 Nov 2008 12:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+Need to send a short quick message? Veronica's got a tip that will make both your and your recipient's life easier.
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/tzdaily/0229/tekzilla--tzdaily--0229--2008-11-21GmailEOM--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0229/tekzilla--tzdaily--0229--2008-11-21GmailEOM--hd.h264.mp4" length="16891295" type="video/mp4" />
+      <media:content duration="64" medium="video" fileSize="16891295" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0229/tekzilla--tzdaily--0229--2008-11-21GmailEOM--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla Daily Tip - GMail: Simplify Your Email</media:title>
+        <media:description>
+Need to send a short quick message? Veronica's got a tip that will make both your and your recipient's life easier.
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tzdaily/0229/tekzilla--tzdaily--0229--2008-11-21GmailEOM--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tzdaily/2008-11-21GmailEOM" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+    </item>
+    <item>
+      <title>Tekzilla Daily Tip - Firefox: Fine-Tune The AwesomeBar</title>
+      <link>http://revision3.com/tzdaily/2008-11-20AwesomeBar</link>
+      <description>
+Can't find that URL amongst the many suggestions in Firefox 3's AwesomeBar? Veronica has a quick tip for you that will narrow your results and make navigating a breeze!
+      </description>
+      <content:encoded>
+Can't find that URL amongst the many suggestions in Firefox 3's AwesomeBar? Veronica has a quick tip for you that will narrow your results and make navigating a breeze!
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Thu, 20 Nov 2008 12:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Thu, 20 Nov 2008 12:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+Can't find that URL amongst the many suggestions in Firefox 3's AwesomeBar? Veronica has a quick tip for you that will narrow your results and make navigating a breeze!
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/tzdaily/0228/tekzilla--tzdaily--0228--2008-11-20AwesomeBar--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0228/tekzilla--tzdaily--0228--2008-11-20AwesomeBar--hd.h264.mp4" length="17082964" type="video/mp4" />
+      <media:content duration="64" medium="video" fileSize="17082964" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0228/tekzilla--tzdaily--0228--2008-11-20AwesomeBar--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla Daily Tip - Firefox: Fine-Tune The AwesomeBar</media:title>
+        <media:description>
+Can't find that URL amongst the many suggestions in Firefox 3's AwesomeBar? Veronica has a quick tip for you that will narrow your results and make navigating a breeze!
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tzdaily/0228/tekzilla--tzdaily--0228--2008-11-20AwesomeBar--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tzdaily/2008-11-20AwesomeBar" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+    </item>
+    <item>
+      <title>Tekzilla Daily Tip - OS X: See-Through Dock Icons</title>
+      <link>http://revision3.com/tzdaily/2008-11-19HiddenDock</link>
+      <description>
+On today's Tekzilla Daily, Veronica will show you how to tweak your dock for a more functional desktop.
+      </description>
+      <content:encoded>
+On today's Tekzilla Daily, Veronica will show you how to tweak your dock for a more functional desktop.
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Wed, 19 Nov 2008 12:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Wed, 19 Nov 2008 12:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+On today's Tekzilla Daily, Veronica will show you how to tweak your dock for a more functional desktop.
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/tzdaily/0227/tekzilla--tzdaily--0227--2008-11-19HiddenDock--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0227/tekzilla--tzdaily--0227--2008-11-19HiddenDock--hd.h264.mp4" length="18534346" type="video/mp4" />
+      <media:content duration="69" medium="video" fileSize="18534346" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0227/tekzilla--tzdaily--0227--2008-11-19HiddenDock--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla Daily Tip - OS X: See-Through Dock Icons</media:title>
+        <media:description>
+On today's Tekzilla Daily, Veronica will show you how to tweak your dock for a more functional desktop.
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tzdaily/0227/tekzilla--tzdaily--0227--2008-11-19HiddenDock--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tzdaily/2008-11-19HiddenDock" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+    </item>
+    <item>
+      <title>Tekzilla Daily Tip - Windows: Stop Unauthorized Logins</title>
+      <link>http://revision3.com/tzdaily/2008-11-18Auditing</link>
+      <description>
+Has someone been trying to log in to your computer remotely? Would you know it if they were? Veronica shows you how to catch that perp red-handed.
+      </description>
+      <content:encoded>
+Has someone been trying to log in to your computer remotely? Would you know it if they were? Veronica shows you how to catch that perp red-handed.
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Tue, 18 Nov 2008 12:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Tue, 18 Nov 2008 12:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+Has someone been trying to log in to your computer remotely? Would you know it if they were? Veronica shows you how to catch that perp red-handed.
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/tzdaily/0226/tekzilla--tzdaily--0226--2008-11-18Auditing--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0226/tekzilla--tzdaily--0226--2008-11-18Auditing--hd.h264.mp4" length="20476041" type="video/mp4" />
+      <media:content duration="77" medium="video" fileSize="20476041" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0226/tekzilla--tzdaily--0226--2008-11-18Auditing--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla Daily Tip - Windows: Stop Unauthorized Logins</media:title>
+        <media:description>
+Has someone been trying to log in to your computer remotely? Would you know it if they were? Veronica shows you how to catch that perp red-handed.
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tzdaily/0226/tekzilla--tzdaily--0226--2008-11-18Auditing--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tzdaily/2008-11-18Auditing" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+    </item>
+    <item>
+      <title>Tekzilla Daily Tip - Windows: Track your System Stats</title>
+      <link>http://revision3.com/tzdaily/2008-11-17PerformanceMonitor</link>
+      <description>
+Vista is equipped with a system monitor that displays loads of details about every aspect of your machine. Find out how to make it work for you.
+      </description>
+      <content:encoded>
+Vista is equipped with a system monitor that displays loads of details about every aspect of your machine. Find out how to make it work for you.
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Mon, 17 Nov 2008 12:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Mon, 17 Nov 2008 12:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+Vista is equipped with a system monitor that displays loads of details about every aspect of your machine. Find out how to make it work for you.
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/tzdaily/0225/tekzilla--tzdaily--0225--2008-11-17PerformanceMonitor--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0225/tekzilla--tzdaily--0225--2008-11-17PerformanceMonitor--hd.h264.mp4" length="15356065" type="video/mp4" />
+      <media:content duration="58" medium="video" fileSize="15356065" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0225/tekzilla--tzdaily--0225--2008-11-17PerformanceMonitor--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla Daily Tip - Windows: Track your System Stats</media:title>
+        <media:description>
+Vista is equipped with a system monitor that displays loads of details about every aspect of your machine. Find out how to make it work for you.
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tzdaily/0225/tekzilla--tzdaily--0225--2008-11-17PerformanceMonitor--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tzdaily/2008-11-17PerformanceMonitor" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+    </item>
+    <item>
+      <title>Tekzilla - Find Album Art. inSSIDer. Xbox 360 PS3 Video Capture. $4000 PC?!?</title>
+      <link>http://revision3.com/tekzilla/dellalienpc</link>
+      <description>
+1UP's Garnett Lee joins us! Buying PCs: $700 desktops and $4000 Gaming Rigs! Xbox 360 Update. Replace NetStumbler. Remote Access Windows from OS X. DirecTV Hacks. Faster GPU vs. Faster CPU, Better WiFi Tool, Vista Drive Encryption!
+      </description>
+      <content:encoded>
+1UP's Garnett Lee joins us! Buying PCs: $700 desktops and $4000 Gaming Rigs! Xbox 360 Update. Replace NetStumbler. Remote Access Windows from OS X. DirecTV Hacks. Faster GPU vs. Faster CPU, Better WiFi Tool, Vista Drive Encryption!
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Sat, 15 Nov 2008 17:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Sat, 15 Nov 2008 17:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+1UP's Garnett Lee joins us! Buying PCs: $700 desktops and $4000 Gaming Rigs! Xbox 360 Update. Replace NetStumbler. Remote Access Windows from OS X. DirecTV Hacks. Faster GPU vs. Faster CPU, Better WiFi Tool, Vista Drive Encryption!
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/0059/tekzilla--0059--dellalienpc--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/0059/tekzilla--0059--dellalienpc--hd.h264.mp4" length="624507450" type="video/mp4" />
+      <media:content duration="2310" medium="video" fileSize="624507450" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/0059/tekzilla--0059--dellalienpc--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla - Find Album Art. inSSIDer. Xbox 360 PS3 Video Capture. $4000 PC?!?</media:title>
+        <media:description>
+1UP's Garnett Lee joins us! Buying PCs: $700 desktops and $4000 Gaming Rigs! Xbox 360 Update. Replace NetStumbler. Remote Access Windows from OS X. DirecTV Hacks. Faster GPU vs. Faster CPU, Better WiFi Tool, Vista Drive Encryption!
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/0059/tekzilla--0059--dellalienpc--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tekzilla/dellalienpc" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+      <cnettv:franchiseID>44</cnettv:franchiseID>
+    </item>
+    <item>
+      <title>Tekzilla Daily Tip - YouTube: Choose Where a YouTube Begins</title>
+      <link>http://revision3.com/tzdaily/2008-11-14embedpart</link>
+      <description>
+So many Youtube videos are full of fluff and have just a few seconds of gold. On today's Tekzilla Daily, Veronica shows you how to embed or link to a video that will start at a specified point - no third party programs necessary!
+      </description>
+      <content:encoded>
+So many Youtube videos are full of fluff and have just a few seconds of gold. On today's Tekzilla Daily, Veronica shows you how to embed or link to a video that will start at a specified point - no third party programs necessary!
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Fri, 14 Nov 2008 12:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Fri, 14 Nov 2008 12:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+So many Youtube videos are full of fluff and have just a few seconds of gold. On today's Tekzilla Daily, Veronica shows you how to embed or link to a video that will start at a specified point - no third party programs necessary!
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/tzdaily/0224/tekzilla--tzdaily--0224--2008-11-14embedpart--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0224/tekzilla--tzdaily--0224--2008-11-14embedpart--hd.h264.mp4" length="19067067" type="video/mp4" />
+      <media:content duration="72" medium="video" fileSize="19067067" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0224/tekzilla--tzdaily--0224--2008-11-14embedpart--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla Daily Tip - YouTube: Choose Where a YouTube Begins</media:title>
+        <media:description>
+So many Youtube videos are full of fluff and have just a few seconds of gold. On today's Tekzilla Daily, Veronica shows you how to embed or link to a video that will start at a specified point - no third party programs necessary!
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tzdaily/0224/tekzilla--tzdaily--0224--2008-11-14embedpart--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tzdaily/2008-11-14embedpart" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+    </item>
+    <item>
+      <title>Tekzilla Daily Tip - Firefox: Save Multiple User Preferences</title>
+      <link>http://revision3.com/tzdaily/2008-11-13ffprofiles</link>
+      <description>
+Do you have several family members using your copy of Firefox? Wish you could keep your add-ons and preferences separate? Veronica has just the tip for you!
+      </description>
+      <content:encoded>
+Do you have several family members using your copy of Firefox? Wish you could keep your add-ons and preferences separate? Veronica has just the tip for you!
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Thu, 13 Nov 2008 12:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Thu, 13 Nov 2008 12:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+Do you have several family members using your copy of Firefox? Wish you could keep your add-ons and preferences separate? Veronica has just the tip for you!
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/tzdaily/0223/tekzilla--tzdaily--0223--2008-11-13ffprofiles--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0223/tekzilla--tzdaily--0223--2008-11-13ffprofiles--hd.h264.mp4" length="18519777" type="video/mp4" />
+      <media:content duration="71" medium="video" fileSize="18519777" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0223/tekzilla--tzdaily--0223--2008-11-13ffprofiles--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla Daily Tip - Firefox: Save Multiple User Preferences</media:title>
+        <media:description>
+Do you have several family members using your copy of Firefox? Wish you could keep your add-ons and preferences separate? Veronica has just the tip for you!
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tzdaily/0223/tekzilla--tzdaily--0223--2008-11-13ffprofiles--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tzdaily/2008-11-13ffprofiles" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+    </item>
+    <item>
+      <title>Tekzilla Daily Tip - OS X: View Multiple Files with a Single Keystroke</title>
+      <link>http://revision3.com/tzdaily/2008-11-12quicklook</link>
+      <description>
+On today's Tekzilla Daily, Veronica shows you how to preview several different files, in OS X Leopard, at the same time with a single keystroke!
+      </description>
+      <content:encoded>
+On today's Tekzilla Daily, Veronica shows you how to preview several different files, in OS X Leopard, at the same time with a single keystroke!
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Wed, 12 Nov 2008 12:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Wed, 12 Nov 2008 12:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+On today's Tekzilla Daily, Veronica shows you how to preview several different files, in OS X Leopard, at the same time with a single keystroke!
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/tzdaily/0222/tekzilla--tzdaily--0222--2008-11-12quicklook--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0222/tekzilla--tzdaily--0222--2008-11-12quicklook--hd.h264.mp4" length="32491221" type="video/mp4" />
+      <media:content duration="54" medium="video" fileSize="32491221" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0222/tekzilla--tzdaily--0222--2008-11-12quicklook--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla Daily Tip - OS X: View Multiple Files with a Single Keystroke</media:title>
+        <media:description>
+On today's Tekzilla Daily, Veronica shows you how to preview several different files, in OS X Leopard, at the same time with a single keystroke!
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tzdaily/0222/tekzilla--tzdaily--0222--2008-11-12quicklook--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tzdaily/2008-11-12quicklook" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+    </item>
+    <item>
+      <title>Tekzilla Daily Tip - Windows: Start Windows Without a Password</title>
+      <link>http://revision3.com/tzdaily/2008-11-11bypasslogon</link>
+      <description>
+Learn how to disable the Windows login screen, even on PCs with multiple accounts.
+      </description>
+      <content:encoded>
+Learn how to disable the Windows login screen, even on PCs with multiple accounts.
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Tue, 11 Nov 2008 12:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Tue, 11 Nov 2008 12:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+Learn how to disable the Windows login screen, even on PCs with multiple accounts.
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/tzdaily/0221/tekzilla--tzdaily--0221--2008-11-11bypasslogon--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0221/tekzilla--tzdaily--0221--2008-11-11bypasslogon--hd.h264.mp4" length="22558180" type="video/mp4" />
+      <media:content duration="86" medium="video" fileSize="22558180" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0221/tekzilla--tzdaily--0221--2008-11-11bypasslogon--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla Daily Tip - Windows: Start Windows Without a Password</media:title>
+        <media:description>
+Learn how to disable the Windows login screen, even on PCs with multiple accounts.
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tzdaily/0221/tekzilla--tzdaily--0221--2008-11-11bypasslogon--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tzdaily/2008-11-11bypasslogon" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+    </item>
+    <item>
+      <title>Tekzilla Daily Tip - Windows: Unlock Vista's Super User Mode</title>
+      <link>http://revision3.com/tzdaily/2008-11-10vistaadmin</link>
+      <description>
+Hungry for more authority? On today's Tekzilla Daily, Veronica shows you how to activate Vista's hidden administrator account.
+      </description>
+      <content:encoded>
+Hungry for more authority? On today's Tekzilla Daily, Veronica shows you how to activate Vista's hidden administrator account.
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Mon, 10 Nov 2008 12:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Mon, 10 Nov 2008 12:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+Hungry for more authority? On today's Tekzilla Daily, Veronica shows you how to activate Vista's hidden administrator account.
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/tzdaily/0220/tekzilla--tzdaily--0220--2008-11-10vistaadmin--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0220/tekzilla--tzdaily--0220--2008-11-10vistaadmin--hd.h264.mp4" length="20446077" type="video/mp4" />
+      <media:content duration="78" medium="video" fileSize="20446077" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0220/tekzilla--tzdaily--0220--2008-11-10vistaadmin--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla Daily Tip - Windows: Unlock Vista's Super User Mode</media:title>
+        <media:description>
+Hungry for more authority? On today's Tekzilla Daily, Veronica shows you how to activate Vista's hidden administrator account.
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tzdaily/0220/tekzilla--tzdaily--0220--2008-11-10vistaadmin--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tzdaily/2008-11-10vistaadmin" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+    </item>
+    <item>
+      <title>Tekzilla - Intel's Core i7, Cheap Screen Skins, Search Windows Better</title>
+      <link>http://revision3.com/tekzilla/worldpress</link>
+      <description>
+Intel's Core i7 = The New Fast. Simplify Media streams audio better. Dump Cable for the Internet? Better Search for Windows. DVI-D vs. DVI-I. 
+      </description>
+      <content:encoded>
+Intel's Core i7 = The New Fast. Simplify Media streams audio better. Dump Cable for the Internet? Better Search for Windows. DVI-D vs. DVI-I. 
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Sat, 08 Nov 2008 17:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Sat, 08 Nov 2008 17:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords>intel, core, i7, skins, laptop, cheap, windows, search, simplify media, cable internet, dvi-d, dvi</itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+Intel's Core i7 = The New Fast. Simplify Media streams audio better. Dump Cable for the Internet? Better Search for Windows. DVI-D vs. DVI-I. 
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/0058/tekzilla--0058--worldpress--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/0058/tekzilla--0058--worldpress--hd.h264.mp4" length="469517301" type="video/mp4" />
+      <media:content duration="1735" medium="video" fileSize="469517301" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/0058/tekzilla--0058--worldpress--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla - Intel's Core i7, Cheap Screen Skins, Search Windows Better</media:title>
+        <media:description>
+Intel's Core i7 = The New Fast. Simplify Media streams audio better. Dump Cable for the Internet? Better Search for Windows. DVI-D vs. DVI-I. 
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/0058/tekzilla--0058--worldpress--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tekzilla/worldpress" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords>intel, core, i7, skins, laptop, cheap, windows, search, simplify media, cable internet, dvi-d, dvi</media:keywords>
+      </media:content>
+      <cnettv:franchiseID>44</cnettv:franchiseID>
+    </item>
+    <item>
+      <title>Tekzilla Daily Tip - Google: Retro Gaming in Google</title>
+      <link>http://revision3.com/tzdaily/2008-11-07gmailsnake</link>
+      <description>
+How do you turn the world's popular search engine into a classic video game? Find out on today's Tekzilla Daily!
+      </description>
+      <content:encoded>
+How do you turn the world's popular search engine into a classic video game? Find out on today's Tekzilla Daily!
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Fri, 07 Nov 2008 12:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Fri, 07 Nov 2008 12:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+How do you turn the world's popular search engine into a classic video game? Find out on today's Tekzilla Daily!
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/tzdaily/0219/tekzilla--tzdaily--0219--2008-11-07gmailsnake--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0219/tekzilla--tzdaily--0219--2008-11-07gmailsnake--hd.h264.mp4" length="15606038" type="video/mp4" />
+      <media:content duration="59" medium="video" fileSize="15606038" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0219/tekzilla--tzdaily--0219--2008-11-07gmailsnake--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla Daily Tip - Google: Retro Gaming in Google</media:title>
+        <media:description>
+How do you turn the world's popular search engine into a classic video game? Find out on today's Tekzilla Daily!
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tzdaily/0219/tekzilla--tzdaily--0219--2008-11-07gmailsnake----mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tzdaily/2008-11-07gmailsnake" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+    </item>
+    <item>
+      <title>Tekzilla Daily Tip - Windows: Get More Battery Life From Your Laptop</title>
+      <link>http://revision3.com/tzdaily/2008-11-06vistapower</link>
+      <description>
+Laptops are great, but it's just a matter of time before the juice runs out. Find out how to squeeze the most from your machine's battery and extend its life away from an electrical outlet.
+      </description>
+      <content:encoded>
+Laptops are great, but it's just a matter of time before the juice runs out. Find out how to squeeze the most from your machine's battery and extend its life away from an electrical outlet.
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Thu, 06 Nov 2008 12:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Thu, 06 Nov 2008 12:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+Laptops are great, but it's just a matter of time before the juice runs out. Find out how to squeeze the most from your machine's battery and extend its life away from an electrical outlet.
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/tzdaily/0218/tekzilla--tzdaily--0218--2008-11-06vistapower--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0218/tekzilla--tzdaily--0218--2008-11-06vistapower--hd.h264.mp4" length="16374504" type="video/mp4" />
+      <media:content duration="61" medium="video" fileSize="16374504" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0218/tekzilla--tzdaily--0218--2008-11-06vistapower--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla Daily Tip - Windows: Get More Battery Life From Your Laptop</media:title>
+        <media:description>
+Laptops are great, but it's just a matter of time before the juice runs out. Find out how to squeeze the most from your machine's battery and extend its life away from an electrical outlet.
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tzdaily/0218/tekzilla--tzdaily--0218--2008-11-06vistapower--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tzdaily/2008-11-06vistapower" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+    </item>
+    <item>
+      <title>Tekzilla Daily Tip - Firefox: Why You Should Allow More Pop-ups</title>
+      <link>http://revision3.com/tzdaily/2008-11-05ffpop</link>
+      <description>
+Pop-ups aren't all scams, stupid ads, or annoying. Many legitimate sites use them as well. But Firefox limits the number of sites that can allow pop-ups to 20. Find out how to increase that number with this simple hack.
+      </description>
+      <content:encoded>
+Pop-ups aren't all scams, stupid ads, or annoying. Many legitimate sites use them as well. But Firefox limits the number of sites that can allow pop-ups to 20. Find out how to increase that number with this simple hack.
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Wed, 05 Nov 2008 12:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Wed, 05 Nov 2008 12:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+Pop-ups aren't all scams, stupid ads, or annoying. Many legitimate sites use them as well. But Firefox limits the number of sites that can allow pop-ups to 20. Find out how to increase that number with this simple hack.
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/tzdaily/0217/tekzilla--tzdaily--0217--2008-11-05ffpop--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0217/tekzilla--tzdaily--0217--2008-11-05ffpop--hd.h264.mp4" length="17490629" type="video/mp4" />
+      <media:content duration="65" medium="video" fileSize="17490629" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0217/tekzilla--tzdaily--0217--2008-11-05ffpop--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla Daily Tip - Firefox: Why You Should Allow More Pop-ups</media:title>
+        <media:description>
+Pop-ups aren't all scams, stupid ads, or annoying. Many legitimate sites use them as well. But Firefox limits the number of sites that can allow pop-ups to 20. Find out how to increase that number with this simple hack.
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tzdaily/0217/tekzilla--tzdaily--0217--2008-11-05ffpop--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tzdaily/2008-11-05ffpop" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+    </item>
+    <item>
+      <title>Tekzilla Daily Tip - OS X: Remove Menu Icons with a Single Key</title>
+      <link>http://revision3.com/tzdaily/2008-11-04oxsmenu</link>
+      <description>
+OS X's menu bar can get cluttered with too many icons all over the place. We show you how to remove, replace or swap icons in the menu bar with a single keystroke.
+      </description>
+      <content:encoded>
+OS X's menu bar can get cluttered with too many icons all over the place. We show you how to remove, replace or swap icons in the menu bar with a single keystroke.
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Tue, 04 Nov 2008 12:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Tue, 04 Nov 2008 12:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+OS X's menu bar can get cluttered with too many icons all over the place. We show you how to remove, replace or swap icons in the menu bar with a single keystroke.
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/tzdaily/0216/tekzilla--tzdaily--0216--2008-11-04oxsmenu--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0216/tekzilla--tzdaily--0216--2008-11-04oxsmenu--hd.h264.mp4" length="17266338" type="video/mp4" />
+      <media:content duration="64" medium="video" fileSize="17266338" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0216/tekzilla--tzdaily--0216--2008-11-04oxsmenu--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla Daily Tip - OS X: Remove Menu Icons with a Single Key</media:title>
+        <media:description>
+OS X's menu bar can get cluttered with too many icons all over the place. We show you how to remove, replace or swap icons in the menu bar with a single keystroke.
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tzdaily/0216/tekzilla--tzdaily--0216--2008-11-04oxsmenu--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tzdaily/2008-11-04oxsmenu" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+    </item>
+    <item>
+      <title>Tekzilla Daily Tip - Windows: Remove Personal Data From Public Files</title>
+      <link>http://revision3.com/tzdaily/2008-11-03vistameta</link>
+      <description>
+You might not realize it, but many types of files store personal information in their meta-tags. Learn how a simple tool built into Vista can strip away that info before you upload your pics or documents to a public site.
+      </description>
+      <content:encoded>
+You might not realize it, but many types of files store personal information in their meta-tags. Learn how a simple tool built into Vista can strip away that info before you upload your pics or documents to a public site.
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Mon, 03 Nov 2008 12:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Mon, 03 Nov 2008 12:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+You might not realize it, but many types of files store personal information in their meta-tags. Learn how a simple tool built into Vista can strip away that info before you upload your pics or documents to a public site.
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/tzdaily/0215/tekzilla--tzdaily--0215--2008-11-03vistameta--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0215/tekzilla--tzdaily--0215--2008-11-03vistameta--hd.h264.mp4" length="16785010" type="video/mp4" />
+      <media:content duration="62" medium="video" fileSize="16785010" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0215/tekzilla--tzdaily--0215--2008-11-03vistameta--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla Daily Tip - Windows: Remove Personal Data From Public Files</media:title>
+        <media:description>
+You might not realize it, but many types of files store personal information in their meta-tags. Learn how a simple tool built into Vista can strip away that info before you upload your pics or documents to a public site.
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tzdaily/0215/tekzilla--tzdaily--0215--2008-11-03vistameta--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tzdaily/2008-11-03vistameta" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+    </item>
+    <item>
+      <title>Tekzilla - Stream Audio Anywhere. FiOS vs. Cable. Mobile Internet!</title>
+      <link>http://revision3.com/tekzilla/braintoniq</link>
+      <description>
+Kindle discount! Watch podcasts on your TV, AT&amp;T vs. Verizon vs. Sprint for Mobile Internet. Print What You Like! 
+      </description>
+      <content:encoded>
+Kindle discount! Watch podcasts on your TV, AT&amp;T vs. Verizon vs. Sprint for Mobile Internet. Print What You Like! 
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Sat, 01 Nov 2008 17:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Sat, 01 Nov 2008 17:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords>kindle,streaming, media, sprint, mobile, verizon, fios, cable, internet, patrick norton, veronica belmont, roger chang</itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+Kindle discount! Watch podcasts on your TV, AT&amp;T vs. Verizon vs. Sprint for Mobile Internet. Print What You Like! 
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/0057/tekzilla--0057--braintoniq--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/0057/tekzilla--0057--braintoniq--hd.h264.mp4" length="541860639" type="video/mp4" />
+      <media:content duration="2005" medium="video" fileSize="541860639" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/0057/tekzilla--0057--braintoniq--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla - Stream Audio Anywhere. FiOS vs. Cable. Mobile Internet!</media:title>
+        <media:description>
+Kindle discount! Watch podcasts on your TV, AT&amp;T vs. Verizon vs. Sprint for Mobile Internet. Print What You Like! 
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/0057/tekzilla--0057--braintoniq--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tekzilla/braintoniq" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords>kindle,streaming, media, sprint, mobile, verizon, fios, cable, internet, patrick norton, veronica belmont, roger chang</media:keywords>
+      </media:content>
+      <cnettv:franchiseID>44</cnettv:franchiseID>
+    </item>
+    <item>
+      <title>Tekzilla Daily Tip - Windows: Customize the Vista Power Button</title>
+      <link>http://revision3.com/tzdaily/tekzilla--tzdaily--0214--2008-10-31winpower</link>
+      <description>
+Make the Vista power button in the start menu do more than just put your PC to sleep.
+      </description>
+      <content:encoded>
+Make the Vista power button in the start menu do more than just put your PC to sleep.
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Fri, 31 Oct 2008 12:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Fri, 31 Oct 2008 12:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+Make the Vista power button in the start menu do more than just put your PC to sleep.
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/tzdaily/0214/tekzilla--tzdaily--0214--2008-10-31winpower--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0214/tekzilla--tzdaily--0214--2008-10-31winpower--hd.h264.mp4" length="16520023" type="video/mp4" />
+      <media:content duration="63" medium="video" fileSize="16520023" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0214/tekzilla--tzdaily--0214--2008-10-31winpower--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla Daily Tip - Windows: Customize the Vista Power Button</media:title>
+        <media:description>
+Make the Vista power button in the start menu do more than just put your PC to sleep.
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tzdaily/0214/tekzilla--tzdaily--0214--2008-10-31winpower--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tzdaily/tekzilla--tzdaily--0214--2008-10-31winpower" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+    </item>
+    <item>
+      <title>Tekzilla Daily Tip - OS X: Collect Scattered Windows On One Desktop</title>
+      <link>http://revision3.com/tzdaily/2008-10-30osxcollect</link>
+      <description>
+Veronica shows you how to bring together all your scattered folder windows and apps under one desktop when you use Spaces.
+
+      </description>
+      <content:encoded>
+Veronica shows you how to bring together all your scattered folder windows and apps under one desktop when you use Spaces.
+
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Thu, 30 Oct 2008 12:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Thu, 30 Oct 2008 12:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+Veronica shows you how to bring together all your scattered folder windows and apps under one desktop when you use Spaces.
+
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/tzdaily/0213/tekzilla--tzdaily--0213--2008-10-30osxcollect--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0213/tekzilla--tzdaily--0213--2008-10-30osxcollect--hd.h264.mp4" length="16415827" type="video/mp4" />
+      <media:content duration="63" medium="video" fileSize="16415827" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0213/tekzilla--tzdaily--0213--2008-10-30osxcollect--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla Daily Tip - OS X: Collect Scattered Windows On One Desktop</media:title>
+        <media:description>
+Veronica shows you how to bring together all your scattered folder windows and apps under one desktop when you use Spaces.
+
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tzdaily/0213/tekzilla--tzdaily--0213--2008-10-30osxcollect--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tzdaily/2008-10-30osxcollect" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+    </item>
+    <item>
+      <title>Tekzilla Daily Tip - Google: Google Search Tips Everyone Should Know</title>
+      <link>http://revision3.com/tzdaily/2008-10-29googlehidden</link>
+      <description>
+6 things you didn't know about Google that can make your next search easier and faster.
+      </description>
+      <content:encoded>
+6 things you didn't know about Google that can make your next search easier and faster.
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Wed, 29 Oct 2008 12:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Wed, 29 Oct 2008 12:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+6 things you didn't know about Google that can make your next search easier and faster.
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/tzdaily/0212/tekzilla--tzdaily--0212--2008-10-29googlehidden--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0212/tekzilla--tzdaily--0212--2008-10-29googlehidden--hd.h264.mp4" length="19876803" type="video/mp4" />
+      <media:content duration="75" medium="video" fileSize="19876803" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0212/tekzilla--tzdaily--0212--2008-10-29googlehidden--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla Daily Tip - Google: Google Search Tips Everyone Should Know</media:title>
+        <media:description>
+6 things you didn't know about Google that can make your next search easier and faster.
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tzdaily/0212/tekzilla--tzdaily--0212--2008-10-29googlehidden--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tzdaily/2008-10-29googlehidden" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+    </item>
+    <item>
+      <title>Tekzilla Daily Tip - Firefox: Improve Firefox's Search Results</title>
+      <link>http://revision3.com/tzdaily/2008-10-28ffawesome</link>
+      <description>
+Are Firefox's suggestions not up to your standards? On today's Tekzilla Daily, Veronica will show you how to make the AwesomeBar even more Awesome.
+      </description>
+      <content:encoded>
+Are Firefox's suggestions not up to your standards? On today's Tekzilla Daily, Veronica will show you how to make the AwesomeBar even more Awesome.
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Tue, 28 Oct 2008 12:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Tue, 28 Oct 2008 12:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+Are Firefox's suggestions not up to your standards? On today's Tekzilla Daily, Veronica will show you how to make the AwesomeBar even more Awesome.
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/tzdaily/0211/tekzilla--tzdaily--0211--2008-10-28ffawesome--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0211/tekzilla--tzdaily--0211--2008-10-28ffawesome--hd.h264.mp4" length="15701246" type="video/mp4" />
+      <media:content duration="60" medium="video" fileSize="15701246" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0211/tekzilla--tzdaily--0211--2008-10-28ffawesome--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla Daily Tip - Firefox: Improve Firefox's Search Results</media:title>
+        <media:description>
+Are Firefox's suggestions not up to your standards? On today's Tekzilla Daily, Veronica will show you how to make the AwesomeBar even more Awesome.
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tzdaily/0211/tekzilla--tzdaily--0211--2008-10-28ffawesome--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tzdaily/2008-10-28ffawesome" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+    </item>
+    <item>
+      <title>Tekzilla Daily Tip - Windows: What to Do When Your PC Won't Boot</title>
+      <link>http://revision3.com/tzdaily/2008-10-27winlastknown</link>
+      <description>
+Can't get your Windows to boot after you made some errant changes in the registry, drivers or system settings? Find out how to restore functionality with this simple tip.
+      </description>
+      <content:encoded>
+Can't get your Windows to boot after you made some errant changes in the registry, drivers or system settings? Find out how to restore functionality with this simple tip.
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Mon, 27 Oct 2008 12:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Mon, 27 Oct 2008 12:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords></itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+Can't get your Windows to boot after you made some errant changes in the registry, drivers or system settings? Find out how to restore functionality with this simple tip.
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/tzdaily/0210/tekzilla--tzdaily--0210--2008-10-27winlastknown--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0210/tekzilla--tzdaily--0210--2008-10-27winlastknown--hd.h264.mp4" length="19252905" type="video/mp4" />
+      <media:content duration="73" medium="video" fileSize="19252905" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/tzdaily/0210/tekzilla--tzdaily--0210--2008-10-27winlastknown--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla Daily Tip - Windows: What to Do When Your PC Won't Boot</media:title>
+        <media:description>
+Can't get your Windows to boot after you made some errant changes in the registry, drivers or system settings? Find out how to restore functionality with this simple tip.
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/tzdaily/0210/tekzilla--tzdaily--0210--2008-10-27winlastknown--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tzdaily/2008-10-27winlastknown" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords />
+      </media:content>
+    </item>
+    <item>
+      <title>Tekzilla - Free Personal Finance Tools, Best Universal Remotes, Standard Def Ain't Dead!</title>
+      <link>http://revision3.com/tekzilla/smooth</link>
+      <description>
+Supercharge Task Manger, Replace MS Money and Quicken, Router Request, Analog TV for HDTVs and your PC, PS3 Universal Remote
+      </description>
+      <content:encoded>
+Supercharge Task Manger, Replace MS Money and Quicken, Router Request, Analog TV for HDTVs and your PC, PS3 Universal Remote
+      </content:encoded>
+      <author>webmaster@revision3.com (Revision3)</author>
+      <pubDate>Sat, 25 Oct 2008 17:00:00 GMT</pubDate>
+      <cnettv:lastModDate>Sat, 25 Oct 2008 17:00:00 GMT</cnettv:lastModDate>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords>universal remote, finance, tools, hdtv, pc, ps3, bluetooth</itunes:keywords>
+      <itunes:author>Revision3</itunes:author>
+      <itunes:subtitle>
+Supercharge Task Manger, Replace MS Money and Quicken, Router Request, Analog TV for HDTVs and your PC, PS3 Universal Remote
+      </itunes:subtitle>
+      <guid isPermaLink="false">/tekzilla/0056/tekzilla--0056--smooth--hd.h264.mp4</guid>
+      <enclosure url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/0056/tekzilla--0056--smooth--hd.h264.mp4" length="466175265" type="video/mp4" />
+      <media:content duration="1728" medium="video" fileSize="466175265" url="http://www.podtrac.com/pts/redirect.mp4/bitcast-a.bitgravity.com/revision3/web/tekzilla/0056/tekzilla--0056--smooth--hd.h264.mp4" cnettv:aspectRatio="16x9" type="video/mp4">
+        <media:title>Tekzilla - Free Personal Finance Tools, Best Universal Remotes, Standard Def Ain't Dead!</media:title>
+        <media:description>
+Supercharge Task Manger, Replace MS Money and Quicken, Router Request, Analog TV for HDTVs and your PC, PS3 Universal Remote
+        </media:description>
+        <media:thumbnail url="http://bitcast-a.bitgravity.com/revision3/images/shows/tekzilla/0056/tekzilla--0056--smooth--mini.thumb.jpg" width="100" height="100" />
+        <media:player url="http://revision3.com/tekzilla/smooth" />
+        <media:rating>nonadult</media:rating>
+        <media:keywords>universal remote, finance, tools, hdtv, pc, ps3, bluetooth</media:keywords>
+      </media:content>
+      <cnettv:franchiseID>44</cnettv:franchiseID>
+    </item>
+  </channel>
+</rss>
