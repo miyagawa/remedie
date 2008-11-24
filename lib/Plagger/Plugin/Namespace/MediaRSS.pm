@@ -51,7 +51,7 @@ sub handle {
             }
         }
 
-        if (my $thumbnail = $media->{$media_ns}{thumbnail}) {
+        if (my $thumbnail = $media->{$media_ns}{thumbnail} || $media->{$media_ns}{content}{$media_ns}{thumbnail}) {
             $context->log(debug => "Found MediaRSS thumb $thumbnail->{url}");
             $args->{entry}->icon({
                 url   => $thumbnail->{url},

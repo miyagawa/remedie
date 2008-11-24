@@ -3,7 +3,7 @@ use FindBin;
 
 use t::TestPlagger;
 
-plan tests => 20;
+plan tests => 23;
 run_eval_expected;
 
 __END__
@@ -41,6 +41,9 @@ is $feeds[2]->entries->[0]->enclosures->[0]->url, 'http://static.flickr.com/109/
 is $feeds[3]->entries->[0]->enclosures->[0]->length, 666811687;
 is $feeds[3]->entries->[0]->enclosures->[0]->type, "video/mp4";
 like $feeds[3]->entries->[0]->enclosures->[0]->url, qr/hd.h264.mp4/;
+like $feeds[3]->entries->[0]->thumbnail->{url}, qr/thumb\.jpg/;
+is $feeds[3]->entries->[0]->thumbnail->{width}, 100;
+is $feeds[3]->entries->[0]->thumbnail->{height}, 100;
 
 # Hulu
 like $feeds[4]->entries->[0]->enclosure->url, qr/embed/;
