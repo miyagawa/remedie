@@ -3,7 +3,7 @@ use FindBin;
 
 use t::TestPlagger;
 
-plan tests => 23;
+plan tests => 24;
 run_eval_expected;
 
 __END__
@@ -23,6 +23,7 @@ plugins:
         - file://$t::TestPlagger::BaseDirURI/t/samples/tekzilla.xml
         - file://$t::TestPlagger::BaseDirURI/t/samples/hulu.xml
         - file://$t::TestPlagger::BaseDirURI/t/samples/webbalert.xml
+        - file://$t::TestPlagger::BaseDirURI/t/samples/bliptv.xml
 --- expected
 my @feeds = $context->update->feeds;
 
@@ -57,3 +58,7 @@ like $feeds[5]->image->{url}, qr/webbalert-itunes/;
 like $feeds[5]->entries->[0]->enclosure->url, qr/\.mp4/;
 is $feeds[5]->entries->[0]->enclosure->type, "video/mp4";
 like $feeds[5]->entries->[0]->thumbnail->{url}, qr/cdn.episodic.com/;
+
+# Blip.tv
+like $feeds[6]->entries->[0]->enclosure->type, qr/quicktime/;
+
