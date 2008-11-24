@@ -317,7 +317,7 @@ Remedie.prototype = {
       $('<img/>').attr('class', 'closebox').attr('src', "/static/images/closebox.png").click($.unblockUI)
     );
 
-    if (player != 'Web') {
+    if (player == 'Flash' || player == 'Silverlight') {
       $('#embed-player').append(
         $('<div></div>').attr('class', 'embed-player-footer').html($("<h4></h4>").text(item.name)).css({opacity:0.6})
       );
