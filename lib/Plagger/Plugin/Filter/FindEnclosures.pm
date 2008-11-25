@@ -142,6 +142,7 @@ sub add_enclosure {
 
     if ($plugin) {
         my $content;
+        # FIXME there should be a way to suppress this if $entry already has enclosure
         if ($plugin->needs_content) {
             $content = $self->fetch_content($url) or return;
         }
@@ -188,6 +189,7 @@ sub has_enclosure_mime_type {
 sub upgrade {
     my($self, $context, $args) = @_;
 
+    # FIXME it should check against $enclosure->link
     my $plugin = $self->plugin_for($args->{entry}->link);
     if ($plugin) {
         $plugin->upgrade($args);

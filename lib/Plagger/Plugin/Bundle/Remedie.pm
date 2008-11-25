@@ -11,7 +11,7 @@ sub register {
     $context->load_plugin({
         module => 'CustomFeed::FindLinks',
         config => {
-            follow_xpath => "//a[" . join(" or ", map "contains(\@href, '.$_')", @want_ext) . "]",
+            follow_xpath => "//a[contains(\@rel, 'enclosure') or " . join(" or ", map "contains(\@href, '.$_')", @want_ext) . "]",
             follow_link  => "//a[" . join(" or ", map "contains(\@type, '$_')", @want_mime) . "]",
         },
     });

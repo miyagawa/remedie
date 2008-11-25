@@ -43,4 +43,23 @@ plugins:
 --- expected
 unlike $warnings, qr/Scrubbing/;
 
+===
+--- input config
+plugins:
+  - module: Subscription::Config
+    config:
+      feed:
+        - file://$t::TestPlagger::BaseDirURI/t/samples/feedburner.xml
+  - module: Filter::HTMLScrubber
+    config:
+      default_deny: 1
+      allow:
+        - p
+        - br
+        - div
+      rules:
+        img:
+--- expected
+unlike $context->update->feeds->[0]->entries->[0]->summary, qr/img/;
+unlike $context->update->feeds->[0]->entries->[0]->body, qr/img/;
 

@@ -1,0 +1,1247 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rdf:RDF
+	xmlns="http://purl.org/rss/1.0/"
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" 
+	xml:lang="ja">
+<channel rdf:about="http://b.hatena.ne.jp/video/rss">
+	<title>はてなブックマーク - 注目の動画</title>
+	<link>http://b.hatena.ne.jp/video</link>
+	<description>はてなブックマーク - 注目の動画</description>
+	<items>
+	<rdf:Seq>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5341993"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm1447528"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5347296"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5347587"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5346213"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5346910"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5345836"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5345852"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5341211"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5343954"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm2243206"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5335160"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5344965"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5344098"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5342705"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5337096"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/nm5336714"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5316607"/>
+		<rdf:li rdf:resource="http://jp.youtube.com/watch?v=gHh5ysBp1xM"/>
+		<rdf:li rdf:resource="http://jp.youtube.com/watch?v=7TIdydC-4vk"/>
+		<rdf:li rdf:resource="http://jp.youtube.com/watch?v=7TIdydC-4vk&amp;fmt=18"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5341376"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5340686"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5337470"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5339760"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5339483"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5339386"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/sm5339071"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/nm5340491"/>
+		<rdf:li rdf:resource="http://www.nicovideo.jp/watch/nm3643635"/>
+	</rdf:Seq>
+	</items>
+</channel>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5341993">
+	<title>【リンオリジナル曲】　君が気付けるように‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5341993</link>
+	<description><![CDATA[<img src="http://tn-skr2.smilevideo.jp/smile?i=5341993" alt="【リンオリジナル曲】　君が気付けるように" title="【リンオリジナル曲】　君が気付けるように" />]]></description>
+
+    
+	<dc:subject>vocaloid</dc:subject>
+	
+	<dc:subject>music</dc:subject>
+	
+	<dc:subject>ニコニコ動画</dc:subject>
+	
+	<dc:subject>オリジナル曲</dc:subject>
+	
+	<dc:subject>鏡音リン</dc:subject>
+	
+	<dc:subject>movie</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/vocaloid" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/music" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%aa%e3%83%aa%e3%82%b8%e3%83%8a%e3%83%ab%e6%9b%b2" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e9%8f%a1%e9%9f%b3%e3%83%aa%e3%83%b3" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/movie" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm1447528">
+	<title>何か違うぼくらのOP‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm1447528</link>
+	<description><![CDATA[<img src="http://tn-skr1.smilevideo.jp/smile?i=1447528" alt="何か違うぼくらのOP" title="何か違うぼくらのOP" />]]></description>
+
+    
+	<dc:subject>ニコニコ動画</dc:subject>
+	
+	<dc:subject>ぼくらの</dc:subject>
+	
+	<dc:subject>niconico</dc:subject>
+	
+	<dc:subject>忙しい人向け</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%81%bc%e3%81%8f%e3%82%89%e3%81%ae" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/niconico" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e5%bf%99%e3%81%97%e3%81%84%e4%ba%ba%e5%90%91%e3%81%91" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5347296">
+	<title>【松岡修造】ネッダン【ゲッダン】※音量調整版‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5347296</link>
+	<description><![CDATA[<img src="http://tn-skr1.smilevideo.jp/smile?i=5347296" alt="【松岡修造】ネッダン【ゲッダン】※音量調整版" title="【松岡修造】ネッダン【ゲッダン】※音量調整版" />]]></description>
+
+    
+	<dc:subject>music</dc:subject>
+	
+	<dc:subject>mad</dc:subject>
+	
+	<dc:subject>松岡修造</dc:subject>
+	
+	<dc:subject>ニコニコ動画</dc:subject>
+	
+	<dc:subject>ゲッダン</dc:subject>
+	
+	<dc:subject>炎の妖精</dc:subject>
+	
+	<dc:subject>温暖化の原因</dc:subject>
+	
+	<dc:subject>熱暖</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/music" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/mad" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e6%9d%be%e5%b2%a1%e4%bf%ae%e9%80%a0" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%b2%e3%83%83%e3%83%80%e3%83%b3" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e7%82%8e%e3%81%ae%e5%a6%96%e7%b2%be" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e6%b8%a9%e6%9a%96%e5%8c%96%e3%81%ae%e5%8e%9f%e5%9b%a0" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e7%86%b1%e6%9a%96" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5347587">
+	<title>抜いて光らせたカツドン‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5347587</link>
+	<description><![CDATA[<img src="http://tn-skr2.smilevideo.jp/smile?i=5347587" alt="抜いて光らせたカツドン" title="抜いて光らせたカツドン" />]]></description>
+
+    
+	<dc:subject>カツドン</dc:subject>
+	
+	<dc:subject>ニコニコ動画</dc:subject>
+	
+	<dc:subject>nicoclip</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%ab%e3%83%84%e3%83%89%e3%83%b3" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/nicoclip" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5346213">
+	<title>よしえさんのお使いマーチ【MEIKO＆ミクオリ】‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5346213</link>
+	<description><![CDATA[<img src="http://tn-skr2.smilevideo.jp/smile?i=5346213" alt="よしえさんのお使いマーチ【MEIKO＆ミクオリ】" title="よしえさんのお使いマーチ【MEIKO＆ミクオリ】" />]]></description>
+
+    
+	<dc:subject>オリジナル曲</dc:subject>
+	
+	<dc:subject>MEIKO</dc:subject>
+	
+	<dc:subject>初音ミク</dc:subject>
+	
+	<dc:subject>vocaloid</dc:subject>
+	
+	<dc:subject>music</dc:subject>
+	
+	<dc:subject>ニコニコ動画</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%aa%e3%83%aa%e3%82%b8%e3%83%8a%e3%83%ab%e6%9b%b2" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/MEIKO" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e5%88%9d%e9%9f%b3%e3%83%9f%e3%82%af" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/vocaloid" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/music" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5346910">
+	<title>アコギで「寝・逃・げでリセット！」とか色々演奏してみた‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5346910</link>
+	<description><![CDATA[<img src="http://tn-skr1.smilevideo.jp/smile?i=5346910" alt="アコギで「寝・逃・げでリセット！」とか色々演奏してみた" title="アコギで「寝・逃・げでリセット！」とか色々演奏してみた" />]]></description>
+
+    
+	<dc:subject>演奏してみた</dc:subject>
+	
+	<dc:subject>nicovideo</dc:subject>
+	
+	<dc:subject>らき☆すた</dc:subject>
+	
+	<dc:subject>へっぽこ六弦使い</dc:subject>
+	
+	<dc:subject>ニコニコ動画</dc:subject>
+	
+	<dc:subject>niconico</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e6%bc%94%e5%a5%8f%e3%81%97%e3%81%a6%e3%81%bf%e3%81%9f" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/nicovideo" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%89%e3%81%8d%e2%98%86%e3%81%99%e3%81%9f" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%81%b8%e3%81%a3%e3%81%bd%e3%81%93%e5%85%ad%e5%bc%a6%e4%bd%bf%e3%81%84" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/niconico" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5345836">
+	<title>抜いても光らせてもいないカツドン‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5345836</link>
+	<description><![CDATA[<img src="http://tn-skr1.smilevideo.jp/smile?i=5345836" alt="抜いても光らせてもいないカツドン" title="抜いても光らせてもいないカツドン" />]]></description>
+
+    
+	<dc:subject>カツドン</dc:subject>
+	
+	<dc:subject>nicoclip</dc:subject>
+	
+	<dc:subject>ニコニコ動画</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%ab%e3%83%84%e3%83%89%e3%83%b3" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/nicoclip" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5345852">
+	<title>【初音ミク】　ジューン・プライド　【オリジナル】‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5345852</link>
+	<description><![CDATA[<img src="http://tn-skr1.smilevideo.jp/smile?i=5345852" alt="【初音ミク】　ジューン・プライド　【オリジナル】" title="【初音ミク】　ジューン・プライド　【オリジナル】" />]]></description>
+
+    
+	<dc:subject>music</dc:subject>
+	
+	<dc:subject>初音ミク</dc:subject>
+	
+	<dc:subject>vocaloid</dc:subject>
+	
+	<dc:subject>オリジナル曲</dc:subject>
+	
+	<dc:subject>ニコニコ動画</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/music" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e5%88%9d%e9%9f%b3%e3%83%9f%e3%82%af" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/vocaloid" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%aa%e3%83%aa%e3%82%b8%e3%83%8a%e3%83%ab%e6%9b%b2" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5341211">
+	<title>【MAD】　機動戦士ガンダム00　『ティエリア00っぱい』‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5341211</link>
+	<description><![CDATA[<img src="http://tn-skr2.smilevideo.jp/smile?i=5341211" alt="【MAD】　機動戦士ガンダム00　『ティエリア00っぱい』" title="【MAD】　機動戦士ガンダム00　『ティエリア00っぱい』" />]]></description>
+
+    
+	<dc:subject>ニコニコ動画</dc:subject>
+	
+	<dc:subject>むしろ普段が男装</dc:subject>
+	
+	<dc:subject>だいたい合ってる</dc:subject>
+	
+	<dc:subject>アリアリ詐欺</dc:subject>
+	
+	<dc:subject>女装</dc:subject>
+	
+	<dc:subject>性別：ティエリア</dc:subject>
+	
+	<dc:subject>機動戦士ガンダム00</dc:subject>
+	
+	<dc:subject>アニメ</dc:subject>
+	
+	<dc:subject>身長177cm</dc:subject>
+	
+	<dc:subject>モデルだと思えばいい</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%80%e3%81%97%e3%82%8d%e6%99%ae%e6%ae%b5%e3%81%8c%e7%94%b7%e8%a3%85" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%81%a0%e3%81%84%e3%81%9f%e3%81%84%e5%90%88%e3%81%a3%e3%81%a6%e3%82%8b" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%a2%e3%83%aa%e3%82%a2%e3%83%aa%e8%a9%90%e6%ac%ba" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e5%a5%b3%e8%a3%85" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e6%80%a7%e5%88%a5%ef%bc%9a%e3%83%86%e3%82%a3%e3%82%a8%e3%83%aa%e3%82%a2" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e6%a9%9f%e5%8b%95%e6%88%a6%e5%a3%ab%e3%82%ac%e3%83%b3%e3%83%80%e3%83%a000" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%a2%e3%83%8b%e3%83%a1" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e8%ba%ab%e9%95%b7177cm" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%a2%e3%83%87%e3%83%ab%e3%81%a0%e3%81%a8%e6%80%9d%e3%81%88%e3%81%b0%e3%81%84%e3%81%84" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5343954">
+	<title>ニコマス・アンダーグラウンドカタログ　Vol.1‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5343954</link>
+	<description><![CDATA[<img src="http://tn-skr1.smilevideo.jp/smile?i=5343954" alt="ニコマス・アンダーグラウンドカタログ　Vol.1" title="ニコマス・アンダーグラウンドカタログ　Vol.1" />]]></description>
+
+    
+	<dc:subject>ニコニコ動画</dc:subject>
+	
+	<dc:subject>idolm@ster</dc:subject>
+	
+	<dc:subject>まとめ</dc:subject>
+	
+	<dc:subject>アイドルマスター</dc:subject>
+	
+	<dc:subject>ClubJamora</dc:subject>
+	
+	<dc:subject>アングラカタログ</dc:subject>
+	
+	<dc:subject>200811</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/idolm%40ster" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%81%be%e3%81%a8%e3%82%81" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%a2%e3%82%a4%e3%83%89%e3%83%ab%e3%83%9e%e3%82%b9%e3%82%bf%e3%83%bc" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/ClubJamora" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%a2%e3%83%b3%e3%82%b0%e3%83%a9%e3%82%ab%e3%82%bf%e3%83%ad%e3%82%b0" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/200811" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm2243206">
+	<title>DNAを抽出してみた‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm2243206</link>
+	<description><![CDATA[<img src="http://tn-skr1.smilevideo.jp/smile?i=2243206" alt="DNAを抽出してみた" title="DNAを抽出してみた" />]]></description>
+
+    
+	<dc:subject>bio</dc:subject>
+	
+	<dc:subject>science</dc:subject>
+	
+	<dc:subject>ニコニコ動画</dc:subject>
+	
+	<dc:subject>科学</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/bio" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/science" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e7%a7%91%e5%ad%a6" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5335160">
+	<title>アイドルマスター　961プロ　オーバーマスター　‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5335160</link>
+	<description><![CDATA[<img src="http://tn-skr1.smilevideo.jp/smile?i=5335160" alt="アイドルマスター　961プロ　オーバーマスター　" title="アイドルマスター　961プロ　オーバーマスター　" />]]></description>
+
+    
+	<dc:subject>ニコニコ動画</dc:subject>
+	
+	<dc:subject>アイドルマスター</dc:subject>
+	
+	<dc:subject>961プロ</dc:subject>
+	
+	<dc:subject>翼P</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%a2%e3%82%a4%e3%83%89%e3%83%ab%e3%83%9e%e3%82%b9%e3%82%bf%e3%83%bc" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/961%e3%83%97%e3%83%ad" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e7%bf%bcP" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5344965">
+	<title>週刊ニコニコランキング #81 [11月第4週]‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5344965</link>
+	<description><![CDATA[<img src="http://tn-skr2.smilevideo.jp/smile?i=5344965" alt="週刊ニコニコランキング #81 [11月第4週]" title="週刊ニコニコランキング #81 [11月第4週]" />]]></description>
+
+    
+	<dc:subject>nicoclip</dc:subject>
+	
+	<dc:subject>ranking</dc:subject>
+	
+	<dc:subject>ニコニコランキング</dc:subject>
+	
+	<dc:subject>週刊ニコラン</dc:subject>
+	
+	<dc:subject>ランキング</dc:subject>
+	
+	<dc:subject>niconico</dc:subject>
+	
+	<dc:subject>2代目</dc:subject>
+	
+	<dc:subject>3代目(仮の人)</dc:subject>
+	
+	<dc:subject>エンターテイメント</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/nicoclip" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/ranking" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e3%83%a9%e3%83%b3%e3%82%ad%e3%83%b3%e3%82%b0" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e9%80%b1%e5%88%8a%e3%83%8b%e3%82%b3%e3%83%a9%e3%83%b3" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%a9%e3%83%b3%e3%82%ad%e3%83%b3%e3%82%b0" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/niconico" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/2%e4%bb%a3%e7%9b%ae" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/3%e4%bb%a3%e7%9b%ae%28%e4%bb%ae%e3%81%ae%e4%ba%ba%29" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%a8%e3%83%b3%e3%82%bf%e3%83%bc%e3%83%86%e3%82%a4%e3%83%a1%e3%83%b3%e3%83%88" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5344098">
+	<title>みのりんにIevan polkka歌わせてみた【とらドラ！】‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5344098</link>
+	<description><![CDATA[<img src="http://tn-skr1.smilevideo.jp/smile?i=5344098" alt="みのりんにIevan polkka歌わせてみた【とらドラ！】" title="みのりんにIevan polkka歌わせてみた【とらドラ！】" />]]></description>
+
+    
+	<dc:subject>mad</dc:subject>
+	
+	<dc:subject>ネタ</dc:subject>
+	
+	<dc:subject>アニメ</dc:subject>
+	
+	<dc:subject>とらドラ！</dc:subject>
+	
+	<dc:subject>動画</dc:subject>
+	
+	<dc:subject>堀江由衣</dc:subject>
+	
+	<dc:subject>music</dc:subject>
+	
+	<dc:subject>niconico</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/mad" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8d%e3%82%bf" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%a2%e3%83%8b%e3%83%a1" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%81%a8%e3%82%89%e3%83%89%e3%83%a9%ef%bc%81" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e5%8b%95%e7%94%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e5%a0%80%e6%b1%9f%e7%94%b1%e8%a1%a3" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/music" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/niconico" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5342705">
+	<title>松岡修造に☆ゲッダン☆うたわせてみた‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5342705</link>
+	<description><![CDATA[<img src="http://tn-skr2.smilevideo.jp/smile?i=5342705" alt="松岡修造に☆ゲッダン☆うたわせてみた" title="松岡修造に☆ゲッダン☆うたわせてみた" />]]></description>
+
+    
+	<dc:subject>ニコ動：松岡修造</dc:subject>
+	
+	<dc:subject>温暖化の原因</dc:subject>
+	
+	<dc:subject>もっと熱くなるべき</dc:subject>
+	
+	<dc:subject>promise</dc:subject>
+	
+	<dc:subject>ゲッダン</dc:subject>
+	
+	<dc:subject>松岡修造</dc:subject>
+	
+	<dc:subject>エンターテイメント</dc:subject>
+	
+	<dc:subject>音量注意</dc:subject>
+	
+	<dc:subject>食糧危機の救世主</dc:subject>
+	
+	<dc:subject>雪崩大量発生</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e5%8b%95%ef%bc%9a%e6%9d%be%e5%b2%a1%e4%bf%ae%e9%80%a0" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e6%b8%a9%e6%9a%96%e5%8c%96%e3%81%ae%e5%8e%9f%e5%9b%a0" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%82%e3%81%a3%e3%81%a8%e7%86%b1%e3%81%8f%e3%81%aa%e3%82%8b%e3%81%b9%e3%81%8d" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/promise" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%b2%e3%83%83%e3%83%80%e3%83%b3" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e6%9d%be%e5%b2%a1%e4%bf%ae%e9%80%a0" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%a8%e3%83%b3%e3%82%bf%e3%83%bc%e3%83%86%e3%82%a4%e3%83%a1%e3%83%b3%e3%83%88" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e9%9f%b3%e9%87%8f%e6%b3%a8%e6%84%8f" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e9%a3%9f%e7%b3%a7%e5%8d%b1%e6%a9%9f%e3%81%ae%e6%95%91%e4%b8%96%e4%b8%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e9%9b%aa%e5%b4%a9%e5%a4%a7%e9%87%8f%e7%99%ba%e7%94%9f" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5337096">
+	<title>ポップコーンを作ってみた‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5337096</link>
+	<description><![CDATA[<img src="http://tn-skr1.smilevideo.jp/smile?i=5337096" alt="ポップコーンを作ってみた" title="ポップコーンを作ってみた" />]]></description>
+
+    
+	<dc:subject>video</dc:subject>
+	
+	<dc:subject>ネタ</dc:subject>
+	
+	<dc:subject>ニコニコ技術部</dc:subject>
+	
+	<dc:subject>ニコニコ動画</dc:subject>
+	
+	<dc:subject>わたあめp</dc:subject>
+	
+	<dc:subject>技術</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/video" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8d%e3%82%bf" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e6%8a%80%e8%a1%93%e9%83%a8" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%8f%e3%81%9f%e3%81%82%e3%82%81p" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e6%8a%80%e8%a1%93" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/nm5336714">
+	<title>プリズムリバーでパッパラ‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/nm5336714</link>
+	<description><![CDATA[<img src="http://tn-skr1.smilevideo.jp/smile?i=5336714" alt="プリズムリバーでパッパラ" title="プリズムリバーでパッパラ" />]]></description>
+
+    
+	<dc:subject>東方</dc:subject>
+	
+	<dc:subject>パッパラ</dc:subject>
+	
+	<dc:subject>プリズムリバー三姉妹</dc:subject>
+	
+	<dc:subject>ニコニコ動画</dc:subject>
+	
+	<dc:subject>お気に入り</dc:subject>
+	
+	<dc:subject>手書きアニメ</dc:subject>
+	
+	<dc:subject>niconico</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e6%9d%b1%e6%96%b9" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%91%e3%83%83%e3%83%91%e3%83%a9" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%97%e3%83%aa%e3%82%ba%e3%83%a0%e3%83%aa%e3%83%90%e3%83%bc%e4%b8%89%e5%a7%89%e5%a6%b9" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%81%8a%e6%b0%97%e3%81%ab%e5%85%a5%e3%82%8a" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e6%89%8b%e6%9b%b8%e3%81%8d%e3%82%a2%e3%83%8b%e3%83%a1" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/niconico" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5316607">
+	<title>株式会社ファーストステップ遅刻の罰。‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5316607</link>
+	<description><![CDATA[<img src="http://tn-skr2.smilevideo.jp/smile?i=5316607" alt="株式会社ファーストステップ遅刻の罰。" title="株式会社ファーストステップ遅刻の罰。" />]]></description>
+
+    
+	<dc:subject>ニコニコ動画</dc:subject>
+	
+	<dc:subject>ブラック企業</dc:subject>
+	
+	<dc:subject>パワハラ</dc:subject>
+	
+	<dc:subject>企業</dc:subject>
+	
+	<dc:subject>これはひどい</dc:subject>
+	
+	<dc:subject>これはひどすぎる</dc:subject>
+	
+	<dc:subject>Video</dc:subject>
+	
+	<dc:subject>まさに外道</dc:subject>
+	
+	<dc:subject>7映像</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%96%e3%83%a9%e3%83%83%e3%82%af%e4%bc%81%e6%a5%ad" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%91%e3%83%af%e3%83%8f%e3%83%a9" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e4%bc%81%e6%a5%ad" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%81%93%e3%82%8c%e3%81%af%e3%81%b2%e3%81%a9%e3%81%84" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%81%93%e3%82%8c%e3%81%af%e3%81%b2%e3%81%a9%e3%81%99%e3%81%8e%e3%82%8b" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/Video" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%81%be%e3%81%95%e3%81%ab%e5%a4%96%e9%81%93" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/7%e6%98%a0%e5%83%8f" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://jp.youtube.com/watch?v=gHh5ysBp1xM">
+	<title>YouTube - JR九州　佐賀VS鹿児島キャンペーンPV</title>
+	<link>http://jp.youtube.com/watch?v=gHh5ysBp1xM</link>
+	<description><![CDATA[<img src="http://img.youtube.com/vi/gHh5ysBp1xM/default.jpg" alt="JR九州　佐賀VS鹿児島キャンペーンPV" title="JR九州　佐賀VS鹿児島キャンペーンPV" />]]></description>
+
+    
+	<dc:subject>動画</dc:subject>
+	
+	<dc:subject>鹿児島</dc:subject>
+	
+	<dc:subject>JR九州</dc:subject>
+	
+	<dc:subject>佐賀</dc:subject>
+	
+	<dc:subject>movie</dc:subject>
+	
+	<dc:subject>dance</dc:subject>
+	
+	<dc:subject>ad</dc:subject>
+	
+	<dc:subject>music</dc:subject>
+	
+	<dc:subject>youtube</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e5%8b%95%e7%94%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e9%b9%bf%e5%85%90%e5%b3%b6" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/JR%e4%b9%9d%e5%b7%9e" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e4%bd%90%e8%b3%80" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/movie" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/dance" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/ad" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/music" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/youtube" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://jp.youtube.com/watch?v=7TIdydC-4vk">
+	<title>YouTube - 株式会社ファーストステップ遅刻の罰。</title>
+	<link>http://jp.youtube.com/watch?v=7TIdydC-4vk</link>
+	<description><![CDATA[<img src="http://img.youtube.com/vi/7TIdydC-4vk/default.jpg" alt="株式会社ファーストステップ遅刻の罰。" title="株式会社ファーストステップ遅刻の罰。" />]]></description>
+
+    
+	<dc:subject>YouTube</dc:subject>
+	
+	<dc:subject>video</dc:subject>
+	
+	<dc:subject>これはひどすぎる</dc:subject>
+	
+	<dc:subject>これはひどい</dc:subject>
+	
+	<dc:subject>まさに外道</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/YouTube" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/video" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%81%93%e3%82%8c%e3%81%af%e3%81%b2%e3%81%a9%e3%81%99%e3%81%8e%e3%82%8b" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%81%93%e3%82%8c%e3%81%af%e3%81%b2%e3%81%a9%e3%81%84" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%81%be%e3%81%95%e3%81%ab%e5%a4%96%e9%81%93" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://jp.youtube.com/watch?v=7TIdydC-4vk&amp;fmt=18">
+	<title>YouTube - 株式会社ファーストステップ遅刻の罰。</title>
+	<link>http://jp.youtube.com/watch?v=7TIdydC-4vk&amp;fmt=18</link>
+	<description><![CDATA[<img src="http://img.youtube.com/vi/7TIdydC-4vk/default.jpg" alt="株式会社ファーストステップ遅刻の罰。" title="株式会社ファーストステップ遅刻の罰。" />]]></description>
+
+    
+	<dc:subject>youtube</dc:subject>
+	
+	<dc:subject>ブラック企業</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/youtube" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%96%e3%83%a9%e3%83%83%e3%82%af%e4%bc%81%e6%a5%ad" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5341376">
+	<title>アイドルマスター　雪歩　『promise』　ゲッダン風‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5341376</link>
+	<description><![CDATA[<img src="http://tn-skr1.smilevideo.jp/smile?i=5341376" alt="アイドルマスター　雪歩　『promise』　ゲッダン風" title="アイドルマスター　雪歩　『promise』　ゲッダン風" />]]></description>
+
+    
+	<dc:subject>niconico</dc:subject>
+	
+	<dc:subject>im@s</dc:subject>
+	
+	<dc:subject>ニコニコ動画</dc:subject>
+	
+	<dc:subject>ゲッダン</dc:subject>
+	
+	<dc:subject>idolm@ster</dc:subject>
+	
+	<dc:subject>ｼﾒｼﾞp</dc:subject>
+	
+	<dc:subject>雪歩</dc:subject>
+	
+	<dc:subject>video</dc:subject>
+	
+	<dc:subject>-ｼﾒｼﾞp</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/niconico" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/im%40s" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%b2%e3%83%83%e3%83%80%e3%83%b3" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/idolm%40ster" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%ef%bd%bc%ef%be%92%ef%bd%bc%ef%be%9ep" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e9%9b%aa%e6%ad%a9" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/video" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%2d%ef%bd%bc%ef%be%92%ef%bd%bc%ef%be%9ep" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5340686">
+	<title>ドワンゴの決算を律ちゃんがもっと解説してみましたよ？‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5340686</link>
+	<description><![CDATA[<img src="http://tn-skr1.smilevideo.jp/smile?i=5340686" alt="ドワンゴの決算を律ちゃんがもっと解説してみましたよ？" title="ドワンゴの決算を律ちゃんがもっと解説してみましたよ？" />]]></description>
+
+    
+	<dc:subject>im@smad</dc:subject>
+	
+	<dc:subject>business</dc:subject>
+	
+	<dc:subject>niconico</dc:subject>
+	
+	<dc:subject>ニコニコ動画</dc:subject>
+	
+	<dc:subject>idolm@ster</dc:subject>
+	
+	<dc:subject>ニコニコ動画講座</dc:subject>
+	
+	<dc:subject>経営</dc:subject>
+	
+	<dc:subject>会計</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/im%40smad" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/business" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/niconico" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/idolm%40ster" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb%e8%ac%9b%e5%ba%a7" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e7%b5%8c%e5%96%b6" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e4%bc%9a%e8%a8%88" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5337470">
+	<title>【リトバス！】メンバー全員でくちゃくちゃ野球【音MAD】‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5337470</link>
+	<description><![CDATA[<img src="http://tn-skr1.smilevideo.jp/smile?i=5337470" alt="【リトバス！】メンバー全員でくちゃくちゃ野球【音MAD】" title="【リトバス！】メンバー全員でくちゃくちゃ野球【音MAD】" />]]></description>
+
+    
+	<dc:subject>Key</dc:subject>
+	
+	<dc:subject>music</dc:subject>
+	
+	<dc:subject>リトルバスターズ！EX</dc:subject>
+	
+	<dc:subject>niconico</dc:subject>
+	
+	<dc:subject>リトルバスターズ！</dc:subject>
+	
+	<dc:subject>mad</dc:subject>
+	
+	<dc:subject>沙耶が望んだ世界</dc:subject>
+	
+	<dc:subject>楽しいMADなのに涙が</dc:subject>
+	
+	<dc:subject>もっと評価されるべき</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/Key" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/music" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%aa%e3%83%88%e3%83%ab%e3%83%90%e3%82%b9%e3%82%bf%e3%83%bc%e3%82%ba%ef%bc%81EX" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/niconico" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%aa%e3%83%88%e3%83%ab%e3%83%90%e3%82%b9%e3%82%bf%e3%83%bc%e3%82%ba%ef%bc%81" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/mad" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e6%b2%99%e8%80%b6%e3%81%8c%e6%9c%9b%e3%82%93%e3%81%a0%e4%b8%96%e7%95%8c" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e6%a5%bd%e3%81%97%e3%81%84MAD%e3%81%aa%e3%81%ae%e3%81%ab%e6%b6%99%e3%81%8c" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%82%e3%81%a3%e3%81%a8%e8%a9%95%e4%be%a1%e3%81%95%e3%82%8c%e3%82%8b%e3%81%b9%e3%81%8d" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5339760">
+	<title>とある魔術先進国インデックス【サンドキャニオン�禁書目録MAD】‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5339760</link>
+	<description><![CDATA[<img src="http://tn-skr1.smilevideo.jp/smile?i=5339760" alt="とある魔術先進国インデックス【サンドキャニオン×禁書目録MAD】" title="とある魔術先進国インデックス【サンドキャニオン×禁書目録MAD】" />]]></description>
+
+    
+	<dc:subject>カービィ</dc:subject>
+	
+	<dc:subject>とある魔術の禁書目録</dc:subject>
+	
+	<dc:subject>*ニコニコ動画</dc:subject>
+	
+	<dc:subject>*ネタ</dc:subject>
+	
+	<dc:subject>MAD</dc:subject>
+	
+	<dc:subject>アニメ</dc:subject>
+	
+	<dc:subject>ニコニコ動画</dc:subject>
+	
+	<dc:subject>和む</dc:subject>
+	
+	<dc:subject>+</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%ab%e3%83%bc%e3%83%93%e3%82%a3" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%81%a8%e3%81%82%e3%82%8b%e9%ad%94%e8%a1%93%e3%81%ae%e7%a6%81%e6%9b%b8%e7%9b%ae%e9%8c%b2" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%2a%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%2a%e3%83%8d%e3%82%bf" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/MAD" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%a2%e3%83%8b%e3%83%a1" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e5%92%8c%e3%82%80" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%2b" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5339483">
+	<title>ＨＡＰＰＹ ＨＡＰＰＹ ＢＩＲＴＨＤＡＹ,Miki！‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5339483</link>
+	<description><![CDATA[<img src="http://tn-skr2.smilevideo.jp/smile?i=5339483" alt="ＨＡＰＰＹ　ＨＡＰＰＹ　ＢＩＲＴＨＤＡＹ,Miki！" title="ＨＡＰＰＹ　ＨＡＰＰＹ　ＢＩＲＴＨＤＡＹ,Miki！" />]]></description>
+
+    
+	<dc:subject>-whoP</dc:subject>
+	
+	<dc:subject>video</dc:subject>
+	
+	<dc:subject>idolm@ster</dc:subject>
+	
+	<dc:subject>niconico</dc:subject>
+	
+	<dc:subject>アイドルマスター</dc:subject>
+	
+	<dc:subject>nicoclip</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%2dwhoP" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/video" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/idolm%40ster" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/niconico" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%a2%e3%82%a4%e3%83%89%e3%83%ab%e3%83%9e%e3%82%b9%e3%82%bf%e3%83%bc" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/nicoclip" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5339386">
+	<title>アイドルマスターremembrance sequence13pr‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5339386</link>
+	<description><![CDATA[<img src="http://tn-skr1.smilevideo.jp/smile?i=5339386" alt="アイドルマスターremembrance　sequence13pr" title="アイドルマスターremembrance　sequence13pr" />]]></description>
+
+    
+	<dc:subject>idolm@ster</dc:subject>
+	
+	<dc:subject>video</dc:subject>
+	
+	<dc:subject>-whoP</dc:subject>
+	
+	<dc:subject>niconico</dc:subject>
+	
+	<dc:subject>アイドルマスター</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/idolm%40ster" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/video" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%2dwhoP" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/niconico" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%a2%e3%82%a4%e3%83%89%e3%83%ab%e3%83%9e%e3%82%b9%e3%82%bf%e3%83%bc" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/sm5339071">
+	<title>ダイナマイトメガネっ子メイドで魔法をかけて。‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/sm5339071</link>
+	<description><![CDATA[<img src="http://tn-skr2.smilevideo.jp/smile?i=5339071" alt="ダイナマイトメガネっ子メイドで魔法をかけて。" title="ダイナマイトメガネっ子メイドで魔法をかけて。" />]]></description>
+
+    
+	<dc:subject>video</dc:subject>
+	
+	<dc:subject>idolm@ster</dc:subject>
+	
+	<dc:subject>-whoP</dc:subject>
+	
+	<dc:subject>niconico</dc:subject>
+	
+	<dc:subject>アイドルマスター</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/video" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/idolm%40ster" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%2dwhoP" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/niconico" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%a2%e3%82%a4%e3%83%89%e3%83%ab%e3%83%9e%e3%82%b9%e3%82%bf%e3%83%bc" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/nm5340491">
+	<title>舎利禮文（しゃりらいもん）【初音ミク×M＠STER_fonts Pv】(音修正版)‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/nm5340491</link>
+	<description><![CDATA[<img src="http://tn-skr2.smilevideo.jp/smile?i=5340491" alt="舎利禮文（しゃりらいもん）【初音ミク×M＠STER_fonts Pv】(音修正版)" title="舎利禮文（しゃりらいもん）【初音ミク×M＠STER_fonts Pv】(音修正版)" />]]></description>
+
+    
+	<dc:subject>仏</dc:subject>
+	
+	<dc:subject>niconico</dc:subject>
+	
+	<dc:subject>PV</dc:subject>
+	
+	<dc:subject>これはすごい</dc:subject>
+	
+	<dc:subject>ニコニコ動画</dc:subject>
+	
+	<dc:subject>初音ミク</dc:subject>
+	
+	<dc:subject>アイドルマスター</dc:subject>
+	
+	<dc:subject>swf</dc:subject>
+	
+	<dc:subject>take</dc:subject>
+	
+	<dc:subject>あとで見る</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e4%bb%8f" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/niconico" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/PV" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%81%93%e3%82%8c%e3%81%af%e3%81%99%e3%81%94%e3%81%84" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e5%88%9d%e9%9f%b3%e3%83%9f%e3%82%af" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%82%a2%e3%82%a4%e3%83%89%e3%83%ab%e3%83%9e%e3%82%b9%e3%82%bf%e3%83%bc" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/swf" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/take" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%81%82%e3%81%a8%e3%81%a7%e8%a6%8b%e3%82%8b" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+<item rdf:about="http://www.nicovideo.jp/watch/nm3643635">
+	<title>エンジンとかトランスミッションばらしてみた1‐ニコニコ動画(秋)</title>
+	<link>http://www.nicovideo.jp/watch/nm3643635</link>
+	<description><![CDATA[<img src="http://tn-skr2.smilevideo.jp/smile?i=3643635" alt="エンジンとかトランスミッションばらしてみた1" title="エンジンとかトランスミッションばらしてみた1" />]]></description>
+
+    
+	<dc:subject>nicovideo</dc:subject>
+	
+	<dc:subject>ニコニコ動画</dc:subject>
+	
+	<dc:subject>機械</dc:subject>
+	
+	
+	<taxo:topics>
+	  <rdf:Bag>
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/nicovideo" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e3%83%8b%e3%82%b3%e3%83%8b%e3%82%b3%e5%8b%95%e7%94%bb" />
+	  
+	  <rdf:li resource="http://b.hatena.ne.jp/t/%e6%a9%9f%e6%a2%b0" />
+	  
+	  </rdf:Bag>
+	</taxo:topics>
+	
+  </item>
+</rdf:RDF>

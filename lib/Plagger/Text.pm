@@ -19,7 +19,7 @@ sub new_from_text {
     return unless defined $text;
     utf8::decode($text) unless utf8::is_utf8($text);
 
-    my @tags = $text =~ m!<(\w+)\s?/?>!g;
+    my @tags = $text =~ m!<([a-zA-Z]+)(?:\s|.)*?/?>!g;
     my @unknown = grep !$HTML::Tagset::isKnown{$_}, @tags;
     my $type;
     if (@unknown > @tags / 2) {

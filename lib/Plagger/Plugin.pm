@@ -85,10 +85,10 @@ sub load_assets {
     }
 
     # ignore .svn directories
-     $rule->or(
-         $rule->new->directory->name('.svn')->prune->discard,
-         $rule->new,
-     );
+    $rule->or(
+        $rule->new->directory->name('.svn')->prune->discard,
+        $rule->new,
+    );
 
     # $rule isa File::Find::Rule
     for my $file ($rule->in($self->assets_dir)) {
