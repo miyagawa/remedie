@@ -31,7 +31,7 @@ sub bootstrap {
 
     my $exit = sub { CORE::die('caught signal') };
     eval {
-        local $SIG{INT}  = $exit;
+        local $SIG{INT}  = $exit if !$ENV{REMEDIE_DEBUG};
         local $SIG{QUIT} = $exit;
         local $SIG{TERM} = $exit;
         $self->run;
@@ -126,7 +126,7 @@ sub dispatch_rpc {
     if ($@) {
         $result->{error} = $@;
     } else {
-        $result->{success} = 1;
+        $result->{success} = 1 unless defined $result->{success};
     }
 
     unless ( $res->body ) {
