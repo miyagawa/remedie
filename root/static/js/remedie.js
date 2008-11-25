@@ -195,7 +195,7 @@ Remedie.prototype = {
       if (item.props.embed.width && item.props.embed.height) {
         ratio  = item.props.embed.height / item.props.embed.width;
       } else {
-        ratio = 3/4;
+        ratio = 9/16; // TODO configurable
       }
     } else {
       if (item.props.type && item.props.type.match(/audio/)) {
