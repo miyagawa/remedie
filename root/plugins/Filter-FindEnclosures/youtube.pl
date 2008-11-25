@@ -45,6 +45,7 @@ sub upgrade {
     }
 
     # scrape the page to check if it has HD
+    # FIXME content should be shared with needs_content
     my $content = Plagger->context->current_plugin->fetch_content("http://www.youtube.com/watch?v=$video_id&fmt=22");
     if ($content =~ m!"fmt_map":\s*"22/!) {
         Plagger->context->log(info => "$video_id has HD version :)");

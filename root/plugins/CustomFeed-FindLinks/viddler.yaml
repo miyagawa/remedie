@@ -1,0 +1,5 @@
+author: Tatsuhiko Miyagawa
+domain: viddler.com
+handle: /
+follow_link: explore/.*videos/\d+
+
