@@ -5,8 +5,9 @@ use base qw( Plagger::Plugin );
 sub register {
     my($self, $context) = @_;
 
+    # TODO share this with Plagger::Util::mime_is_enclosure
     my @want_mime = qw( audio video bittorrent );
-    my @want_ext  = qw( avi mp4 divx mp3 m4a m4v mkv flv wmv asx torrent );
+    my @want_ext  = qw( avi mp4 divx mp3 m4a m4v mkv flv wmv wma swf asx torrent );
 
     $context->load_plugin({
         module => 'CustomFeed::FindLinks',
