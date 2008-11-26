@@ -158,8 +158,7 @@ sub serve_static_file {
             }
         }
 
-        open my $fh, "<", $file or die "$file: $!";
-        binmode $fh;
+        open my $fh, "<:raw", $file or die "$file: $!";
         $res->headers->header('Last-Modified' => HTTP::Date::time2str($mtime));
         $res->headers->header('Content-Length' => $size);
         $res->body( join '', <$fh> );
