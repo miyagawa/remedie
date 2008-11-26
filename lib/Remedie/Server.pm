@@ -6,6 +6,7 @@ use HTTP::Engine;
 use MIME::Types;
 use Path::Class;
 use String::CamelCase;
+use HTTP::Date;
 
 use Remedie::Log;
 use Remedie::JSON;
@@ -143,10 +144,23 @@ sub serve_static_file {
     my $root = $self->conf->{root};
     my $file = file($root, "static", $path);
 
-    if (-s $file && -r _) {
+    if (-e $file && -r _) {
+        my $size  = -s _;
+        my $mtime = (stat(_))[9];
+
+        if (my $ims = $req->headers->header('If-Modified-Since')) {
+            my $time = HTTP::Date::str2time($ims);
+            if ($mtime <= $time) {
+                $res->status(304);
+                return;
+            }
+        }
+
         my $ext = ($file =~ /\.(\w+)$/)[0];
         $res->content_type( MIME::Types->new->mimeTypeOf($ext) || "text/plain" );
         open my $fh, "<", $file or die "$file: $!";
+        $res->headers->header('Last-Modified' => HTTP::Date::time2str($mtime));
+        $res->headers->header('Content-Length' => $size);
         $res->body( join '', <$fh> );
     } else {
         die "Not found";
