@@ -238,7 +238,7 @@ Remedie.prototype = {
           } else if (r.error) {
             throw r.error;
           }
-        },
+        }
       });
     }
 
