@@ -2,7 +2,7 @@
 sub init {
     my $self = shift;
     $self->{domain} = "viddler.com";
-    $self->{handle} = "/explore/.*videos/";
+    $self->{handle} = "/explore/.*videos"; # TODO shouldn't match duplicates with timestamps
 }
 
 sub needs_content { 1 }
