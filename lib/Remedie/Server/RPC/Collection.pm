@@ -14,6 +14,7 @@ use DateTime::Format::Mail;
 use Encode;
 use Template;
 use XML::OPML::LibXML;
+use Plagger::Util;
 
 sub opml {
     my($self, $req, $res) = @_;
@@ -24,15 +25,6 @@ sub opml {
         channels => $channels,
         now => DateTime::Format::Mail->format_datetime( DateTime->now ),
         version => Remedie->VERSION,
-        encode_xml => sub {
-            local $_ = shift;
-            s/&/&#38;/g;
-            s/</&lt;/g;
-            s/>/&gt;/g;
-            s/"/&#34;/g;
-            s/'/&#39;/g;
-            $_;
-        },
     };
 
     my $tt = Template->new;
@@ -48,7 +40,7 @@ sub opml {
 <body>
 <outline text="Subscriptions">
 [% FOREACH channel = channels -%]
-<outline type="rss" text="[% encode_xml(channel.name) %]"[% IF channel.props.link %] htmlUrl="[% encode_xml(channel.props.link) %]"[% END %] xmlUrl="[% encode_xml(channel.ident) %]" />
+<outline type="rss" text="[% channel.name | html %]"[% IF channel.props.link %] htmlUrl="[% channel.props.link | html %]"[% END %] xmlUrl="[% channel.ident | html %]" />
 [% END -%]
 </outline>
 </body>

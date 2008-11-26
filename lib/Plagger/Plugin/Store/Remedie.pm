@@ -58,6 +58,7 @@ sub store {
                     width  => $enclosure->width,
                     height => $enclosure->height,
                 };
+                $item->props->{type} = "application/x-shockwave-flash";
 #            } elsif ($enclosure->type =~ m!torrent!) {
             } else {
                 $item->type( Remedie::DB::Item->TYPE_HTTP_MEDIA );
