@@ -147,6 +147,8 @@ sub serve_static_file {
     if (-e $file && -r _) {
         my $size  = -s _;
         my $mtime = (stat(_))[9];
+        my $ext = ($file =~ /\.(\w+)$/)[0];
+        $res->content_type( MIME::Types->new->mimeTypeOf($ext) || "text/plain" );
 
         if (my $ims = $req->headers->header('If-Modified-Since')) {
             my $time = HTTP::Date::str2time($ims);
@@ -156,8 +158,6 @@ sub serve_static_file {
             }
         }
 
-        my $ext = ($file =~ /\.(\w+)$/)[0];
-        $res->content_type( MIME::Types->new->mimeTypeOf($ext) || "text/plain" );
         open my $fh, "<", $file or die "$file: $!";
         $res->headers->header('Last-Modified' => HTTP::Date::time2str($mtime));
         $res->headers->header('Content-Length' => $size);
