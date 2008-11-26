@@ -108,6 +108,15 @@ Remedie.prototype = {
     });
     $(document).bind('remedieChannelDisplayed', function(ev, channel) {
       document.title = 'Remedie: ' + channel.name;
+
+      // RSS auto discovery
+      var baseURL = location.href.replace(/^(http:\/\/.*?\/).*$/, "$1");
+      $('head link[rel="alternate"]').remove();
+      $('head').append(
+        $("<link/>").attr("rel", "alternate").attr("type", "application/rss+xml").attr("title", "Media RSS")
+          .attr("href", baseURL + "rpc/channel/rss?id=" + channel.id).attr("id", "gallery")
+      );
+
       remedie.current_id = channel.id;
     });
     $(document).bind('remedieChannelUndisplayed', function(ev, channel) {
@@ -551,10 +560,12 @@ Remedie.prototype = {
          if (item.props.thumbnail) {
            var img = new Image();
            img.onload = function(){
-             var height = 128 * this.height / this.width;
-             var margin = (128 * 3/4 - height) / 2;
-             if (margin < 0) margin = 0;
-             $("#item-thumbnail-image-" + item.id).attr("src", this.src).css({ "margin-top": margin, "margin-bottom": margin });
+             if (this.height * this.width > 5000) {
+               var height = 128 * this.height / this.width;
+               var margin = (128 * 3/4 - height) / 2;
+               if (margin < 0) margin = 0;
+               $("#item-thumbnail-image-" + item.id).attr("src", this.src).css({ "margin-top": margin, "margin-bottom": margin });
+             }
            };
            img.src = item.props.thumbnail.url;
          }
@@ -566,6 +577,7 @@ Remedie.prototype = {
             channel_context_refresh:      function(){ remedie.manuallyRefreshChannel(channel) },
             channel_context_clear_stale:  function(){ remedie.manuallyRefreshChannel(channel, true) },
             channel_context_mark_watched: function(){ remedie.markAllAsWatched(channel, true) },
+            channel_context_cooliris:     function(){ PicLensLite.start() },
             channel_context_remove:       function(){ remedie.removeChannel(channel) }
           }
         });
