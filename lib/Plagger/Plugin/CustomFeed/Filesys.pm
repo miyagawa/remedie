@@ -21,18 +21,20 @@ sub handle {
     my($self, $context, $args) = @_;
 
     if (URI->new($args->{feed}->url)->scheme eq 'file') {
-        $self->aggregate($context, $args);
-        return 1;
+        my $ident = URI->new($args->{feed}->url)->opaque;
+        my($vfs, $uri) = $self->vfs_uri($ident);
+
+        if ($vfs && $uri) {
+            $self->aggregate($context, $args, $vfs, $uri);
+            return 1;
+        }
     }
 
     return;
 }
 
 sub aggregate {
-    my($self, $context, $args) = @_;
-
-    my $ident = URI->new($args->{feed}->url)->opaque;
-    my($vfs, $uri) = $self->vfs_uri($ident);
+    my($self, $context, $args, $vfs, $uri) = @_;
 
     my $finder = File::Find::Rule::Filesys::Virtual->virtual($vfs);
     my @exts = @{ $self->conf->{extensions} || [] };
@@ -58,11 +60,14 @@ sub aggregate {
     $context->update->add($feed);
 }
 
+# handle file://path/to/folder and file:ssh://hostname/path
+# BUT don't do anything against file://path/to/rss.xml
+# TODO maybe we should use another URI scheme like filesys:?
 sub vfs_uri {
     my($self, $ident) = @_;
 
     my($vfs, $uri);
-    if ($ident =~ m!^(\w+):!) {
+    if ($ident =~ m!^(ssh|daap|dpap):!) {
         $uri = URI->new($ident);
         my $module = "Filesys::Virtual::" . uc($uri->scheme);
         eval "require $module";
@@ -72,9 +77,16 @@ sub vfs_uri {
         $vfs = $module->new({ host => $uri->host }); # TODO auth
     } else {
         $ident =~ s!^//!!;
+        $uri = URI->new("file://$ident");
+
+        my $dir = URI::Escape::uri_unescape($uri->path);
+        unless (-d $dir) {
+            ## Not a directory, probably an XML file
+            return;
+        }
+
         require Filesys::Virtual::Plain;
         $vfs = Filesys::Virtual::Plain->new;
-        $uri = URI->new("file://$ident");
     }
 
     return $vfs, $uri;
