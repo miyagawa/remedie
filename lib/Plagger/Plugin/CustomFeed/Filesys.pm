@@ -8,6 +8,7 @@ use File::Find::Rule::Filesys::Virtual;
 use Filesys::Virtual;
 use URI::Escape;
 use Path::Class;
+use DateTime::Format::Strptime;
 
 sub register {
     my($self, $context) = @_;
@@ -54,6 +55,10 @@ sub aggregate {
         my $entry = Plagger::Entry->new;
         $entry->title($vfile->basename);
         $entry->link(URI->new("file://$vfile"));
+        if (my $date = $vfs->modtime($file)) {
+            my $parser = DateTime::Format::Strptime->new(pattern => '%Y%m%d%H%M%S');
+            $entry->date($parser->parse_datetime($date));
+        }
         $feed->add_entry($entry);
     }
 
