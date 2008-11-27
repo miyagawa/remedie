@@ -179,7 +179,8 @@ sub normalize_uri {
     my %is_known = map { $_ => 1 } qw ( http https file script );
 
     $uri = URI->new($uri);
-    $uri->scheme("http") unless $is_known{$uri->scheme};
+    $uri->scheme("http") if $uri->scheme eq 'feed';
+    $uri = URI->new("http://$uri") unless $is_known{$uri->scheme};
 
     return URI->new($uri)->canonical;
 }
