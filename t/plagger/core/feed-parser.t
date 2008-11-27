@@ -27,3 +27,5 @@ Bulknews::Subtech
 http://blog.bulknews.net/mt/
 --- expected
 blog.bulknews.net
+
+
