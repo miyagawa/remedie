@@ -25,7 +25,7 @@ sub filter {
 
     $context->log(debug => "Title equals filename. Extract info from the filename: " . $entry->title);
 
-    my $base = $entry->title;
+    my $orig = my $base = $entry->title;
 
     my $ext;
     $base =~ s/\.(\w+)$/$ext = $1; ""/e;
@@ -46,9 +46,12 @@ sub filter {
         push @tags, split /\./, $tags;
     }
 
-    $context->log(debug => "Renamed to $base with tags: " . join(", ", @tags));
-    $entry->title($base);
-    $entry->add_tag($_) for (@tags, $ext);
+    if ($orig ne $base) {
+        $context->log(debug => "Renamed to $base with tags: " . join(", ", @tags));
+        $entry->title($base);
+        $entry->summary( Plagger::Text->new_from_text($orig) ) unless $entry->summary;
+        $entry->add_tag($_) for (@tags, $ext);
+    }
 }
 
 1;
