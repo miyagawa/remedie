@@ -7,6 +7,7 @@ use MIME::Types;
 use Path::Class;
 use String::CamelCase;
 use HTTP::Date;
+use URI::Escape;
 
 use Remedie::Log;
 use Remedie::JSON;
@@ -152,6 +153,7 @@ sub serve_static_file {
 sub serve_thumbnail {
     my($self, $path, $req, $res) = @_;
 
+    $path = URI::Escape::uri_unescape($path);
     my $file = $self->conf->{user_data}->path_to("thumb", $path);
     $self->do_serve_static($file, $req, $res);
 }
