@@ -82,6 +82,8 @@ sub handle_request {
             $self->dispatch_rpc($path, $req, $res);
         } elsif ($path =~ s!^/static/!!) {
             $self->serve_static_file($path, $req, $res);
+        } elsif ($path =~ s!^/thumb/!!) {
+            $self->serve_thumbnail($path, $req, $res);
         } else {
             die "Not found";
         }
@@ -143,6 +145,19 @@ sub serve_static_file {
 
     my $root = $self->conf->{root};
     my $file = file($root, "static", $path);
+
+    $self->do_serve_static($file, $req, $res);
+}
+
+sub serve_thumbnail {
+    my($self, $path, $req, $res) = @_;
+
+    my $file = $self->conf->{user_data}->path_to("thumb", $path);
+    $self->do_serve_static($file, $req, $res);
+}
+
+sub do_serve_static {
+    my($self, $file, $req, $res) = @_;
 
     if (-e $file && -r _) {
         my $size  = -s _;

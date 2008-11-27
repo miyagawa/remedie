@@ -18,7 +18,6 @@ sub update_channel {
     my($self, $channel, $opt) = @_;
 
     my $uri = $channel->ident;
-
     my $config = {
         global => {
             log => { level => 'debug' },
@@ -27,7 +26,8 @@ sub update_channel {
         },
         plugins => [
             { module => "Bundle::Defaults" },
-            { module => "Bundle::Remedie" },
+            { module => "Bundle::Remedie",
+              config => $self->conf },
             { module => "Subscription::Config",
               config => { feed => [ $uri ] } },
             { module => "Store::Remedie",

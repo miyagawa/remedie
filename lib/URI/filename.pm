@@ -9,8 +9,15 @@ sub URI::filename {
 }
 
 sub URI::raw_filename {
-    my $url = shift;
-    return URI::Escape::uri_unescape($url->filename);
+    my $uri = shift;
+    return URI::Escape::uri_unescape($uri->filename);
+}
+
+sub URI::file::fullpath {
+    my $uri = shift;
+    my $path = URI::Escape::uri_unescape($uri->opaque);
+    $path =~ s!^//!!;
+    return $path;
 }
 
 1;

@@ -117,6 +117,7 @@ sub run {
         error_log  => $self->error_log,
         access_log => $self->access_log,
         debug      => $self->debug,
+        user_data  => $self->user_data,
     });
 }
 

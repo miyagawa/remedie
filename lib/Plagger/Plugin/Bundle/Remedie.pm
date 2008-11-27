@@ -26,12 +26,17 @@ sub register {
 
     $context->load_plugin({ module => 'CustomFeed::Script' });
 
-#    $context->autoload_plugin({ module => 'Filter::TruePermalink' });
+    my $thumb_dir = $self->conf->{user_data}->path_to_dir("thumb");
+
+ #    $context->autoload_plugin({ module => 'Filter::TruePermalink' });
     $context->autoload_plugin({ module => 'Namespace::iTunesDTD' });
     $context->autoload_plugin({ module => 'Namespace::ApplePhotocast' });
     $context->autoload_plugin({ module => 'Namespace::HatenaFotolife' });
+    $context->autoload_plugin({ module => 'Filter::FindEnclosures' });
     $context->autoload_plugin({ module => 'Filter::MediaFilename' });
     $context->autoload_plugin({ module => 'Filter::EnclosureMetadata' });
+    $context->autoload_plugin({ module => 'Filter::EnclosureThumbnail',
+                                config => { thumb_dir => $thumb_dir } });
     $context->autoload_plugin({ module => 'Filter::ExtractThumbnail' });
     $context->autoload_plugin({ module => 'Filter::HTMLScrubber',
                                 config => { default_deny => 1,
@@ -39,6 +44,13 @@ sub register {
                                             rules => { img => 0 } } });
     $context->autoload_plugin({ module => 'Filter::GuessImageSize' });
 #    $context->autoload_plugin({ module => 'Filter::ImageInfo' });
+    $context->autoload_plugin({ module => 'Filter::RewriteThumbnailURL',
+                                config => {
+                                    rewrite => [
+                                        { local => URI->new("file://$thumb_dir"),
+                                          url   => "/thumb" } # relative URL
+                                    ],
+                                } });
 }
 
 1;

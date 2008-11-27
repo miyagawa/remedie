@@ -28,4 +28,14 @@ sub path_to {
     }
 }
 
+# I hate Path::Class
+sub path_to_dir {
+    my($self, @path) = @_;
+
+    my $dir= $self->base->subdir(@path);
+    $dir->mkpath(oct 777) unless -e $dir;
+
+    return $dir;
+}
+
 1;
