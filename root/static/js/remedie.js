@@ -600,7 +600,8 @@ Remedie.prototype = {
                 item_context_watched:   function(){remedie.markItemAsWatched(item)},
                 item_context_unwatched: function(){remedie.markItemAsUnwatched(item)},
                 item_context_play_vlc:  function(){remedie.launchVideoPlayer(item, 'VLC', fullscreen)},
-                item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QTL', fullscreen, 1)},
+//                item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QTL', fullscreen, 1)},
+                item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QuickTime', fullscreen)},
                 item_context_play_qt_embed: function(){remedie.playVideoInline(item, 'QuickTime')},
                 item_context_play_wmp:  function(){remedie.playVideoInline(item, 'WMP')},
                 item_context_play_sl:   function(){remedie.playVideoInline(item, 'Silverlight')}

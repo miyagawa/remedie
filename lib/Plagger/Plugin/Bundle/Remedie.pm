@@ -10,12 +10,21 @@ sub register {
     my @want_ext  = qw( avi mp4 divx mp3 m4a m4v mkv flv wmv wma swf asx torrent );
 
     $context->load_plugin({
+        module => 'CustomFeed::Filesys',
+        config => {
+            extensions => \@want_ext,
+        },
+    });
+
+    $context->load_plugin({
         module => 'CustomFeed::FindLinks',
         config => {
             follow_xpath => "//a[contains(\@rel, 'enclosure') or " . join(" or ", map "contains(\@href, '.$_')", @want_ext) . "]",
             follow_link  => "//a[" . join(" or ", map "contains(\@type, '$_')", @want_mime) . "]",
         },
     });
+
+    $context->load_plugin({ module => 'CustomFeed::Script' });
 
 #    $context->autoload_plugin({ module => 'Filter::TruePermalink' });
     $context->autoload_plugin({ module => 'Namespace::iTunesDTD' });
