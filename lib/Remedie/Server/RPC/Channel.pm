@@ -174,8 +174,12 @@ sub update_status : POST {
 
 sub normalize_uri {
     my $uri = shift;
-    $uri =~ s/^feed:/http:/;
-    $uri = "http://$uri" unless $uri =~ m!^https?://!;
+
+    # TODO this should be replaced with pluggable feed discovery
+    my %is_known = map { $_ => 1 } qw ( http https file script );
+
+    $uri = URI->new($uri);
+    $uri->scheme("http") unless $is_known{$uri->scheme};
 
     return URI->new($uri)->canonical;
 }
