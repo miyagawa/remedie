@@ -67,7 +67,7 @@ sub vfs_uri {
     my($self, $ident) = @_;
 
     my($vfs, $uri);
-    if ($ident =~ m!^(ssh|daap|dpap):!) {
+    if ($ident =~ m!^[a-z]{2,}:!) {
         $uri = URI->new($ident);
         my $module = "Filesys::Virtual::" . uc($uri->scheme);
         eval "require $module";
