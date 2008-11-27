@@ -93,6 +93,9 @@ sub handle_request {
     if ($@ && $@ =~ /Not found/) {
         $res->status(404);
         $res->body("404 Not Found");
+    } elsif ($@ && $@ =~ /Forbidden/) {
+        $res->status(403);
+        $res->body("403 Forbidden");
     } elsif ($@) {
         $res->status(500);
         $res->body("Internal Server Error");
@@ -152,6 +155,10 @@ sub serve_static_file {
 
 sub serve_thumbnail {
     my($self, $path, $req, $res) = @_;
+
+    if ($path =~ /%2f/i) {
+        die "Forbidden: directory traversal";
+    }
 
     $path = URI::Escape::uri_unescape($path);
     my $file = $self->conf->{user_data}->path_to("thumb", $path);
