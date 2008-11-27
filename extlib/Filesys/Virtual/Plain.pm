@@ -232,14 +232,14 @@ sub modtime {
 	my ($self, $fn) = @_;
 	$fn = $self->_path_from_root($fn);
 	
-	return (0,"");
+#	return (0,"");
 	my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
 		$atime,$mtime,$ctime,$blksize,$blocks) = CORE::stat($fn);
 		
 	my ($sec, $min, $hr, $dd, $mm, $yy, $wd, $yd, $isdst) =
 		localtime($mtime); $yy += 1900; $mm++;
 		
-	return (1,"$yy$mm$dd$hr$min$sec");
+	return (1,sprintf "%04d%02d%02d%02d%02d%02d", $yy, $mm, $dd, $hr, $min, $sec);
 }
 
 =pod
