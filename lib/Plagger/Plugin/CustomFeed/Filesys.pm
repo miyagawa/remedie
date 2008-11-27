@@ -48,6 +48,8 @@ sub aggregate {
     $feed->link($uri);
 
     my @files = $finder->in($path->stringify);
+
+    my @entries;
     for my $file (@files) {
         $context->log(debug => "Found file $file");
         my $vfile = file($file);
@@ -59,6 +61,12 @@ sub aggregate {
             my $parser = DateTime::Format::Strptime->new(pattern => '%Y%m%d%H%M%S');
             $entry->date($parser->parse_datetime($date));
         }
+        push @entries, $entry;
+    }
+
+    my $default = DateTime->from_epoch(epoch => 0);
+    # reverse chronological order if possible
+    for my $entry (sort { ($b->date || $default) <=> ($a->date || $default) } @entries) {
         $feed->add_entry($entry);
     }
 
