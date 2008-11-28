@@ -34,6 +34,9 @@ sub filter {
     my $uri = URI->new($enclosure->url);
     return unless $uri->scheme eq 'file';
 
+    # This plugin might be renamed to ::ffmpeg since we can get cover art from mp3 etc.
+    return unless $enclosure->type =~ m!^video/!;
+
     # TODO same filename in different feeds
     my $input_file = $uri->fullpath;
     my $raw_filename = Plagger::Util::utf8_to_local($uri->raw_filename);
