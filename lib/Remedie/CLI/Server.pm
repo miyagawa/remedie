@@ -31,6 +31,13 @@ has 'user_data' => (
     default     => sub { Remedie::UserData->new },
 );
 
+has 'net_server' => (
+    traits      => [ 'Getopt' ],
+    is          => 'rw',
+    isa         => 'Str',
+    required    => 0,
+);
+
 has 'host' => (
     traits      => [ 'Getopt' ],
     cmd_aliases => 'h',
@@ -113,6 +120,7 @@ sub run {
     Remedie::Server->bootstrap({
         host       => $self->host,
         port       => $self->port,
+        net_server => $self->net_server,
         root       => $self->root,
         error_log  => $self->error_log,
         access_log => $self->access_log,
