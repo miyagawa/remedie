@@ -158,6 +158,7 @@ $mimetypes->addType( MIME::Type->new(type => 'video/mp4', extensions => [ 'mp4',
 $mimetypes->addType( MIME::Type->new(type => 'application/x-bittorrent', extensions => [ 'torrent' ]) );
 $mimetypes->addType( MIME::Type->new(type => 'video/x-matroska', extensions => [ 'mkv' ]) );
 $mimetypes->addType( MIME::Type->new(type => 'audio/x-matroska', extensions => [ 'mka' ]) );
+$mimetypes->addType( MIME::Type->new(type => 'video/divx', extensions => [ 'divx' ]) );
 
 sub mime_type_of {
     my $ext = shift;

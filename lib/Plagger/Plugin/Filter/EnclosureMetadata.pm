@@ -26,10 +26,21 @@ sub filter {
     my $mime = Plagger::Util::mime_type_of($enclosure->url);
 
     if (Plagger::Util::mime_is_enclosure($mime) and
-        (!$type or $type ne $mime->type)) {
+        $self->should_update($type, $mime->type)) {
         $context->log(info => "Auto-setting MIME type " .  $mime->type . " on " . $enclosure->url);
         $enclosure->type($mime->type);
     }
+}
+
+sub should_update {
+    my($self, $orig, $new) = @_;
+
+    return 1 unless $orig;
+
+    # .avi divx file should be explicitly set as video/divx
+    return if $orig =~ /video\/(?:x-)?divx/;
+
+    return lc($orig) ne lc($new);
 }
 
 1;

@@ -272,6 +272,11 @@ Remedie.prototype = {
         var s1 = new MPObject(url, 'player-' + id, width,  height);
         s1.addParam("autostart", "1");
         s1.write('embed-player');
+    } else if (player == 'DivX') {
+        var s1 = new DivXObject(url, 'player-' + id, width,  height);
+        s1.addParam("autostart", "true");
+        s1.addParam("controller", "true");
+        s1.write('embed-player');
     } else if (player == 'Silverlight') {
         var elm = document.getElementById("embed-player");
         var ply = new jeroenwijering.Player(elm, '/static/js/wmvplayer/wmvplayer.xaml', {
@@ -364,6 +369,8 @@ Remedie.prototype = {
       } else {
         player = 'WMP';
       }
+    } else if (type.match(/divx/i)) {
+      player = 'DivX';
     } else {
       player = 'Flash';
     }
@@ -604,7 +611,8 @@ Remedie.prototype = {
                 item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QuickTime', fullscreen)},
                 item_context_play_qt_embed: function(){remedie.playVideoInline(item, 'QuickTime')},
                 item_context_play_wmp:  function(){remedie.playVideoInline(item, 'WMP')},
-                item_context_play_sl:   function(){remedie.playVideoInline(item, 'Silverlight')}
+                item_context_play_sl:   function(){remedie.playVideoInline(item, 'Silverlight')},
+                item_context_play_divx: function(){remedie.playVideoInline(item, 'DivX')}
               },
               onContextMenu: function(e, menu) {
                 item = remedie.items[ item.id ]; // refresh the status
@@ -618,7 +626,9 @@ Remedie.prototype = {
                   el.createAppend('li', { id: 'item_context_unwatched' }, 'Mark as unwatched');
                 }
 
-                if (/video/i.test(item.props.type)) {
+                if (/divx/i.test(item.props.type)) {
+                  el.createAppend('li', { id: 'item_context_play_divx' }, 'Play inilne with DivX player');
+                } else if (/video/i.test(item.props.type)) {
                   el.createAppend('li', { id: 'item_context_play_vlc' }, 'Launch VLC');
                   el.createAppend('li', { id: 'item_context_play_qt' }, 'Launch QuickTime');
                   el.createAppend('li', { id: 'item_context_play_qt_embed' }, 'Play inline with QuickTime');
