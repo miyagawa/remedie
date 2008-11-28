@@ -9,6 +9,7 @@ use Filesys::Virtual;
 use URI::Escape;
 use Path::Class;
 use DateTime::Format::Strptime;
+use Plagger::Util;
 
 sub register {
     my($self, $context) = @_;
@@ -47,16 +48,21 @@ sub aggregate {
     $feed->title($path->{dirs}->[-1]); # why can't I just do $path->name?
     $feed->link($uri);
 
-    my @files = $finder->in($path->stringify);
+    my @files = $finder->in(Plagger::Util::normalize_path($path->stringify));
 
     my @entries;
     for my $file (@files) {
         $context->log(debug => "Found file $file");
         my $vfile = file($file);
+        my $vpath = "file://$vfile";
+        $file = Plagger::Util::normalize_path($vpath);
+        my $vname = $vfile->basename;
+        $vname = Plagger::Util::local_to_utf8($vname);
+        $vpath = Plagger::Util::local_to_utf8($vpath);
 
         my $entry = Plagger::Entry->new;
-        $entry->title($vfile->basename);
-        $entry->link(URI->new("file://$vfile"));
+        $entry->title($vname);
+        $entry->link(URI->new($vpath));
         if (my $date = $vfs->modtime($file)) {
             my $parser = DateTime::Format::Strptime->new(pattern => '%Y%m%d%H%M%S');
             $entry->date($parser->parse_datetime($date));

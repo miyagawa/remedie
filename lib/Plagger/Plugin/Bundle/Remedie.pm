@@ -2,6 +2,8 @@ package Plagger::Plugin::Bundle::Remedie;
 use strict;
 use base qw( Plagger::Plugin );
 
+use Plagger::Util;
+
 sub register {
     my($self, $context) = @_;
 
@@ -27,6 +29,7 @@ sub register {
     $context->load_plugin({ module => 'CustomFeed::Script' });
 
     my $thumb_dir = $self->conf->{user_data}->path_to_dir("thumb");
+    my $thumb_url = Plagger::Util::normalize_path("file://$thumb_dir");
 
  #    $context->autoload_plugin({ module => 'Filter::TruePermalink' });
     $context->autoload_plugin({ module => 'Namespace::iTunesDTD' });
@@ -47,7 +50,7 @@ sub register {
     $context->autoload_plugin({ module => 'Filter::RewriteThumbnailURL',
                                 config => {
                                     rewrite => [
-                                        { local => URI->new("file://$thumb_dir"),
+                                        { local => URI->new($thumb_url),
                                           url   => "/thumb" } # relative URL
                                     ],
                                 } });

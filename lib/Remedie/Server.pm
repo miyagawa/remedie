@@ -153,6 +153,19 @@ sub serve_static_file {
     $self->do_serve_static($file, $req, $res);
 }
 
+our $filesystem_encode;
+sub filesystem_encode {
+    if (!$filesystem_encode) {
+        $filesystem_encode = 'utf-8';
+        eval {
+            require 'Win32/API.pm';
+            Win32::API->Import('kernel32', 'UINT GetACP()');
+            $filesystem_encode = 'cp'.GetACP();
+        } if $^O eq "MSWin32";
+    }
+    $filesystem_encode;
+}
+
 sub serve_thumbnail {
     my($self, $path, $req, $res) = @_;
 
@@ -161,6 +174,7 @@ sub serve_thumbnail {
     }
 
     $path = URI::Escape::uri_unescape($path);
+    Encode::from_to($path, "utf-8", filesystem_encode);
     my $file = $self->conf->{user_data}->path_to("thumb", $path);
     $self->do_serve_static($file, $req, $res);
 }

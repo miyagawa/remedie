@@ -2,6 +2,7 @@ package Plagger::Plugin::Filter::EnclosureThumbnail;
 use strict;
 use base qw( Plagger::Plugin );
 
+use Plagger::Util;
 use Path::Class;
 
 sub register {
@@ -35,7 +36,9 @@ sub filter {
 
     # TODO same filename in different feeds
     my $input_file = $uri->fullpath;
-    my $thumb_path = $self->conf->{thumb_dir}->file($uri->raw_filename . ".jpg");
+    my $raw_filename = Plagger::Util::utf8_to_local($uri->raw_filename);
+    my $thumb_path = $self->conf->{thumb_dir}->file($raw_filename . ".jpg");
+    $thumb_path = Plagger::Util::normalize_path($thumb_path);
 
     unless (-e $thumb_path) {
         $context->log(info => "Generating thumbnail for $input_file to $thumb_path");
@@ -54,12 +57,13 @@ sub filter {
             '-deinterlace',
             $thumb_path,
         );
-	open STDERR, ">&", $olderr or die "Can't dup \$olderr: $!";
+        open STDERR, ">&", $olderr or die "Can't dup \$olderr: $!";
     }
 
     unless (-e $thumb_path) {
         $context->error("Couldn't create thumbnail $thumb_path");
     }
+    $thumb_path = Plagger::Util::local_to_utf8($thumb_path);
 
     # TODO should be able to get width/height from ffmpeg output
     $context->log(debug => "Thumbnail set to $thumb_path");
