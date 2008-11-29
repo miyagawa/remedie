@@ -16,6 +16,8 @@ sub find {
         process "//a[contains(\@href, '720p.mov')]", movie => '@href';
     }->scrape($args->{content});
 
+    return unless $res->{movie};
+
     my $enclosure = Plagger::Enclosure->new;
     $enclosure->url($res->{movie});
     $enclosure->type("video/quicktime");
