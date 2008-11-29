@@ -369,6 +369,8 @@ Remedie.prototype = {
       } else {
         player = 'WMP';
       }
+    } else if (type.match(/quicktime/i)) {
+      player = 'QuickTime';
     } else if (type.match(/divx/i)) {
       player = 'DivX';
     } else {
