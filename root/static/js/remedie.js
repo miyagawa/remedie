@@ -792,10 +792,19 @@ Remedie.prototype = {
     if (!default_thumbnail) {
        var img = new Image();
        img.onload = function(){
-         var height = 192 * this.height / this.width;
-         var margin = (192  - height) / 2;
+         var size;
+         if (this.height > this.width) {
+           size = 192 * this.width / this.height;
+         } else {
+           size = 192 * this.height / this.width;
+         }
+         var margin = (192  - size) / 2;
          if (margin < 0) margin = 0;
-         $("#channel-thumbnail-image-" + channel.id).attr("src", this.src).css({ "margin-top": margin, "margin-bottom": margin });
+         var el = $("#channel-thumbnail-image-" + channel.id).attr("src", this.src);
+         if (this.height > this.width)
+           el.css({ height: 192, width: size, "margin-left": margin, "margin-right": margin });
+         else
+           el.css({ widht: 192, height: size, "margin-top": margin, "margin-bottom": margin });
        };
        img.src = thumbnail;
      }
