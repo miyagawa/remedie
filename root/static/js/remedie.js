@@ -414,6 +414,24 @@ Remedie.prototype = {
     });
   },
 
+  cancelDownload: function(item) {
+    $.ajax({
+      url: "/rpc/item/cancel_download",
+      data: { id: item.id },
+      type: 'post',
+      dataType: 'json',
+      success: function(r) {
+        if (r.success) {
+          $.event.trigger('remedieItemUpdated', r.item);
+          remedie.items[r.item.id] = r.item;
+          $("#progressbar-" + item.id).remove();
+        } else {
+          alert(r.error);
+        }
+      }
+    });
+  },
+
   startTrackStatus: function(item) {
     var pb = $("<span/>").attr('id', 'progressbar-' + item.id);
     pb.progressBar({
@@ -668,6 +686,7 @@ Remedie.prototype = {
              item_context_watched:   function(){remedie.markItemAsWatched(item)},
              item_context_unwatched: function(){remedie.markItemAsUnwatched(item)},
              item_context_download:  function(){remedie.startDownload(item)},
+             item_context_cancel_download:  function(){remedie.cancelDownload(item)},
              item_context_play_vlc:  function(){remedie.launchVideoPlayer(item, 'VLC', fullscreen)},
 //                item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QTL', fullscreen, 1)},
              item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QuickTime', fullscreen)},
@@ -686,6 +705,9 @@ Remedie.prototype = {
              // TODO check if it's downloadable
              if (!item.props.track_id && !item.props.download_path)
                el.createAppend('li', { id: 'item_context_download' }, 'Download file');
+             else if (item.props.track_id)
+               el.createAppend('li', { id: 'item_context_cancel_download' }, 'Cancel download');
+
              if (item.is_unwatched) {
                el.createAppend('li', { id: 'item_context_watched' }, 'Mark as watched');
              } else {

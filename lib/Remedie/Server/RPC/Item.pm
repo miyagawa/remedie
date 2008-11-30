@@ -27,6 +27,21 @@ sub download :POST {
     return { success => 1, item => $item };
 }
 
+sub cancel_download :POST {
+    my($self, $req, $res) = @_;
+
+    my $id = $req->param('id');
+    my $item = Remedie::DB::Item->new(id => $id)->load;
+
+    ## TODO kill process and delete file
+
+    delete $item->props->{track_id};
+    delete $item->props->{download_path};
+    $item->save;
+
+    return { success => 1, item => $item };
+}
+
 sub track_status {
     my($self, $req, $res) = @_;
 
