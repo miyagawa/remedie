@@ -31,7 +31,7 @@ sub track_status {
 
     my $percentage;
     for my $line (reverse @lines[-5..-1]) {
-        if (defined $line && $line =~ /(\d+)\%/) {
+        if (defined $line && $line =~ /^\s*\d+K[ \.]+(\d+)\%/) {
             $percentage = $1;
             last;
         }
@@ -43,7 +43,7 @@ sub track_status {
 sub cancel {
     my($self, $item_id, $pid) = @_;
 
-    kill 15, $pid;
+    kill 15, $pid if $pid;
 
     $self->cleanup($item_id);
 }
