@@ -437,7 +437,7 @@ Remedie.prototype = {
     pb.progressBar({
       showText: false,
       increment: 1,
-      speed: 3,
+      speed: 100,
       boxImage: "/static/images/progressbar.gif",
       barImage: "/static/images/progressbg_green.gif"
     });
