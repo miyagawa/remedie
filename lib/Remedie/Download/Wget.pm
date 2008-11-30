@@ -45,11 +45,11 @@ sub cancel {
 
     kill 15, $pid if $pid;
 
-    $self->cleanup($item_id);
+    $self->logfile($item_id)->remove;
 }
 
 sub cleanup {
-    my($self, $item_id, $pid) = @_;
+    my($self, $item, $item_id, $pid) = @_;
     $self->logfile($item_id)->remove;
 }
 

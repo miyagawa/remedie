@@ -67,8 +67,8 @@ sub track_status {
 
     if ($status->{percentage} && $status->{percentage} == 100) {
         delete $item->props->{track_id};
+        $downloader->cleanup($item, @args);
         $item->save;
-        $downloader->cleanup(@args);
     }
 
     return { success => 1, item => $item, status => $status };
