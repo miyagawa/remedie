@@ -34,12 +34,12 @@ sub cancel_download :POST {
     my $id = $req->param('id');
     my $item = Remedie::DB::Item->new(id => $id)->load;
 
-    my $track = $item->props->{track_id}
-        or return { success => 1, item => $item };
-
-    my($impl, @args) = split /:/, $track;
-    my $downloader = Remedie::Download->new($impl, conf => $self->conf);
-    $downloader->cancel(@args);
+    my $track = $item->props->{track_id};
+    if ($track) {
+        my($impl, @args) = split /:/, $track;
+        my $downloader = Remedie::Download->new($impl, conf => $self->conf);
+        $downloader->cancel(@args);
+    }
 
     unlink URI->new($item->props->{download_path})->fullpath;
 

@@ -17,6 +17,7 @@ my %map = (
     VLC => '_vlc',
     QuickTime => '_quicktime',
     iTunes => '_itunes',
+    Finder => '_finder',
 );
 
 my %map_inline = (
@@ -101,6 +102,20 @@ SCRIPT
     if ($req->param('fullscreen')) {
         _run_apple_script('QuickTime Player', 'present front movie scale screen');
     }
+
+    return { success => 1 };
+}
+
+sub _finder {
+    my($self, $req, $res) = @_;
+
+    my $url = $req->param('url');
+    my $path = URI->new($url)->fullpath;
+
+    _run_apple_script('Finder', <<SCRIPT);
+set theFile to POSIX file "$path"
+reveal theFile
+SCRIPT
 
     return { success => 1 };
 }

@@ -458,7 +458,7 @@ Remedie.prototype = {
         if (r.status.percentage < 100) {
           if (r.status.percentage != undefined)
             el.progressBar(r.status.percentage);
-          setTimeout(function(){remedie.trackStatus(item)}, 500);
+          setTimeout(function(){remedie.trackStatus(item)}, 1000);
         } else {
           remedie.items[r.item.id] = r.item;
           el.remove();
@@ -687,6 +687,7 @@ Remedie.prototype = {
              item_context_unwatched: function(){remedie.markItemAsUnwatched(item)},
              item_context_download:  function(){remedie.startDownload(item)},
              item_context_cancel_download:  function(){remedie.cancelDownload(item)},
+             item_context_reveal:    function(){remedie.launchVideoPlayer(item, 'Finder')},
              item_context_play_vlc:  function(){remedie.launchVideoPlayer(item, 'VLC', fullscreen)},
 //                item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QTL', fullscreen, 1)},
              item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QuickTime', fullscreen)},
@@ -707,7 +708,12 @@ Remedie.prototype = {
                el.createAppend('li', { id: 'item_context_download' }, 'Download file');
              else if (item.props.track_id)
                el.createAppend('li', { id: 'item_context_cancel_download' }, 'Cancel download');
-
+             else if (item.props.download_path) {
+               if (navigator.userAgent.match(/mac/i)) {
+                 el.createAppend('li', { id: 'item_context_reveal' }, 'Reveal in Finder');
+               }
+             }
+        
              if (item.is_unwatched) {
                el.createAppend('li', { id: 'item_context_watched' }, 'Mark as watched');
              } else {
