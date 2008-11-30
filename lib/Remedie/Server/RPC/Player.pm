@@ -115,6 +115,7 @@ sub _finder {
     _run_apple_script('Finder', <<SCRIPT);
 set theFile to POSIX file "$path"
 reveal theFile
+activate
 SCRIPT
 
     return { success => 1 };

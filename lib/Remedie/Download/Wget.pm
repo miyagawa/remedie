@@ -9,7 +9,7 @@ use String::ShellQuote;
 
 sub logfile {
     my($self, $id) = @_;
-    return $self->conf->{user_data}->path_to_dir("wget-logs")->file($id . ".log");
+    return $self->conf->{user_data}->path_to_dir("logs")->file("wget-${id}.log");
 }
 
 sub start_download {
