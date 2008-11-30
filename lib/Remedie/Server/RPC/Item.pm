@@ -4,6 +4,7 @@ use Remedie::DB::Channel;
 use Remedie::DB::Item;
 use Remedie::Download;
 use Path::Class::URIfy;
+use URI::filename;
 
 BEGIN { extends 'Remedie::Server::RPC' };
 
@@ -33,7 +34,14 @@ sub cancel_download :POST {
     my $id = $req->param('id');
     my $item = Remedie::DB::Item->new(id => $id)->load;
 
-    ## TODO kill process and delete file
+    my $track = $item->props->{track_id}
+        or return { success => 1, item => $item };
+
+    my($impl, @args) = split /:/, $track;
+    my $downloader = Remedie::Download->new($impl, conf => $self->conf);
+    $downloader->cancel(@args);
+
+    unlink URI->new($item->props->{download_path})->fullpath;
 
     delete $item->props->{track_id};
     delete $item->props->{download_path};
@@ -51,9 +59,15 @@ sub track_status {
     my $track  = $item->props->{track_id}
         or return { success => 1, status => { percentage => 100 } };
 
-    my($impl, $ident) = split /:/, $track, 2;
+    my($impl, @args) = split /:/, $track;
     my $downloader = Remedie::Download->new($impl, conf => $self->conf);
-    my $status = $downloader->track_status($ident);
+    my $status = $downloader->track_status(@args);
+
+    if ($status->{percentage} && $status->{percentage} == 100) {
+        delete $item->props->{track_id};
+        $item->save;
+        $downloader->cleanup(@args);
+    }
 
     return { success => 1, item => $item, status => $status };
 }

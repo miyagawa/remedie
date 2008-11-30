@@ -1,8 +1,9 @@
 package Plagger::Util;
 use strict;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw( strip_html dumbnail decode_content extract_title load_uri mime_type_of filename_for mime_is_enclosure );
+our @EXPORT_OK = qw( strip_html dumbnail decode_content extract_title load_uri mime_type_of filename_for mime_is_enclosure capture_stderr );
 
+use File::Temp;
 use Encode ();
 use List::Util qw(min);
 use HTML::Entities;
@@ -224,6 +225,25 @@ sub safe_id {
     $id =~ s/^urn:guid://;
     $id =~ /^([\w\-]+)$/ ? $1 : Digest::MD5::md5_hex($id);
 }
+
+sub capture_stderr(&) {
+    my $code = shift;
+
+    my $temp = File::Temp->new;
+    my $tmp  = $temp->filename;
+
+    open my $olderr, ">&STDERR" or die "Can't dup STDERR: $!";
+    open STDERR, ">>", $tmp     or die "Can't redirect STDERR: $!";
+    select STDERR; $| = 1;
+
+    $code->();
+
+    open STDERR, ">&", $olderr or die "Can't dup \$olderr: $!";
+
+    open my $fh, "<", $tmp or die "$tmp: $!";
+    return join '', <$fh>;
+}
+
 
 our $filesystem_encode;
 sub filesystem_encode {

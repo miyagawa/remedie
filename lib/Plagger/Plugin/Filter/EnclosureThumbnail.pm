@@ -2,7 +2,7 @@ package Plagger::Plugin::Filter::EnclosureThumbnail;
 use strict;
 use base qw( Plagger::Plugin );
 
-use Plagger::Util;
+use Plagger::Util qw( capture_stderr );
 use Path::Class;
 
 sub register {
@@ -45,26 +45,26 @@ sub filter {
 
     unless (-e $thumb_path) {
         $context->log(info => "Generating thumbnail for $input_file to $thumb_path");
-        open my $olderr, ">&STDERR"     or die "Can't dup STDERR: $!";
-        open STDERR, ">>", "ffmpeg.log" or die "Can't redirect STDERR: $!";
-        select STDERR; $| = 1;
 
-        my $tmpfile = $thumb_path->parent->file('tmp.jpg');
+        my $log = capture_stderr {
+            my $tmpfile = $thumb_path->parent->file('tmp.jpg');
 
-        system(
-            $self->conf->{ffmpeg},
-            "-i", $input_file,
-            '-f'       => 'image2',
-            '-pix_fmt' => 'jpg',
-            '-vframes' => 1,
-            '-ss'      => 3,
-            '-an',
-            '-deinterlace',
-            $tmpfile,
-        );
-        open STDERR, ">&", $olderr or die "Can't dup \$olderr: $!";
+            system(
+                $self->conf->{ffmpeg},
+                "-i", $input_file,
+                '-f'       => 'image2',
+                '-pix_fmt' => 'jpg',
+                '-vframes' => 1,
+                '-ss'      => 3,
+                '-an',
+                '-deinterlace',
+                $tmpfile,
+            );
 
-        rename $tmpfile => $thumb_path;
+            rename $tmpfile => $thumb_path;
+        };
+
+        $context->log(debug => $log);
     }
 
     unless (-e $thumb_path) {

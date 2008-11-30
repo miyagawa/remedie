@@ -4,6 +4,8 @@ extends 'Remedie::Download::Base';
 
 use Tie::File;
 use URI::filename;
+use Plagger::Util;
+use String::ShellQuote;
 
 sub logfile {
     my($self, $id) = @_;
@@ -13,12 +15,17 @@ sub logfile {
 sub start_download {
     my($self, $item, $url) = @_;
     my $output_file = $item->download_path($self->conf);
-    system("wget", $url, "-O", $output_file, "-o", $self->logfile($item->id), "-b");
-    return "Wget:" . $item->id;
+
+    my $cmd = shell_quote("wget", $url, "-O", $output_file, "-o", $self->logfile($item->id), "-b");
+    my $out = qx($cmd);
+
+    my($pid) = $out =~ /pid (\d+)/;
+
+    join ":", "Wget", $item->id, $pid;
 }
 
 sub track_status {
-    my($self, $item_id) = @_;
+    my($self, $item_id, $pid) = @_;
 
     tie my @lines, 'Tie::File', $self->logfile($item_id)->stringify;
 
@@ -26,16 +33,24 @@ sub track_status {
     for my $line (reverse @lines[-5..-1]) {
         if (defined $line && $line =~ /(\d+)\%/) {
             $percentage = $1;
-            if ($percentage == 100) {
-                my $item = Remedie::DB::Item->new(id => $item_id)->load;
-                delete $item->props->{track_id};
-                $item->save;
-            }
             last;
         }
     }
 
     return { percentage => $percentage };
+}
+
+sub cancel {
+    my($self, $item_id, $pid) = @_;
+
+    kill 15, $pid;
+
+    $self->cleanup($item_id);
+}
+
+sub cleanup {
+    my($self, $item_id, $pid) = @_;
+    $self->logfile($item_id)->remove;
 }
 
 1;
