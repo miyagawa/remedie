@@ -41,7 +41,9 @@ sub cancel_download :POST {
         $downloader->cancel(@args);
     }
 
-    unlink URI->new($item->props->{download_path})->fullpath;
+    eval {
+        unlink URI->new($item->props->{download_path})->fullpath;
+    };
 
     delete $item->props->{track_id};
     delete $item->props->{download_path};

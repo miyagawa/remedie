@@ -712,6 +712,7 @@ Remedie.prototype = {
                if (navigator.userAgent.match(/mac/i)) {
                  el.createAppend('li', { id: 'item_context_reveal' }, 'Reveal in Finder');
                }
+               el.createAppend('li', { id: 'item_context_cancel_download' }, 'Remove downloaded file');
              }
         
              if (item.is_unwatched) {
