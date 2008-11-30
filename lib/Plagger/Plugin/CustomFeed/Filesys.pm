@@ -55,7 +55,7 @@ sub aggregate {
         $context->log(debug => "Found file $file");
         my $vfile = file($file);
         my $vpath = "file://$vfile";
-        $file = Plagger::Util::normalize_path($vpath);
+        $file = Plagger::Util::normalize_path($vfile->stringify);
         my $vname = $vfile->basename;
         $vname = Plagger::Util::local_to_utf8($vname);
         $vpath = Plagger::Util::local_to_utf8($vpath);
