@@ -53,7 +53,9 @@ sub aggregate {
     my @entries;
     for my $file (@files) {
         $context->log(debug => "Found file $file");
-        my $vfile = file($file);
+        my $vfile = $file;
+        $vfile =~ s/%/%25/g;
+        $vfile = file($vfile);
         my $vpath = "file://$vfile";
         $file = Plagger::Util::normalize_path($vfile->stringify);
         my $vname = $vfile->basename;

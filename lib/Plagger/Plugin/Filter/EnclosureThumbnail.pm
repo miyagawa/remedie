@@ -49,6 +49,8 @@ sub filter {
         open STDERR, ">>", "ffmpeg.log" or die "Can't redirect STDERR: $!";
         select STDERR; $| = 1;
 
+        my $tmpfile = $thumb_path->parent->file('tmp.jpg');
+
         system(
             $self->conf->{ffmpeg},
             "-i", $input_file,
@@ -58,18 +60,23 @@ sub filter {
             '-ss'      => 3,
             '-an',
             '-deinterlace',
-            $thumb_path,
+            $tmpfile,
         );
         open STDERR, ">&", $olderr or die "Can't dup \$olderr: $!";
+
+        rename $tmpfile => $thumb_path;
     }
 
     unless (-e $thumb_path) {
-        $context->error("Couldn't create thumbnail $thumb_path");
+        $context->log( info => "Couldn't create thumbnail $thumb_path");
+        return;
     }
     $thumb_path = Plagger::Util::local_to_utf8($thumb_path);
 
     # TODO should be able to get width/height from ffmpeg output
     $context->log(debug => "Thumbnail set to $thumb_path");
+
+    $thumb_path =~ s/%/%25/g;
     $enclosure->thumbnail({ url => URI->new("file://$thumb_path") });
 
     # TODO remove this
