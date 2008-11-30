@@ -416,7 +416,13 @@ Remedie.prototype = {
 
   startTrackStatus: function(item) {
     var pb = $("<span/>").attr('id', 'progressbar-' + item.id);
-    pb.progressBar({ showText: false, boxImage: "/static/images/progressbar.gif", barImage: "/static/images/progressbg_green.gif" });
+    pb.progressBar({
+      showText: false,
+      increment: 1,
+      speed: 3,
+      boxImage: "/static/images/progressbar.gif",
+      barImage: "/static/images/progressbg_green.gif"
+    });
     $("#channel-item-" + item.id + " .item-thumbnail").prepend(
       $("<div/>").addClass("item-progressbar").append(pb)
     );
@@ -434,8 +440,9 @@ Remedie.prototype = {
         if (r.status.percentage < 100) {
           if (r.status.percentage != undefined)
             el.progressBar(r.status.percentage);
-          setTimeout(function(){remedie.trackStatus(item)}, 1000);
+          setTimeout(function(){remedie.trackStatus(item)}, 500);
         } else {
+          remedie.items[r.item.id] = r.item;
           el.remove();
         }
       }
@@ -677,7 +684,7 @@ Remedie.prototype = {
              el.createAppend('li', { id: 'item_context_open' }, 'Open URL with browser');
 
              // TODO check if it's downloadable
-             if (!item.props.track_id && !item.props.local_file)
+             if (!item.props.track_id && !item.props.download_path)
                el.createAppend('li', { id: 'item_context_download' }, 'Download file');
              if (item.is_unwatched) {
                el.createAppend('li', { id: 'item_context_watched' }, 'Mark as watched');

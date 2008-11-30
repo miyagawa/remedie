@@ -18,7 +18,7 @@ sub path_to {
 
     ## TODO change this to something like Library/Application\ Support/Remedie
     my $base = $self->base;
-    $base->mkpath(oct 777) unless -e $base;
+    $base->mkpath(oct 777, 0) unless -e $base;
 
     if (@path > 1) {
         my $file = pop @path;
@@ -33,7 +33,7 @@ sub path_to_dir {
     my($self, @path) = @_;
 
     my $dir= $self->base->subdir(@path);
-    $dir->mkpath(oct 777) unless -e $dir;
+    $dir->mkpath(oct 777, 0) unless -e $dir;
 
     return $dir;
 }

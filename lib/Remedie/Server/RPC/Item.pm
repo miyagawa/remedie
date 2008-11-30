@@ -17,7 +17,7 @@ sub download :POST {
     my $id = $req->param('id');
     my $item = Remedie::DB::Item->new(id => $id)->load;
 
-    # TODO scrape etc. to get the downoadable URL
+    # TODO scrape etc. to get the downloadable URL
     my $downloader = Remedie::Download->new('Wget', conf => $self->conf); # TODO configurable
     my $track_id = $downloader->start_download($item, $item->ident);
     $item->props->{track_id} = $track_id;
