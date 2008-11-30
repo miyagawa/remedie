@@ -15,6 +15,8 @@ use constant STATUS_DOWNLOADING => 2;
 use constant STATUS_DOWNLOADED  => 3;
 use constant STATUS_WATCHED     => 4;
 
+use URI::filename;
+
 sub is_unwatched {
     my $self = shift;
     return $self->status == STATUS_NEW || $self->status == STATUS_DOWNLOADING || $self->status == STATUS_DOWNLOADED;
@@ -22,6 +24,14 @@ sub is_unwatched {
 
 sub columns_to_serialize {
     return qw( is_unwatched );
+}
+
+sub download_path {
+    my $self = shift;
+    my $conf = shift;
+
+    my $uri = URI->new($self->ident);
+    return $conf->{user_data}->path_to_dir('videos', $self->id)->file($uri->raw_filename);
 }
 
 package Remedie::DB::Item::Manager;

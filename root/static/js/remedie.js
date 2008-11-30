@@ -159,6 +159,13 @@ Remedie.prototype = {
 
   launchVideoPlayer: function(item, player, fullscreen, iframe) {
     var channel = this.channels[ item.channel_id ];
+    var url;
+    if (item.props.download_path) {
+      url = item.props.download_path;
+    } else {
+      url = item.ident;
+    }
+      
     if (iframe) {
       var form = $("<form></form>").attr("target", "upload-frame")
         .attr("method", "post").ajaxSubmit({
@@ -171,7 +178,7 @@ Remedie.prototype = {
     } else {
       $.ajax({
         url: "/rpc/player/play",
-        data: { url: item.ident, player: player, fullscreen: fullscreen },
+        data: { url: url, player: player, fullscreen: fullscreen },
         type: 'post',
         dataType: 'json',
         success: function(r) {
@@ -389,6 +396,52 @@ Remedie.prototype = {
     }
   },
 
+  startDownload: function(item) {
+    $.ajax({
+      url: "/rpc/item/download",
+      data: { id: item.id },
+      type: 'post',
+      dataType: 'json',
+      success: function(r) {
+        if (r.success) {
+          $.event.trigger('remedieItemUpdated', r.item);
+          remedie.items[r.item.id] = r.item;
+          remedie.startTrackStatus(r.item);
+        } else {
+          alert(r.error);
+        }
+      }
+    });
+  },
+
+  startTrackStatus: function(item) {
+    var pb = $("<span/>").attr('id', 'progressbar-' + item.id);
+    pb.progressBar({ showText: false, boxImage: "/static/images/progressbar.gif", barImage: "/static/images/progressbg_green.gif" });
+    $("#channel-item-" + item.id + " .item-thumbnail").prepend(
+      $("<div/>").addClass("item-progressbar").append(pb)
+    );
+    this.trackStatus(item);
+  },
+
+  trackStatus: function(item) {
+    $.ajax({
+      url: "/rpc/item/track_status",
+      type: 'get',
+      data: { id: item.id },
+      dataType: 'json',
+      success: function(r) {
+        var el = $("#progressbar-" + item.id);
+        if (r.status.percentage < 100) {
+          if (r.status.percentage != undefined)
+            el.progressBar(r.status.percentage);
+          setTimeout(function(){remedie.trackStatus(item)}, 1000);
+        } else {
+          el.remove();
+        }
+      }
+    })
+  },
+
   markAllAsWatched: function(channel, showChannelView) {
     this.updateStatus({ id: channel.id, status: 'watched' }, function() {
       if (showChannelView) remedie.showChannel(channel);
@@ -596,71 +649,82 @@ Remedie.prototype = {
          .hover(function(){
            $(this).addClass("hover-channel-item");
            $(this).css('opacity',0.8)},
-         function(){
-           $(this).removeClass("hover-channel-item");
-           $(this).css('opacity',1)})
-         .each(function() {
-            var item = remedie.items[ this.id.replace("channel-item-", "") ];
-            $(this).contextMenu("channel-item-context-menu", {
-              bindings: {
-                item_context_play:      function(){remedie.playVideoInline(item)},
-                item_context_copy:      function(){$.copy(item.ident)},
-                item_context_open:      function(){remedie.markItemAsWatched(item, true);location.href=item.ident},
-                item_context_watched:   function(){remedie.markItemAsWatched(item)},
-                item_context_unwatched: function(){remedie.markItemAsUnwatched(item)},
-                item_context_play_vlc:  function(){remedie.launchVideoPlayer(item, 'VLC', fullscreen)},
+       function(){
+         $(this).removeClass("hover-channel-item");
+         $(this).css('opacity',1)}).each(function() {
+           var item = remedie.items[ this.id.replace("channel-item-", "") ];
+           $(this).contextMenu("channel-item-context-menu", {
+           bindings: {
+             item_context_play:      function(){remedie.playVideoInline(item)},
+             item_context_copy:      function(){$.copy(item.ident)},
+             item_context_open:      function(){remedie.markItemAsWatched(item, true);location.href=item.ident},
+             item_context_watched:   function(){remedie.markItemAsWatched(item)},
+             item_context_unwatched: function(){remedie.markItemAsUnwatched(item)},
+             item_context_download:  function(){remedie.startDownload(item)},
+             item_context_play_vlc:  function(){remedie.launchVideoPlayer(item, 'VLC', fullscreen)},
 //                item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QTL', fullscreen, 1)},
-                item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QuickTime', fullscreen)},
-                item_context_play_qt_embed: function(){remedie.playVideoInline(item, 'QuickTime')},
-                item_context_play_wmp:  function(){remedie.playVideoInline(item, 'WMP')},
-                item_context_play_sl:   function(){remedie.playVideoInline(item, 'Silverlight')},
-                item_context_play_divx: function(){remedie.playVideoInline(item, 'DivX')}
-              },
-              onContextMenu: function(e, menu) {
-                item = remedie.items[ item.id ]; // refresh the status
-                var el = $('#channel-item-context-menu ul'); el.children().remove();
-                el.createAppend('li', { id: 'item_context_play' }, 'Play');
-                el.createAppend('li', { id: 'item_context_copy' }, 'Copy Item URL (' + RemedieUtil.fileType(item.ident, item.props.type) + ')');
-                el.createAppend('li', { id: 'item_context_open' }, 'Open URL with browser');
-                if (item.is_unwatched) {
-                  el.createAppend('li', { id: 'item_context_watched' }, 'Mark as watched');
-                } else {
-                  el.createAppend('li', { id: 'item_context_unwatched' }, 'Mark as unwatched');
-                }
+             item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QuickTime', fullscreen)},
+             item_context_play_qt_embed: function(){remedie.playVideoInline(item, 'QuickTime')},
+             item_context_play_wmp:  function(){remedie.playVideoInline(item, 'WMP')},
+             item_context_play_sl:   function(){remedie.playVideoInline(item, 'Silverlight')},
+             item_context_play_divx: function(){remedie.playVideoInline(item, 'DivX')}
+           },
+           onContextMenu: function(e, menu) {
+             item = remedie.items[ item.id ]; // refresh the status
+             var el = $('#channel-item-context-menu ul'); el.children().remove();
+             el.createAppend('li', { id: 'item_context_play' }, 'Play');
+             el.createAppend('li', { id: 'item_context_copy' }, 'Copy Item URL (' + RemedieUtil.fileType(item.ident, item.props.type) + ')');
+             el.createAppend('li', { id: 'item_context_open' }, 'Open URL with browser');
 
-                if (/divx/i.test(item.props.type)) {
-                  el.createAppend('li', { id: 'item_context_play_divx' }, 'Play inilne with DivX player');
-                } else if (/video/i.test(item.props.type)) {
-                  el.createAppend('li', { id: 'item_context_play_vlc' }, 'Launch VLC');
-                  el.createAppend('li', { id: 'item_context_play_qt' }, 'Launch QuickTime');
-                  el.createAppend('li', { id: 'item_context_play_qt_embed' }, 'Play inline with QuickTime');
-                }
+             // TODO check if it's downloadable
+             if (!item.props.track_id && !item.props.local_file)
+               el.createAppend('li', { id: 'item_context_download' }, 'Download file');
+             if (item.is_unwatched) {
+               el.createAppend('li', { id: 'item_context_watched' }, 'Mark as watched');
+             } else {
+               el.createAppend('li', { id: 'item_context_unwatched' }, 'Mark as unwatched');
+             }
 
-                if (/wmv|asf/i.test(item.props.type)) {
-                  if (!/mac/i.test(navigator.userAgent))
-                    el.createAppend('li', { id: 'item_context_play_wmp' }, 'Play inline with WMP');
-                  el.createAppend('li', { id: 'item_context_play_sl' }, 'Play inline with Silverlight');
-                }
+             if (/divx/i.test(item.props.type)) {
+               el.createAppend('li', { id: 'item_context_play_divx' }, 'Play inilne with DivX player');
+             } else if (/video/i.test(item.props.type)) {
+               el.createAppend('li', { id: 'item_context_play_vlc' }, 'Launch VLC');
+               el.createAppend('li', { id: 'item_context_play_qt' }, 'Launch QuickTime');
+               el.createAppend('li', { id: 'item_context_play_qt_embed' }, 'Play inline with QuickTime');
+             }
 
-                return true;
-              }
-           });
+             if (/wmv|asf/i.test(item.props.type)) {
+               if (!/mac/i.test(navigator.userAgent))
+                 el.createAppend('li', { id: 'item_context_play_wmp' }, 'Play inline with WMP');
+               el.createAppend('li', { id: 'item_context_play_sl' }, 'Play inline with Silverlight');
+             }
+
+             return true;
+           }
          });
 
-         $(".channel-item-clickable").click(function(){
-           try{
-             remedie.playVideoInline( remedie.items[this.id.replace("item-thumbnail-", "")] );
-           } catch(e) { alert(e) };
-           return false;
-         });
-         $(".item-thumbnail")
+         if (item.props.track_id) {
+           remedie.startTrackStatus(item);
+         }
+
+         $(".item-thumbnail", this)
           .hover(function(){
-             $(this).prepend($("<div/>").attr('id', 'play-button-'+channel.id)
-               .addClass("channel-item-play").corners("10px transparent").css({opacity:0.6})
-               .append($("<a/>").text("PLAY").click(function(){$(this).parent().next().trigger('click')})))
+            if (!remedie.items[item.id].props.track_id) {
+              $(this).prepend($("<div/>").attr('id', 'play-button-'+item.id)
+                .addClass("channel-item-play").corners("10px transparent").css({opacity:0.6})
+                .append($("<a/>").text("PLAY").click(function(){$(this).parent().next().trigger('click')})));
+            }
           }, function(){
-             $('.channel-item-play').remove();
+            $('.channel-item-play').remove();
           });
+        });
+
+        $(".channel-item-clickable").click(function(){
+          try{
+            remedie.playVideoInline( remedie.items[this.id.replace("item-thumbnail-", "")] );
+          } catch(e) { alert(e) };
+          return false;
+        });
 
         remedie.toggleChannelView(true);
       },

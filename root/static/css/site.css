@@ -228,6 +228,13 @@ div.item-separator {
   bottom:5%;
 }
 
+.item-progressbar {
+  position:absolute;
+  text-align:center;
+  width: 100%;
+  bottom:5%;
+}
+
 .channel-header-title {
   margin-bottom:0
 }
