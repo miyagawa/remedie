@@ -706,13 +706,14 @@ Remedie.prototype = {
              // TODO check if it's downloadable
              if (!item.props.track_id && !item.props.download_path)
                el.createAppend('li', { id: 'item_context_download' }, 'Download file');
-             else if (item.props.track_id)
+             else if (item.props.track_id) 
                el.createAppend('li', { id: 'item_context_cancel_download' }, 'Cancel download');
-             else if (item.props.download_path) {
-               if (navigator.userAgent.match(/mac/i)) {
+
+             if (item.props.download_path) {
+               if (navigator.userAgent.match(/mac/i))
                  el.createAppend('li', { id: 'item_context_reveal' }, 'Reveal in Finder');
-               }
-               el.createAppend('li', { id: 'item_context_cancel_download' }, 'Remove downloaded file');
+               if (!item.props.track_id)
+                 el.createAppend('li', { id: 'item_context_cancel_download' }, 'Remove downloaded file');
              }
         
              if (item.is_unwatched) {
