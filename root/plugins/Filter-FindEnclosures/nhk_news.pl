@@ -2,7 +2,7 @@
 sub init {
     my $self = shift;
     $self->{domain} = 'www3.nhk.or.jp';
-    $self->{handle} = '/news/t\d+.html';
+    $self->{handle} = '/news/[kt]\d+.html';
 }
 
 sub needs_content { 1 }
@@ -11,7 +11,7 @@ sub find {
     my ($self, $args) = @_;
 
     # flv uses rtmp. JW FLV player supports RTMP but needs a hack on the JS side
-    my($asx_url, $key) = $args->{content} =~ m!wmvHigh = "(.*/cgibin/((.*?)_(.*?)_(.*?))_(.*?)_mh.cgi)"!
+    my($asx_url, $key) = $args->{content} =~ m!wmvHigh = "(.*/cgibin/((.*?)_(.*?)_(.*?))(?:_(.*?))?_mh.cgi)"!
         or return;
     my $url = $self->find_mms_url($asx_url, $key) or return;
 
