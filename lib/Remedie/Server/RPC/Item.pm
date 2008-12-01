@@ -19,7 +19,8 @@ sub download :POST {
     my $item = Remedie::DB::Item->new(id => $id)->load;
 
     # TODO scrape etc. to get the downloadable URL
-    my $downloader = Remedie::Download->new('Wget', conf => $self->conf); # TODO configurable
+    my $app = $req->param('app') || 'Wget';
+    my $downloader = Remedie::Download->new($app, conf => $self->conf);
     my $track_id = $downloader->start_download($item, $item->ident);
     $item->props->{track_id} = $track_id;
     $item->props->{download_path} = $item->download_path($self->conf)->urify;
@@ -38,7 +39,7 @@ sub cancel_download :POST {
     if ($track) {
         my($impl, @args) = split /:/, $track;
         my $downloader = Remedie::Download->new($impl, conf => $self->conf);
-        $downloader->cancel(@args);
+        $downloader->cancel($item, @args);
     }
 
     eval {
@@ -63,7 +64,7 @@ sub track_status {
 
     my($impl, @args) = split /:/, $track;
     my $downloader = Remedie::Download->new($impl, conf => $self->conf);
-    my $status = $downloader->track_status(@args);
+    my $status = $downloader->track_status($item, @args);
 
     if ($status->{percentage} && $status->{percentage} == 100) {
         delete $item->props->{track_id};

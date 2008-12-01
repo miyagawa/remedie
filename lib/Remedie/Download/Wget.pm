@@ -8,6 +8,8 @@ use Plagger::Util;
 use String::ShellQuote;
 use POSIX;
 
+sub handles { qw( http https ftp ) }
+
 sub logfile {
     my($self, $id) = @_;
     return $self->conf->{user_data}->path_to_dir("logs")->file("wget-${id}.log");
@@ -34,36 +36,40 @@ sub start_download {
         waitpid($pid, POSIX::WNOHANG);
     }
 
-    join ":", "Wget", $item->id, $pid;
+    join ":", "Wget", $pid;
 }
 
 sub track_status {
-    my($self, $item_id, $pid) = @_;
+    my($self, $item, $pid) = @_;
 
-    tie my @lines, 'Tie::File', $self->logfile($item_id)->stringify;
+    tie my @lines, 'Tie::File', $self->logfile($item->id)->stringify;
 
-    my $percentage;
+    my $status = {};
     for my $line (reverse @lines[-5..-1]) {
-        if (defined $line && $line =~ /^\s*\d+K[ \.]+(\d+)\%/) {
-            $percentage = $1;
+        next unless defined $line;
+        if ($line =~ /^\s*\d+K[ \.]+(\d+)\%/) {
+            $status->{percentage} = $1;
+            last;
+        } elsif ($line =~ /Unsupported scheme/) {
+            $status->{error} = $line;
             last;
         }
     }
 
-    return { percentage => $percentage };
+    return $status;
 }
 
 sub cancel {
-    my($self, $item_id, $pid) = @_;
+    my($self, $item, $pid) = @_;
 
     kill 15, $pid if $pid;
 
-    $self->logfile($item_id)->remove;
+    $self->logfile($item->id)->remove;
 }
 
 sub cleanup {
-    my($self, $item, $item_id, $pid) = @_;
-    $self->logfile($item_id)->remove;
+    my($self, $item, $pid) = @_;
+    $self->logfile($item->id)->remove;
 }
 
 1;

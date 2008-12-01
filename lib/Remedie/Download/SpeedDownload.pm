@@ -17,6 +17,9 @@ end tell
 SCRIPT
 }
 
+sub handles { qw( http https ftp ) }
+
+
 sub start_download {
     my($self, $item, $url) = @_;
     my $output_file = $item->download_path($self->conf);
@@ -26,11 +29,11 @@ Set theFolder to POSIX file "@{[ $output_file->dir ]}"
 AddURL "$url" to folder theFolder
 SCRIPT
 
-    join ":", "SpeedDownload", $item->id, $uid;
+    join ":", "SpeedDownload", $uid;
 }
 
 sub track_status {
-    my($self, $item_id, $uid) = @_;
+    my($self, $item, $uid) = @_;
 
     my $res = $self->run("GetDownloadInfo $uid");
 
@@ -45,14 +48,14 @@ sub track_status {
 }
 
 sub cancel {
-    my($self, $item_id, $uid) = @_;
+    my($self, $item, $uid) = @_;
 
     my $res1 = $self->run("CancelDownload $uid");
     my $res2 = $self->run("Remove $uid");
 }
 
 sub cleanup {
-    my($self, $item, $item_id, $uid) = @_;
+    my($self, $item, $uid) = @_;
 
     my $res  = $self->run("GetDownloadURL $uid");
     eval {

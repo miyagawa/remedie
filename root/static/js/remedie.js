@@ -396,10 +396,12 @@ Remedie.prototype = {
     }
   },
 
-  startDownload: function(item) {
+  startDownload: function(item, app) {
+    if (!app) app = this.defaultDownloaderFor(item);
+
     $.ajax({
       url: "/rpc/item/download",
-      data: { id: item.id },
+      data: { id: item.id, app: app },
       type: 'post',
       dataType: 'json',
       success: function(r) {
@@ -412,6 +414,14 @@ Remedie.prototype = {
         }
       }
     });
+  },
+
+  defaultDownloaderFor: function(item) {
+     if (/x-ms-asf/i.test(item.props.type) || item.ident.match(/rtsp:\/\//) || item.ident.match(/mms:\/\//)) {
+       return 'Mplayer';
+     } else {
+       return 'Wget';
+     }
   },
 
   cancelDownload: function(item) {
@@ -459,6 +469,9 @@ Remedie.prototype = {
           if (r.status.percentage != undefined)
             el.progressBar(r.status.percentage);
           setTimeout(function(){remedie.trackStatus(item)}, 1000);
+        } else if (r.status.error) {
+          alert(r.status.error)
+          remedie.cancelDownload(item);
         } else {
           remedie.items[r.item.id] = r.item;
           el.remove();
