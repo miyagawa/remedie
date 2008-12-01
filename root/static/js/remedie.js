@@ -593,7 +593,8 @@ Remedie.prototype = {
 
           remedie.channels[r.channel.id] = r.channel;
           remedie.renderChannelList(r.channel, $("#collection"));
-          remedie.refreshChannel(r.channel, true); // show channel
+          remedie.showChannel(r.channel);
+          remedie.manuallyRefreshChannel(r.channel);
         } else {
           alert(r.error);
         }
