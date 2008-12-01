@@ -25,7 +25,7 @@ sub start_download {
 
     defined (my $pid = fork) or die "Cannot fork: $!";
     unless ($pid) {
-        exec "$cmd > $log";
+        exec "$cmd 2>&1 > $log";
         die "cannnot exec $cmd: $!";
     }
     waitpid($pid, POSIX::WNOHANG);
