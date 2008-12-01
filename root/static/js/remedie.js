@@ -593,7 +593,7 @@ Remedie.prototype = {
 
           remedie.channels[r.channel.id] = r.channel;
           remedie.renderChannelList(r.channel, $("#collection"));
-          remedie.refreshChannel(r.channel)
+          remedie.refreshChannel(r.channel, true); // show channel
         } else {
           alert(r.error);
         }
@@ -664,18 +664,8 @@ Remedie.prototype = {
            ]
          );
 
-         if (item.props.thumbnail) {
-           var img = new Image();
-           img.onload = function(){
-             if (this.height * this.width > 5000) {
-               var height = 128 * this.height / this.width;
-               var margin = (128 * 3/4 - height) / 2;
-               if (margin < 0) margin = 0;
-               $("#item-thumbnail-image-" + item.id).attr("src", this.src).css({ "margin-top": margin, "margin-bottom": margin });
-             }
-           };
-           img.src = item.props.thumbnail.url;
-         }
+         if (item.props.thumbnail)
+           RemedieUtil.layoutImage($("#item-thumbnail-image-" + item.id), item.props.thumbnail.url, 128, 96);
        });
 
        $(".channel-header")
@@ -914,25 +904,8 @@ Remedie.prototype = {
         }
       });
 
-    if (!default_thumbnail) {
-       var img = new Image();
-       img.onload = function(){
-         var size;
-         if (this.height > this.width) {
-           size = 192 * this.width / this.height;
-         } else {
-           size = 192 * this.height / this.width;
-         }
-         var margin = (192  - size) / 2;
-         if (margin < 0) margin = 0;
-         var el = $("#channel-thumbnail-image-" + channel.id).attr("src", this.src);
-         if (this.height > this.width)
-           el.css({ height: 192, width: size, "margin-left": margin, "margin-right": margin });
-         else
-           el.css({ widht: 192, height: size, "margin-top": margin, "margin-bottom": margin });
-       };
-       img.src = thumbnail;
-     }
+    if (!default_thumbnail)
+      RemedieUtil.layoutImage($("#channel-thumbnail-image-" + channel.id), thumbnail, 192, 192);
   },
 
   redrawChannel: function(channel) {
@@ -942,8 +915,14 @@ Remedie.prototype = {
     $(id + " .channel-unwatched-hover").removeClass("channel-unwatched-hover-gray");
     $(id + " .channel-refresh-hover").hide();
 
-    if (channel.props.thumbnail) 
-      $(id + " .channel-thumbnail").attr('src', channel.props.thumbnail.url);
+    var thumbnail;
+    if (channel.props.thumbnail)
+      thumbnail = channel.props.thumbnail;
+    else if (channel.first_item && channel.first_item.props.thumbnail)
+      thumbnail = channel.first_item.props.thumbnail;
+
+    if (thumbnail)
+      RemedieUtil.layoutImage($(id + " .channel-thumbnail"), thumbnail.url, 192, 192);
 
     if (channel.name) 
       $(id + " .channel-title").text(channel.name);

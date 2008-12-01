@@ -58,3 +58,24 @@ String.prototype.trimChars = function(length, append) {
   return string + '';
 };
 
+RemedieUtil.layoutImage = function(elem, src, width, height) {
+  var img = new Image();
+  img.onload = function(){
+    var size;
+    var margin;
+    if (this.height > this.width * height / width) {
+       size = height * this.width / this.height;
+       margin = (width - size) / 2; 
+    } else {
+       size = width * this.height / this.width;
+       margin = (height - size) / 2;
+    }
+    if (margin < 0) margin = 0;
+    var el = elem.attr("src", this.src);
+    if (this.height > this.width * height / width)
+       el.css({ height: height, width: size, "margin-left": margin, "margin-right": margin });
+    else
+       el.css({ widht: width, height: size, "margin-top": margin, "margin-bottom": margin });
+    };
+    img.src = src;
+};
