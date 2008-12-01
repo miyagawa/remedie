@@ -91,27 +91,30 @@ sub aggregate {
         my $resolver = HTML::ResolveLink->new(base => $url);
         $content = $resolver->resolve($content);
 
-        my %seen;
         my $parser = HTML::TokeParser->new(\$content);
         while (my $token = $parser->get_tag('a')) {
             ($token->[1]->{href} || '') =~ /$re/ or next;
 
             my $item_url = URI->new_abs($token->[1]->{href}, $url);
-            next if $seen{$item_url->as_string}++;
+            my $entry = $found{$item_url} || do {
+                my $e = Plagger::Entry->new;
+                $feed->add_entry($e);
+                $e;
+            };
 
             my $text = $parser->get_trimmed_text('/a');
             if (!$text || $text eq '[IMG]') {
-                $text = $item_url->filename;
+                $entry->title($item_url->filename)
+                    unless $entry->title;
+            } else {
+                $entry->title($text);
             }
 
-            my $entry = Plagger::Entry->new;
-            $entry->title($text);
             $entry->link($item_url);
-            $feed->add_entry($entry);
 
             $context->log(debug => "Add $token->[1]->{href} ($text)");
             $found++;
-            $found{$item_url}++;
+            $found{$item_url} = $entry;
         }
     }
 
@@ -124,16 +127,22 @@ sub aggregate {
             my $href  = $child->attr('href') or next;
 
             my $item_url = URI->new_abs($href, $url);
-            next if $found{$item_url}++;
+            my $entry = $found{$item_url} || do {
+                my $e = Plagger::Entry->new;
+                $feed->add_entry($e);
+                $e;
+            };
 
-            my $title = $child->attr('title') || $child->as_text || $item_url->filename;
+            if (my $title = $child->attr('title') || $child->as_text) {
+                $entry->title($title);
+            } else {
+                $entry->title($item_url->filename)
+                    unless $entry->title;
+            }
 
-            my $entry = Plagger::Entry->new;
-            $entry->title($title);
             $entry->link($item_url);
-            $feed->add_entry($entry);
 
-            $context->log(debug => "Add $href ($title)");
+            $context->log(debug => "Add $href (" . $entry->title . ")");
             $found++;
         }
     }
