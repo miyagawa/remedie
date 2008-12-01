@@ -465,16 +465,20 @@ Remedie.prototype = {
       dataType: 'json',
       success: function(r) {
         var el = $("#progressbar-" + item.id);
-        if (r.status.percentage < 100) {
-          if (r.status.percentage != undefined)
+        if (r.status.percentage != undefined) {
+          if (r.status.percentage < 100) {
             el.progressBar(r.status.percentage);
-          setTimeout(function(){remedie.trackStatus(item)}, 1000);
+            setTimeout(function(){remedie.trackStatus(item)}, 1000);
+          } else {
+            // TODO send events
+            remedie.items[r.item.id] = r.item;
+            el.remove();
+          }
         } else if (r.status.error) {
           alert(r.status.error)
           remedie.cancelDownload(item);
         } else {
-          remedie.items[r.item.id] = r.item;
-          el.remove();
+          setTimeout(function(){remedie.trackStatus(item)}, 1000);
         }
       }
     })

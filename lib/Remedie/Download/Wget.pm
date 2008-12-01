@@ -50,7 +50,7 @@ sub track_status {
         if ($line =~ /^\s*\d+K[ \.]+(\d+)\%/) {
             $status->{percentage} = $1;
             last;
-        } elsif ($line =~ /Unsupported scheme/) {
+        } elsif ($line =~ /Unsupported scheme|ERROR [45]/) {
             $status->{error} = $line;
             last;
         }
