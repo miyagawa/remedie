@@ -27,7 +27,11 @@ sub create : POST {
 
     # TODO make this pluggable
     $uri = normalize_uri($uri);
-    my @feeds = Feed::Find->find($uri);
+
+    my @feeds;
+    unless ($req->param('no_discovery')) {
+        @feeds = Feed::Find->find($uri);
+    }
 
     my $type = $feeds[0] ? Remedie::DB::Channel->TYPE_FEED : Remedie::DB::Channel->TYPE_CUSTOM;
     my $channel_uri = $feeds[0] || $uri;

@@ -25,9 +25,9 @@ sub update_channel {
             assets_path => dir($self->conf->{root})->absolute,
         },
         plugins => [
-            { module => "Bundle::Defaults" },
             { module => "Bundle::Remedie",
               config => $self->conf },
+            { module => "Bundle::Defaults" },
             { module => "Subscription::Config",
               config => { feed => [ $uri ] } },
             { module => "Store::Remedie",

@@ -580,7 +580,10 @@ Remedie.prototype = {
     $.blockUI({ message: "Fetching ..." });
     $.ajax({
       url: "/rpc/channel/create",
-      data: { url: jQuery.trim( $("#new-channel-url").attr('value') ) },
+      data: {
+        url: $.trim($("#new-channel-url").attr('value')),
+        no_discovery: $("#no-discovery").attr("checked") ? 1 : 0
+      },
       type: 'post',
       dataType: 'json',
       success: function(r) {
