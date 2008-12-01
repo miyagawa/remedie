@@ -12,7 +12,7 @@ sub needs_content { 1 }
 sub find {
     my ($self, $args) = @_;
 
-    my($json) = $args->{content} =~ /"flvInfo":({.*?})/
+    my($json) = $args->{content} =~ /"flvInfo":({.*?})}/
         or return;
 
     my $data = Remedie::JSON->decode($json);
