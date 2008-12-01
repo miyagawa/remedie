@@ -15,7 +15,7 @@ sub find {
         or return;
 
     my $enclosure = Plagger::Enclosure->new;
-    $enclosure->url("http://www.dailymotion.com/video/$video_id");
+    $enclosure->url("http://www.dailymotion.com/swf/$video_id");
     $enclosure->type('application/x-shockwave-flash');
     return $enclosure;
 }
