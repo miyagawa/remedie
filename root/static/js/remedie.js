@@ -706,6 +706,7 @@ Remedie.prototype = {
              item_context_watched:   function(){remedie.markItemAsWatched(item)},
              item_context_unwatched: function(){remedie.markItemAsUnwatched(item)},
              item_context_download:  function(){remedie.startDownload(item)},
+             item_context_download_sd:  function(){remedie.startDownload(item, 'SpeedDownload')},
              item_context_cancel_download:  function(){remedie.cancelDownload(item)},
              item_context_reveal:    function(){remedie.launchVideoPlayer(item, 'Finder')},
              item_context_play_vlc:  function(){remedie.launchVideoPlayer(item, 'VLC', fullscreen)},
@@ -724,10 +725,13 @@ Remedie.prototype = {
              el.createAppend('li', { id: 'item_context_open' }, 'Open URL with browser');
 
              // TODO check if it's downloadable
-             if (!item.props.track_id && !item.props.download_path)
+             if (!item.props.track_id && !item.props.download_path) {
                el.createAppend('li', { id: 'item_context_download' }, 'Download file');
-             else if (item.props.track_id) 
+               if (navigator.userAgent.match(/mac/i))
+                 el.createAppend('li', { id: 'item_context_download_sd' }, 'Download with Speed Download');
+             } else if (item.props.track_id) {
                el.createAppend('li', { id: 'item_context_cancel_download' }, 'Cancel download');
+             }
 
              if (item.props.download_path) {
                if (navigator.userAgent.match(/mac/i))
