@@ -29,7 +29,7 @@ sub start_download {
         defined ($pid = fork) or die "Cannot fork: $!";
         unless ($pid) {
             exec $cmd;
-            die "cannnot exec date: $!";
+            die "cannnot exec $cmd: $!";
         }
         waitpid($pid, POSIX::WNOHANG);
     }
