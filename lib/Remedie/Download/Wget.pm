@@ -6,6 +6,7 @@ use Tie::File;
 use URI::filename;
 use Plagger::Util;
 use String::ShellQuote;
+use POSIX;
 
 sub logfile {
     my($self, $id) = @_;
@@ -16,10 +17,22 @@ sub start_download {
     my($self, $item, $url) = @_;
     my $output_file = $item->download_path($self->conf);
 
-    my $cmd = shell_quote("wget", $url, "-O", $output_file, "-o", $self->logfile($item->id), "-b");
-    my $out = qx($cmd);
+    my $pid;
 
-    my($pid) = $out =~ /pid (\d+)/;
+    if ($^O ne "MSWin32") {
+        my $cmd = shell_quote("wget", $url, "-O", $output_file, "-o", $self->logfile($item->id), "-b");
+        my $out = qx($cmd);
+        $pid = $out =~ /pid (\d+)/;
+    } else {
+        my $cmd = shell_quote("wget", $url, "-O", $output_file, "-o", $self->logfile($item->id));
+        $cmd =~ tr/'/"/ if $cmd !~ /"$/; # String::ShellQuote does not work on win32.
+        defined ($pid = fork) or die "Cannot fork: $!";
+        unless ($pid) {
+            exec $cmd;
+            die "cannnot exec date: $!";
+        }
+        waitpid($pid, POSIX::WNOHANG);
+    }
 
     join ":", "Wget", $item->id, $pid;
 }
