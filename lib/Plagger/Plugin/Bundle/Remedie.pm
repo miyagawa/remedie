@@ -9,7 +9,7 @@ sub register {
 
     # TODO share this with Plagger::Util::mime_is_enclosure
     my @want_mime = qw( audio video bittorrent );
-    my @want_ext  = qw( avi mp4 divx mp3 m4a m4v mkv flv wmv wma swf asx torrent );
+    my @want_ext  = qw( avi mp4 divx mp3 m4a m4v mov mkv flv wmv wma swf asx torrent );
 
     $context->load_plugin({
         module => 'CustomFeed::Filesys',
@@ -28,8 +28,7 @@ sub register {
 
     $context->load_plugin({ module => 'CustomFeed::Script' });
 
-    my $thumb_dir = $self->conf->{user_data}->path_to_dir("thumb");
-    my $thumb_url = Plagger::Util::normalize_path("file://$thumb_dir");
+    my $thumb_dir = $self->conf->{user_data}->path_to_dir("thumb")->udir;
 
  #    $context->autoload_plugin({ module => 'Filter::TruePermalink' });
     $context->autoload_plugin({ module => 'Namespace::iTunesDTD' });
@@ -51,7 +50,7 @@ sub register {
     $context->autoload_plugin({ module => 'Filter::RewriteThumbnailURL',
                                 config => {
                                     rewrite => [
-                                        { local => URI->new($thumb_url),
+                                        { local => $thumb_dir->uri,
                                           url   => "/thumb" } # relative URL
                                     ],
                                 } });

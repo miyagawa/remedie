@@ -244,34 +244,4 @@ sub capture_stderr(&) {
     return join '', <$fh>;
 }
 
-
-our $filesystem_encode;
-sub filesystem_encode {
-    if (!$filesystem_encode) {
-        $filesystem_encode = 'utf-8';
-        eval {
-            require 'Win32/API.pm';
-            Win32::API->Import('kernel32', 'UINT GetACP()');
-            $filesystem_encode = 'cp'.GetACP();
-        } if $^O eq "MSWin32";
-    }
-    $filesystem_encode;
-}
-
-sub local_to_utf8 {
-    my $str = shift;
-    Encode::decode(filesystem_encode, $str);
-}
-
-sub utf8_to_local {
-    my $str = shift;
-    Encode::encode(filesystem_encode, $str);
-}
-
-sub normalize_path {
-    my $path = shift;
-    $path =~ s!\\!/!g if $^O eq "MSWin32";
-    $path;
-}
-
 1;

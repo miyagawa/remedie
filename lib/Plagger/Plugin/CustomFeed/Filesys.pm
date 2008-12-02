@@ -8,6 +8,7 @@ use File::Find::Rule::Filesys::Virtual;
 use Filesys::Virtual;
 use URI::Escape;
 use Path::Class;
+use Path::Class::Unicode;
 use DateTime::Format::Strptime;
 use Plagger::Util;
 
@@ -42,29 +43,26 @@ sub aggregate {
     my @exts = @{ $self->conf->{extensions} || [] };
     $finder->name(map "*.$_", @exts) if @exts;
 
-    my $path = dir(URI::Escape::uri_unescape($uri->path));
+    my $path = udir(URI::Escape::uri_unescape($uri->path));
 
     my $feed = $args->{feed};
-    $feed->title($path->{dirs}->[-1]); # why can't I just do $path->name?
+    $feed->title(($path->dir_list)[-1]); # why can't I just do $path->name?
     $feed->link($uri);
 
-    my @files = $finder->in(Plagger::Util::normalize_path($path->stringify));
+    my @files = $finder->in($path->stringify);
 
     my @entries;
     for my $file (@files) {
         $context->log(debug => "Found file $file");
         my $vfile = $file;
+        my $vname = file($file)->ufile->basename;
+
         $vfile =~ s/%/%25/g;
-        $vfile = file($vfile);
-        my $vpath = "file://$vfile";
-        $file = Plagger::Util::normalize_path($vfile->stringify);
-        my $vname = $vfile->basename;
-        $vname = Plagger::Util::local_to_utf8($vname);
-        $vpath = Plagger::Util::local_to_utf8($vpath);
+        $vfile = file($vfile)->ufile;
 
         my $entry = Plagger::Entry->new;
         $entry->title($vname);
-        $entry->link(URI->new($vpath));
+        $entry->link($vfile->uri);
         if (my $date = $vfs->modtime($file)) {
             my $parser = DateTime::Format::Strptime->new(pattern => '%Y%m%d%H%M%S');
             $entry->date($parser->parse_datetime($date));

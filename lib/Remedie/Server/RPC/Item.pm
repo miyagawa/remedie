@@ -3,8 +3,8 @@ use Moose;
 use Remedie::DB::Channel;
 use Remedie::DB::Item;
 use Remedie::Download;
-use Path::Class::URIfy;
 use URI::filename;
+use Path::Class::Unicode;
 
 BEGIN { extends 'Remedie::Server::RPC' };
 
@@ -23,7 +23,7 @@ sub download :POST {
     my $downloader = Remedie::Download->new($app, conf => $self->conf);
     my $track_id = $downloader->start_download($item, $item->ident);
     $item->props->{track_id} = $track_id;
-    $item->props->{download_path} = $item->download_path($self->conf)->urify;
+    $item->props->{download_path} = $item->download_path($self->conf)->ufile->uri;
     $item->save;
 
     return { success => 1, item => $item };

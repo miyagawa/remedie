@@ -39,10 +39,9 @@ sub filter {
     return unless $enclosure->type =~ m!^video/!;
 
     # TODO same filename in different feeds
-    my $input_file = $uri->fullpath;
-    my $raw_filename = Plagger::Util::utf8_to_local($uri->raw_filename);
-    my $thumb_path = $self->conf->{thumb_dir}->file($raw_filename . ".jpg");
-    $thumb_path = Plagger::Util::normalize_path($thumb_path);
+    my $input_file = file($uri->fullpath)->ufile;
+    my $raw_filename = file($uri->raw_filename)->ufile;
+    my $thumb_path = $self->conf->{thumb_dir}->file($raw_filename . ".jpg")->ufile;
 
     unless (-e $thumb_path) {
         $context->log(info => "Generating thumbnail for $input_file to $thumb_path");
@@ -72,16 +71,16 @@ sub filter {
         $context->log( info => "Couldn't create thumbnail $thumb_path");
         return;
     }
-    $thumb_path = Plagger::Util::local_to_utf8($thumb_path);
 
     # TODO should be able to get width/height from ffmpeg output
     $context->log(debug => "Thumbnail set to $thumb_path");
 
     $thumb_path =~ s/%/%25/g;
-    $enclosure->thumbnail({ url => URI->new("file://$thumb_path") });
+    $thumb_path = ufile($thumb_path);
+    $enclosure->thumbnail({ url => $thumb_path->uri });
 
     # TODO remove this
-    $args->{entry}->icon({ url => URI->new("file://$thumb_path") });
+    $args->{entry}->icon({ url => $thumb_path->uri });
 }
 
 1;
