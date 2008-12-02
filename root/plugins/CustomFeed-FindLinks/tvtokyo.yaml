@@ -1,0 +1,4 @@
+# upgrades http://www.tv-tokyo.co.jp/wbs/ etc
+domain: www.tv-tokyo.co.jp
+handle: .
+follow_link: /(nms|emorning|newsfine|wbs)/\d+
