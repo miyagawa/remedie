@@ -306,7 +306,14 @@ Remedie.prototype = {
       s1.addParam('allowfullscreen','true');
       s1.addParam('allowscriptaccess','always');
       s1.addVariable('autostart', 'true');
-      s1.addVariable('file', encodeURIComponent(url));
+      if (url.match(/^rtmp:/)) {
+        var urls = url.split('/');
+        file = urls.pop();
+        s1.addVariable('file', encodeURIComponent(file));
+        s1.addVariable('streamer', encodeURIComponent(urls.join('/')));
+      } else {
+        s1.addVariable('file', encodeURIComponent(url));
+      }
       if (thumbnail)
         s1.addVariable('image', encodeURIComponent(thumbnail));
       if (item.props.link)
