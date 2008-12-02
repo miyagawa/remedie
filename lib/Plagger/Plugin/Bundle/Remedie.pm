@@ -40,7 +40,8 @@ sub register {
     $context->autoload_plugin({ module => 'Filter::MediaFilename' });
     $context->autoload_plugin({ module => 'Filter::EnclosureThumbnail',
                                 config => { thumb_dir => $thumb_dir } });
-    $context->autoload_plugin({ module => 'Filter::ExtractThumbnail' });
+    $context->autoload_plugin({ module => 'Filter::ExtractThumbnail',
+                                config => { min_size => 10_000 } });
     $context->autoload_plugin({ module => 'Filter::HTMLScrubber',
                                 config => { default_deny => 1,
                                             allow => [ qw( p br div ) ],
