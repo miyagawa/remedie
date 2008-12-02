@@ -6,6 +6,7 @@ extlib/URI/Fetch.pm
 extlib/URI/Fetch/Response.pm
 HACKING
 inc/Module/Install.pm
+inc/Module/Install/AuthorTests.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm
 inc/Module/Install/Fetch.pm
@@ -102,6 +103,7 @@ root/plugins/CustomFeed-FindLinks/macross.yaml
 root/plugins/CustomFeed-FindLinks/netstar.yaml
 root/plugins/CustomFeed-FindLinks/pandoratv.yaml
 root/plugins/CustomFeed-FindLinks/tbs_news.yaml
+root/plugins/CustomFeed-FindLinks/tvtokyo.yaml
 root/plugins/CustomFeed-FindLinks/viddler.yaml
 root/plugins/CustomFeed-FindLinks/vimeo.yaml
 root/plugins/CustomFeed-FindLinks/vreel.yaml
@@ -119,6 +121,7 @@ root/plugins/Filter-FindEnclosures/nicovideo.pl
 root/plugins/Filter-FindEnclosures/pandoratv.pl
 root/plugins/Filter-FindEnclosures/sling.pl
 root/plugins/Filter-FindEnclosures/tbs_news.pl
+root/plugins/Filter-FindEnclosures/tvtokyo.pl
 root/plugins/Filter-FindEnclosures/veoh.pl
 root/plugins/Filter-FindEnclosures/viddler.pl
 root/plugins/Filter-FindEnclosures/vimeo.pl

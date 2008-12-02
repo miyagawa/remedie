@@ -18,6 +18,7 @@ requires 'MooseX::ConfigFromFile';
 requires 'MooseX::Getopt';
 requires 'MooseX::Types::Path::Class';
 requires 'Path::Class';
+requires 'Path::Class::Unicode';
 requires 'Rose::DB';
 requires 'Rose::DB::Object';
 requires 'String::CamelCase';
