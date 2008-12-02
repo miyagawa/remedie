@@ -4,6 +4,7 @@ use base qw( Plagger::Plugin );
 
 use Plagger::Util qw( capture_stderr );
 use Path::Class;
+use Path::Class::Unicode;
 
 sub register {
     my($self, $context) = @_;
