@@ -9,6 +9,7 @@ requires 'Feed::Find';
 requires 'FindBin::libs';
 requires 'HTTP::Engine';
 requires 'JSON::XS';
+requires 'Log::Dispatch';
 requires 'Log::Log4perl';
 requires 'LWP::UserAgent';
 requires 'MIME::Types';
