@@ -1,0 +1,6 @@
+# upgrades http://news.tbs.co.jp/society/
+# check "Skip RSS discovery"
+domain: news.tbs.co.jp
+handle: .
+follow_link: /newseye/tbs_newseye\d+\.html
+
