@@ -5,7 +5,7 @@ use attributes ();
 use HTTP::Engine;
 use MIME::Types;
 use Path::Class;
-use Path::Class::Unicode;
+use Path::Class::Unicode 0.03;
 use String::CamelCase;
 use HTTP::Date;
 use URI::Escape;
