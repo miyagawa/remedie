@@ -60,7 +60,7 @@ sub cleanup {
     my $res  = $self->run("GetDownloadURL $uid");
     eval {
         my $file = URI->new($res)->raw_filename;
-        $item->props->{download_path} = $item->download_path($self->conf)->dir->file($file)->urify;
+        $item->props->{download_path} = $item->download_path($self->conf)->dir->file($file)->ufile->uri;
     };
 }
 
