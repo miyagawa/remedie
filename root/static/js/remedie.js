@@ -338,7 +338,6 @@ Remedie.prototype = {
 
     this.runOnUnblock(function(){
       $('#embed-player').children().remove();
-      remedie.markItemAsWatched(item); // TODO setTimeout?
     });
 
     $('#embed-player').append(
@@ -358,6 +357,8 @@ Remedie.prototype = {
       function(){ $(".closebox, .embed-player-footer", this).show() },
       function(){ $(".closebox, .embed-player-footer", this).fadeOut(500) }
     );
+
+    this.markItemAsWatched(item); // TODO setTimeout?
 
     $.blockUI({
       message: $('#embed-player'),
