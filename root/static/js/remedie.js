@@ -934,7 +934,7 @@ Remedie.prototype = {
       RemedieUtil.layoutImage($(id + " .channel-thumbnail"), thumbnail.url, 192, 192);
 
     if (channel.name) 
-      $(id + " .channel-title").text(channel.name);
+      $(id + " .channel-title").text(channel.name.trimChars(24));
   },
 
   renderUnwatchedBadges: function() {
