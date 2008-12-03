@@ -219,8 +219,8 @@ sub has_enclosure_mime_type {
 sub upgrade {
     my($self, $context, $args) = @_;
 
-    # FIXME it should check against $enclosure->link
-    my $plugin = $self->plugin_for($args->{entry}->link);
+    my $plugin = $self->plugin_for($args->{enclosure}->url)
+        || $self->plugin_for($args->{entry}->link);
     if ($plugin) {
         $plugin->upgrade($args);
     }
