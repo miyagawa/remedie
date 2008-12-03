@@ -97,11 +97,9 @@ sub handle_request {
     } elsif ($@ && $@ =~ /Forbidden/) {
         $res->status(403);
         $res->body("403 Forbidden");
-    } elsif ($@ && $@ =~ /FATAL/) {
-        die $@;
     } elsif ($@) {
         $res->status(500);
-        $res->body("Internal Server Error");
+        $res->body("Internal Server Error: $@");
         Remedie::Log->log(error => $@);
     }
     Remedie::Log->log_request($req, $res);
@@ -118,7 +116,7 @@ sub dispatch_rpc {
     die "Access to non-public methods" if $method =~ /^_/;
 
     my $rpc_class = join "::", "Remedie::Server::RPC", map String::CamelCase::camelize($_), @class;
-    eval "require $rpc_class; 1" or die "FATAL: $@"; ## no critic
+    eval "require $rpc_class; 1" or die "$@"; ## no critic
 
     my $rpc = $rpc_class->new( conf => $self->conf );
 

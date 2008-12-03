@@ -789,7 +789,7 @@ Remedie.prototype = {
         remedie.toggleChannelView(true);
       },
       error: function(r) {
-        alert("Can't load the channel");
+        alert("Can't load the channel: " + r.responseText);
       }
     });
   },
@@ -868,7 +868,7 @@ Remedie.prototype = {
           callback.call(remedie);
       },
       error: function(r) {
-        alert("Can't load subscription");
+        alert("Can't load subscription: " + r.responseText);
       }
     });
   },
