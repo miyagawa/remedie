@@ -185,11 +185,6 @@ sub add_enclosure {
         if (my $enclosure = $plugin->find({ content => $content, url => $url, entry => $entry })) {
             Plagger->context->log(info => "Found enclosure " . $enclosure->url ." with " . $plugin->site_name);
             $entry->add_enclosure($enclosure);
-            if ($enclosure->thumbnail) {
-                # TODO move this to enclosure.add?
-                $entry->icon($enclosure->thumbnail);
-            }
-
             return;
         }
     }
