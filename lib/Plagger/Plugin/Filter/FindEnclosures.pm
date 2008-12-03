@@ -65,22 +65,28 @@ sub filter {
 
     return unless $args->{entry}->body;
 
-    my $parser = HTML::TokeParser->new(\$args->{entry}->body->data);
+    $self->find_enclosures(\$args->{entry}->body->data, $args->{entry});
+}
+
+sub find_enclosures {
+    my($self, $data_ref, $entry, %opt) = @_;
+
+    my $parser = HTML::TokeParser->new($data_ref);
     while (my $tag = $parser->get_tag('a', 'embed', 'img', 'object')) {
         if ($tag->[0] eq 'a' ) {
-            $self->add_enclosure($args->{entry}, $tag, 'href');
+            $self->add_enclosure($entry, $tag, 'href', \%opt);
         } elsif ($tag->[0] eq 'embed') {
-            $self->add_enclosure($args->{entry}, $tag, 'src', { type => $tag->[1]->{type} });
+            $self->add_enclosure_from_embed($entry, $tag, \%opt);
         } elsif ($tag->[0] eq 'img') {
-            $self->add_enclosure($args->{entry}, $tag, 'src', { inline => 1 });
+            $self->add_enclosure($entry, $tag, 'src', { inline => 1, %opt });
         } elsif ($tag->[0] eq 'object') {
-            $self->add_enclosure_from_object($args->{entry}, $parser);
+            $self->add_enclosure_from_object($entry, $parser, %opt);
         }
     }
 }
 
 sub add_enclosure_from_object {
-    my($self, $entry, $parser) = @_;
+    my($self, $entry, $parser, %opt) = @_;
 
     # get param tags and find appropriate FLV movies
     my @params;
@@ -117,7 +123,34 @@ sub add_enclosure_from_object {
         $entry->add_enclosure($enclosure); # XXX inline?
     } elsif (@embeds) {
         Plagger->context->log(info => "Use embed tags to create SWF enclosure: $embeds[0][1]");
-        $self->add_enclosure($entry, @{ $embeds[0] });
+        $self->add_enclosure_from_embed($entry, $embeds[0], \%opt);
+    }
+}
+
+sub add_enclosure_from_embed {
+    my($self, $entry, $embed, $opt) = @_;
+
+    my($url, $image, $type);
+    if (my $flashvars = $embed->[1]{flashvars}) {
+        my %values = split /[=&]/, $flashvars || '';
+        $url = $values{file}
+            || first { m!^https?://.*\flv! } values %values
+            || first { m!^https?://.*! } values %values
+            || $values{movie};
+        $image = $values{image};
+    }
+
+    unless ($url) {
+        $url = $embed->[1]{src};
+        $type = "application/x-shockwave-flash";
+    }
+
+    if ($url) {
+        my $enclosure = Plagger::Enclosure->new;
+        $enclosure->url( URI->new_abs($url, $entry->link) );
+        $enclosure->type($type);
+        $enclosure->thumbnail({ url => URI->new_abs($image, $entry->link) }) if $image;
+        $entry->add_enclosure($enclosure);
     }
 }
 
@@ -137,6 +170,8 @@ sub add_enclosure {
         return;
     }
 
+    return if $opt->{no_plugin};
+
     my $url = $tag->[1]{$attr};
     my $plugin = $self->plugin_for($url);
 
@@ -147,7 +182,7 @@ sub add_enclosure {
             $content = $self->fetch_content($url) or return;
         }
 
-        if (my $enclosure = $plugin->find({ content => $content, url => $url })) {
+        if (my $enclosure = $plugin->find({ content => $content, url => $url, entry => $entry })) {
             Plagger->context->log(info => "Found enclosure " . $enclosure->url ." with " . $plugin->site_name);
             $entry->add_enclosure($enclosure);
             if ($enclosure->thumbnail) {
@@ -200,10 +235,15 @@ package Plagger::Plugin::Filter::FindEnclosures::Site;
 sub new { bless {}, shift }
 sub init { Plagger->context->error($_[0]->site_name . " should override init()") }
 sub handle { "." }
-sub find { }
 sub upgrade { }
-sub needs_content { 1 }
+sub needs_content { 0 }
 sub domain { '*' }
+
+# by default, scans HTML for links and flashvars etc.
+sub find {
+    my($self, $args) = @_;
+    Plagger->context->current_plugin->find_enclosures(\$args->{content}, $args->{entry}, no_plugin => 1);
+}
 
 1;
 
