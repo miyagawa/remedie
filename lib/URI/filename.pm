@@ -10,7 +10,9 @@ sub URI::filename {
 
 sub URI::raw_filename {
     my $uri = shift;
-    return URI::Escape::uri_unescape($uri->filename);
+    my $file = URI::Escape::uri_unescape($uri->filename);
+    utf8::downgrade($file);
+    $file;
 }
 
 sub URI::file::fullpath {

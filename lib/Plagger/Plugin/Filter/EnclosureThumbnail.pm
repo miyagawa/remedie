@@ -76,7 +76,7 @@ sub filter {
     $context->log(debug => "Thumbnail set to $thumb_path");
 
     $thumb_path =~ s/%/%25/g;
-    $thumb_path = ufile($thumb_path);
+    $thumb_path = file($thumb_path)->ufile;
     $enclosure->thumbnail({ url => $thumb_path->uri });
 
     # TODO remove this
