@@ -732,10 +732,10 @@ Remedie.prototype = {
                el.createAppend('li', { id: 'item_context_cancel_download' }, 'Cancel download');
              }
 
-             if (item.props.download_path) {
+             if (item.props.download_path || item.ident.match(/^file:/)) {
                if (navigator.userAgent.match(/mac/i))
                  el.createAppend('li', { id: 'item_context_reveal' }, 'Reveal in Finder');
-               if (!item.props.track_id)
+               if (item.props.download_path && !item.props.track_id)
                  el.createAppend('li', { id: 'item_context_cancel_download' }, 'Remove downloaded file');
              }
         
