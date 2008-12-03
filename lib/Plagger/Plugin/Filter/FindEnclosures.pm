@@ -97,7 +97,7 @@ sub add_enclosure_from_object {
         if ($tag->[0] eq 'param') {
             push @params, $tag;
         } elsif ($tag->[0] eq 'embed') {
-            push @embeds, [ $tag, 'src', { type => $tag->[1]->{type} || 'application/x-shockwave-flash' } ];
+            push @embeds, $tag;
         }
     }
 
