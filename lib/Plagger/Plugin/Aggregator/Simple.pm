@@ -188,6 +188,8 @@ sub handle_feed {
 
     $context->log(info => "Aggregate $url success: " . $feed->count . " entries.");
     $context->update->add($feed);
+
+    return 1;
 }
 
 sub feed_to_text {
