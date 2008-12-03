@@ -373,7 +373,7 @@ Remedie.prototype = {
     // ASF + Mac -> QuickTime (Flip4Mac)
     // WMV + Mac -> Silverlight
     // WMV + Win -> Windows Media Player
-    if (type.match(/wmv|asf/)) {
+    if (type.match(/wmv|asf|wvx/)) {
       if (/mac/i.test(navigator.userAgent)) {
         if (type.match(/wmv/i)) {
           player = 'Silverlight';

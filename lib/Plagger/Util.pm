@@ -160,6 +160,7 @@ $mimetypes->addType( MIME::Type->new(type => 'application/x-bittorrent', extensi
 $mimetypes->addType( MIME::Type->new(type => 'video/x-matroska', extensions => [ 'mkv' ]) );
 $mimetypes->addType( MIME::Type->new(type => 'audio/x-matroska', extensions => [ 'mka' ]) );
 $mimetypes->addType( MIME::Type->new(type => 'video/divx', extensions => [ 'divx' ]) );
+$mimetypes->addType( MIME::Type->new(type => 'video/x-ms-wvx', extensions => [ 'wvx' ]) );
 
 sub mime_type_of {
     my $ext = shift;
