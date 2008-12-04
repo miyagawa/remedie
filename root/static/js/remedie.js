@@ -622,6 +622,7 @@ Remedie.prototype = {
     });
 
     if (want && want > array.length - 1) want = 0;
+    if (want < 0) want = array.length - 1;
     return array[want];
   },
 
