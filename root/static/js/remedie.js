@@ -67,7 +67,6 @@ Remedie.prototype = {
       color:          '#fff',
       border:         'none',
       backgroundColor:'#222',
-      cursor:         'wait',
       opacity:        '.8',
       '-webkit-border-radius': '10px',
       '-moz-border-radius': '10px'
