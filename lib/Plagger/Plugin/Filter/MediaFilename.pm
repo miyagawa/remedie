@@ -48,7 +48,7 @@ sub filter {
 
     if ($orig ne $base) {
         $context->log(debug => "Renamed to $base with tags: " . join(", ", @tags));
-        $entry->title($base);
+        $entry->title($base) if $base =~ /\S/;
         $entry->summary( Plagger::Text->new_from_text($orig) ) unless $entry->summary;
         $entry->add_tag($_) for (@tags, $ext);
     }
