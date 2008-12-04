@@ -28,7 +28,7 @@ Got a black screen or JavaScript alert "Can't load subscription"? Try:
 
   > env REMEDIE_DEBUG=1 perl -Ilib ./bin/remedie-server.pl
 
-and see ~/.remedie/error.log for the errors. You can quick check the
+and see ~/.remedie/logs/error.log for the errors. You can quick check the
 perl module dependencies by running
 
   > ack -h ^use lib | sort -u | perl -Ilib

@@ -95,8 +95,8 @@ __PACKAGE__->meta->make_immutable;
 
 no Moose;
 
-sub build_access_log { shift->user_data->path_to('access.log') }
-sub build_error_log  { shift->user_data->path_to('error.log') }
+sub build_access_log { shift->user_data->path_to('logs', 'access.log') }
+sub build_error_log  { shift->user_data->path_to('logs', 'error.log') }
 
 sub get_config_from_file {
     my ($class, $file) = @_;
