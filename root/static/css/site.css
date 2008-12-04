@@ -132,6 +132,15 @@ img.channel-thumbnail {
   margin-left: 1em;
 }
 
+.channel-header-nextprev {
+  position: relative;
+  float: right;
+/*  top: 10px;*/
+  text-align: right;
+  font-weight: none;
+  color: #888;
+}
+
 .channel-header-data {
   padding-bottom: 1em;
 }

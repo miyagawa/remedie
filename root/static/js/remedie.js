@@ -84,7 +84,7 @@ Remedie.prototype = {
       shadow:            true
     });
 
-    $(".blockOverlay").livequery('click', $.unblockUI);
+//    $(".blockOverlay").livequery('click', $.unblockUI);
   },
 
   setupMenuActions: function() {
@@ -610,6 +610,23 @@ Remedie.prototype = {
     return false;
   },
 
+  moveToChannel: function(channel, offset) {
+    var array = new Array;
+    var want;
+    $.each(this.channels, function(idx, c) {
+      if (c != undefined) {
+        array.push(c);
+        if (c.id == channel.id) 
+          want = array.length - 1 + offset;
+      }
+    });
+
+    if (array[want]) {
+      location.href = '#channel/' + array[want].id;
+      this.showChannel(array[want]);
+    }
+  },
+
   showChannel: function(channel) {
     $.ajax({
       url: "/rpc/channel/show",
@@ -623,11 +640,17 @@ Remedie.prototype = {
 
         var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/images/feed_256x256.png";
         $("#channel-pane").createAppend(
-         'div', { className: 'channel-header', id: 'channel-header-' + channel.id  }, [
-           'div', { className: 'channel-header-thumbnail' }, [
-             'img', { src: thumbnail, alt: channel.name }, null
-           ],
-           'div', { className: 'channel-header-infobox', style: 'width: ' + ($(window).width()-220) + 'px' }, [
+          'div', { className: 'channel-header', id: 'channel-header-' + channel.id  }, [
+            'div', { className: 'channel-header-thumbnail' }, [
+              'img', { src: thumbnail, alt: channel.name }, null
+            ],
+            'div', { className: 'channel-header-infobox', style: 'width: ' + ($(window).width()-220) + 'px' }, [
+              'div', { className: 'channel-header-nextprev' }, [
+                'ul', { className: 'inline' }, [
+                  'li', { className: 'first' }, [ 'a', { className: "prev-channel" }, "&laquo; Prev Channel" ],
+                  'li', {}, [ 'a', { className: "next-channel" }, "Next Channel &raquo;" ]
+                ],
+              ],
               'h2', { className: 'channel-header-title' }, [ 'a', { href: channel.props.link, target: "_blank" }, channel.name ],
               'div', { className: 'channel-header-data' }, [
                 'a', { href: channel.ident, target: "_blank" }, channel.ident.trimChars(100),
@@ -638,9 +661,12 @@ Remedie.prototype = {
               ],
               'p', { className: 'channel-header-description' }, channel.props.description
             ],
-            'div', { className: "claer" }, null
+            'div', { className: "clear" }, null
           ]
         );
+
+        $("#channel-pane .prev-channel").click(function(){remedie.moveToChannel(channel, -1)});
+        $("#channel-pane .next-channel").click(function(){remedie.moveToChannel(channel, 1)});
 
         $("#channel-pane").createAppend(
           'div', { id: 'channel-items', className: "clear" }, null
