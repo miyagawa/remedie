@@ -185,8 +185,7 @@ Note:
                 // patch for jquery 1.2.5 && 1.2.6 see more at:  
                 // http://groups.google.com/group/jquery-en/browse_thread/thread/83e10b3bb1f1c32b
                 alt = event.altKey || event.originalEvent.altKey,
-                cmd = event.metaKey,
-                propagate = true,
+                cmd = /mac/i.test(navigator.userAgent) ? event.metaKey : '',
                 mapPoint = null;
 
             for (var x=0; x < ids.length; x++){
