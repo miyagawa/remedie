@@ -22,7 +22,7 @@ sub path_to {
 
     if (@path > 1) {
         my $file = pop @path;
-        return $base->subdir(@path)->file($file);
+        return $self->path_to_dir(@path)->file($file);
     } else {
         return $base->file($path[0]);
     }
