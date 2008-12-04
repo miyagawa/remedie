@@ -4,7 +4,6 @@ use base qw( Plagger::Plugin );
 
 use Encode;
 use List::Util qw(first);
-use HTML::TokeParser;
 use HTML::ResolveLink;
 use HTML::Selector::XPath;
 use HTML::TreeBuilder::XPath;
@@ -85,43 +84,11 @@ sub aggregate {
     $feed->title($args->{feed}->title || extract_title($content));
     $feed->link($url);
 
-    my $found;
-    my %found;
-    if( my $re = $args->{match} ) {
-        my $resolver = HTML::ResolveLink->new(base => $url);
-        $content = $resolver->resolve($content);
-
-        my $parser = HTML::TokeParser->new(\$content);
-        while (my $token = $parser->get_tag('a')) {
-            ($token->[1]->{href} || '') =~ /$re/ or next;
-
-            my $item_url = URI->new_abs($token->[1]->{href}, $url);
-            my $entry = $found{$item_url} || do {
-                my $e = Plagger::Entry->new;
-                $feed->add_entry($e);
-                $e;
-            };
-
-            my $text = $parser->get_trimmed_text('/a');
-            if (!$text || $text eq '[IMG]') {
-                $entry->title($item_url->filename)
-                    unless $entry->title;
-            } else {
-                $entry->title($text);
-            }
-
-            $entry->link($item_url);
-
-            $context->log(debug => "Add $token->[1]->{href} ($text)");
-            $found++;
-            $found{$item_url} = $entry;
-        }
-    }
-
     my $tree = HTML::TreeBuilder::XPath->new;
     $tree->parse($content);
     $tree->eof;
 
+    my %found;
     my $found;
     for my $child ( $tree->findnodes($args->{xpath} || '//a') ) {
         my $href  = $child->attr('href') or next;
@@ -148,6 +115,7 @@ sub aggregate {
 
         $context->log(debug => "Add $href (" . $entry->title . ")");
         $found++;
+        $found{$item_url} = $entry;
     }
 
     if ($found) {
