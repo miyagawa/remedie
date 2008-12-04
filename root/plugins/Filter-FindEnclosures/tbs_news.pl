@@ -16,7 +16,7 @@ sub find {
     my $id = $1;
 
     my $enclosure = Plagger::Enclosure->new;
-    $enclosure->url("http://news.tbs.co.jp/asf/news${id}_12.asf");
+    $enclosure->url("http://news.tbs.co.jp/flv/news${id}_27.flv");
     $enclosure->type("video/x-ms-asf");
     $enclosure->thumbnail({ url => "http://news.tbs.co.jp/jpg/news${id}_6.jpg" });
     return $enclosure;
