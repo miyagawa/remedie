@@ -610,7 +610,7 @@ Remedie.prototype = {
     return false;
   },
 
-  moveToChannel: function(channel, offset) {
+  findChannel: function(channel, offset) {
     var array = new Array;
     var want;
     $.each(this.channels, function(idx, c) {
@@ -621,10 +621,8 @@ Remedie.prototype = {
       }
     });
 
-    if (array[want]) {
-      location.href = '#channel/' + array[want].id;
-      this.showChannel(array[want]);
-    }
+    if (want && want > array.length - 1) want = 0;
+    return array[want];
   },
 
   showChannel: function(channel) {
@@ -638,6 +636,9 @@ Remedie.prototype = {
         var channel = r.channel;
         $.event.trigger("remedieChannelDisplayed", channel);
 
+        var prevChannel = remedie.findChannel(channel, -1);
+        var nextChannel = remedie.findChannel(channel, 1);
+
         var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/images/feed_256x256.png";
         $("#channel-pane").createAppend(
           'div', { className: 'channel-header', id: 'channel-header-' + channel.id  }, [
@@ -647,8 +648,14 @@ Remedie.prototype = {
             'div', { className: 'channel-header-infobox', style: 'width: ' + ($(window).width()-220) + 'px' }, [
               'div', { className: 'channel-header-nextprev' }, [
                 'ul', { className: 'inline' }, [
-                  'li', { className: 'first' }, [ 'a', { className: "prev-channel" }, "&laquo; Prev Channel" ],
-                  'li', {}, [ 'a', { className: "next-channel" }, "Next Channel &raquo;" ]
+                  'li', { className: 'first' }, [
+                     'a', { href: "#channel/" + prevChannel.id,  className: "prev-channel" },
+                        "&laquo; " + prevChannel.name.trimChars(12)
+                  ],
+                  'li', {}, [
+                     'a', { href: "#channel/" + nextChannel.id,  className: "next-channel" },
+                        nextChannel.name.trimChars(12) + " &raquo;"
+                  ],
                 ],
               ],
               'h2', { className: 'channel-header-title' }, [ 'a', { href: channel.props.link, target: "_blank" }, channel.name ],
@@ -665,8 +672,8 @@ Remedie.prototype = {
           ]
         );
 
-        $("#channel-pane .prev-channel").click(function(){remedie.moveToChannel(channel, -1)});
-        $("#channel-pane .next-channel").click(function(){remedie.moveToChannel(channel, 1)});
+        $("#channel-pane .prev-channel").click(function(){remedie.showChannel(prevChannel)});
+        $("#channel-pane .next-channel").click(function(){remedie.showChannel(nextChannel)});
 
         $("#channel-pane").createAppend(
           'div', { id: 'channel-items', className: "clear" }, null
