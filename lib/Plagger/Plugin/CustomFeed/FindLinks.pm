@@ -106,7 +106,7 @@ sub aggregate {
 
         if (my($img) = $child->look_down(_tag => 'img')) {
             $entry->icon({
-                url    => $img->attr('src'),
+                url    => URI->new_abs($img->attr('src'), $url),
                 width  => $img->attr('width'),
                 height => $img->attr('height'),
             });
