@@ -644,7 +644,7 @@ Remedie.prototype = {
         $("#channel-pane").createAppend(
           'div', { className: 'channel-header', id: 'channel-header-' + channel.id  }, [
             'div', { className: 'channel-header-thumbnail' }, [
-              'img', { src: thumbnail, alt: channel.name }, null
+              'img', { src: "/static/images/feed_256x256.png", alt: channel.name }, null
             ],
             'div', { className: 'channel-header-infobox', style: 'width: ' + ($(window).width()-220) + 'px' }, [
               'div', { className: 'channel-header-nextprev' }, [
@@ -672,6 +672,9 @@ Remedie.prototype = {
             'div', { className: "clear" }, null
           ]
         );
+
+        if (channel.props.thumbnail)
+          RemedieUtil.layoutImage($("#channel-pane .channel-header-thumbnail img"), channel.props.thumbnail.url, 128, 96);
 
         $("#channel-pane .prev-channel").click(function(){remedie.showChannel(prevChannel)});
         $("#channel-pane .next-channel").click(function(){remedie.showChannel(nextChannel)});
