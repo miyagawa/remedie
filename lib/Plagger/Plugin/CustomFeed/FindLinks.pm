@@ -104,6 +104,14 @@ sub aggregate {
             $e;
         };
 
+        if (my($img) = $child->look_down(_tag => 'img')) {
+            $entry->icon({
+                url    => $img->attr('src'),
+                width  => $img->attr('width'),
+                height => $img->attr('height'),
+            });
+        }
+
         if (my $title = $child->attr('title') || $child->as_text) {
             $entry->title($title);
         } else {
