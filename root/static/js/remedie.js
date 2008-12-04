@@ -84,7 +84,7 @@ Remedie.prototype = {
       shadow:            true
     });
 
-//    $(".blockOverlay").livequery('click', $.unblockUI);
+    $(".blockOverlay").livequery('dblclick', $.unblockUI);
   },
 
   setupMenuActions: function() {
