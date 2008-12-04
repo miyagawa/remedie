@@ -118,33 +118,36 @@ sub aggregate {
         }
     }
 
-    if (my $xpath = $args->{xpath}) {
-        my $tree = HTML::TreeBuilder::XPath->new;
-        $tree->parse($content);
-        $tree->eof;
+    my $tree = HTML::TreeBuilder::XPath->new;
+    $tree->parse($content);
+    $tree->eof;
 
-        for my $child ( $tree->findnodes($xpath || '//a') ) {
-            my $href  = $child->attr('href') or next;
+    my $found;
+    for my $child ( $tree->findnodes($args->{xpath} || '//a') ) {
+        my $href  = $child->attr('href') or next;
 
-            my $item_url = URI->new_abs($href, $url);
-            my $entry = $found{$item_url} || do {
-                my $e = Plagger::Entry->new;
-                $feed->add_entry($e);
-                $e;
-            };
-
-            if (my $title = $child->attr('title') || $child->as_text) {
-                $entry->title($title);
-            } else {
-                $entry->title($item_url->filename)
-                    unless $entry->title;
-            }
-
-            $entry->link($item_url);
-
-            $context->log(debug => "Add $href (" . $entry->title . ")");
-            $found++;
+        if (my $re = $args->{match}) {
+            $href =~ /$re/ or next;
         }
+
+        my $item_url = URI->new_abs($href, $url);
+        my $entry = $found{$item_url} || do {
+            my $e = Plagger::Entry->new;
+            $feed->add_entry($e);
+            $e;
+        };
+
+        if (my $title = $child->attr('title') || $child->as_text) {
+            $entry->title($title);
+        } else {
+            $entry->title($item_url->filename)
+                unless $entry->title;
+        }
+
+        $entry->link($item_url);
+
+        $context->log(debug => "Add $href (" . $entry->title . ")");
+        $found++;
     }
 
     if ($found) {
