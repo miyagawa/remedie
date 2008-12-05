@@ -12,8 +12,9 @@ jQuery.fn.corners = function(options) {
   try {
     webkitAvailable = (document.body.style.WebkitBorderRadius !== undefined);
     /* Google Chrome corners look awful */
-    var versionIndex = navigator.userAgent.indexOf('Chrome');
-    if (versionIndex >= 0) webkitAvailable = false;
+    //NOTE: this workaround is not needed on latest google chrome. 
+    //var versionIndex = navigator.userAgent.indexOf('Chrome');
+    //if (versionIndex >= 0) webkitAvailable = false;
   } catch(err) {}
   var mozillaAvailable = false;
   try {
