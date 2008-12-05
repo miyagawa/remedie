@@ -5,7 +5,6 @@ function Remedie() {
 }
 
 Remedie.prototype = {
-  modifier: 'ctrl+',
   channels: [],
   items:    [],
   unblockCallbacks: [],
@@ -31,14 +30,7 @@ Remedie.prototype = {
   },
 
   setupHotKeys: function() {
-    // Emacs and KeyRemap4Macbook users have problems with ctrl+ modifier key because
-    // ctrl+n for example is remapped to 'down' key. For now, hijack the cmd+ modifier
-    // key if the userAgent is Mac. We may need to be careful not stealing frequently
-    // used hotkeys like cmd+r
-    if (/mac/i.test(navigator.userAgent))
-      this.modifier = 'command+';
-
-    this.installHotKey('n', this.newChannelDialog);
+    this.installHotKey('shift+n', this.newChannelDialog);
     this.installHotKey('shift+r', function(){
       if (remedie.currentChannel()) {
         remedie.manuallyRefreshChannel(remedie.currentChannel());
@@ -48,44 +40,43 @@ Remedie.prototype = {
         });
       }
     });
-    this.installHotKey('shift+d', function(){
+    this.installHotKey('del', function(){
       if (remedie.currentChannel())  remedie.removeChannel(remedie.currentChannel())
     });
-    this.installHotKey('shift+u', function(){ remedie.toggleChannelView(false) });
+    this.installHotKey('u', function(){ remedie.toggleChannelView(false) });
+    this.installHotKey('shift+u', function(){
+      if (remedie.current_id) remedie.markAllAsWatched(remedie.currentChannel(), true)
+    });
 
     // vi like keyborad shortcut.
-    $.each({
-      'h' : function(){
-              if (remedie.current_id)
-                $("#channel-pane .prev-channel").click();
-              else
-                remedie.moveCursorPrev();
-            },
-      'j' : function(){ remedie.moveCursorNext() },
-      'k' : function(){ remedie.moveCursorPrev() },
-      'l' : function(){
-              if (remedie.current_id)
-                $("#channel-pane .next-channel").click();
-              else
-                remedie.moveCursorNext();
-            },
-      'o' : function(){
-              if (remedie.current_id) {
-                var items = $('.channel-item');
-                if (items) remedie.playVideoInline(remedie.items[items[remedie.cursorPos].id.replace("channel-item-", "")]);
-                return false;
-              } else {
-                var channels = $('.channel');
-                if (channels) remedie.showChannel(remedie.channels[channels[remedie.cursorPos].id.replace("channel-", "")])
-                return false;
-              }
-            },
-      'esc' : function(){ $.unblockUI() }
-    }, function(key, func) {
-      $(document).bind('keypress', key, function() {
-        if (!/INPUT|TEXTAREA/i.test((event.srcElement || event.target).nodeName)) return func(arguments);
-      });
+    this.installHotKey('h', function(){
+      if (remedie.current_id)
+        $("#channel-pane .prev-channel").click();
+      else
+        remedie.moveCursorPrev();
+      }
+    );
+    this.installHotKey('j', function(){ remedie.moveCursorNext() });
+    this.installHotKey('k', function(){ remedie.moveCursorPrev() });
+    this.installHotKey('l', function(){
+      if (remedie.current_id)
+        $("#channel-pane .next-channel").click();
+          else
+        remedie.moveCursorNext();
+      }
+    );
+    this.installHotKey('o', function(){
+      if (remedie.current_id) {
+        var items = $('.channel-item');
+        if (items) remedie.playVideoInline(remedie.items[items[remedie.cursorPos].id.replace("channel-item-", "")]);
+        return false;
+      } else {
+        var channels = $('.channel');
+        if (channels) remedie.showChannel(remedie.channels[channels[remedie.cursorPos].id.replace("channel-", "")])
+        return false;
+      }
     });
+    this.installHotKey('esc', $.unblockUI, true);
   },
 
   setupPluginDefaults: function() {
@@ -157,10 +148,12 @@ Remedie.prototype = {
     });
   },
 
-  installHotKey: function(key, callback) {
-    $(document).bind('keydown', this.modifier+key, function(){
-      callback.call(this);
-      return false;
+  installHotKey: function(key, callback, always) {
+    $(document).bind('keydown', key, function(ev){
+      if (always || !/INPUT|TEXTAREA/i.test((ev.srcElement || ev.target).nodeName)) {
+        callback.call(this);
+        return false;
+      }
     });
   },
 
