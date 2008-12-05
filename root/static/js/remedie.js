@@ -12,7 +12,7 @@ Remedie.prototype = {
   current_id: null,
 
   initialize: function() {
-    if (!jQuery.browser.safari && !jQuery.browser.mozilla && !jQuery.browser.msie) {
+    if (!jQuery.browser.safari && !jQuery.browser.mozilla && !jQuery.browser.msie && !jQuery.browser.opera) {
       alert("Your browser " + navigator.userAgent + " is not supported.");
       return;
     }
@@ -1001,7 +1001,7 @@ Remedie.prototype = {
       target.scrollIntoView();
       $(".channel-item-selectable").removeClass("hover-channel-item");
       $(target).addClass("hover-channel-item");
-      return window.scrollY;
+      return true;
     } else {
       if (!$('.channel')) {
         return false;
@@ -1011,7 +1011,7 @@ Remedie.prototype = {
       target.scrollIntoView();
       $(".channel-clickable").removeClass("hover-channel");
       $(target).addClass("hover-channel");
-      return window.scrollY;
+      return true;
     }
   },
 
