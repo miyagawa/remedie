@@ -1060,7 +1060,7 @@ Remedie.prototype = {
               'p', {}, [
                   'a', { href: "http://code.google.com/p/remedie/", target: "_blank" }, 'Source code'
               ],
-              'a', { className: 'command-unblock' }, 'Close this window'
+              'a', { className: 'command-unblock', style: { cursor: 'hand' } }, 'Close this window'
           ])
       message.children("a.command-unblock").click($.unblockUI);
       $.blockUI({ message: message });
