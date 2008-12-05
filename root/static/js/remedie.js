@@ -831,7 +831,7 @@ Remedie.prototype = {
             if (!remedie.items[item.id].props.track_id) {
               $(this).prepend($("<div/>").attr('id', 'play-button-'+item.id)
                 .addClass("channel-item-play").corners("10px transparent").css({opacity:0.6})
-                .append($("<a/>").text("PLAY").css({cursor: 'hand'}).click(function(){$(this).parent().next().trigger('click')})));
+                .append($("<a/>").attr("href", "javascript:void 0").text("PLAY").click(function(){$(this).parent().next().trigger('click')})));
             }
           }, function(){
             $('.channel-item-play').remove();
@@ -1060,7 +1060,7 @@ Remedie.prototype = {
               'p', {}, [
                   'a', { href: "http://code.google.com/p/remedie/", target: "_blank" }, 'Source code'
               ],
-              'a', { className: 'command-unblock', style: { cursor: 'hand' } }, 'Close this window'
+              'a', { className: 'command-unblock', href: "javascript:void 0" }, 'Close this window'
           ])
       message.children("a.command-unblock").click($.unblockUI);
       $.blockUI({ message: message });
