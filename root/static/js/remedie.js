@@ -81,7 +81,11 @@ Remedie.prototype = {
               }
             },
       'esc' : function(){ $.unblockUI() }
-    }, function(key, func) { $(document).bind('keypress', key, func); });
+    }, function(key, func) {
+      $(document).bind('keypress', key, function() {
+        if (!/INPUT|TEXTAREA/i.test((event.srcElement || event.target).nodeName)) return func(arguments);
+      });
+    });
   },
 
   setupPluginDefaults: function() {
