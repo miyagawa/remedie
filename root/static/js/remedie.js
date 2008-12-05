@@ -77,11 +77,16 @@ Remedie.prototype = {
     this.installHotKey('down', 'next item', function(){ if (remedie.current_id) remedie.moveCursorNext() });
     this.installHotKey('up',   'prev item', function(){ if (remedie.current_id) remedie.moveCursorPrev() });
 
-    this.installHotKey('o', 'open channel (or item)', function(){
+    this.installHotKey('o', 'open channel (or play/close item)', function(){
       if (remedie.current_id) {
-        var items = $('.channel-item');
-        if (items) remedie.playVideoInline(remedie.items[items[remedie.cursorPos].id.replace("channel-item-", "")]);
-        return false;
+        if ( remedie.isPlayingVideo ) {
+          $.unblockUI();
+          return false;
+        } else {
+          var items = $('.channel-item');
+          if (items) remedie.playVideoInline(remedie.items[items[remedie.cursorPos].id.replace("channel-item-", "")]);
+          return false;
+        }
       } else {
         var channels = $('.channel');
         if (channels) remedie.showChannel(remedie.channels[channels[remedie.cursorPos].id.replace("channel-", "")])
@@ -243,7 +248,10 @@ Remedie.prototype = {
     this.markItemAsWatched(item); // TODO setTimeout?
   },
 
+  isPlayingVideo: false,
+
   playVideoInline: function(item, player) {
+    remedie.isPlayingVideo = true;
     var channel_id = item.channel_id;
     var id   = item.id;
     var url  = item.ident;
@@ -388,6 +396,7 @@ Remedie.prototype = {
 
     this.runOnUnblock(function(){
       $('#embed-player').children().remove();
+      remedie.isPlayingVideo = false;
     });
 
     $('#embed-player').append(
