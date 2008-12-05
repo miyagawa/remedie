@@ -12,7 +12,7 @@ Remedie.prototype = {
   current_id: null,
 
   initialize: function() {
-    if (!jQuery.browser.safari && !jQuery.browser.mozilla && !jQuery.browser.msie && !jQuery.browser.opera) {
+    if (!jQuery.browser.safari && !jQuery.browser.mozilla && !jQuery.browser.msie) {
       alert("Your browser " + navigator.userAgent + " is not supported.");
       return;
     }
