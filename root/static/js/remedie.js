@@ -31,7 +31,7 @@ Remedie.prototype = {
   },
 
   setupHotKeys: function() {
-    this.installHotKey('shift+n', 'new channel', this.newChannelDialog);
+    this.installHotKey('shift+n', 'new channel', function(){ remedie.newChannelDialog() });
     this.installHotKey('shift+r', 'refresh (all) channel', function(){
       if (remedie.currentChannel()) {
         remedie.manuallyRefreshChannel(remedie.currentChannel());
@@ -134,7 +134,7 @@ Remedie.prototype = {
   },
 
   setupMenuActions: function() {
-    $(".new-channel-menu").click(this.newChannelDialog);
+    $(".new-channel-menu").click(function(){ remedie.newChannelDialog() });
     $(".channel-list-menu").click(function(){ remedie.toggleChannelView(false) });
 
     $("#new-channel-form").submit( function(e) { remedie.createNewChannel(e); return false; } );
@@ -187,6 +187,8 @@ Remedie.prototype = {
     if (args[0] == '#channel') {
       if (this.channels[args[1]])
         this.showChannel( this.channels[args[1]] );
+    } else if (args[0] == '#subscribe') {
+      this.newChannelDialog(decodeURIComponent(args[1]));
     }
   },
 
@@ -588,7 +590,9 @@ Remedie.prototype = {
     });
   },
 
-  newChannelDialog: function() {
+  newChannelDialog: function(url) {
+    if (url) $("#new-channel-url").attr('value', url);
+
     $.blockUI({
       message: $("#new-channel-dialog")
     });
