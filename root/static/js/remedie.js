@@ -83,7 +83,7 @@ Remedie.prototype = {
       $.each(remedie.hotkeys, function(index, info){
         message += "<i>" + info.key + "</i> : " + info.desc + "<br />"
       });
-      message += '</div>';
+      message += '</div><br /><a href="javascript:$.unblockUI();">Close this window</a>';
       $.blockUI({
         message: message,
         css: { top: '100px' }
