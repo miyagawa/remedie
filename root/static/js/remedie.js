@@ -9,6 +9,7 @@ Remedie.prototype = {
   items:    [],
   unblockCallbacks: [],
   current_id: null,
+  hotkeys: [],
 
   initialize: function() {
     if (!jQuery.browser.safari && !jQuery.browser.mozilla && !jQuery.browser.msie) {
@@ -30,8 +31,8 @@ Remedie.prototype = {
   },
 
   setupHotKeys: function() {
-    this.installHotKey('shift+n', this.newChannelDialog);
-    this.installHotKey('shift+r', function(){
+    this.installHotKey('shift+n', 'new channel', this.newChannelDialog);
+    this.installHotKey('shift+r', 'refresh (all) channel', function(){
       if (remedie.currentChannel()) {
         remedie.manuallyRefreshChannel(remedie.currentChannel());
       } else {
@@ -40,32 +41,32 @@ Remedie.prototype = {
         });
       }
     });
-    this.installHotKey('del', function(){
+    this.installHotKey('del', 'unsubscribe', function(){
       if (remedie.currentChannel())  remedie.removeChannel(remedie.currentChannel())
     });
-    this.installHotKey('u', function(){ remedie.toggleChannelView(false) });
-    this.installHotKey('shift+u', function(){
+    this.installHotKey('u', 'back to channel view', function(){ remedie.toggleChannelView(false) });
+    this.installHotKey('shift+u', 'mark all as watched', function(){
       if (remedie.current_id) remedie.markAllAsWatched(remedie.currentChannel(), true)
     });
 
     // vi like keyborad shortcut.
-    this.installHotKey('h', function(){
+    this.installHotKey('h', 'prev channel', function(){
       if (remedie.current_id)
         $("#channel-pane .prev-channel").click();
       else
         remedie.moveCursorPrev();
       }
     );
-    this.installHotKey('j', function(){ remedie.moveCursorNext() });
-    this.installHotKey('k', function(){ remedie.moveCursorPrev() });
-    this.installHotKey('l', function(){
+    this.installHotKey('j', 'next channel(or item)', function(){ remedie.moveCursorNext() });
+    this.installHotKey('k', 'prev channel(or item)', function(){ remedie.moveCursorPrev() });
+    this.installHotKey('l', 'next channel', function(){
       if (remedie.current_id)
         $("#channel-pane .next-channel").click();
           else
         remedie.moveCursorNext();
       }
     );
-    this.installHotKey('o', function(){
+    this.installHotKey('o', 'open the item', function(){
       if (remedie.current_id) {
         var items = $('.channel-item');
         if (items) remedie.playVideoInline(remedie.items[items[remedie.cursorPos].id.replace("channel-item-", "")]);
@@ -76,7 +77,18 @@ Remedie.prototype = {
         return false;
       }
     });
-    this.installHotKey('esc', $.unblockUI, true);
+    this.installHotKey('esc', 'close the dialog', $.unblockUI, true);
+    this.installHotKey('shift+h', 'show this help', function() {
+      var message = '<div style="text-align: left"><h3>Keyboard shortcuts</h3><hr />';
+      $.each(remedie.hotkeys, function(index, info){
+        message += "<i>" + info.key + "</i> : " + info.desc + "<br />"
+      });
+      message += '</div>';
+      $.blockUI({
+        message: message,
+        css: { top: '100px' }
+      });
+    });
   },
 
   setupPluginDefaults: function() {
@@ -148,7 +160,8 @@ Remedie.prototype = {
     });
   },
 
-  installHotKey: function(key, callback, always) {
+  installHotKey: function(key, description, callback, always) {
+    this.hotkeys.push({key:key, desc:description});
     $(document).bind('keydown', key, function(ev){
       if (always || !/INPUT|TEXTAREA/i.test((ev.srcElement || ev.target).nodeName)) {
         callback.call(this);
