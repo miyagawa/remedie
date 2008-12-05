@@ -52,7 +52,29 @@ Remedie.prototype = {
       if (remedie.currentChannel())  remedie.removeChannel(remedie.currentChannel())
     });
     this.installHotKey('shift+u', function(){ remedie.toggleChannelView(false) });
-  
+
+    // vi like keyborad shortcut.
+    $(document).bind('keypress', 'j', function(){
+      remedie.moveCursorNext();
+      return false;
+    });
+    $(document).bind('keypress', 'k', function(){
+      remedie.moveCursorPrev();
+      return false;
+    });
+
+    $(document).bind('keypress', 'o', function(){
+      if (remedie.current_id) {
+        var items = $('.channel-item');
+        if (items) remedie.playVideoInline(remedie.items[items[remedie.cursorPos].id.replace("channel-item-", "")]);
+        return false;
+      } else {
+        var channels = $('.channel');
+        if (channels) remedie.showChannel(remedie.channels[channels[remedie.cursorPos].id.replace("channel-", "")])
+        return false;
+      }
+    });
+
     $(document).bind('keydown', 'esc', $.unblockUI);
   },
 
@@ -580,6 +602,7 @@ Remedie.prototype = {
       $("#channel-pane").hide();
     }
     $.scrollTo({top:0});
+    remedie.resetCursorPos();
     return false;
   },
 
@@ -951,6 +974,51 @@ Remedie.prototype = {
 
     if (!default_thumbnail)
       RemedieUtil.layoutImage($("#channel-thumbnail-image-" + channel.id), thumbnail, 192, 192);
+
+    remedie.resetCursorPos();
+  },
+
+  cursorPos: -1,
+
+  moveCursor: function(index) {
+    if (index < 0) {
+      $.scrollTo({top:0});
+      return false;
+    }
+
+    if (remedie.current_id) {
+      if (!$('.channel-item')) {
+        return false;
+      }
+      var target = $('.channel-item')[index];
+      if (!target) return false;
+      target.scrollIntoView();
+      $(".channel-item-selectable").removeClass("hover-channel-item");
+      $(target).addClass("hover-channel-item");
+      return window.scrollY;
+    } else {
+      if (!$('.channel')) {
+        return false;
+      }
+      var target = $('.channel')[index];
+      if (!target) return false;
+      target.scrollIntoView();
+      $(".channel-clickable").removeClass("hover-channel");
+      $(target).addClass("hover-channel");
+      return window.scrollY;
+    }
+  },
+
+  moveCursorNext: function() {
+    if (this.moveCursor(remedie.cursorPos + 1)) remedie.cursorPos += 1;
+  },
+
+  moveCursorPrev: function() {
+    if (this.moveCursor(remedie.cursorPos - 1)) remedie.cursorPos -= 1;
+  },
+
+  resetCursorPos: function() {
+    remedie.cursorPos = -1;
   },
 
   redrawChannel: function(channel) {
