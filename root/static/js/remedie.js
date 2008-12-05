@@ -831,7 +831,7 @@ Remedie.prototype = {
             if (!remedie.items[item.id].props.track_id) {
               $(this).prepend($("<div/>").attr('id', 'play-button-'+item.id)
                 .addClass("channel-item-play").corners("10px transparent").css({opacity:0.6})
-                .append($("<a/>").text("PLAY").click(function(){$(this).parent().next().trigger('click')})));
+                .append($("<a/>").text("PLAY").css({cursor: 'hand'}).click(function(){$(this).parent().next().trigger('click')})));
             }
           }, function(){
             $('.channel-item-play').remove();
