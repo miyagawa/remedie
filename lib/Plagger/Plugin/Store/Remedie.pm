@@ -26,7 +26,7 @@ sub store {
 
     my %found;
     for my $entry (reverse $feed->entries) {
-        my $permalink = $entry->permalink || $entry->link or next;
+        my $permalink = $entry->permalink || $entry->link || $entry->id or next;
 
         my $enclosure = $entry->primary_enclosure;
         my $ident = $enclosure ? $enclosure->url : $permalink;
