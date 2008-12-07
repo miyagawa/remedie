@@ -72,13 +72,11 @@ sub find_enclosures {
     my($self, $data_ref, $entry, %opt) = @_;
 
     my $parser = HTML::TokeParser->new($data_ref);
-    while (my $tag = $parser->get_tag('a', 'embed', 'img', 'object')) {
+    while (my $tag = $parser->get_tag('a', 'embed', 'object')) {
         if ($tag->[0] eq 'a' ) {
             $self->add_enclosure($entry, $tag, 'href', \%opt);
         } elsif ($tag->[0] eq 'embed') {
             $self->add_enclosure_from_embed($entry, $tag, \%opt);
-        } elsif ($tag->[0] eq 'img') {
-            $self->add_enclosure($entry, $tag, 'src', { inline => 1, %opt });
         } elsif ($tag->[0] eq 'object') {
             $self->add_enclosure_from_object($entry, $parser, %opt);
         }
@@ -120,7 +118,7 @@ sub add_enclosure_from_object {
         Plagger->context->log(info => "Found enclosure $url from flash params");
         my $enclosure = Plagger::Enclosure->new;
         $enclosure->url( URI->new($url) );
-        $entry->add_enclosure($enclosure); # XXX inline?
+        $entry->add_enclosure($enclosure);
     } elsif (@embeds) {
         Plagger->context->log(info => "Use embed tags to create SWF enclosure: $embeds[0][1]");
         $self->add_enclosure_from_embed($entry, $embeds[0], \%opt);
@@ -163,7 +161,6 @@ sub add_enclosure {
         my $enclosure = Plagger::Enclosure->new;
         $enclosure->url($tag->[1]{$attr});
         $enclosure->type($opt->{type});
-        $enclosure->is_inline(1) if $opt->{inline};
         $enclosure->width($tag->[1]{width})   if $tag->[1]{width};
         $enclosure->height($tag->[1]{height}) if $tag->[1]{height};
         $entry->add_enclosure($enclosure);
@@ -262,11 +259,10 @@ audio/video formats and 3) I<src> attributes in B<< <img> >> and B<< <embed> >> 
 For example:
 
   Listen to the <a href="http://example.com/foobar.mp3">Podcast</a> now, or <a rel="enclosure"
-  href="http://example.com/foobar.m4a">download AAC version</a>. <img src="/img/logo.gif" />
+  href="http://example.com/foobar.m4a">download AAC version</a>.
 
 Those 3 links (I<foobar.mp3>, I<foobar.m4a> and I<logo.gif>) are
-extracted as enclosures, while I<logo.gif> is marked as "inline", so
-that they won't appear as enclosures in Publish::Feed.
+extracted as enclosures.
 
 You might want to also use Filter::HEADEnclosureMetadata plugin to
 know the actual length (bytes-length) of enclosures by sending HEAD

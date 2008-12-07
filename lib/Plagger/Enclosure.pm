@@ -2,7 +2,7 @@ package Plagger::Enclosure;
 use strict;
 
 use base qw( Class::Accessor::Fast );
-__PACKAGE__->mk_accessors(qw( length type local_path is_inline width height thumbnail ));
+__PACKAGE__->mk_accessors(qw( length type local_path width height thumbnail ));
 
 use Plagger::Util;
 use URI;
