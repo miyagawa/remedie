@@ -332,7 +332,9 @@ Remedie.prototype = {
         var s1 = new QTObject(url, 'player-' + id, width,  height);
         s1.addParam('scale', 'Aspect');
         s1.addParam('target', 'QuickTimePlayer');
+        s1.addParam('postdomevents', 'true');
         s1.write('embed-player');
+        document.getElementById('player-' + id).addEventListener('qt_ended', $.unblockUI);
     } else if (player == 'WMP') {
         var s1 = new MPObject(url, 'player-' + id, width,  height);
         s1.addParam("autostart", "1");
