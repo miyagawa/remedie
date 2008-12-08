@@ -1029,20 +1029,22 @@ Remedie.prototype = {
     }
 
     if (remedie.current_id) {
-      if (!$('.channel-item')) {
+      var items = $('.channel-item');
+      if (!items) {
         return false;
       }
-      var target = $('.channel-item')[index];
+      var target = items[index];
       if (!target) return false;
       target.scrollIntoView();
       $(".channel-item-selectable").removeClass("hover-channel-item");
       $(target).addClass("hover-channel-item");
       return true;
     } else {
-      if (!$('.channel')) {
+      var channels = $('.channel');
+      if (!channels) {
         return false;
       }
-      var target = $('.channel')[index];
+      var target = channels[index];
       if (!target) return false;
       target.scrollIntoView();
       $(".channel-clickable").removeClass("hover-channel");
