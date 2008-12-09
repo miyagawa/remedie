@@ -761,7 +761,9 @@ Remedie.prototype = {
              'div', { className: 'item-infobox', style: "width: " + ($(window).width()-220) + "px" }, [
                'div', { className: 'item-infobox-misc' }, [
                   'ul', { className: 'inline' }, [
-                    'li', { className: 'first' }, "size: " + RemedieUtil.formatBytes(item.props.size),
+                    'li', { className: 'first' }, [
+                      "a", { href: item.ident }, "size: " + RemedieUtil.formatBytes(item.props.size)
+                    ],
                     'li', {}, "updated: " + RemedieUtil.mangleDate(item.props.updated),
                     'li', {}, [ "a", { href: item.props.link, target: "_blank" }, "Link" ]
                   ],
@@ -791,16 +793,14 @@ Remedie.prototype = {
 
        var fullscreen = 1; // TODO make it channel preference
        $(".channel-item-selectable")
-         .hover(function(){
-           $(this).addClass("hover-channel-item");
-           $(this).css('opacity',0.8)},
-       function(){
-         $(this).removeClass("hover-channel-item");
-         $(this).css('opacity',1)}).each(function() {
-           var item = remedie.items[ this.id.replace("channel-item-", "") ];
+         .hover(function(){ $(this).addClass("hover-channel-item").css('opacity',0.8) },
+                function(){ $(this).removeClass("hover-channel-item").css('opacity',1) });
+       $(".item-thumbnail").each(function() {
+           var item = remedie.items[ $(this).parent().get(0).id.replace("channel-item-", "") ];
            $(this).contextMenu("channel-item-context-menu", {
            bindings: {
              item_context_play:      function(){remedie.playVideoInline(item)},
+             item_context_play_site: function(){remedie.playVideoInline(item)},
              item_context_copy:      function(){$.copy(item.ident)},
              item_context_open:      function(){remedie.markItemAsWatched(item, true);location.href=item.ident},
              item_context_watched:   function(){remedie.markItemAsWatched(item)},
