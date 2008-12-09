@@ -868,7 +868,7 @@ Remedie.prototype = {
            remedie.startTrackStatus(item);
          }
 
-         $(".item-thumbnail", this)
+         $(this)
           .hover(function(){
             if (!remedie.items[item.id].props.track_id) {
               $(this).prepend($("<div/>").attr('id', 'play-button-'+item.id)
