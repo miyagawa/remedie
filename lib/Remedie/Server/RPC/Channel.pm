@@ -164,7 +164,15 @@ sub update_status : POST {
     } else {
         my $item = Remedie::DB::Item->new( id => $item_id )->load;
         $id    = $item->channel_id;
-        $items = [ $item ];
+
+        # mark as watched will make other items with same ident watched as well
+        if ($enum == Remedie::DB::Item->STATUS_WATCHED) {
+            $items = Remedie::DB::Item::Manager->get_items(
+                query => [ ident => $item->ident ]
+            );
+        } else {
+            $items = [ $item ];
+        }
     }
 
     for my $item (@$items) {
