@@ -655,15 +655,19 @@ Remedie.prototype = {
   },
 
   toggleChannelView: function(display) {
+    var scroll = { top: 0 };
     if (display) {
       $("#collection").hide();
       $("#channel-pane").show();
     } else {
+      var channel_id = this.current_id;
       $.event.trigger('remedieChannelUndisplayed');
       $("#collection").show();
       $("#channel-pane").hide();
+      if (channel_id)
+        scroll = $("#channel-" + channel_id);
     }
-    $.scrollTo({top:0});
+    $.scrollTo(scroll);
     remedie.resetCursorPos();
     return false;
   },
