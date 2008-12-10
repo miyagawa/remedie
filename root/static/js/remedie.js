@@ -45,7 +45,10 @@ Remedie.prototype = {
       if (remedie.currentChannel())  remedie.removeChannel(remedie.currentChannel())
     });
     this.installHotKey('u', 'back to channel view', function(){
-      if (remedie.current_id)remedie.toggleChannelView(false);
+      if (remedie.current_id) {
+        remedie.toggleChannelView(false);
+        location.href = "#menu";
+      }
     });
     this.installHotKey('shift+u', 'mark all as watched', function(){
       if (remedie.current_id) remedie.markAllAsWatched(remedie.currentChannel(), true)
@@ -54,18 +57,16 @@ Remedie.prototype = {
     // vi like keyborad shortcut.
     this.installHotKey('h', 'prev channel', function(){
       if (remedie.current_id)
-        $("#channel-pane .prev-channel").click();
+        location.href = $("#channel-pane .prev-channel").click().attr('href');
       else
         remedie.moveCursorLeft();
-      }
-    );
+    });
     this.installHotKey('l', 'next channel', function(){
       if (remedie.current_id)
-        $("#channel-pane .next-channel").click();
-          else
+        location.href = $("#channel-pane .next-channel").click().attr('href');
+      else
         remedie.moveCursorRight();
-      }
-    );
+    });
     this.installHotKey('j', 'next channel (or item)', function(){
       if (remedie.current_id)
         remedie.moveCursorRight()
@@ -106,7 +107,11 @@ Remedie.prototype = {
         }
       } else {
         var channels = $('.channel');
-        if (channels) remedie.showChannel(remedie.channels[channels[remedie.cursorPos].id.replace("channel-", "")])
+        if (channels) {
+          var channel_id = channels[remedie.cursorPos].id.replace("channel-", "");
+          remedie.showChannel(remedie.channels[channel_id]);
+          location.href = "#channel/" + channel_id;
+        }
         return false;
       }
     });
