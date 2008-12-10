@@ -44,7 +44,9 @@ Remedie.prototype = {
     this.installHotKey('del', 'unsubscribe', function(){
       if (remedie.currentChannel())  remedie.removeChannel(remedie.currentChannel())
     });
-    this.installHotKey('u', 'back to channel view', function(){ remedie.toggleChannelView(false) });
+    this.installHotKey('u', 'back to channel view', function(){
+      if (remedie.current_id)remedie.toggleChannelView(false);
+    });
     this.installHotKey('shift+u', 'mark all as watched', function(){
       if (remedie.current_id) remedie.markAllAsWatched(remedie.currentChannel(), true)
     });
