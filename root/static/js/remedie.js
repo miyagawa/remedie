@@ -104,14 +104,19 @@ Remedie.prototype = {
     });
     this.installHotKey('esc', 'close embed player (or dialog)', $.unblockUI, true);
     this.installHotKey('shift+h', 'show this help', function() {
-      var message = '<div style="text-align: left"><h3>Keyboard shortcuts</h3><hr />';
-      $.each(remedie.hotkeys, function(index, info){
-        message += "<i>" + info.key + "</i> : " + info.desc + "<br />"
-      });
-      message += '</div><br /><a href="javascript:$.unblockUI();">Close this window</a>';
+      var message = $('<div/>').createAppend(
+           'div', { id: "keyboard-shortcut-help-dialog" }, [
+              'h2', {}, 'Keyboard shortcuts',
+              'hr', {}, null,
+              'div', { className: 'keyboard-shortcuts', style: 'text-align: left' }, '',
+              'a', { className: 'command-unblock', href: location.href }, 'Close this window'
+          ]);
+      var container = $("div.keyboard-shortcuts", message);
+      $.each(remedie.hotkeys, function(index, info) { container.append('<i>' + info.key + '</i> : ' + info.desc + '<br />'); });
+      message.children("a.command-unblock").click($.unblockUI);
       $.blockUI({
         message: message,
-        css: { top: '100px' }
+        css: { top: '50px' }
       });
     });
   },
@@ -1177,7 +1182,7 @@ Remedie.prototype = {
               'p', {}, [
                   'a', { href: "http://code.google.com/p/remedie/", target: "_blank" }, 'Source code'
               ],
-              'a', { className: 'command-unblock', href: "javascript:void 0" }, 'Close this window'
+              'a', { className: 'command-unblock', href: location.href }, 'Close this window'
           ])
       message.children("a.command-unblock").click($.unblockUI);
       $.blockUI({ message: message });
