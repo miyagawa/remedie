@@ -54,28 +54,37 @@ Remedie.prototype = {
       if (remedie.current_id)
         $("#channel-pane .prev-channel").click();
       else
-        remedie.moveCursorPrev();
+        remedie.moveCursorLeft();
       }
     );
     this.installHotKey('l', 'next channel', function(){
       if (remedie.current_id)
         $("#channel-pane .next-channel").click();
           else
-        remedie.moveCursorNext();
+        remedie.moveCursorRight();
       }
     );
-    this.installHotKey('j', 'next channel (or item)', function(){ remedie.moveCursorNext() });
-    this.installHotKey('k', 'prev channel (or item)', function(){ remedie.moveCursorPrev() });
-
+    this.installHotKey('j', 'next channel (or item)', function(){
+      if (remedie.current_id)
+        remedie.moveCursorRight()
+      else
+        remedie.moveCursorDown()
+    });
+    this.installHotKey('k', 'prev channel (or item)', function(){
+      if (remedie.current_id)
+        remedie.moveCursorLeft()
+      else
+        remedie.moveCursorUp()
+    });
 
     this.installHotKey('left', 'prev channel', function(){
-      if (!remedie.current_id) remedie.moveCursorPrev();
+      if (!remedie.current_id) remedie.moveCursorLeft();
     });
     this.installHotKey('right', 'next channel', function(){
-      if (!remedie.current_id) remedie.moveCursorNext();
+      if (!remedie.current_id) remedie.moveCursorRight();
     });
-    this.installHotKey('down', 'next item', function(){ if (remedie.current_id) remedie.moveCursorNext() });
-    this.installHotKey('up',   'prev item', function(){ if (remedie.current_id) remedie.moveCursorPrev() });
+    this.installHotKey('down', 'next item', function(){ if (remedie.current_id) remedie.moveCursorRight() });
+    this.installHotKey('up',   'prev item', function(){ if (remedie.current_id) remedie.moveCursorLeft() });
 
     this.installHotKey('o', 'open channel (or play/close item)', function(){
       if (remedie.current_id) {
@@ -1023,9 +1032,14 @@ Remedie.prototype = {
   cursorPos: -1,
 
   moveCursor: function(index) {
-    if (index < 0) {
+    if (index < -1) return false;
+    if (index == -1) {
+      if (remedie.current_id)
+        $(".channel-item-selectable").removeClass("hover-channel-item");
+      else
+        $(".channel-clickable").removeClass("hover-channel");
       $.scrollTo({top:0});
-      return false;
+      return true;
     }
 
     if (remedie.current_id) {
@@ -1053,11 +1067,70 @@ Remedie.prototype = {
     }
   },
 
-  moveCursorNext: function() {
+  getElementPosition: function(e) {
+    var pos = {x:0, y:0};
+    if (document.documentElement.getBoundingClientRect) { // IE 
+      var box = e.getBoundingClientRect();
+      var owner = e.ownerDocument;
+      pos.x = box.left + Math.max(owner.documentElement.scrollLeft, owner.body.scrollLeft) - 2; 
+      pos.y = box.top  + Math.max(owner.documentElement.scrollTop,  owner.body.scrollTop) - 2
+    } else if(document.getBoxObjectFor) { //Firefox
+      pos.x = document.getBoxObjectFor(e).x;
+      pos.y = document.getBoxObjectFor(e).y;
+    } else {
+      do { 
+        pos.x += e.offsetLeft;
+        pos.y += e.offsetTop;
+      } while (e = e.offsetParent);
+    }
+    return pos;
+  },
+
+  moveCursorUp: function() {
+    if (remedie.current_id) {
+      if (this.moveCursor(remedie.cursorPos - 1)) remedie.cursorPos -= 1;
+    } else {
+      var channels = $('.channel');
+      if (!channels) {
+        return false;
+      }
+      var target, cursor = remedie.cursorPos;
+      if (cursor > 0) {
+        var opos = this.getElementPosition(channels[cursor]);
+        while ((target = channels[--cursor])) {
+          var npos = this.getElementPosition(target);
+          if (opos.x == npos.x) break;
+        }
+      }
+      if (!target) cursor = -1;
+      if (this.moveCursor(cursor)) remedie.cursorPos = cursor;
+    }
+  },
+
+  moveCursorDown: function() {
+    if (remedie.current_id) {
+      if (this.moveCursor(remedie.cursorPos + 1)) remedie.cursorPos += 1;
+    } else {
+      var channels = $('.channel');
+      if (!channels) {
+        return false;
+      }
+      var target, cursor = remedie.cursorPos;
+      if (cursor < 0) cursor = 0;
+      var opos = this.getElementPosition(channels[cursor]);
+      while ((target = channels[++cursor])) {
+        var npos = this.getElementPosition(target);
+        if (opos.x == npos.x) break;
+      }
+      if (this.moveCursor(cursor)) remedie.cursorPos = cursor;
+    }
+  },
+
+  moveCursorRight: function() {
     if (this.moveCursor(remedie.cursorPos + 1)) remedie.cursorPos += 1;
   },
 
-  moveCursorPrev: function() {
+  moveCursorLeft: function() {
     if (this.moveCursor(remedie.cursorPos - 1)) remedie.cursorPos -= 1;
   },
 
