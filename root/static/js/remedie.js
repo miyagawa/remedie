@@ -83,8 +83,14 @@ Remedie.prototype = {
     this.installHotKey('right', 'next channel', function(){
       if (!remedie.current_id) remedie.moveCursorRight();
     });
-    this.installHotKey('down', 'next item', function(){ if (remedie.current_id) remedie.moveCursorRight() });
-    this.installHotKey('up',   'prev item', function(){ if (remedie.current_id) remedie.moveCursorLeft() });
+    this.installHotKey('down', 'next item', function(){
+      if (remedie.current_id) remedie.moveCursorRight();
+      else                    remedie.moveCursorDown();
+    });
+    this.installHotKey('up',   'prev item', function(){
+      if (remedie.current_id) remedie.moveCursorLeft();
+      else                    remedie.moveCursorUp();
+    });
 
     this.installHotKey('o', 'open channel (or play/close item)', function(){
       if (remedie.current_id) {
