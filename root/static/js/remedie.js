@@ -659,6 +659,7 @@ Remedie.prototype = {
       $("#collection").hide();
       $("#channel-pane").show();
       $.scrollTo({ top: 0 });
+      remedie.resetCursorPos();
     } else {
       var channel_id = this.current_id;
       $.event.trigger('remedieChannelUndisplayed');
