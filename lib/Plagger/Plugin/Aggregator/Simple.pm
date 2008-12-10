@@ -172,6 +172,7 @@ sub handle_feed {
 
         # entry image support
         if ($remote->format =~ /^RSS / and my $img = $e->{entry}->{image}) {
+            $img = { url => $img } unless ref $img eq 'HASH';
             $entry->icon(\%$img);
         }
 
