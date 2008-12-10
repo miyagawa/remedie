@@ -18,7 +18,8 @@ When you initialized the database, run
 and access http://localhost:10010/ to see the app running. The logs
 and app cache are stored in ~/.remedie and ~/.plagger dirctory.
 
-You can type Ctrl-shift-r (Cmd-shift-r if you're on Mac) to refresh all feeds from UI.
+You can type 'R' (shift+r) to refresh all feeds from UI. Type 'H'
+(shift+h) to see the list of available keyboard shortcuts.
 
 I hope this will eventually become standalone installable app using preferencePanes etc.
 
