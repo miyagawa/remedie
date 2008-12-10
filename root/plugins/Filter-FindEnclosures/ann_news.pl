@@ -17,8 +17,6 @@ sub find {
         process "//img[contains(\@src, 'pict/')]", thumbnail => '@src';
     }->scrape($args->{content});
 
-    my $id = $1;
-
     my $enclosure = Plagger::Enclosure->new;
     $enclosure->url($res->{movie});
     $enclosure->type("video/x-ms-wmv");
