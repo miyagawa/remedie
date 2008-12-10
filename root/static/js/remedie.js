@@ -655,20 +655,17 @@ Remedie.prototype = {
   },
 
   toggleChannelView: function(display) {
-    var scroll = { top: 0 };
     if (display) {
       $("#collection").hide();
       $("#channel-pane").show();
+      $.scrollTo({ top: 0 });
     } else {
       var channel_id = this.current_id;
       $.event.trigger('remedieChannelUndisplayed');
       $("#collection").show();
       $("#channel-pane").hide();
-      if (channel_id)
-        scroll = $("#channel-" + channel_id);
+      remedie.resetCursorPos(channel_id);
     }
-    $.scrollTo(scroll);
-    remedie.resetCursorPos();
     return false;
   },
 
@@ -691,6 +688,7 @@ Remedie.prototype = {
           remedie.renderChannelList(r.channel, $("#collection"));
           remedie.showChannel(r.channel);
           remedie.manuallyRefreshChannel(r.channel);
+          remedie.resetCursorPos();
         } else {
           alert(r.error);
         }
@@ -988,6 +986,7 @@ Remedie.prototype = {
           remedie.renderChannelList(channel, $("#collection"));
           remedie.redrawUnwatchedCount(channel);
         });
+        remedie.resetCursorPos();
         $.unblockUI();
         if (callback)
           callback.call(remedie);
@@ -1040,8 +1039,6 @@ Remedie.prototype = {
 
     if (!default_thumbnail)
       RemedieUtil.layoutImage($("#channel-thumbnail-image-" + channel.id), thumbnail, 192, 192);
-
-    remedie.resetCursorPos();
   },
 
   cursorPos: -1,
@@ -1149,8 +1146,12 @@ Remedie.prototype = {
     if (this.moveCursor(remedie.cursorPos - 1)) remedie.cursorPos -= 1;
   },
 
-  resetCursorPos: function() {
-    remedie.cursorPos = -1;
+  resetCursorPos: function(channel_id) {
+    if (channel_id) {
+      remedie.cursorPos = $('.channel').index($('#channel-' + channel_id));
+      this.moveCursor(remedie.cursorPos);
+    } else
+      remedie.cursorPos = -1;
   },
 
   redrawChannel: function(channel) {
