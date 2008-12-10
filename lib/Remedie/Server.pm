@@ -32,6 +32,8 @@ sub bootstrap {
 
     my $self = $class->new(conf => $conf);
 
+    $self->load_rpc_class([ $_ ]) for qw( channel collection item );
+
     my $exit = sub { CORE::die('caught signal') };
     eval {
         local $SIG{INT}  = $exit if !$ENV{REMEDIE_DEBUG};
@@ -107,6 +109,15 @@ sub handle_request {
     return $res;
 }
 
+sub load_rpc_class {
+    my($self, $class_r) = @_;
+
+    my $rpc_class = join "::", "Remedie::Server::RPC", map String::CamelCase::camelize($_), @$class_r;
+    eval "require $rpc_class; 1" or die "$@"; ## no critic
+
+    return $rpc_class;
+}
+
 sub dispatch_rpc {
     my($self, $path, $req, $res) = @_;
 
@@ -115,8 +126,7 @@ sub dispatch_rpc {
 
     die "Access to non-public methods" if $method =~ /^_/;
 
-    my $rpc_class = join "::", "Remedie::Server::RPC", map String::CamelCase::camelize($_), @class;
-    eval "require $rpc_class; 1" or die "$@"; ## no critic
+    my $rpc_class = $self->load_rpc_class(\@class);
 
     my $rpc = $rpc_class->new( conf => $self->conf );
 
