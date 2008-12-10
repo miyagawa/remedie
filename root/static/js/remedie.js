@@ -393,11 +393,12 @@ Remedie.prototype = {
       s1.addParam('allowfullscreen','true');
       s1.addParam('allowscriptaccess','always');
       s1.addVariable('autostart', 'true');
-      if (url.match(/^rtmp:/)) {
+      if (url.match(/^rtmp[ts]?:/)) {
         var urls = url.split('/');
         file = urls.pop();
         s1.addVariable('file', encodeURIComponent(file));
         s1.addVariable('streamer', encodeURIComponent(urls.join('/')));
+        s1.addVariable('type', 'video');
       } else {
         s1.addVariable('file', encodeURIComponent(url));
       }
