@@ -20,7 +20,7 @@ sub start_download {
     my $output_file = $item->download_path($self->conf);
 
     my $cmd = shell_quote("wget", $url, "-O", $output_file, "-o", $self->logfile($item->id));
-    $cmd =~ tr/'/"/ if $cmd !~ /"$/ if $^O eq "MSWin32"; # String::ShellQuote does not work on win32.
+    $cmd =~ tr/'/"/ if $cmd !~ /"$/ && $^O eq "MSWin32"; # String::ShellQuote does not work on win32.
     defined (my $pid = fork) or die "Cannot fork: $!";
     unless ($pid) {
         exec $cmd;
