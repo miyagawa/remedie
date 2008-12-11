@@ -577,6 +577,9 @@ Remedie.prototype = {
         } else {
           setTimeout(function(){remedie.trackStatus(item)}, 1000);
         }
+      },
+      error: function(r) {
+        alert(r.responseText);
       }
     })
   },
