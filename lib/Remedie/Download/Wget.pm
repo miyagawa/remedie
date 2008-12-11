@@ -22,6 +22,7 @@ sub start_download {
     my $pid;
 
     if ($^O ne "MSWin32") {
+        local $ENV{LANG} = $ENV{LC_MESSAGES} = "C"; # Ugh, don't localize the output!
         my $cmd = shell_quote("wget", $url, "-O", $output_file, "-o", $self->logfile($item->id), "-b");
         my $out = qx($cmd);
         $pid = $out =~ /pid (\d+)/;
