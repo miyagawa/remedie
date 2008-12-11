@@ -8,7 +8,7 @@ requires 'Date::Parse';
 requires 'DateTime';
 requires 'DateTime::Format::ISO8601';
 requires 'DateTime::Format::Mail';
-requires 'DateTIme::Format::Strptime';
+requires 'DateTime::Format::Strptime';
 requires 'DateTime::TimeZone';
 requires 'Digest::MD5';
 requires 'Encode';
