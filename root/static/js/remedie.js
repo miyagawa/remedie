@@ -374,7 +374,7 @@ Remedie.prototype = {
         // http://code.google.com/apis/youtube/js_api_reference.html
         $(document).bind('remedieYouTubePlayerReady', function(ev, id){ // id is undefined for some reason
           var player = document.getElementById('player-'+item.id);
-          player.addEventListener('onStateChange', 'function(newstate){if(newstate==0) $.unblockUI()}');
+          player.addEventListener('onStateChange', 'function(newstate){if(newstate==0) remedie.onPlaybackComplete()}');
           $(document).unbind('remedieYouTubePlayerReady');
         });
       }
