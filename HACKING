@@ -32,6 +32,13 @@ play until the whole video is loaded, but most of them should be ok.
 
 Besides playing videos, also try right-clicking them and downloading.
 
+== SAMPLE FEEDS
+
+URL: http://www.asahi.com/video/list.html
+handlers:
+  - root/plugins/CustomFeed-FindLinks/asahicom.yaml
+  - root/plugins/Filter-FindEnclosures/asahicom.pl
+
 == DEBUGGING
 
 Got a black screen or JavaScript alert "Can't load subscription"? Try:
