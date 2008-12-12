@@ -406,7 +406,7 @@ Remedie.prototype = {
 
         var setupSilverlight = function(ply) {
           if (ply.view) {
-            ply.addListener('STATE', function(ost,nst){if (nst == 'Completed') this.onPlaybackComplete()});
+            ply.addListener('STATE', function(ost,nst){if (nst == 'Completed') remedie.onPlaybackComplete()});
             ply.sendEvent('PLAY');
           } else {
             // not ready yet
