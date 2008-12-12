@@ -285,7 +285,8 @@ Remedie.prototype = {
 
   isPlayingVideo: false,
 
-  playVideoInline: function(item, player) {
+  playVideoInline: function(item, player, opts) {
+    if (!opts) opts = {};
     remedie.isPlayingVideo = true;
     var channel_id = item.channel_id;
     var id   = item.id;
@@ -345,7 +346,7 @@ Remedie.prototype = {
     if (offset.width)  width  += offset.width;
     if (offset.height) height += offset.height;
 
-    if (item.is_unwatched) {
+    if (item.is_unwatched && !opts.thisItemOnly) {
       var items = $('.channel-item-unwatched');
       var curr  = items.index($("#channel-item-title-" + item.id));
       this.onPlaybackComplete = function() {
@@ -868,7 +869,7 @@ Remedie.prototype = {
            $(this).contextMenu("channel-item-context-menu", {
            bindings: {
              item_context_play:      function(){remedie.playVideoInline(item)},
-             item_context_play_site: function(){remedie.playVideoInline(item)},
+             item_context_play_only:  function(){remedie.playVideoInline(item, null, { thisItemOnly: 1 })},
              item_context_copy:      function(){$.copy(item.ident)},
              item_context_open:      function(){remedie.markItemAsWatched(item, true);location.href=item.ident},
              item_context_watched:   function(){remedie.markItemAsWatched(item)},
@@ -889,6 +890,7 @@ Remedie.prototype = {
              item = remedie.items[ item.id ]; // refresh the status
              var el = $('#channel-item-context-menu ul'); el.children().remove();
              el.createAppend('li', { id: 'item_context_play' }, 'Play');
+             el.createAppend('li', { id: 'item_context_play_only' }, 'Play only this item');
              el.createAppend('li', { id: 'item_context_copy' }, 'Copy Item URL (' + RemedieUtil.fileType(item.ident, item.props.type) + ')');
              el.createAppend('li', { id: 'item_context_open' }, 'Open URL with browser');
 
