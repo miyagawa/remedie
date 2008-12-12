@@ -23,22 +23,6 @@ You can type 'R' (shift+r) to refresh all feeds from UI. Type 'H'
 
 I hope this will eventually become standalone installable app using preferencePanes etc.
 
-== GETTING STARTED
-
-To try a video feed, use http://www.asahi.com/video/list.html - even though
-that page doesn't provide an RSS feed, the plagger subsystem will detect links
-to videos and build a channel from them. Some videos in that channel might not
-play until the whole video is loaded, but most of them should be ok.
-
-Besides playing videos, also try right-clicking them and downloading.
-
-== SAMPLE FEEDS
-
-URL: http://www.asahi.com/video/list.html
-handlers:
-  - root/plugins/CustomFeed-FindLinks/asahicom.yaml
-  - root/plugins/Filter-FindEnclosures/asahicom.pl
-
 == DEBUGGING
 
 Got a black screen or JavaScript alert "Can't load subscription"? Try:
