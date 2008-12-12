@@ -10,6 +10,7 @@ Remedie.prototype = {
   unblockCallbacks: [],
   current_id: null,
   hotkeys: [],
+  onPlaybackComplete: null,
 
   initialize: function() {
     if (!jQuery.browser.safari && !jQuery.browser.mozilla && !jQuery.browser.msie) {
@@ -344,6 +345,21 @@ Remedie.prototype = {
     if (offset.width)  width  += offset.width;
     if (offset.height) height += offset.height;
 
+    if (item.is_unwatched) {
+      var items = $('.channel-item-unwatched');
+      var curr  = items.index($("#channel-item-title-" + item.id));
+      this.onPlaybackComplete = function() {
+        if (curr > -1 && items[curr+1] != undefined) {
+          var id = items[curr+1].id.replace('channel-item-title-', '');
+          $.unblockUI({ onUnblock: function(){ remedie.playVideoInline(remedie.items[id]) } });
+        } else {
+          $.unblockUI();
+        }
+      };
+    } else {
+      this.onPlaybackComplete = $.unblockUI;
+    }
+
     if (player == 'Web') {
       if (item.props.embed.script) {
          $('head').append("<script>" + item.props.embed.script + "</script>");
@@ -368,7 +384,7 @@ Remedie.prototype = {
         s1.addParam('target', 'QuickTimePlayer');
         s1.addParam('postdomevents', 'true');
         s1.write('embed-player');
-        document.getElementById('player-' + id).addEventListener('qt_ended', $.unblockUI);
+        document.getElementById('player-' + id).addEventListener('qt_ended', this.onPlaybackComplete);
     } else if (player == 'WMP') {
         var s1 = new MPObject(url, 'player-' + id, width,  height);
         s1.addParam("autostart", "1");
@@ -387,7 +403,17 @@ Remedie.prototype = {
           link: item.props.link
 //          autostart: true
         });
-        this.setupSilverlightPlayer(ply);
+
+        var setupSilverlight = function(ply) {
+          if (ply.view) {
+            ply.addListener('STATE', function(ost,nst){if (nst == 'Completed') this.onPlaybackComplete()});
+            ply.sendEvent('PLAY');
+          } else {
+            // not ready yet
+            setTimeout(function(){arguments.callee(ply)}, 100)
+          }
+        };
+        setupSilverlight(ply);
 
         // space key to play and pause the video
         $(document).bind('keydown', 'space', function(){
@@ -419,7 +445,7 @@ Remedie.prototype = {
         var player = document.getElementById(id);
         // JW player needs a string representatin for callbacks
         player.addViewListener('STOP', '$.unblockUI');
-        player.addModelListener('STATE', 'function(ev){if (ev.newstate=="COMPLETED") $.unblockUI()}');
+        player.addModelListener('STATE', 'function(ev){if (ev.newstate=="COMPLETED") remedie.onPlaybackComplete()}');
         $(document).unbind('remediePlayerReady');
       });
 
