@@ -121,11 +121,18 @@ Remedie.prototype = {
            'div', { id: "keyboard-shortcut-help-dialog" }, [
               'h2', {}, 'Keyboard shortcuts',
               'hr', {}, null,
-              'div', { className: 'keyboard-shortcuts', style: 'text-align: left' }, '',
-              'a', { className: 'command-unblock', href: location.href }, 'Close this window'
+              'div', { className: 'keyboard-shortcuts', style: 'text-align: left' }, null,
+              'br', {}, null,
+              'a', { className: 'command-unblock', href: '#' }, 'Close this window'
           ]);
       var container = $("div.keyboard-shortcuts", message);
-      $.each(remedie.hotkeys, function(index, info) { container.append('<i>' + info.key + '</i> : ' + info.desc + '<br />'); });
+      $.each(remedie.hotkeys, function(index, info) {
+         var key = info.key;
+         if (key.match(/shift\+/)) {
+           key = key.replace(/shift\+/, '').toUpperCase() + " (" + key + ")";
+         }
+         container.append('<em>' + key + '</em>: ' + info.desc + '<br/>');
+      });
       message.children("a.command-unblock").click($.unblockUI);
       $.blockUI({
         message: message,
