@@ -410,7 +410,8 @@ Remedie.prototype = {
             ply.sendEvent('PLAY');
           } else {
             // not ready yet
-            setTimeout(function(){arguments.callee(ply)}, 100)
+            var _this = arguments.callee;
+            setTimeout(function(){_this(ply)}, 100)
           }
         };
         setupSilverlight(ply);
