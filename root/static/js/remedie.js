@@ -84,8 +84,9 @@ Remedie.prototype = {
     this.installHotKey('left', 'prev channel', function(){
       if (!remedie.current_id) remedie.moveCursorLeft();
     });
-    this.installHotKey('right', 'next channel', function(){
-      if (!remedie.current_id) remedie.moveCursorRight();
+    this.installHotKey('right', 'next channel / skip to next video (in playback)', function(){
+      if (!remedie.current_id)    remedie.moveCursorRight();
+      if (remedie.isPlayingVideo) remedie.onPlaybackComplete();
     });
     this.installHotKey('down', 'next item', function(){
       if (remedie.current_id) remedie.moveCursorRight();
