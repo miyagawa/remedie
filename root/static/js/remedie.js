@@ -352,7 +352,7 @@ Remedie.prototype = {
       this.onPlaybackComplete = function() {
         if (curr > -1 && items[curr+1] != undefined) {
           var id = items[curr+1].id.replace('channel-item-title-', '');
-          $.unblockUI({ onUnblock: function(){ remedie.playVideoInline(remedie.items[id]) } });
+          $.unblockUI({ fadeOut: 0, onUnblock: function(){ remedie.playVideoInline(remedie.items[id]) } });
         } else {
           $.unblockUI();
         }
