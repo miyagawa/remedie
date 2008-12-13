@@ -29,4 +29,7 @@ sub upgrade {
     unless ($uri->query_param('autostart')) {
         $enclosure->url($enclosure->url . "&autostart=1");
     }
+
+    $enclosure->width(480);
+    $enclosure->height(400);
 }
