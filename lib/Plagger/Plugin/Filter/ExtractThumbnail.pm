@@ -38,7 +38,7 @@ sub update {
             }
 
             my $current = $curr ? $curr->{size} : 0;
-            if ($size > $current || $img =~ /\.jpe?g/) {
+            if ($size > $current || (!$curr && $img->attr('src') =~ /\.jpe?g/)) {
                 $curr = { image => $img, size => $size  };
             }
         }
