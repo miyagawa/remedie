@@ -37,7 +37,7 @@ sub update {
                 next if $size <= $self->conf->{min_size};
             }
 
-            my $current = $curr ? $curr->size || 0;
+            my $current = $curr ? $curr->size : 0;
             if ($size > $current) {
                 $curr = { image => $img, size => $size  };
             }
