@@ -32,6 +32,7 @@ sub register {
     my $thumb_dir = $self->conf->{user_data}->path_to_dir("thumb")->udir;
 
  #    $context->autoload_plugin({ module => 'Filter::TruePermalink' });
+    $context->autoload_plugin({ module => 'Filter::FeedBurnerPermalink' });
     $context->autoload_plugin({ module => 'Namespace::iTunesDTD' });
     $context->autoload_plugin({ module => 'Namespace::ApplePhotocast' });
     $context->autoload_plugin({ module => 'Namespace::HatenaFotolife' });

@@ -139,8 +139,12 @@ sub add_enclosure_from_embed {
     }
 
     unless ($url) {
-        $url = $embed->[1]{src};
+        $url  = $embed->[1]{src};
         $type = "application/x-shockwave-flash";
+        if ($url && $embed->[1]{flashvars}) {
+            $url .= "?" . $embed->[1]{flashvars};
+        }
+        Plagger->context->log(debug => "Extracted swf from embed with flashvars: $url");
     }
 
     if ($url) {
