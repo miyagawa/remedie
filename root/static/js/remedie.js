@@ -188,11 +188,11 @@ Remedie.prototype = {
   },
 
   setupEventListeners: function() {
-    $(document).bind('remedieChannelUpdated', function(ev, channel) {
+    $(document).bind('remedie-channel-updated', function(ev, channel) {
       remedie.redrawChannel(channel);
       remedie.redrawUnwatchedCount(channel);
     });
-    $(document).bind('remedieChannelDisplayed', function(ev, channel) {
+    $(document).bind('remedie-channel-ondisplay', function(ev, channel) {
       document.title = 'Remedie: ' + channel.name;
       if (channel.unwatched_count) document.title += " (" + channel.unwatched_count + ")";
 
@@ -206,7 +206,7 @@ Remedie.prototype = {
 
       remedie.current_id = channel.id;
     });
-    $(document).bind('remedieChannelUndisplayed', function(ev, channel) {
+    $(document).bind('remedie-channel-onhidden', function(ev, channel) {
       document.title = "Remedie Media Center";
       remedie.current_id = null;
       remedie.items = [];
@@ -375,10 +375,10 @@ Remedie.prototype = {
 
         // Event handling for YouTube player. This might be better pluggable
         // http://code.google.com/apis/youtube/js_api_reference.html
-        $(document).bind('remedieYouTubePlayerReady', function(ev, id){ // id is undefined for some reason
+        $(document).bind('remedie-player-ready-youtube', function(ev, id){ // id is undefined for some reason
           var player = document.getElementById('player-'+item.id);
           player.addEventListener('onStateChange', 'function(newstate){if(newstate==0) remedie.onPlaybackComplete()}');
-          $(document).unbind('remedieYouTubePlayerReady');
+          $(document).unbind('remedie-player-ready-youtube');
         });
       }
     } else if (player == 'QuickTime') {
@@ -445,12 +445,12 @@ Remedie.prototype = {
         s1.addVariable('link', encodeURIComponent(item.props.link));
       s1.write('embed-player');
 
-      $(document).bind('remediePlayerReady', function(ev, id){
+      $(document).bind('remedie-player-ready', function(ev, id){
         var player = document.getElementById(id);
         // JW player needs a string representatin for callbacks
         player.addViewListener('STOP', '$.unblockUI');
         player.addModelListener('STATE', 'function(ev){if (ev.newstate=="COMPLETED") remedie.onPlaybackComplete()}');
-        $(document).unbind('remediePlayerReady');
+        $(document).unbind('remedie-player-ready');
       });
 
       // space key to play and pause the video
@@ -540,7 +540,7 @@ Remedie.prototype = {
       dataType: 'json',
       success: function(r) {
         if (r.success) {
-          $.event.trigger('remedieItemUpdated', r.item);
+          $.event.trigger('remedie-item-updated', r.item);
           remedie.items[r.item.id] = r.item;
           remedie.startTrackStatus(r.item);
         } else {
@@ -566,7 +566,7 @@ Remedie.prototype = {
       dataType: 'json',
       success: function(r) {
         if (r.success) {
-          $.event.trigger('remedieItemUpdated', r.item);
+          $.event.trigger('remedie-item-updated', r.item);
           remedie.items[r.item.id] = r.item;
           $("#progressbar-" + item.id).remove();
         } else {
@@ -663,7 +663,7 @@ Remedie.prototype = {
         if (r.success) {
           remedie.channels[r.channel.id] = r.channel;
           callback.call();
-          $.event.trigger('remedieChannelUpdated', r.channel);
+          $.event.trigger('remedie-channel-updated', r.channel);
         } else {
           alert(r.error);
         }
@@ -712,7 +712,7 @@ Remedie.prototype = {
       remedie.resetCursorPos();
     } else {
       var channel_id = this.current_id;
-      $.event.trigger('remedieChannelUndisplayed');
+      $.event.trigger('remedie-channel-onhidden');
       $("#collection").show();
       $("#channel-pane").hide();
       remedie.resetCursorPos(channel_id);
@@ -773,7 +773,7 @@ Remedie.prototype = {
       success: function(r) {
         $("#channel-pane").children().remove();
         var channel = r.channel;
-        $.event.trigger("remedieChannelDisplayed", channel);
+        $.event.trigger("remedie-channel-ondisplay", channel);
 
         var prevChannel = remedie.findChannel(channel, -1);
         var nextChannel = remedie.findChannel(channel, 1);
@@ -990,11 +990,11 @@ Remedie.prototype = {
         $.unblockUI();
         if (r.success) {
           remedie.channels[r.channel.id] = r.channel;
-          $.event.trigger('remedieChannelUpdated', r.channel);
+          $.event.trigger('remedie-channel-updated', r.channel);
           if (refreshView)
             remedie.showChannel(r.channel);
         } else {
-          $.event.trigger('remedieChannelUpdated', channel); // Fake updated Event to cancel animation
+          $.event.trigger('remedie-channel-updated', channel); // Fake updated Event to cancel animation
           alert(r.error);
         }
       }
@@ -1254,9 +1254,9 @@ Remedie.prototype = {
 };
 
 function playerReady(obj) {
-  $.event.trigger('remediePlayerReady', obj.id);
+  $.event.trigger('remedie-player-ready', obj.id);
 }
 
 function onYouTubePlayerReady(id) {
-  $.event.trigger('remedieYouTubePlayerReady', id);
+  $.event.trigger('remedie-player-ready-youtube', id);
 }
