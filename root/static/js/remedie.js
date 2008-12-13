@@ -194,6 +194,7 @@ Remedie.prototype = {
     });
     $(document).bind('remedieChannelDisplayed', function(ev, channel) {
       document.title = 'Remedie: ' + channel.name;
+      if (channel.unwatched_count) document.title += " (" + channel.unwatched_count + ")";
 
       // RSS auto discovery
       var baseURL = location.href.replace(/^(http:\/\/.*?\/).*$/, "$1");
@@ -647,6 +648,8 @@ Remedie.prototype = {
       $(this).text(count);
     });
     this.renderUnwatchedBadges();
+    document.title = 'Remedie: ' + channel.name;
+    if (channel.unwatched_count) document.title += " (" + channel.unwatched_count + ")";
   },
 
   updateStatus: function(obj, callback) {
