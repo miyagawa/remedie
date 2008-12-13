@@ -648,8 +648,10 @@ Remedie.prototype = {
       $(this).text(count);
     });
     this.renderUnwatchedBadges();
-    document.title = 'Remedie: ' + channel.name;
-    if (channel.unwatched_count) document.title += " (" + channel.unwatched_count + ")";
+    if (this.current_id) {
+      document.title = 'Remedie: ' + channel.name;
+      if (channel.unwatched_count) document.title += " (" + channel.unwatched_count + ")";
+    }
   },
 
   updateStatus: function(obj, callback) {
