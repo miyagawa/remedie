@@ -155,6 +155,7 @@ Remedie.prototype = {
       border:         'none',
       backgroundColor:'#222',
       opacity:        '.8',
+      cursor:         'auto',
       '-webkit-border-radius': '10px',
       '-moz-border-radius': '10px'
     };
