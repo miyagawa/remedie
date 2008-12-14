@@ -1116,7 +1116,7 @@ Remedie.prototype = {
       }
       var target = items[index];
       if (!target) return false;
-      target.scrollIntoView();
+      $("body").scrollTo(target, 100);
       $(".channel-item-selectable").removeClass("hover-channel-item");
       $(target).addClass("hover-channel-item");
       return true;
@@ -1127,7 +1127,7 @@ Remedie.prototype = {
       }
       var target = channels[index];
       if (!target) return false;
-      target.scrollIntoView();
+      $("body").scrollTo(target, 100);
       $(".channel-clickable").removeClass("hover-channel");
       $(target).addClass("hover-channel");
       return true;
