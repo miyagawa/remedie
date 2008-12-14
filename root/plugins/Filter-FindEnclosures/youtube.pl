@@ -55,8 +55,8 @@ sub upgrade {
     } else {
         Plagger->context->log(info => "$video_id has no HD version :/");
         $enclosure->url($self->swf_url($video_id, 18));
-        $enclosure->width(640);
-        $enclosure->height(480);
+        $enclosure->width(704);
+        $enclosure->height(396);
     }
 }
 
