@@ -290,10 +290,13 @@ Remedie.prototype = {
 
   playVideoInline: function(item, player, opts) {
     if (!opts) opts = {};
-    remedie.isPlayingVideo = true;
+    this.isPlayingVideo = true;
     var channel_id = item.channel_id;
     var id   = item.id;
     var url  = item.ident;
+
+    // TODO should this be set with other actions (e.g. Mark as read) as well with events?
+    this.cursorPos = $('.channel-item').index($('#channel-item-' + item.id));
 
     var ratio;
     var thumbnail;
