@@ -711,7 +711,7 @@ Remedie.prototype = {
     if (display) {
       $("#collection").hide();
       $("#channel-pane").show();
-      $("body")[0].scrollIntoView();
+      $("body").scrollTo({ top: 0 });
       remedie.resetCursorPos();
     } else {
       var channel_id = this.current_id;
@@ -1105,7 +1105,7 @@ Remedie.prototype = {
         $(".channel-item-selectable").removeClass("hover-channel-item");
       else
         $(".channel-clickable").removeClass("hover-channel");
-      $("body")[0].scrollIntoView();
+      $("body").scrollTo({ top: 0 });
       return true;
     }
 
