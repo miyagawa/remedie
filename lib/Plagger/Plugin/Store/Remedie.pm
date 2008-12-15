@@ -72,6 +72,7 @@ sub store {
         }
 
         if ($item->type) {
+            $context->log(debug => "Saving item " . $item->ident);
             eval { $item->save };
             warn $@ if $@;
         }
