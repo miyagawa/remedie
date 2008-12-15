@@ -32,8 +32,14 @@ Remedie.prototype = {
   },
 
   setupHotKeys: function() {
-    this.installHotKey('shift+n', 'new channel', function(){ remedie.newChannelDialog() });
-    this.installHotKey('shift+r', 'refresh (all) channel', function(){
+    this.installHotKey('shift+n', 'New channel', function(){ remedie.newChannelDialog() });
+    this.installHotKey('r', 'Reload (all) channel', function(){
+      if (remedie.currentChannel())
+        remedie.showChannel(remedie.currentChannel());
+      else
+        remedie.loadCollection();
+    });
+    this.installHotKey('shift+r', 'Update (all) channel', function(){
       if (remedie.currentChannel()) {
         remedie.manuallyRefreshChannel(remedie.currentChannel());
       } else {
@@ -42,62 +48,62 @@ Remedie.prototype = {
         });
       }
     });
-    this.installHotKey('del', 'unsubscribe', function(){
+    this.installHotKey('del', 'Unsubscribe channel', function(){
       if (remedie.currentChannel())  remedie.removeChannel(remedie.currentChannel())
     });
-    this.installHotKey('u', 'back to channel view', function(){
+    this.installHotKey('u', 'Back to channel view', function(){
       if (remedie.current_id) {
         remedie.toggleChannelView(false);
         location.href = "#menu";
       }
     });
-    this.installHotKey('shift+u', 'mark all as watched', function(){
+    this.installHotKey('shift+u', 'Mark all as watched', function(){
       if (remedie.current_id) remedie.markAllAsWatched(remedie.currentChannel(), true)
     });
 
     // vi like keyborad shortcut.
-    this.installHotKey('h', 'prev channel', function(){
+    this.installHotKey('h', 'Move to right (next) channel', function(){
       if (remedie.current_id)
         location.href = $("#channel-pane .prev-channel").click().attr('href');
       else
-        remedie.moveCursorLeft();
+        remedie.moveCursorPrev();
     });
-    this.installHotKey('l', 'next channel', function(){
+    this.installHotKey('l', 'Move to left (previous) channel', function(){
       if (remedie.current_id)
         location.href = $("#channel-pane .next-channel").click().attr('href');
       else
-        remedie.moveCursorRight();
+        remedie.moveCursorNext();
     });
-    this.installHotKey('j', 'next channel (or item)', function(){
+    this.installHotKey('j', 'Move to next (down) channel (or item)', function(){
       if (remedie.current_id)
-        remedie.moveCursorRight()
+        remedie.moveCursorNext()
       else
         remedie.moveCursorDown()
     });
-    this.installHotKey('k', 'prev channel (or item)', function(){
+    this.installHotKey('k', 'Move to previous (up) channel (or item)', function(){
       if (remedie.current_id)
-        remedie.moveCursorLeft()
+        remedie.moveCursorPrev()
       else
         remedie.moveCursorUp()
     });
 
-    this.installHotKey('left', 'prev channel', function(){
-      if (!remedie.current_id) remedie.moveCursorLeft();
+    this.installHotKey('left', 'Move to left channel', function(){
+      if (!remedie.current_id) remedie.moveCursorPrev();
     });
-    this.installHotKey('right', 'next channel / skip to next video (in playback)', function(){
-      if (!remedie.current_id)    remedie.moveCursorRight();
+    this.installHotKey('right', 'Move to right channel / skip to next video (in playback)', function(){
+      if (!remedie.current_id)    remedie.moveCursorNext();
       if (remedie.isPlayingVideo) remedie.onPlaybackComplete();
     });
-    this.installHotKey('down', 'next item', function(){
-      if (remedie.current_id) remedie.moveCursorRight();
-      else                    remedie.moveCursorDown();
-    });
-    this.installHotKey('up',   'prev item', function(){
-      if (remedie.current_id) remedie.moveCursorLeft();
+    this.installHotKey('up',   'Move to previous item (up)', function(){
+      if (remedie.current_id) remedie.moveCursorPrev();
       else                    remedie.moveCursorUp();
     });
+    this.installHotKey('down', 'Move up next item (down)', function(){
+      if (remedie.current_id) remedie.moveCursorNext();
+      else                    remedie.moveCursorDown();
+    });
 
-    this.installHotKey('o', 'open channel (or play/close item)', function(){
+    this.installHotKey('o', 'Open channel (or play/close item)', function(){
       if (remedie.current_id) {
         if ( remedie.isPlayingVideo ) {
           $.unblockUI();
@@ -112,13 +118,12 @@ Remedie.prototype = {
         if (channels) {
           var channel_id = channels[remedie.cursorPos].id.replace("channel-", "");
           remedie.showChannel(remedie.channels[channel_id]);
-          location.href = "#channel/" + channel_id;
         }
         return false;
       }
     });
-    this.installHotKey('esc', 'close embed player (or dialog)', $.unblockUI, true);
-    this.installHotKey('shift+h', 'show this help', function() {
+    this.installHotKey('esc', 'Close embed player (or dialog)', $.unblockUI, true);
+    this.installHotKey('shift+h', 'Show this help', function() {
       var message = $('<div/>').createAppend(
            'div', { id: "keyboard-shortcut-help-dialog" }, [
               'h2', {}, 'Keyboard shortcuts',
@@ -771,6 +776,7 @@ Remedie.prototype = {
   },
 
   showChannel: function(channel) {
+    location.href = "#channel/" + channel.id;
     $.blockUI();
     $.ajax({
       url: "/rpc/channel/show",
@@ -1198,11 +1204,11 @@ Remedie.prototype = {
     }
   },
 
-  moveCursorRight: function() {
+  moveCursorNext: function() {
     if (this.moveCursor(remedie.cursorPos + 1)) remedie.cursorPos += 1;
   },
 
-  moveCursorLeft: function() {
+  moveCursorPrev: function() {
     if (this.moveCursor(remedie.cursorPos - 1)) remedie.cursorPos -= 1;
   },
 
