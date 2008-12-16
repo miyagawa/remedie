@@ -38,10 +38,15 @@ sub aggregate {
 
     local $ENV{PATH} = $ENV{PATH} . ":" . $self->assets_dir;
     $context->log(debug => "Executing '$script'");
-    my $output = qx($script);
-    if ($?) {
-        $context->log(error => "Error happend while executing '$script': $?");
-        return;
+
+    my $output;
+    {
+        local $SIG{CHLD};
+        $output = qx($script);
+        if ($?) {
+            $context->log(error => "Error happend while executing '$script': $?");
+            return;
+        }
     }
 
     # TODO: check BOM?
