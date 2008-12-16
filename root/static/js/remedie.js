@@ -1194,11 +1194,14 @@ Remedie.prototype = {
         return false;
       }
       var target, cursor = remedie.cursorPos;
-      if (cursor < 0) cursor = 0;
-      var opos = this.getElementPosition(channels[cursor]);
-      while ((target = channels[++cursor])) {
-        var npos = this.getElementPosition(target);
-        if (opos.x == npos.x) break;
+      if (cursor < 0) {
+        cursor = 0;
+      } else {
+        var opos = this.getElementPosition(channels[cursor]);
+        while ((target = channels[++cursor])) {
+          var npos = this.getElementPosition(target);
+          if (opos.x == npos.x) break;
+        }
       }
       if (this.moveCursor(cursor)) remedie.cursorPos = cursor;
     }
