@@ -1,5 +1,4 @@
 # author: Yasuhiro Matsumoto
-use URI;
 use Web::Scraper;
 sub init {
     my $self = shift;
@@ -15,11 +14,11 @@ sub find {
     my $res = scraper {
         process "//a[contains(\@href, '300k')]", movie => sub { my ($link) = $_->attr('onClick') =~ /(mms:[^']+)/; $link };
         process "//img[contains(\@src, 'pict/')]", thumbnail => '@src';
-    }->scrape($args->{content});
+    }->scrape($args->{content}, $args->{url});
 
     my $enclosure = Plagger::Enclosure->new;
     $enclosure->url($res->{movie});
     $enclosure->type("video/x-ms-wmv");
-    $enclosure->thumbnail({ url => URI->new_abs($res->{thumbnail}, $args->{url}) });
+    $enclosure->thumbnail({ url => $res->{thumbnail} });
     return $enclosure;
 }
