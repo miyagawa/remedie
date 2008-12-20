@@ -488,9 +488,20 @@ Remedie.prototype = {
       );
     }
 
+    var events = [];
     $('#embed-player').hover(
-      function(){ $(".closebox, .embed-player-footer", this).show() },
-      function(){ $(".closebox, .embed-player-footer", this).fadeOut(500) }
+      function(){
+        $.each(events, function(idx, id) { clearTimeout(id) });
+        events = [];
+        $(".closebox, .embed-player-footer", this).show();
+      },
+      function(){
+        var _this = this;
+        var id = setTimeout(function(){
+          $(".closebox, .embed-player-footer", _this).fadeOut(500)
+        }, 1500);
+        events.push(id);
+      }
     );
 
     this.markItemAsWatched(item); // TODO setTimeout?
