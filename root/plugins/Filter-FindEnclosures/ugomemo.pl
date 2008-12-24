@@ -19,6 +19,6 @@ sub find {
     $enclosure->type('application/x-shockwave-flash');
     $enclosure->width(279);
     $enclosure->height(240);
-    $enclosure->thumbnail({ url => "http://image.ugomemo.hatena.ne.jp/thumbnail/${did}/${file}_s.gif" });
+    $enclosure->thumbnail({ url => "http://image.ugomemo.hatena.ne.jp/thumbnail/${did}/${file}_as.gif" });
     return $enclosure;
 }
