@@ -82,8 +82,8 @@ sub add_enclosure {
     # don't add enclosure with the same URL again and again
     unless ($enclosure->url && grep { $_->url && $_->url eq $enclosure->url } $self->enclosures) {
         Plagger->context->run_hook('enclosure.add', { entry => $self, enclosure => $enclosure });
-        if ($enclosure->thumbnail) {
-            $self->icon($enclosure->thumbnail);
+        if ($enclosure->thumbnail_or_image) {
+            $self->icon($enclosure->thumbnail_or_image);
         }
         push @{ $self->{enclosures} }, $enclosure;
     }

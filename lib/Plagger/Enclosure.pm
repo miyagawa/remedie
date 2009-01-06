@@ -46,5 +46,12 @@ sub filename {
     $self->{filename} || (split '/', $self->url->path)[-1];
 }
 
+sub thumbnail_or_image {
+    my $self = shift;
+    return $self->thumbnail             ? $self->thumbnail
+         : $self->media_type eq 'image' ? { url => $self->url }
+                                        : undef;
+}
+
 1;
 
