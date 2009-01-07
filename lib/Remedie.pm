@@ -51,6 +51,6 @@ Ben Fleming L<http://www.yellowicon.com/> (CC by-nc)
 
 =head1 SEE ALSO
 
-L<http://code.google.com/p/remedie>
+L<http://code.google.com/p/remedie> L<http://github.com/miyagawa/remedie/tree/master>
 
 =cut
