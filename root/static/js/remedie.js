@@ -177,7 +177,7 @@ Remedie.prototype = {
       shadow:            true
     });
 
-    $(".blockOverlay").livequery('dblclick', $.unblockUI);
+    $(".blockOverlay").live('dblclick', $.unblockUI);
   },
 
   setupMenuActions: function() {
