@@ -39,9 +39,4 @@ required modules in extlib in the future.
 
 == TODO
 
-* Make the web server, jQuery interface and Plagger process asynchronous (non-blocking)
-* Upgrade database schema to the standard database normalization
-* Add HTTP authentication
-* Add User and per channel preferences
-
-See http://code.google.com/p/remedie/issues/list for more.
+See http://code.google.com/p/remedie/issues/list for current issues and TODOs.
