@@ -17,7 +17,10 @@ plugins:
         - file://$t::TestPlagger::BaseDirURI/t/samples/thesocialwebtv.xml
         - file://$t::TestPlagger::BaseDirURI/t/samples/viddler.html
   - module: Aggregator::Simple
-  - module: Bundle::Remedie
+  - module: CustomFeed::FindLinks
+    config:
+      follow_selector: a[rel="enclosure"]
+  - module: Filter::FindEnclosures
 --- expected
 is $context->update->feeds->[0]->entries->[0]->primary_enclosure->url, "http://www.viddler.com/player/962671ef/";
 is $context->update->feeds->[0]->entries->[0]->primary_enclosure->type, "application/x-shockwave-flash";

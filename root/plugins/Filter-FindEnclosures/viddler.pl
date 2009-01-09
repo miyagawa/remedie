@@ -2,7 +2,7 @@
 sub init {
     my $self = shift;
     $self->{domain} = "viddler.com";
-    $self->{handle} = "/explore/.*videos/\d+/\$";
+    $self->{handle} = '/explore/.*videos/\d+/$';
 }
 
 sub needs_content { 1 }

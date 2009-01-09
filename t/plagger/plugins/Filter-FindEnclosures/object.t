@@ -33,5 +33,5 @@ plugins:
 
   - module: Filter::FindEnclosures
 --- expected
-is $context->update->feeds->[0]->entries->[0]->enclosure->url, 'http://www.youtube.com/v/nqAWmQ8cdWw';
+like $context->update->feeds->[0]->entries->[0]->enclosure->url, qr!http://youtube.com/v/nqAWmQ8cdWw!;
 is $context->update->feeds->[0]->entries->[1]->enclosure->url, 'https://hatena.g.hatena.ne.jp/files/hatena/b9f904875fcd5333.flv';
