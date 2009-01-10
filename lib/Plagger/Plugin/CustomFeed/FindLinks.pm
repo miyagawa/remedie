@@ -33,12 +33,9 @@ sub load_plugin_yaml {
     my($self, $file, $domain) = @_;
 
     Plagger->context->log(debug => "Load YAML $file");
-    my @data = YAML::LoadFile($file);
+    my $data = YAML::LoadFile($file);
 
-    for my $data (@data) {
-        my $plugin = Plagger::Plugin::Filter::FindLinks::YAML->new($data, $domain);
-        $self->add_asset($plugin);
-    }
+    return Plagger::Plugin::Filter::FindLinks::YAML->new($data, $domain);
 }
 
 sub handle {

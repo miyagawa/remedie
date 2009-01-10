@@ -56,7 +56,8 @@ sub load_plugin_perl {
 
     my $plugin = $plugin_class->new;
     $plugin->init;
-    $self->add_asset($plugin);
+
+    return $plugin;
 }
 
 sub load_plugin_yaml { Plagger->context->error("NOT IMPLEMENTED YET") }

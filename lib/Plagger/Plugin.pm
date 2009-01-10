@@ -97,16 +97,8 @@ sub load_assets {
         my $domain = File::Basename::dirname($file);
         $domain =~ s/^$assets_dir\///;
         $domain = '*' if $domain eq 'default';
-        $callback->($file, $domain);
+        push @{ $self->{assets}->{$domain} }, [ $callback, $file, $domain ]; # delayed load
     }
-}
-
-sub add_asset {
-    my $self = shift;
-    my($plugin) = @_;
-
-    my $domain = $plugin->domain || '*';
-    push @{ $self->{assets}->{$domain} }, $plugin;
 }
 
 sub asset_for {
@@ -132,19 +124,29 @@ sub assets_for {
     my @assets;
     for my $try (@try) {
         my $assets = $self->{assets}->{$try} || [];
-        for my $plugin (@{$assets}) {
-            my $re   = $plugin->{handle} || ".";
+        for my $asset (@{$assets}) {
+            if (ref $asset eq 'ARRAY') {
+                $asset = $self->lazy_load_asset($asset);
+            }
+            my $re   = $asset->{handle} || ".";
             my $test = $re =~ m!https?://! ? $uri : $uri->path_query;
             if ($test =~ /$re/i) {
-                $self->log(debug => "Handle $uri with plugin " . $plugin->domain);
-                return $plugin if $first;
-                push @assets, $plugin;
+                $self->log(debug => "Handle $uri with asset " . $asset->domain);
+                return $asset if $first;
+                push @assets, $asset;
             }
         }
     }
 
     return if $first;
     return @assets;
+}
+
+sub lazy_load_asset {
+    my($self, $asset) = @_;
+
+    my($callback, @args) = @$asset;
+    return $callback->(@args);
 }
 
 1;
