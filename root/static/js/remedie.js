@@ -1100,6 +1100,8 @@ Remedie.prototype = {
         ]
       ]
     );
+
+    // TODO Do NOT display items that are not bound to the event: e.g. Cooliris
     $("#channel-" + channel.id)
       .click( function(){ remedie.showChannel(channel) } )
       .hover( function(){ $(this).addClass("hover-channel") },
@@ -1107,6 +1109,7 @@ Remedie.prototype = {
       .contextMenu("channel-context-menu", {
         bindings: {
           channel_context_refresh:      function(){ remedie.refreshChannel(channel) },
+          channel_context_clear_stale:  function(){ remedie.refreshChannel(channel, false, true) },
           channel_context_mark_watched: function(){ remedie.markAllAsWatched(channel, false) },
           channel_context_remove:       function(){ remedie.removeChannel(channel) }
         }
