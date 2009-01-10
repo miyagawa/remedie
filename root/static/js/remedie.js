@@ -788,14 +788,12 @@ Remedie.prototype = {
 
   showChannel: function(channel) {
     location.href = "#channel/" + channel.id;
-    $.blockUI();
     $.ajax({
       url: "/rpc/channel/show",
       type: 'get',
       data: { id: channel.id },
       dataType: 'json',
       success: function(r) {
-        $.unblockUI();
         $("#channel-pane").children().remove();
         var channel = r.channel;
         $.event.trigger("remedie-channel-ondisplay", channel);
