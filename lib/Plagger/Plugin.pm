@@ -105,7 +105,7 @@ sub add_asset {
     my $self = shift;
     my($plugin) = @_;
 
-    my $domain = $plugin->{domain} || '*';
+    my $domain = $plugin->domain || '*';
     push @{ $self->{assets}->{$domain} }, $plugin;
 }
 
@@ -136,7 +136,7 @@ sub assets_for {
             my $re   = $plugin->{handle} || ".";
             my $test = $re =~ m!https?://! ? $uri : $uri->path_query;
             if ($test =~ /$re/i) {
-                $self->log(debug => "Handle $uri with plugin " . $plugin->{domain});
+                $self->log(debug => "Handle $uri with plugin " . $plugin->domain);
                 return $plugin if $first;
                 push @assets, $plugin;
             }

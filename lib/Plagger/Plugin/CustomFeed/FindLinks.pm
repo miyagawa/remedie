@@ -153,6 +153,10 @@ sub new {
     bless {%$data, domain => $domain }, $class;
 }
 
+sub domain {
+    $_[0]->{domain};
+}
+
 sub follow_link {
     $_[0]->{follow_link};
 }

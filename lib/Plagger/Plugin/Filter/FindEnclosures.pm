@@ -6,6 +6,7 @@ use HTML::TokeParser;
 use Plagger::Util qw( decode_content );
 use List::Util qw(first);
 use URI;
+use URI::QueryParam;
 use DirHandle;
 use Plagger::Enclosure;
 use Plagger::UserAgent;
@@ -24,16 +25,19 @@ sub register {
 sub init {
     my $self = shift;
     $self->SUPER::init(@_);
-    $self->load_assets('*.pl', sub { $self->load_plugin_perl(@_) });
+    $self->load_assets('pl', sub { $self->load_plugin_perl(@_) });
 
     $self->{ua} = Plagger::UserAgent->new;
 }
 
+sub asset_key { 'find_enclosures' }
+
+
 sub load_plugin_perl {
-    my($self, $file, $base) = @_;
+    my($self, $file, $domain) = @_;
 
     open my $fh, '<', $file or Plagger->context->error("$file: $!");
-    (my $pkg = $base) =~ s/\.pl$//;
+    (my $pkg = $domain) =~ tr/A-Za-z0-9_/_/c;
     my $plugin_class = "Plagger::Plugin::Filter::FindEnclosures::Site::$pkg";
 
     my $code = join '', <$fh>;
@@ -42,7 +46,7 @@ sub load_plugin_perl {
             ( "package $plugin_class;",
               "use strict;",
               "use base qw( Plagger::Plugin::Filter::FindEnclosures::Site );",
-              "sub site_name { '$pkg' }",
+              "sub domain { '$domain' }",
               $code,
               "1;" );
     }
@@ -52,7 +56,7 @@ sub load_plugin_perl {
 
     my $plugin = $plugin_class->new;
     $plugin->init;
-    $self->add_plugin($plugin);
+    $self->add_asset($plugin);
 }
 
 sub load_plugin_yaml { Plagger->context->error("NOT IMPLEMENTED YET") }
@@ -174,7 +178,7 @@ sub add_enclosure {
     return if $opt->{no_plugin};
 
     my $url = $tag->[1]{$attr};
-    my $plugin = $self->plugin_for($url);
+    my $plugin = $self->asset_for($url);
 
     if ($plugin) {
         my $content;
@@ -184,7 +188,7 @@ sub add_enclosure {
         }
 
         if (my $enclosure = $plugin->find({ content => $content, url => $url, entry => $entry })) {
-            Plagger->context->log(info => "Found enclosure " . $enclosure->url ." with " . $plugin->site_name);
+            Plagger->context->log(info => "Found enclosure " . $enclosure->url ." with " . $plugin->domain);
             $entry->add_enclosure($enclosure);
             return;
         }
@@ -220,8 +224,8 @@ sub has_enclosure_mime_type {
 sub upgrade {
     my($self, $context, $args) = @_;
 
-    my $plugin = $self->plugin_for($args->{enclosure}->url)
-        || $self->plugin_for($args->{entry}->link);
+    my $plugin = $self->asset_for($args->{enclosure}->url)
+        || $self->asset_for($args->{entry}->link);
     if ($plugin) {
         $plugin->upgrade($args);
     }
@@ -229,7 +233,7 @@ sub upgrade {
 
 package Plagger::Plugin::Filter::FindEnclosures::Site;
 sub new { bless {}, shift }
-sub init { Plagger->context->error($_[0]->site_name . " should override init()") }
+sub init { Plagger->context->error($_[0]->domain . " should override init()") }
 sub handle { "." }
 sub upgrade { }
 sub needs_content { 0 }
