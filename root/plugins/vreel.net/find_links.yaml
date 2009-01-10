@@ -1,0 +1,3 @@
+handle: index.php
+follow_link: watch_\d+\.html
+

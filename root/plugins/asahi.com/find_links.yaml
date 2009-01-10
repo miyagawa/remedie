@@ -1,0 +1,4 @@
+# upgrades http://www.asahi.com/video/list.html
+# author: otsune
+handle: /video
+follow_link: \w{3}\d{12}\.html

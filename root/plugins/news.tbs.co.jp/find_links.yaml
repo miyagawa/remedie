@@ -1,0 +1,4 @@
+# upgrades http://news.tbs.co.jp/society/
+# check "Skip RSS discovery"
+handle: .
+follow_xpath: //a[contains(@href,"/newseye/tbs_newseye") and not(contains(text(), "続きを読む"))]

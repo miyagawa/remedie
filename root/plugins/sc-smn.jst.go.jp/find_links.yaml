@@ -1,0 +1,4 @@
+# upgrades http://sc-smn.jst.go.jp/index.asp
+# author: otsune
+handle: (?:/\d)?/(?:series|index)\.asp
+follow_link: /\d/bangumi\.asp

@@ -1,5 +1,0 @@
-# upgrades http://www.fnn-news.com/news/headlines/category05.html
-# check "Skip RSS discovery"
-domain: fnn-news.com
-handle: /news/headlines/
-follow_link: /news/headlines/articles/

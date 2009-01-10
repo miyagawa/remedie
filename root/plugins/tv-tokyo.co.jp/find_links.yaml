@@ -1,0 +1,3 @@
+# upgrades http://www.tv-tokyo.co.jp/wbs/ etc
+handle: .
+follow_link: /(nms|emorning|newsfine|wbs)/\d+

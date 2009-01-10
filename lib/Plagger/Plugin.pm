@@ -46,19 +46,21 @@ sub plugin_id {
 
 sub assets_dir {
     my $self = shift;
-    my $context = Plagger->context;
 
-    if ($self->conf->{assets_path}) {
-        return $self->conf->{assets_path}; # look at config:assets_path first
-    }
+    my $context = Plagger->context;
 
     my $assets_base =
         $context->conf->{assets_path} ||              # or global:assets_path
         File::Spec->catfile($FindBin::Bin, "assets"); # or "assets" under plagger script
 
     return File::Spec->catfile(
-        $assets_base, "plugins", $self->class_id,
+        $assets_base, "plugins",
     );
+}
+
+sub asset_key {
+    my $self = shift;
+    return $self->plugin_id;
 }
 
 sub log {
@@ -78,11 +80,10 @@ sub cookie_jar {
 }
 
 sub load_assets {
-    my($self, $rule, $callback) = @_;
+    my($self, $ext, $callback) = @_;
 
-    unless (blessed($rule) && $rule->isa('File::Find::Rule')) {
-        $rule = File::Find::Rule->name($rule)->extras({follow => 1});
-    }
+    my $key  = $self->asset_key;
+    my $rule = File::Find::Rule->name("$key*.$ext")->extras({ follow => 1 });
 
     # ignore .svn directories
     $rule->or(
@@ -91,28 +92,31 @@ sub load_assets {
     );
 
     # $rule isa File::Find::Rule
-    for my $file ($rule->in($self->assets_dir)) {
-        my $base = File::Basename::basename($file);
-        $callback->($file, $base);
+    my $assets_dir = $self->assets_dir;
+    for my $file ($rule->in($assets_dir)) {
+        my $domain = File::Basename::dirname($file);
+        $domain =~ s/^$assets_dir\///;
+        $domain = '*' if $domain eq 'default';
+        $callback->($file, $domain);
     }
 }
 
-sub add_plugin {
+sub add_asset {
     my $self = shift;
     my($plugin) = @_;
 
     my $domain = $plugin->{domain} || '*';
-    push @{ $self->{plugins}->{$domain} }, $plugin;
+    push @{ $self->{assets}->{$domain} }, $plugin;
 }
 
-sub plugin_for {
+sub asset_for {
     my $self = shift;
     my($url) = @_;
 
-    return $self->plugins_for($url, 1);
+    return $self->assets_for($url, 1);
 }
 
-sub plugins_for {
+sub assets_for {
     my $self = shift;
     my($url, $first) = @_;
 
@@ -125,22 +129,22 @@ sub plugins_for {
     my @try = map join(".", @domain[$_..$#domain]), 0..$#domain-1;
     push @try, '*';
 
-    my @plugins;
+    my @assets;
     for my $try (@try) {
-        my $plugins = $self->{plugins}->{$try} || [];
-        for my $plugin (@{$plugins}) {
+        my $assets = $self->{assets}->{$try} || [];
+        for my $plugin (@{$assets}) {
             my $re   = $plugin->{handle} || ".";
             my $test = $re =~ m!https?://! ? $uri : $uri->path_query;
             if ($test =~ /$re/i) {
-                $self->log(debug => "Handle $uri with plugin " . $plugin->site_name);
+                $self->log(debug => "Handle $uri with plugin " . $plugin->{domain});
                 return $plugin if $first;
-                push @plugins, $plugin;
+                push @assets, $plugin;
             }
         }
     }
 
     return if $first;
-    return @plugins;
+    return @assets;
 }
 
 1;

@@ -1,5 +1,0 @@
-# upgrades http://www.asahi.com/video/list.html
-# author: otsune
-domain: current.com
-handle: .
-follow_link: /items/\d+/

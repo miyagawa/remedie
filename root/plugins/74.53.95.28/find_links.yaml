@@ -1,0 +1,8 @@
+author: Tatsuhiko Miyagawa
+follow_xpath: //a[contains(text(), "720P")]
+# TODO item title becomes "HD 720P" and not movie title :/
+
+
+
+
+
