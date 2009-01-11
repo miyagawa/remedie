@@ -18,4 +18,5 @@ plugins:
 
 --- expected
 like $context->subscription->feeds->[0]->entries->[0]->primary_enclosure->{url}, qr/asx/;
+like $context->subscription->feeds->[0]->entries->[0]->link, qr/http/;
 
