@@ -18,6 +18,8 @@ sub register {
         },
     });
 
+    $context->load_plugin({ module => 'CustomFeed::Scraper' });
+
     $context->load_plugin({
         module => 'CustomFeed::FindLinks',
         config => {
