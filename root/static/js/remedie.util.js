@@ -14,7 +14,7 @@ RemedieUtil.calcWindowSize = function(width, height, ratio) {
 };
 
 RemedieUtil.formatBytes = function(bytes) {
-  if (typeof bytes == 'undefined' || bytes <= 0) return '(Unknown)';
+  if (typeof bytes == 'undefined' || bytes <= 0) return '-';
   var units = [ 'bytes', 'KB', 'MB', 'GB', 'TB' ];
   var i = 0;
   while (bytes > 1024) {
@@ -33,7 +33,7 @@ RemedieUtil.encodeFlashVars = function(string) {
 RemedieUtil.mangleDate = function(date) {
   // TODO should localize the date as well
   if (!date) return "(Unknown)";
-  return date.replace(/^(.*\w{3} \d{4}) \d\d:\d\d.*$/i, "$1");
+  return date.replace(/^(\d{4}-\d{2}-\d{2})T\d\d:\d\d.*$/i, "$1");
 };
 
 RemedieUtil.fileType = function(url, mime) {
