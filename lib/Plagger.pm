@@ -245,15 +245,10 @@ sub run {
     $self->run_hook('subscription.load');
 
     for my $feed ($self->subscription->feeds) {
-        if (my $sub = $feed->aggregator) {
-            $sub->($self, { feed => $feed });
-            $feed->aggregator(undef); # for cloning
-        } else {
-            my $ok = $self->run_hook_once('customfeed.handle', { feed => $feed });
-            if (!$ok) {
-                $self->log(error => $feed->url . " is not aggregated by any aggregator");
-                $self->subscription->delete_feed($feed);
-            }
+        my $ok = $self->run_hook_once('customfeed.handle', { feed => $feed });
+        if (!$ok) {
+            $self->log(error => $feed->url . " is not aggregated by any aggregator");
+            $self->subscription->delete_feed($feed);
         }
     }
 

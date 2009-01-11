@@ -10,14 +10,26 @@ sub register {
     $context->register_hook(
         $self,
         'subscription.load' => \&load,
+        'customfeed.handle' => \&handle,
     );
 }
 
 sub load {
     my ($self, $context) = @_;
     my $feed = Plagger::Feed->new;
-    $feed->aggregator(sub { $self->aggregate(@_) });
+    $feed->url("debug:$self");
     $context->subscription->add($feed);
+}
+
+sub handle {
+    my ($self, $context, $args) = @_;
+
+    if ($args->{feed}->url =~ /^debug:/) {
+        $self->aggregate($context, $args);
+        return 1;
+    }
+
+    return;
 }
 
 sub aggregate {
