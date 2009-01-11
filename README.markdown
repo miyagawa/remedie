@@ -17,21 +17,15 @@ Unless otherwise noted, Remedie perl code and remedie*.js are licensed under Per
 This software also includes the following material which have their own license:
 
 * [jQuery](http://www.jquery.com/) (MIT and GPL)
-
 * jQuery plugins (Refer to each individual file for their licenses)
-
 * [JW FLV MEDIA PLAYER 4.2](http://www.jeroenwijering.com/?item=JW_FLV_Player) (Creative Commons by-nc-sa)
-
 * [Fast Icon](http://www.fasticon.com/) (Royalty free icons)
-
 * [Ben Fleming](http://www.yellowicon.com/) (CC by-nc)
 
 ## Links
 
 * [github](http://github.com/miyagawa/remedie) (Git repository)
-
 * [Google Code](http://code.google.com/p/remedie) (Wiki, Issue tracking)
-
 * [Remedie](http://remediecode.org/)
 
 
