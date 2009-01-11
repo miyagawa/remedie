@@ -19,7 +19,7 @@ sub handle {
 
     my $res = Plagger::UserAgent->new->fetch($search_uri);
     unless ($res->is_success) {
-        $context->log(error => "GET $search_uri failed: " . $res->status_line);
+        $context->log(error => "GET $search_uri failed: " . $res->http_response->status_line);
         return;
     }
 
@@ -41,7 +41,6 @@ sub handle {
 
     my $data = $scraper->scrape($html);
 
-#    $plugin->update_feed($context, $args->{feed}, {
     return {
         title => sprintf('Search Results for: "%s" | Veoh Video Network', $query),
         link  => "http://www.veoh.com/search.html?type=v&search=$query",
@@ -52,13 +51,12 @@ sub handle {
 sub build_params {
     my($self, $query) = @_;
 
-    my %param;
-    my @p = qw{
+    (my $params = <<PARAM) =~ s/__QUERY__/$query/;
 callCount=1
 c0-scriptName=ajaxMethodHandler
 c0-methodName=solrSearch
 c0-id=dummy
-c0-param0=string:
+c0-param0=string:__QUERY__
 c0-param1=string:v
 c0-param2=string:searchResultsHolder
 c0-param3=string:%2FWEB-INF%2Fpages%2Fsnippets%2FajaxSearch.jsp
@@ -78,12 +76,7 @@ c0-param16=boolean:false
 c0-param17=number:-1
 c0-param18=number:-1
 xml=true
-};
-    for my $p (@p) {
-        $p =~ /(.+)=(.+)/;
-        $param{$1} = $2;
-        $param{$1} = "string:$query" if ( $1 eq "c0-param0" );
-    }
-    return %param;
-}
+PARAM
 
+    return split /[\n=]/, $params;
+}
