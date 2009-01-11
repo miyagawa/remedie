@@ -10,7 +10,7 @@ sub register {
     $context->register_hook(
         $self,
         'subscription.load' => \&load,
-        'feed.discovery'    => \&handle,
+        'feed.discover'     => \&handle,
     );
 }
 

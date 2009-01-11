@@ -247,7 +247,7 @@ sub run {
     for my $feed ($self->subscription->feeds) {
         # find protocol handler from URIs like script:
         # Or discover specific feed if site RSS auto discovery is broken
-        my $handler = $self->run_hook_once('feed.discovery', { feed => $feed });
+        my $handler = $self->run_hook_once('feed.discover', { feed => $feed });
         if ($handler) {
             $handler->($self, { feed => $feed });
         } else {

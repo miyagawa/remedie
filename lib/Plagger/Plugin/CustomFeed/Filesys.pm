@@ -16,7 +16,7 @@ sub register {
     my($self, $context) = @_;
     $context->register_hook(
         $self,
-        'feed.discovery' => \&handle,
+        'feed.discover' => \&handle,
     );
 }
 

@@ -1,0 +1,4 @@
+handle: /search/([^\?=]+)$
+feed: http://www.mininova.org/rss/{match:1}
+
+

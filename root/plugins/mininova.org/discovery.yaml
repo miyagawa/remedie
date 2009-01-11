@@ -1,0 +1,2 @@
+handle: /search/\?search=
+feed: http://www.mininova.org/rss/{query:search}
