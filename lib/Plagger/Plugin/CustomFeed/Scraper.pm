@@ -33,7 +33,7 @@ sub load_plugin_perl {
             ( "package $plugin_class;",
               "use strict;",
               "use base qw( Plagger::Plugin::CustomFeed::Scraper::Base );",
-              "use Web::Scraper;",
+              "use Web::Scraper 0.25;",
               "$code",
               "1;" );
     }
@@ -88,8 +88,7 @@ sub scrape {
     my $res = $args->{feed}->source;
     my $scraper = $self->build_scraper or return;
 
-    my $encoding = $res->http_response->encoding || "latin-1";
-    my $result = $scraper->scrape(decode($encoding, $res->content), $args->{feed}->url);
+    my $result = $scraper->scrape($res->http_response, $args->{feed}->url);
     if ($result->{entries}) {
         $plugin->update_feed($context, $args, $result);
         return 1;
