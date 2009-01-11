@@ -2,6 +2,7 @@ use strict;
 use t::TestPlagger;
 
 test_requires_network 'mininova.org';
+test_requires_network 'veoh.com';
 plan 'no_plan';
 run_eval_expected;
 
@@ -20,3 +21,19 @@ plugins:
 --- expected
 is $context->subscription->feeds->[0]->url, "http://www.mininova.org/rss/test";
 is $context->subscription->feeds->[1]->url, "http://www.mininova.org/rss/test/1";
+
+===
+--- input config
+plugins:
+  - module: Subscription::Config
+    config:
+      feed:
+        - http://www.veoh.com/search.html?type=v&search=obama
+  - module: Discovery::Sites
+
+--- expected
+like $context->subscription->feeds->[0]->entries->[0]->link, qr|http://www.veoh.com/videos|;
+ok $context->subscription->feeds->[0]->entries->[0]->thumbnail->{url};
+
+
+

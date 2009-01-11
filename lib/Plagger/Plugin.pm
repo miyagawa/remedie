@@ -5,6 +5,7 @@ use base qw( Class::Accessor::Fast );
 __PACKAGE__->mk_accessors( qw(conf cache plugins) );
 
 use Plagger::Cookies;
+use Plagger::Util qw( decode_content );
 
 use FindBin;
 use File::Find::Rule ();
@@ -146,6 +147,16 @@ sub lazy_load_asset {
     Plagger->context->log(debug => "Lazy loading $asset->[1]");
     my($callback, @args) = @$asset;
     return $callback->(@args);
+}
+
+sub fetch_content {
+    my($self, $url) = @_;
+
+    my $ua  = Plagger::UserAgent->new;
+    my $res = $ua->fetch($url, $self, { NoNetwork => 24 * 60 * 60 });
+    return if !$res->status && $res->is_error;
+
+    return decode_content($res);
 }
 
 1;

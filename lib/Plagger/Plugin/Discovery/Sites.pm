@@ -4,6 +4,7 @@ use base qw( Plagger::Plugin );
 
 use URI;
 use URI::QueryParam;
+use Plagger::Plugin::CustomFeed::Debug;
 
 sub register {
     my($self, $context) = @_;
@@ -28,6 +29,10 @@ sub handle {
     if ($asset) {
         my $url = $asset->discover( URI->new($args->{feed}->url) );
         $args->{feed}->url($url);
+
+        if ($asset->can('handle')) {
+            return sub { $asset->handle($self, @_) };
+        }
         # feed URI succsessfully updated. No callback returned
     }
 
@@ -58,6 +63,14 @@ sub load_plugin_perl {
     $plugin->init;
 
     return $plugin;
+}
+
+sub update_feed {
+    my($self, $context, $feed, $data) = @_;
+
+    # XXX
+    local $self->{conf} = $data;
+    $self->Plagger::Plugin::CustomFeed::Debug::aggregate($context, { feed => $feed });
 }
 
 package Plagger::Plugin::Discovery::Sites::Base;

@@ -3,7 +3,6 @@ use strict;
 use base qw( Plagger::Plugin );
 
 use HTML::TokeParser;
-use Plagger::Util qw( decode_content );
 use List::Util qw(first);
 use URI;
 use URI::QueryParam;
@@ -194,16 +193,6 @@ sub add_enclosure {
             return;
         }
     }
-}
-
-sub fetch_content {
-    my($self, $url) = @_;
-
-    my $ua  = Plagger::UserAgent->new;
-    my $res = $ua->fetch($url, $self, { NoNetwork => 24 * 60 * 60 });
-    return if !$res->status && $res->is_error;
-
-    return decode_content($res);
 }
 
 sub is_enclosure {
