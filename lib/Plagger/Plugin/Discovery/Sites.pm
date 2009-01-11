@@ -31,7 +31,7 @@ sub handle {
         $args->{feed}->url($url);
 
         if ($asset->can('handle')) {
-            return sub { $asset->handle($self, @_) };
+            return sub { $asset->handle_feed($self, @_) };
         }
         # feed URI succsessfully updated. No callback returned
     }
@@ -66,11 +66,11 @@ sub load_plugin_perl {
 }
 
 sub update_feed {
-    my($self, $context, $feed, $data) = @_;
+    my($self, $context, $args, $data) = @_;
 
     # XXX
     local $self->{conf} = $data;
-    $self->Plagger::Plugin::CustomFeed::Debug::aggregate($context, { feed => $feed });
+    $self->Plagger::Plugin::CustomFeed::Debug::aggregate($context, $args);
 }
 
 package Plagger::Plugin::Discovery::Sites::Base;
@@ -82,6 +82,23 @@ sub new {
 
 sub domain {
     $_[0]->{domain};
+}
+
+sub discover {
+    my($self, $uri) = @_;
+    return $uri;
+}
+
+sub handle_feed {
+    my($self, $plugin, $context, $args) = @_;
+
+    my $data = $self->handle($plugin, $context, $args);
+    if ($data) {
+        $plugin->update_feed($context, $args, $data);
+        return 1;
+    }
+
+    return;
 }
 
 package Plagger::Plugin::Discovery::Sites;

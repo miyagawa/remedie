@@ -58,6 +58,8 @@ requires 'URI::Escape';
 requires 'URI::Fetch';
 requires 'URI::QueryParam';
 requires 'XML::Atom';
+requires 'XML::LibXML';
+requires 'XML::LibXML::Simple';
 requires 'XML::RSS::LibXML';
 requires 'XML::Feed';
 requires 'XML::OPML::LibXML';

@@ -8,11 +8,6 @@ sub init {
     $self->{handle} = '/search.html\?.*search=';
 }
 
-sub discover {
-    my($self, $uri) = @_;
-    return $uri;
-}
-
 sub handle {
     my($self, $plugin, $context, $args) = @_;
 
@@ -22,13 +17,13 @@ sub handle {
     my $search_uri = URI->new("http://www.veoh.com/dwr/exec/ajaxMethodHandler.solrSearch.dwr");
     $search_uri->query_form( $self->build_params($query) );
 
-    my $content = $plugin->fetch_content($search_uri);
-    unless ($content) {
-        $context->log(error => "GET $search_uri failed");
+    my $res = Plagger::UserAgent->new->fetch($search_uri);
+    unless ($res->is_success) {
+        $context->log(error => "GET $search_uri failed: " . $res->status_line);
         return;
     }
 
-    my $html = decode("JavaScript-UCS", $content);
+    my $html = decode("JavaScript-UCS", $res->content);
 
     if ($html =~ /s4="(.+?)";s0/){
         $html = $1;
@@ -46,11 +41,12 @@ sub handle {
 
     my $data = $scraper->scrape($html);
 
-    $plugin->update_feed($context, $args->{feed}, {
+#    $plugin->update_feed($context, $args->{feed}, {
+    return {
         title => sprintf('Search Results for: "%s" | Veoh Video Network', $query),
         link  => "http://www.veoh.com/search.html?type=v&search=$query",
         entry => $data->{videos},
-    });
+    };
 }
 
 sub build_params {
