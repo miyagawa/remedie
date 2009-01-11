@@ -45,4 +45,5 @@ plugins:
   - module: Discovery::Sites
 
 --- expected
-like $context->subscription->feeds->[0]->entries->[0]->enclosures->[0]->url, qr/720p.mov/;
+like $context->subscription->feeds->[0]->entries->[0]->enclosures->[0]->url, qr/720p.m[04]v/;
+like $context->subscription->feeds->[0]->entries->[0]->date, qr/20/;

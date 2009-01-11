@@ -17,10 +17,11 @@ sub handle {
     my $data = XMLin($res->content);
 
     my @entries;
-    for my $movie (sort { $b->{postdate} cmp $a->{postdate} } values %{$data->{movieinfo}}) {
+    for my $movie (sort { $b->{info}{postdate} cmp $a->{info}{postdate} } values %{$data->{movieinfo}}) {
         push @entries, {
             title => $movie->{info}{title},
             body  => $movie->{info}{description},
+            date  => $movie->{info}{postdate},
             enclosure => {
                 url => $movie->{preview}{large}{content},
                 length => $movie->{preview}{large}{filesize},
