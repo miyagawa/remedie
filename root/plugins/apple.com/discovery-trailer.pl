@@ -17,7 +17,7 @@ sub handle {
     my $data = XMLin($res->content);
 
     my @entries;
-    for my $movie (sort { $a->{postdate} cmp $b->{postdate} } values %{$data->{movieinfo}}) {
+    for my $movie (sort { $b->{postdate} cmp $a->{postdate} } values %{$data->{movieinfo}}) {
         push @entries, {
             title => $movie->{info}{title},
             body  => $movie->{info}{description},
