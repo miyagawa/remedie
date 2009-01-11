@@ -57,6 +57,7 @@ requires 'URI';
 requires 'URI::Escape';
 requires 'URI::Fetch';
 requires 'URI::QueryParam';
+requires 'Web::Scraper';
 requires 'XML::Atom';
 requires 'XML::LibXML';
 requires 'XML::LibXML::Simple';
