@@ -85,10 +85,16 @@ sub build_scraper { }
 sub scrape {
     my($self, $plugin, $context, $args) = @_;
 
-    my $res = $args->{feed}->source;
-    my $scraper = $self->build_scraper or return;
+    my $res = $args->{feed}->source or return;
+    my $http_res = $res->http_response;
 
-    my $result = $scraper->scrape($res->http_response, $args->{feed}->url);
+    require HTML::HeadParser;
+    my $p = HTML::HeadParser->new;
+    $p->parse($res->content);
+    $http_res->header('Content-Type' => $p->header('Content-Type'));
+
+    my $scraper = $self->build_scraper or return;
+    my $result = $scraper->scrape($http_res, $args->{feed}->url);
     if ($result->{entries}) {
         $plugin->update_feed($context, $args, $result);
         return 1;
