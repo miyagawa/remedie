@@ -16,7 +16,7 @@ sub register {
     my($self, $context) = @_;
     $context->register_hook(
         $self,
-        'customfeed.handle' => \&handle,
+        'feed.discovery' => \&handle,
     );
 }
 
@@ -28,8 +28,7 @@ sub handle {
         my($vfs, $uri) = $self->vfs_uri($ident);
 
         if ($vfs && $uri) {
-            $self->aggregate($context, $args, $vfs, $uri);
-            return 1;
+            return sub { $self->aggregate($context, $args, $vfs, $uri) };
         }
     }
 

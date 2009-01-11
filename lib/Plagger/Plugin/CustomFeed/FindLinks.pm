@@ -67,10 +67,7 @@ sub aggregate {
     my($self, $context, $args) = @_;
 
     my $url = $args->{feed}->url;
-    $context->log(info => "GET $url");
-
-    my $agent = Plagger::UserAgent->new;
-    my $res = $agent->fetch($url, $self);
+    my $res = $args->{feed}->source;
 
     if ($res->http_response->is_error) {
         $context->log(error => "GET $url failed: " . $res->status);

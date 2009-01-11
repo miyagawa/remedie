@@ -14,7 +14,7 @@ sub register {
     my($self, $context) = @_;
     $context->register_hook(
         $self,
-        'customfeed.handle' => \&handle,
+        'feed.discovery' => \&handle,
     );
 }
 
@@ -22,8 +22,7 @@ sub handle {
     my($self, $context, $args) = @_;
 
     if (URI->new($args->{feed}->url)->scheme eq 'script') {
-        $self->aggregate($context, $args);
-        return 1;
+        return sub { $self->aggregate(@_) };
     }
 
     return;

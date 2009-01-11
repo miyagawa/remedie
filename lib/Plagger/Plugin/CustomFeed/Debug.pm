@@ -10,7 +10,7 @@ sub register {
     $context->register_hook(
         $self,
         'subscription.load' => \&load,
-        'customfeed.handle' => \&handle,
+        'feed.discovery'    => \&handle,
     );
 }
 
@@ -25,8 +25,7 @@ sub handle {
     my ($self, $context, $args) = @_;
 
     if ($args->{feed}->url =~ /^debug:/) {
-        $self->aggregate($context, $args);
-        return 1;
+        return sub { $self->aggregate(@_) };
     }
 
     return;

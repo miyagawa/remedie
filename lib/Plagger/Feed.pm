@@ -2,7 +2,7 @@ package Plagger::Feed;
 use strict;
 
 use base qw( Plagger::Thing );
-__PACKAGE__->mk_accessors(qw( link url image language tags meta type source_xml aggregator ));
+__PACKAGE__->mk_accessors(qw( link url image language tags meta type source_xml source ));
 __PACKAGE__->mk_text_accessors(qw( description author title ));
 __PACKAGE__->mk_date_accessors(qw( updated ));
 

@@ -15,25 +15,29 @@ sub register {
     my($self, $context) = @_;
     $context->register_hook(
         $self,
+        'feed.fetch'         => \&fetch,
         'customfeed.handle'  => \&aggregate,
     );
 }
 
-sub aggregate {
+sub fetch {
     my($self, $context, $args) = @_;
 
     my $url = $args->{feed}->url;
     my $res = $self->fetch_content($url) or return;
 
-    my $content_type = eval { $res->content_type } ||
-                       $res->http_response->content_type ||
-                       "text/xml";
+    $args->{feed}->source($res);
 
-    $content_type =~ s/;.*$//; # strip charset= cruft
+    return 1;
+}
 
+sub aggregate {
+    my($self, $context, $args) = @_;
+
+    my $res = $args->{feed}->source;
     my $feed_url = Plagger::FeedParser->discover($res);
-    if ($url eq $feed_url) {
-        return $self->handle_feed($url, \$res->content, $args->{feed});
+    if ($args->{feed}->url eq $feed_url) {
+        return $self->handle_feed($feed_url, \$res->content, $args->{feed});
     } elsif ($feed_url && !$self->conf->{no_discovery}) {
         $res = $self->fetch_content($feed_url) or return;
         return $self->handle_feed($feed_url, \$res->content, $args->{feed});

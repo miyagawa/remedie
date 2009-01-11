@@ -14,6 +14,7 @@ plugins:
     config:
       feed:
         - url: http://www.nhk-ep.co.jp/netstar/yuzu_movie_dec.html
+  - module: Aggregator::Simple
   - module: CustomFeed::FindLinks
 
 --- expected
