@@ -7,7 +7,6 @@ use List::Util qw(first);
 use HTML::ResolveLink;
 use HTML::Selector::XPath;
 use HTML::TreeBuilder::XPath;
-use Plagger::UserAgent;
 use Plagger::Util qw( decode_content extract_title );
 use URI::filename;
 
@@ -23,8 +22,6 @@ sub init {
     my $self = shift;
     $self->SUPER::init(@_);
     $self->load_assets('yaml', sub { $self->load_plugin_yaml(@_) });
-
-    $self->{ua} = Plagger::UserAgent->new;
 }
 
 sub asset_key { 'find_links' }
