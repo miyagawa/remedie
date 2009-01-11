@@ -66,8 +66,8 @@ sub aggregate {
     my $url = $args->{feed}->url;
     my $res = $args->{feed}->source;
 
-    if ($res->http_response->is_error) {
-        $context->log(error => "GET $url failed: " . $res->status);
+    if (!$res or $res->http_response->is_error) {
+        $context->log(error => "GET $url failed");
         return;
     }
 
