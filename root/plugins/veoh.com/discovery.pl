@@ -20,7 +20,7 @@ sub handle {
     my $query = $uri->query_param('search');
 
     my $search_uri = URI->new("http://www.veoh.com/dwr/exec/ajaxMethodHandler.solrSearch.dwr");
-    $search_uri->query_form( $self->build_params($query) ),
+    $search_uri->query_form( $self->build_params($query) );
 
     my $content = $plugin->fetch_content($search_uri);
     unless ($content) {
@@ -36,31 +36,20 @@ sub handle {
     }
 
     my $scraper = scraper {
-        process "a.vTitle", "title[]" => 'TEXT';
-        process "a.vTitle", "link[]" => '@href';
-        process "img.vThumb", "thumb[]" => '@src';
-        result "title", "link", "thumb";
+        process ".vList_vFull>li", "videos[]" => scraper {
+            process "a.vTitle", "title" => 'TEXT';
+            process "a.vTitle", "link" => [ '@href',
+                                            sub { m!/videos/(.+?)\?! and return "http://www.veoh.com/videos/$1" } ];
+            process "img.vThumb", "thumbnail" =>  [ '@src', sub { +{ url => $_ } } ];
+        };
     };
 
     my $data = $scraper->scrape($html);
 
-    my @entries;
-    my $count = 0;
-    for my $title ( @{ $data->{title} } ) {
-        if ( $data->{link}[$count] =~ m!/videos/(.+?)\?! ) {
-            my $video_id  = $1;
-            my $permalink = "http://www.veoh.com/videos/$video_id";
-            my $thumb_url = $data->{thumb}[$count];
-            push @entries,
-                { title => $title, link => $permalink, thumbnail => { url => $thumb_url } };
-        }
-        $count++;
-    }
-
     $plugin->update_feed($context, $args->{feed}, {
         title => sprintf('Search Results for: "%s" | Veoh Video Network', $query),
         link  => "http://www.veoh.com/search.html?type=v&search=$query",
-        entry => \@entries,
+        entry => $data->{videos},
     });
 }
 
