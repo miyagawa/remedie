@@ -34,7 +34,7 @@ sub fetch {
 sub aggregate {
     my($self, $context, $args) = @_;
 
-    my $res = $args->{feed}->source;
+    my $res = $args->{feed}->source or return;
     my $feed_url = Plagger::FeedParser->discover($res);
     if ($args->{feed}->url eq $feed_url) {
         return $self->handle_feed($feed_url, \$res->content, $args->{feed});
