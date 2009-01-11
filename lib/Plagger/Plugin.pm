@@ -145,6 +145,7 @@ sub assets_for {
 sub lazy_load_asset {
     my($self, $asset) = @_;
 
+    Plagger->context->log(debug => "Lazy loading $asset->[1]");
     my($callback, @args) = @$asset;
     return $callback->(@args);
 }
