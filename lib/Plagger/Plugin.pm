@@ -53,9 +53,7 @@ sub assets_dir {
         $context->conf->{assets_path} ||              # or global:assets_path
         File::Spec->catfile($FindBin::Bin, "assets"); # or "assets" under plagger script
 
-    return File::Spec->catfile(
-        $assets_base, "plugins",
-    );
+    return File::Spec->catfile($assets_base, "plugins", @_);
 }
 
 sub asset_key {

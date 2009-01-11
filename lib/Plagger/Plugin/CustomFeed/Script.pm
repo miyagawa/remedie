@@ -36,7 +36,7 @@ sub aggregate {
        $script =~ s!^//!!;
     $script = URI::Escape::uri_unescape($script); # to support script://python.exe foo.py
 
-    local $ENV{PATH} = $ENV{PATH} . ":" . $self->assets_dir;
+    local $ENV{PATH} = $ENV{PATH} . ":" . $self->assets_dir($self->plugin_id);
     $context->log(debug => "Executing '$script'");
 
     my $output;
