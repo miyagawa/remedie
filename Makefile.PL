@@ -1,6 +1,7 @@
 use inc::Module::Install;
 
 name 'Remedie';
+license 'perl';
 all_from 'lib/Remedie.pm';
 
 requires 'Class::Accessor::Fast';
