@@ -10,6 +10,12 @@ And then install the dependencies looking at `Makefile.PL`.
 
 **Do not run make install**. Especially, if you have Plagger installed in your system, running `make install` for Remedie breaks your existent Plagger installation because we forked Plagger. So, don't do that.
 
+Run the server process with
+
+  ./bin/remedie-server.pl
+
+and access http://localhost:10010/ with your browser. See the file `HACKING` for more details.
+
 ## License
 
 Unless otherwise noted, Remedie perl code and remedie*.js are licensed under Perl Artistic or GPL 2 License.
