@@ -1,17 +1,8 @@
 == INSTALL
 
-Remedie is under development and requires lots of hacking
+Remedie is under development and requires lots of hacking.
 
-For now, run
-
-  > rm -r ~/.remedie
-  > perl -Ilib -MRemedie::DB::Schema -e 'Remedie::DB::Schema->install'
-
-to initialize SQLite database. When we change the schema you might
-need to do that again (and that will lose all your items in the
-database!) until we come up with a decent schema upgrading system.
-
-When you initialized the database, run
+Pull the latest code from git using git pull or github download, then run:
 
   > perl -Ilib ./bin/remedie-server.pl
 
@@ -22,6 +13,17 @@ You can type 'R' (shift+r) to refresh all feeds from UI. Type 'H'
 (shift+h) to see the list of available keyboard shortcuts.
 
 I hope this will eventually become standalone installable app using preferencePanes etc.
+
+== CLEANING UP DATABASE
+
+For now, run
+
+  > rm -r ~/.remedie
+  > perl -Ilib -MRemedie::DB::Schema -e 'Remedie::DB::Schema->install'
+
+to re-initialize SQLite database. When we change the schema you might
+need to do that again (and that will lose all your items in the
+database!) until we come up with a decent schema upgrading system.
 
 == DEBUGGING
 

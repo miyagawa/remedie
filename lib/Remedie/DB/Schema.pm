@@ -45,15 +45,19 @@ sub upgrade {
 
     my $db  = Remedie::DB->new;
     my $dbh = $db->dbh;
+    my $sth = $dbh->prepare("SELECT name FROM sqlite_master WHERE type IN (?)");
+    $sth->execute('table');
 
-    my $sth = $dbh->prepare('SELECT version FROM remedie_schema');
-    my $version;
-    eval {
-        $sth->execute;
-        $version = $sth->fetchrow_arrayref->[0];
-    };
+    my %tables;
+    while (my $row = $sth->fetchrow_arrayref) {
+        $tables{$row->[0]} = 1;
+    }
 
-    ## TODO we want something like SQLite::Diff here
+    unless ($tables{channel}) {
+        $class->install();
+    }
+
+    return 1;
 }
 
 1;

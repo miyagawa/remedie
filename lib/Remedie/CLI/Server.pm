@@ -1,6 +1,7 @@
 package Remedie::CLI::Server;
 use Moose;
 use MooseX::Types::Path::Class qw(File Dir);
+use Remedie::DB::Schema;
 use Remedie::Server;
 use Remedie::UserData;
 use Pod::Usage;
@@ -116,6 +117,8 @@ sub run {
             -exitval => 1,
         );
     }
+
+    Remedie::DB::Schema->upgrade();
 
     Remedie::Server->bootstrap({
         host       => $self->host,
