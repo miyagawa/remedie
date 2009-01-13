@@ -6,6 +6,7 @@ __PACKAGE__->mk_accessors( qw(conf cache plugins) );
 
 use Plagger::Cookies;
 use Plagger::Util qw( decode_content );
+use Path::Class ();
 
 use FindBin;
 use File::Find::Rule ();
@@ -91,10 +92,8 @@ sub load_assets {
     );
 
     # $rule isa File::Find::Rule
-    my $assets_dir = quotemeta $self->assets_dir;
     for my $file ($rule->in($self->assets_dir)) {
-        my $domain = File::Basename::dirname($file);
-        $domain =~ s/^$assets_dir\///;
+        my $domain = (Path::Class::File->new($file)->dir->dir_list)[-1];
         $domain = '*' if $domain eq 'default';
         push @{ $self->{assets}->{$domain} }, [ $callback, $file, $domain ]; # delayed load
     }
