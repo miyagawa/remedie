@@ -94,7 +94,7 @@ sub load_assets {
     my $assets_dir = qr|\Q$self->assets_dir\E|;
     for my $file ($rule->in($assets_dir)) {
         my $domain = File::Basename::dirname($file);
-		$domain =~ s/^$assets_dir\///;
+        $domain =~ s/^$assets_dir\///;
         $domain = '*' if $domain eq 'default';
         push @{ $self->{assets}->{$domain} }, [ $callback, $file, $domain ]; # delayed load
     }
