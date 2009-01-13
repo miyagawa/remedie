@@ -17,7 +17,7 @@ Now with the `remedie-server.pl` process running, you can access Remedie user in
 
 ## License
 
-Unless otherwise noted, Remedie perl code and remedie*.js are licensed under Perl Artistic or GPL 2 License.
+Unless otherwise noted, Remedie and Plagger perl code and `remedie*.js` are licensed under Perl Artistic or GPL 2 License.
 
 This software also includes the following material which have their own license:
 
