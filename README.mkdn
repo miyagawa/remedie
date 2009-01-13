@@ -9,7 +9,7 @@ In summary, you can get the source code, install Perl dependencies and run the w
     cpan -t .
     ./bin/remedie-server.pl
 
-If you do not have git command in handy, you can also download the tarball or ZIP file from [github master](http://github.com/miyagawa/remedie). But I strongly suggest you shouldn't do that, since you need to manually download and update the local copy when Remedie is updated.
+If you do not have git command in handy, you can also download the tarball or ZIP file from [github master](http://github.com/miyagawa/remedie) (there's a "download" button). But I strongly suggest you shouldn't do that, since you need to manually download and update the local copy when Remedie is updated. With git it's just `git pull`.
 
 `cpan -t .` will examine `Makefile.PL` and installs dependent Perl modules from CPAN. **Do not run make install (or `cpan -i .`)**. Especially, if you have Plagger installed in your system, running `make install` for Remedie breaks your existent Plagger installation because we forked Plagger. So, don't do that.
 
