@@ -91,8 +91,8 @@ sub load_assets {
     );
 
     # $rule isa File::Find::Rule
-    my $assets_dir = qr|\Q$self->assets_dir\E|;
-    for my $file ($rule->in($assets_dir)) {
+    my $assets_dir = quotemeta $self->assets_dir;
+    for my $file ($rule->in($self->assets_dir)) {
         my $domain = File::Basename::dirname($file);
         $domain =~ s/^$assets_dir\///;
         $domain = '*' if $domain eq 'default';
