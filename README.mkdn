@@ -2,19 +2,18 @@ Remedie is a perl based pluggable media center application. It runs as a web ser
 
 ## How to install
 
-Check out Git repository using
+In summary, you can get the source code, install Perl dependencies and run the web server.
 
   git clone git://github.com/miyagawa/remedie.git
-
-Or download the tarball or ZIP file from [github master](http://github.com/miyagawa/remedie). Then install the dependencies by running `cpan -t .`.
-
-**Do not run make install (or `cpan -i .`)**. Especially, if you have Plagger installed in your system, running `make install` for Remedie breaks your existent Plagger installation because we forked Plagger. So, don't do that.
-
-Run the server process with
-
+  cd remedie
+  cpan -t .
   ./bin/remedie-server.pl
 
-and access http://localhost:10010/ with your browser. See the file `HACKING` for more details.
+If you do not have git command in handy, you can also download the tarball or ZIP file from [github master](http://github.com/miyagawa/remedie). But I strongly suggest you shouldn't do that, since you need to manually download and update the local copy when Remedie is updated.
+
+`cpan -t .` will examine `Makefile.PL` and installs dependent Perl modules from CPAN. **Do not run make install (or `cpan -i .`)**. Especially, if you have Plagger installed in your system, running `make install` for Remedie breaks your existent Plagger installation because we forked Plagger. So, don't do that.
+
+Now with the `remedie-server.pl` process running, you can access Remedie user interface by accessing http://localhost:10010/ with your browser. See the file `HACKING` for more details.
 
 ## License
 
