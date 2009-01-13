@@ -6,9 +6,9 @@ Check out Git repository using
 
   git clone git://github.com/miyagawa/remedie.git
 
-And then install the dependencies looking at `Makefile.PL`.
+Or download the tarball or ZIP file from [github master](http://github.com/miyagawa/remedie). Then install the dependencies by running `cpan -t .`.
 
-**Do not run make install**. Especially, if you have Plagger installed in your system, running `make install` for Remedie breaks your existent Plagger installation because we forked Plagger. So, don't do that.
+**Do not run make install (or `cpan -i .`)**. Especially, if you have Plagger installed in your system, running `make install` for Remedie breaks your existent Plagger installation because we forked Plagger. So, don't do that.
 
 Run the server process with
 
