@@ -1102,10 +1102,25 @@ Remedie.prototype = {
     );
 
     // TODO Do NOT display items that are not bound to the event: e.g. Cooliris
+    var gridEvents = [];
     $("#channel-" + channel.id)
       .click( function(){ remedie.showChannel(channel) } )
-      .hover( function(){ $(this).addClass("hover-channel") },
-              function(){ $(this).removeClass("hover-channel") } )
+      .hover( function(){
+                $(this).addClass("hover-channel");
+                if (!$(this).data('gridEventsInstalled')) {
+                  var _this = this;
+                  var id = setTimeout(function(){
+                    remedie.installGridEvents($(_this), channel.id);
+                  }, 1000);
+                  gridEvents.push(id);
+                }
+              },
+              function(){
+                $.each(gridEvents, function(idx, id) { clearTimeout(id) });
+                $(this).removeClass("hover-channel");
+                if (!default_thumbnail)
+                  RemedieUtil.layoutImage($("#channel-thumbnail-image-" + channel.id), thumbnail, 192, 192);
+              } )
       .contextMenu("channel-context-menu", {
         bindings: {
           channel_context_refresh:      function(){ remedie.refreshChannel(channel) },
@@ -1117,6 +1132,37 @@ Remedie.prototype = {
 
     if (!default_thumbnail)
       RemedieUtil.layoutImage($("#channel-thumbnail-image-" + channel.id), thumbnail, 192, 192);
+  },
+
+  installGridEvents: function(element, id) {
+    $.ajax({
+      url: "/rpc/channel/show",
+      type: 'get',
+      data: { id: id },
+      dataType: 'json',
+      success: function(r) {
+        element.data('gridEventsInstalled', true);
+        var images = [];
+        var width = element.width();
+        $.each(r.items, function(index, item) {
+          if (item.props.thumbnail && item.props.thumbnail.url) {
+            images.push(item.props.thumbnail.url);
+          }
+        });
+
+        if (images.length > 0) {
+          var d = 192 / images.length;
+          element.bind('mousemove', function(event) {
+            var offset = $(this).offset({ scroll: false });
+            var x = event.pageX - offset.left;
+            var image = images[parseInt(x / d)];
+            if (image) {
+              RemedieUtil.layoutImage($('#channel-thumbnail-image-' + id), image, 192, 192);
+            }
+          });
+        }
+      },
+    });
   },
 
   cursorPos: -1,
