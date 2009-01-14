@@ -1104,7 +1104,7 @@ Remedie.prototype = {
     // TODO Do NOT display items that are not bound to the event: e.g. Cooliris
     var gridEvents = [];
     $("#channel-" + channel.id)
-      .click( function(){ remedie.showChannel(channel) } )
+      .bind( 'mousedown', function(){ remedie.showChannel(channel) } )
       .hover( function(){
                 $(this).addClass("hover-channel");
                 if (!$(this).data('gridEventsInstalled')) {
