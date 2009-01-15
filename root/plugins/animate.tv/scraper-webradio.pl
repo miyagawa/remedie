@@ -7,7 +7,7 @@ sub init {
 sub build_scraper {
     scraper {
         process '//table[@width="565" and descendant::a[contains(@href,".asx")] ]', 'entries[]' => scraper {
-            process 'td.main_title2 > p', title => 'TEXT';
+            process 'td.main_title2', title => 'TEXT';
             process '//table[@width="553"]//td[@class="main_txt1"]', body => 'TEXT';
             process 'td.main_txt2', date => 'TEXT';
             process '//a[contains(@href, ".asx")]', enclosure => [ '@href',

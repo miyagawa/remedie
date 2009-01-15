@@ -70,7 +70,7 @@ sub scrape {
             my $encoding = first { defined $_ && Encode::find_encoding($_) } @encoding;
             $html = Encode::decode($encoding, $stuff->content);
         } else {
-            croak "GET $stuff failed: ", $stuff->status_line;
+            croak "GET " . $stuff->request->uri . " failed: ", $stuff->status_line;
         }
         $current ||= $stuff->request->uri;
     } elsif (blessed($stuff) && $stuff->isa('HTML::Element')) {
