@@ -5,7 +5,6 @@ sub init {
     $self->{handle} = "/content/models_room";
 }
 
-sub needs_content { 0 }
 
 sub find {
     my ($self, $args) = @_;

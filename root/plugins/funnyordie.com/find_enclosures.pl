@@ -4,7 +4,6 @@ sub init {
     $self->{handle} = 'videos/\w+/';
 }
 
-sub needs_content { 0 }
 
 sub find {
     my ($self, $args) = @_;

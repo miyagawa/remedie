@@ -5,7 +5,6 @@ sub init {
     $self->{handle} = "\.asx"; # XXX this really needs to be the handle for upgrade, not find
 }
 
-sub needs_content { 0 }
 
 sub find { }
 

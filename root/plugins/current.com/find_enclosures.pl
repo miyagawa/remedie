@@ -5,7 +5,6 @@ sub init {
     $self->{handle} = '/items/\d+/';
 }
 
-sub needs_content { 0 }
 
 sub find {
     my ($self, $args) = @_;

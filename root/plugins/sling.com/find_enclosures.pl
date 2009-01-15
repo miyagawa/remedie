@@ -10,7 +10,6 @@ sub handle {
     $url =~ qr!beta\.sling\.com/video/show/.*!;
 }
 
-sub needs_content { 0 }
 
 sub find {
     my ($self, $args) = @_;

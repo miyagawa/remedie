@@ -3,7 +3,6 @@ sub init {
     $self->{handle} = "movie";
 }
 
-sub needs_content { 0 }
 
 sub find {
     my ($self, $args) = @_;
