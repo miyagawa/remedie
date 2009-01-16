@@ -19,7 +19,7 @@ sub build_scraper {
            (result->{entries}->[$i]->{date}  = $_->as_text) =~ s/.*?(\d{4})年(\d{1,2})月(\d{1,2})日.*/$1-$2-$3/;
             $i++;
         };
-        result->{thumbnail} = 'http://www.tv-tokyo.co.jp/anime/anison/img/logo.png';
+        result->{thumbnail} = URI->new('http://www.tv-tokyo.co.jp/anime/anison/img/logo.png');
         result;
     };
 }
