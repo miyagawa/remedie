@@ -39,6 +39,11 @@ sub parse_dwim {
         return $class->parse( 'Japanese', encode_utf8($str) );
     }
 
+    # Handle YYYY*MM*DD (This should also parse Japanese strings as well)
+    if ($str =~ /^(\d{4}).(\d{1,2}).(\d{1,2}).?$/) {
+        return $class->new(year => $1, month => $2, day => $3);
+    }
+
     require Date::Parse;
     my %p;
     @p{qw( second minute hour day month year zone )} = Date::Parse::strptime($str);
