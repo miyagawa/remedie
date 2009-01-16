@@ -64,4 +64,17 @@ sub mk_text_accessors {
     }
 }
 
+sub thumbnail {
+    my $self = shift;
+    if (@_) {
+        my $image = shift;
+        if (blessed($image) && $image->isa('URI')) {
+            $image = { url => $image };
+        }
+        $self->{thumbnail} = $image;
+    }
+
+    $self->{thumbnail};
+}
+
 1;

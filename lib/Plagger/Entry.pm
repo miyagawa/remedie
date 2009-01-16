@@ -2,11 +2,11 @@ package Plagger::Entry;
 use strict;
 
 use base qw( Plagger::Thing );
-__PACKAGE__->mk_accessors(qw( tags link feed_link rate icon meta source language ));
+__PACKAGE__->mk_accessors(qw( tags link feed_link rate meta source language ));
 __PACKAGE__->mk_text_accessors(qw( title author summary body ));
 __PACKAGE__->mk_date_accessors(qw( date ));
 
-*thumbnail = sub { shift->icon(@_) };
+*icon = sub { shift->thumbnail(@_) };
 
 use Digest::MD5;
 use DateTime::Format::Mail;
@@ -119,4 +119,3 @@ sub digest {
 }
 
 1;
-

@@ -11,7 +11,7 @@ sub build_scraper {
             process 'span.honbun', body => 'TEXT';
             process '//a[contains(@href,".wvx")]', enclosure => [ '@href',
             sub { +{ url => $_, type => 'video/x-ms-wvx' } } ];
-            process '//img[contains(@src, ".jpg")]', thumbnail => [ '@src', sub { +{ url => $_ } } ];
+            process '//img[contains(@src, ".jpg")]', thumbnail => '@src';
             process '//a[@target="_blank"]', link => '@href';
         };
         process 'title', title => 'TEXT';

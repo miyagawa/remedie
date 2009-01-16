@@ -11,7 +11,7 @@ sub build_scraper {
             process 'td.font11p', body => 'TEXT';
             process '//a[contains(@href, ".asx")]', enclosure => [ '@href',
             sub { +{ url => $_, type => 'video/x-ms-asf' } } ];
-            process 'id("index7_r1_c1")', thumbnail => [ '@src', sub { +{ url => $_ } } ];
+            process 'id("index7_r1_c1")', thumbnail => '@src';
             process '//a[contains(@href, ".asx")]', link => '@href';
         };
         process 'title', title => 'TEXT';

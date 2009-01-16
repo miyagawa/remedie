@@ -16,7 +16,7 @@ sub build_scraper {
         };
         process 'title', title => 'TEXT';
         process '//*[@class="main_title3"]//img[contains(@src, "logo")]',
-                image => ['@src', sub { +{ url => $_} } ];
+                image => '@src';
         process '//table[@width="573"]//td[@class="main_txt1"]',
                 description => 'TEXT';
     };
