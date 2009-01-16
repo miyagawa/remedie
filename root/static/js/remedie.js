@@ -13,11 +13,6 @@ Remedie.prototype = {
   onPlaybackComplete: null,
 
   initialize: function() {
-    if (!jQuery.browser.safari && !jQuery.browser.mozilla && !jQuery.browser.msie) {
-      alert("Your browser " + navigator.userAgent + " is not supported.");
-      return;
-    }
-
     $().ajaxSend(function(event,xhr,options) {
       xhr.setRequestHeader('X-Remedie-Client', 'Remedie/' + Remedie.version);
     });
