@@ -11,8 +11,7 @@ sub build_scraper {
             process '//td[@class="movie_date"]', date => 'TEXT';
             process '//td[@class="movie_title"]//a[contains(@href,".asx")]', enclosure => [ '@href',
             sub { +{ url => $_, type => 'video/x-ms-asf' } } ];
-            process '//td[@class="movie_pic"]//img', thumbnail => [ '@src',
-            sub { +{ url => $_ } } ];
+            process '//td[@class="movie_pic"]//img', thumbnail => '@src';
         };
         result->{title} = 'TOKYO MX ＊ TOKYO MX NEWS 「TOKYO Watcher」';
         result;
