@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use base qw (Plagger::Plugin);
 
-our $VERSION = 0.01;
+use Scalar::Util qw(blessed);
 
 sub register {
     my ($self, $context) = @_;
@@ -54,6 +54,8 @@ sub aggregate {
            $encls = [ $encls ] if ref $encls && ref $encls ne 'ARRAY';
 
         for my $enclosure_conf ( @$encls ) {
+            $enclosure_conf = { url => $enclosure_conf }
+                if blessed($enclosure_conf) && $enclosure_conf->isa('URI');
             my $enclosure = Plagger::Enclosure->new;
             $enclosure->$_($enclosure_conf->{$_}) for keys %$enclosure_conf;
             $enclosure->auto_set_type unless defined $enclosure->type;

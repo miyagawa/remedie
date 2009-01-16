@@ -80,11 +80,11 @@ RemedieUtil.layoutImage = function(elem, src, width, height) {
     img.src = src;
 };
 
-RemedieUtil.maskURI = function(url) {
+RemedieUtil.mangleURI = function(url) {
   var uri = new URI(url);
   if (uri.authority.indexOf('@') > -1) {
     var host = uri.authority.split('@')[1];
     if (host) uri.authority = host;
   }
-  return uri.toString();
+  return decodeURIComponent(uri.toString());
 };
