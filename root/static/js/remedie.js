@@ -817,7 +817,7 @@ Remedie.prototype = {
               ],
               'h2', { className: 'channel-header-title' }, [ 'a', { href: channel.props.link, target: "_blank" }, channel.name ],
               'div', { className: 'channel-header-data' }, [
-                'a', { href: channel.ident, target: "_blank" }, RemedieUtil.maskURI(channel.ident).trimChars(100),
+                'a', { href: channel.ident, target: "_blank" }, RemedieUtil.mangleURI(channel.ident).trimChars(100),
                 'br', {}, null,
                 'span', {}, r.items.length + ' items, ' +
                   '<span class="unwatched-count-' + channel.id + '">' + 
