@@ -7,8 +7,8 @@ sub init {
 sub build_scraper {
     scraper {
         process  '//tr[td[@class="ny1_day"]]', 'entries[]' => scraper {
-            process '//td[@class="ny1_subtitle"]//a[contains(@href,".html")]', title => 'TEXT';
-            process '//td[@class="ny1_day"]//a[contains(@href,".html")]', date => 'TEXT';
+            process '//td[@class="ny1_subtitle" and ./a]', title => 'TEXT';
+            process '//td[@class="ny1_day" and ./a]', date => 'TEXT';
             process '//td[@class="ny1_day"]//a[contains(@href,".html")]', enclosure => [ '@href',
             sub { m!/mxnews/news_ny1/(\d+)\.html! and return +{ url => "http://www.mxtv.co.jp/meta2/ny1news/$1_high.asx", type => 'video/x-ms-asf' } } ];
             process '//td[@class="ny1_day"]//a[contains(@href,".html")]', thumbnail => [ '@href',
