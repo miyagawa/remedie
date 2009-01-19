@@ -33,7 +33,7 @@ sub load_plugin_perl {
             ( "package $plugin_class;",
               "use strict;",
               "use base qw( Plagger::Plugin::CustomFeed::Scraper::Base );",
-              "use Web::Scraper 0.25;",
+              "use Web::Scraper 0.26;",
               "$code",
               "1;" );
     }
