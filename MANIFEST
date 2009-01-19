@@ -178,7 +178,6 @@ root/static/images/progressbg_red.gif
 root/static/images/progressbg_yellow.gif
 root/static/images/spinner.gif
 root/static/js/divxobject.js
-root/static/js/jquery-1.3b2.js
 root/static/js/jquery.blockUI.js
 root/static/js/jquery.contextmenu.min.js
 root/static/js/jquery.copy.js
