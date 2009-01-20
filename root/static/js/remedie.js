@@ -964,8 +964,9 @@ Remedie.prototype = {
           .hover(function(){
             if (!remedie.items[item.id].props.track_id) {
               $(this).prepend($("<div/>").attr('id', 'play-button-'+item.id)
-                .addClass("channel-item-play").corners("10px transparent").css({opacity:0.6})
-                .append($("<a/>").attr("href", "javascript:void 0").text("PLAY").click(function(){$(this).parent().next().trigger('click')})));
+                .addClass("channel-item-play")
+                .append($("<a/>").attr("href", "javascript:void 0").text("PLAY").click(function(){$(this).parent().next().trigger('click')}))
+                .corners("10px transparent").css({opacity:0.6}));
             }
           }, function(){
             $('.channel-item-play').remove();
@@ -1156,7 +1157,7 @@ Remedie.prototype = {
             }
           });
         }
-      },
+      }
     });
   },
 
