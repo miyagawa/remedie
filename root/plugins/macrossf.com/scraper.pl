@@ -5,21 +5,19 @@ sub init {
 }
 
 sub build_scraper {
-    my $i = 0;
     scraper {
         process 'title', title => 'TEXT';
         process 'dt.clear + dd', description => 'TEXT';
         process 'dl.clear > dd.onair + dd', 'entries[]' => scraper {
             process 'a',
                     link      =>  '@href',
-                    enclosure => [ '@href',
-                        sub { +{ url => $_, type => 'video/x-ms-asf' } } ];
+                    enclosure =>  '@href';
             process 'a>img',
                     thumbnail => '@src';
         };
+        my $i = 0;
         process 'dl.clear > dd.onair', sub {
-            result->{entries}->[$i]->{title} = $_->as_text;
-            $i++;
+            result->{entries}->[$i++]->{title} = $_->as_text;
         };
         result->{thumbnail} = URI->new('http://macrossf.com/image/radio/logo_radio.jpg');
         result;
