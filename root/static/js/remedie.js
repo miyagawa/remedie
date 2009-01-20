@@ -892,7 +892,7 @@ Remedie.prototype = {
            bindings: {
              item_context_play:      function(){remedie.playVideoInline(item)},
              item_context_play_only:  function(){remedie.playVideoInline(item, null, { thisItemOnly: 1 })},
-             item_context_copy:      function(){$.copy(item.ident)},
+             item_context_copy:      function(){},
              item_context_open:      function(){remedie.markItemAsWatched(item, true);location.href=item.ident},
              item_context_watched:   function(){remedie.markItemAsWatched(item)},
              item_context_unwatched: function(){remedie.markItemAsUnwatched(item)},
@@ -951,6 +951,14 @@ Remedie.prototype = {
                  el.createAppend('li', { id: 'item_context_play_wmp' }, 'Play inline with WMP');
                el.createAppend('li', { id: 'item_context_play_sl' }, 'Play inline with Silverlight');
              }
+
+             el.children('#item_context_copy').bind('mouseover', function(){
+               ZeroClipboard.setMoviePath('/static/ZeroClipboard.swf');
+               var clip = new ZeroClipboard.Client();
+               clip.setText(item.ident);
+               clip.glue('item_context_copy');
+               clip.show();
+             });
 
              return true;
            }
