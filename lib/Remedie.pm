@@ -27,6 +27,4 @@ L<http://code.google.com/p/remedie>
 
 L<http://github.com/miyagawa/remedie/tree/master>
 
-L<http://remedie.lighouseapp.com/>
-
 =cut
