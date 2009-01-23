@@ -353,7 +353,7 @@ Remedie.prototype = {
     if (offset.width)  width  += offset.width;
     if (offset.height) height += offset.height;
 
-    if (item.is_unwatched && !opts.thisItemOnly) {
+    if (!opts.thisItemOnly) {
       var items = $('.channel-item-unwatched');
       var curr  = items.index($("#channel-item-title-" + item.id));
       this.onPlaybackComplete = function() {
