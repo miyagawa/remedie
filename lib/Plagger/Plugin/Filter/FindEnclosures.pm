@@ -124,7 +124,7 @@ sub add_enclosure_from_object {
         $enclosure->url( URI->new($url) );
         $entry->add_enclosure($enclosure);
     } elsif (@embeds) {
-        Plagger->context->log(info => "Use embed tags to create SWF enclosure: $embeds[0][1]");
+        Plagger->context->log(info => "Use embed tags to create SWF enclosure");
         $self->add_enclosure_from_embed($entry, $embeds[0], \%opt);
     }
 }
