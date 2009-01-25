@@ -2,11 +2,12 @@ package Remedie::Server::RPC::Channel;
 use Moose;
 use Remedie::DB::Channel;
 use Remedie::Updater;
-use Feed::Find;
 use Template;
 use Encode;
 use DateTime::Format::ISO8601;
 use DateTime::Format::Mail;
+use Plagger::FeedParser;
+use URI::Fetch;
 
 BEGIN { extends 'Remedie::Server::RPC' };
 
@@ -28,13 +29,14 @@ sub create : POST {
     # TODO make this pluggable
     $uri = normalize_uri($uri);
 
-    my @feeds;
+    my $feed_uri;
     unless ($req->param('no_discovery')) {
-        @feeds = Feed::Find->find($uri);
+        my $res = URI::Fetch->fetch($uri, ForceResponse => 1);
+        $feed_uri = Plagger::FeedParser->discover($res);
     }
 
-    my $type = $feeds[0] ? Remedie::DB::Channel->TYPE_FEED : Remedie::DB::Channel->TYPE_CUSTOM;
-    my $channel_uri = $feeds[0] || $uri;
+    my $type = $feed_uri ? Remedie::DB::Channel->TYPE_FEED : Remedie::DB::Channel->TYPE_CUSTOM;
+    my $channel_uri = $feed_uri || $uri;
 
     # TODO maybe prompt or ask plugin if $type is CUSTOM
 
