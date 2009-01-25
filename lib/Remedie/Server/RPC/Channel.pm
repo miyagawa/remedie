@@ -69,7 +69,7 @@ sub show {
 
     return {
         channel => $channel,
-        items   => $channel->items,
+        items   => $channel->items($req->param('limit')),
     };
 }
 

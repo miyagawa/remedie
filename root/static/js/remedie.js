@@ -173,6 +173,7 @@ Remedie.prototype = {
     });
 
     $(".blockOverlay").live('dblclick', $.unblockUI);
+    $(".show-all-items").live('click', function() { $.blockUI();remedie.showChannel(remedie.currentChannel(), true) });
   },
 
   setupMenuActions: function() {
@@ -781,14 +782,15 @@ Remedie.prototype = {
     return array[want];
   },
 
-  showChannel: function(channel) {
+  showChannel: function(channel, showAll) {
     location.href = "#channel/" + channel.id;
     $.ajax({
       url: "/rpc/channel/show",
       type: 'get',
-      data: { id: channel.id },
+      data: { id: channel.id, limit: (showAll ? 0 : 50) },
       dataType: 'json',
       success: function(r) {
+        $.unblockUI();
         $("#channel-pane").children().remove();
         var channel = r.channel;
         $.event.trigger("remedie-channel-ondisplay", channel);
@@ -819,7 +821,8 @@ Remedie.prototype = {
               'div', { className: 'channel-header-data' }, [
                 'a', { href: channel.ident, target: "_blank" }, RemedieUtil.mangleURI(channel.ident).trimChars(100),
                 'br', {}, null,
-                'span', {}, r.items.length + ' items, ' +
+                'span', {}, '<a class="show-all-items">' + r.channel.total + ' items' + '</a>' +
+                  ', ' +
                   '<span class="unwatched-count-' + channel.id + '">' + 
                   (channel.unwatched_count ? channel.unwatched_count : 0) + '</span> unwatched'
               ],
@@ -979,6 +982,12 @@ Remedie.prototype = {
           } catch(e) { alert(e) };
           return false;
         });
+
+        if (channel.total > r.items.length) {
+          $("#channel-items").createAppend('div', { className: 'show-more-items' }, [
+            'a', { className: 'show-all-items' }, 'Showing only 50 items. Click here to show all items'
+          ]);
+        }
 
         remedie.toggleChannelView(true);
       },

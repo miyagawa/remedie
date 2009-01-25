@@ -280,6 +280,11 @@ div.item-separator {
   font-weight: normal;
 }
 
+.show-more-items {
+  margin-top: 1em;
+  text-align: right;
+}
+
 div#jqContextMenu {
         -webkit-border-radius: 5px;
         border: 1px solid rgba(0,0,0,0.1);
