@@ -36,7 +36,7 @@ sub aggregate {
 
     my $res = $args->{feed}->source or return;
     my $feed_url = Plagger::FeedParser->discover($res);
-    if ($args->{feed}->url eq $feed_url) {
+    if ($res->uri eq $feed_url) {
         return $self->handle_feed($feed_url, \$res->content, $args->{feed});
     } elsif ($feed_url && !$self->conf->{no_discovery}) {
         $res = $self->fetch_content($feed_url) or return;
