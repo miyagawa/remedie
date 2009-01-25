@@ -82,7 +82,7 @@ RemedieUtil.layoutImage = function(elem, src, width, height) {
 
 RemedieUtil.mangleURI = function(url) {
   var uri = new URI(url);
-  if (uri.authority.indexOf('@') > -1) {
+  if (uri.authority != null && uri.authority.indexOf('@') > -1) {
     var host = uri.authority.split('@')[1];
     if (host) uri.authority = host;
   }
