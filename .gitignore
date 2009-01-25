@@ -3,6 +3,5 @@ ffmpeg.log
 META.yml
 Makefile
 Makefile.old
-inc
 pm_to_blib
 blib
