@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 use FindBin::libs;
-use Remedie;
+use FindBin::libs qw( base=extlib );
 use Remedie::CLI::Server;
 
 Remedie::CLI::Server->new_with_options->run();
