@@ -755,9 +755,12 @@ Remedie.prototype = {
 
           remedie.channels[r.channel.id] = r.channel;
           remedie.renderChannelList(r.channel, $("#collection"));
+          $(document).bind('remedie-channel-ondisplay', function(){
+            remedie.manuallyRefreshChannel(r.channel);
+            remedie.resetCursorPos();
+            $(document).unbind('remedie-channel-ondisplay', arguments.callee);
+          });
           remedie.showChannel(r.channel);
-          remedie.manuallyRefreshChannel(r.channel);
-          remedie.resetCursorPos();
         } else {
           alert(r.error);
         }
