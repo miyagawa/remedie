@@ -237,7 +237,10 @@ Remedie.prototype = {
     args = location.hash.split('/');
     if (args[0] == '#channel') {
       if (this.channels[args[1]])
-        this.showChannel( this.channels[args[1]] );
+        var opts = {};
+        if (args[2] == 'all')       opts.all = 1;
+        if (args[2] == 'unwatched') opts.unwatched = 1;
+        this.showChannel( this.channels[args[1]], opts );
     } else if (args[0] == '#subscribe') {
       this.newChannelDialog(decodeURIComponent(args[1]));
     }
@@ -793,7 +796,10 @@ Remedie.prototype = {
 
   showChannel: function(channel, opts) {
     if (!opts) opts = {};
-    location.href = "#channel/" + channel.id;
+    var currentStateURI = "#channel/" + channel.id;
+    if (opts.unwatched) currentStateURI += '/unwatched';
+    else if (opts.all)  currentStateURI += '/all'; // unwatched includes all
+    location.href = currentStateURI;
     $.ajax({
       url: "/rpc/channel/show",
       type: 'get',
