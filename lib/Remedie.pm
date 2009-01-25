@@ -4,6 +4,9 @@ use strict;
 use 5.008_001;
 our $VERSION = '0.2.0';
 
+use FindBin::libs qw( base=extlib );
+use blib::portable 'extlib/blib';
+
 1;
 __END__
 
