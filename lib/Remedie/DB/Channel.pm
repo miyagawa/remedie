@@ -14,11 +14,15 @@ __PACKAGE__->json_encoded_columns('props');
 
 sub items {
     my $self = shift;
-    my($limit) = @_;
+    my %opts = @_;
+
+    my @query = (channel_id => $self->id);
+    push @query, status => $opts{status} if $opts{status} && @{$opts{status}} > 0;
+
     return Remedie::DB::Item::Manager->get_items(
-       query => [ channel_id => $self->id ],
+       query => \@query,
        sort_by => 'id DESC',
-       $limit ? (limit => $limit) : (),
+       $opts{limit} ? (limit => $opts{limit}) : (),
    );
 }
 

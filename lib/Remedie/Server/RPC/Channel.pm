@@ -71,7 +71,10 @@ sub show {
 
     return {
         channel => $channel,
-        items   => $channel->items($req->param('limit')),
+        items   => $channel->items(
+            limit  => scalar $req->param('limit'),
+            status => [ map _enum_status($_), $req->param('status') ],
+        ),
     };
 }
 
@@ -147,17 +150,19 @@ TEMPLATE
     return { success => 1 };
 }
 
+sub _enum_status {
+    my $string = shift or return;
+
+    my $meth = "STATUS_" . uc $string;
+    Remedie::DB::Item->$meth;
+}
+
 sub update_status : POST {
     my($self, $req, $res) = @_;
 
     my $id      = $req->param('id');
     my $item_id = $req->param('item_id');
-    my $status  = $req->param('status');
-
-    my $enum = do {
-        my $meth = "STATUS_" . uc $status;
-        Remedie::DB::Item->$meth;
-    };
+    my $status  = _enum_status($req->param('status'));
 
     my $items;
     if ($id) {
@@ -168,7 +173,7 @@ sub update_status : POST {
         $id    = $item->channel_id;
 
         # mark as watched will make other items with same ident watched as well
-        if ($enum == Remedie::DB::Item->STATUS_WATCHED) {
+        if ($status == Remedie::DB::Item->STATUS_WATCHED) {
             $items = Remedie::DB::Item::Manager->get_items(
                 query => [ ident => $item->ident ]
             );
@@ -178,7 +183,7 @@ sub update_status : POST {
     }
 
     for my $item (@$items) {
-        $item->status($enum);
+        $item->status($status);
         $item->save;
     }
 

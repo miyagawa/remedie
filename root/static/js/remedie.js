@@ -173,7 +173,13 @@ Remedie.prototype = {
     });
 
     $(".blockOverlay").live('dblclick', $.unblockUI);
-    $(".show-all-items").live('click', function() { $.blockUI();remedie.showChannel(remedie.currentChannel(), true) });
+    $(".show-all-items").live('click', function() {
+      $.blockUI();
+      remedie.showChannel(remedie.currentChannel(), { all: true });
+    });
+    $(".show-unwatched-items").live('click', function() {
+      remedie.showChannel(remedie.currentChannel(), { unwatched: true, all: true });
+    });
   },
 
   setupMenuActions: function() {
@@ -785,12 +791,13 @@ Remedie.prototype = {
     return array[want];
   },
 
-  showChannel: function(channel, showAll) {
+  showChannel: function(channel, opts) {
+    if (!opts) opts = {};
     location.href = "#channel/" + channel.id;
     $.ajax({
       url: "/rpc/channel/show",
       type: 'get',
-      data: { id: channel.id, limit: (showAll ? 0 : 50) },
+      data: { id: channel.id, limit: (opts.all ? 0 : 50), status: (opts.unwatched ? [ 'new', 'downloaded' ] : 0) },
       dataType: 'json',
       success: function(r) {
         $.unblockUI();
@@ -826,8 +833,8 @@ Remedie.prototype = {
                 'br', {}, null,
                 'span', {}, '<a class="show-all-items">' + r.channel.total + ' items' + '</a>' +
                   ', ' +
-                  '<span class="unwatched-count-' + channel.id + '">' + 
-                  (channel.unwatched_count ? channel.unwatched_count : 0) + '</span> unwatched'
+                  '<a class="show-unwatched-items"><span class="unwatched-count-' + channel.id + '">' + 
+                  (channel.unwatched_count ? channel.unwatched_count : 0) + '</span> unwatched</a>'
               ],
               'p', { className: 'channel-header-description' }, channel.props.description
             ],
@@ -988,7 +995,7 @@ Remedie.prototype = {
 
         if (channel.total > r.items.length) {
           $("#channel-items").createAppend('div', { className: 'show-more-items' }, [
-            'a', { className: 'show-all-items' }, 'Showing only 50 items. Click here to show all items'
+            'a', { className: 'show-all-items' }, 'Showing only ' + r.items.length + ' items. Click here to show all items'
           ]);
         }
 
