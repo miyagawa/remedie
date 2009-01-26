@@ -18,3 +18,6 @@ plugins:
 --- expected
 is $context->update->feeds->[0]->entries->[0]->title, "Test S03E10";
 is $context->update->feeds->[0]->entries->[0]->summary, "Test.S03E10.720p.HDTV.mp4";
+ok $context->update->feeds->[0]->entries->[0]->has_tag('720p');
+is $context->update->feeds->[0]->entries->[1]->title, "Foo - 02";
+ok $context->update->feeds->[0]->entries->[1]->has_tag('1280x720');

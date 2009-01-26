@@ -35,7 +35,7 @@ sub filter {
     my $tag_re = '[\[\(\x{3010}]([^\)\]\x{3011}]*)[\)\]\x{3011}]';
     my @tags;
     while ( $base =~ s/^$tag_re\s*|\s*$tag_re\.?$// ) {
-        push @tags, $1 || $2;
+        push @tags, split /\s+/, ($1 || $2);
     }
 
     if ($base =~ s/\.(HR|[HP]DTV|WS|AAC|AC3|DVDRip|PROPER|DVDSCR|720p|1080p|[hx]264(?:-\w+)?|dd51)\.(.*)//i) {
@@ -44,6 +44,10 @@ sub filter {
         # ad-hoc: rescue DD.MM.YY(YY)
         $base =~ s/(\d\d) (\d\d) (\d\d(\d\d)?)\b/$1.$2.$3/;
         push @tags, split /\./, $tags;
+    }
+
+    if ($base =~ s/\s+(RAW)$//i) {
+        push @tags, $1;
     }
 
     if ($orig ne $base) {
