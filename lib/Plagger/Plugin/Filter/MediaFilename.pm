@@ -2,6 +2,7 @@ package Plagger::Plugin::Filter::MediaFilename;
 use strict;
 use base qw( Plagger::Plugin );
 
+use Encode;
 use Plagger::Enclosure;
 use URI::filename;
 
@@ -19,7 +20,7 @@ sub filter {
 
     my $entry = $args->{entry};
     no warnings 'uninitialized';
-    unless (URI->new($entry->link)->raw_filename eq $entry->title) {
+    unless (URI->new($entry->link)->raw_filename eq encode_utf8($entry->title)) {
         return;
     }
 
