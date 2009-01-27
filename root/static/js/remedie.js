@@ -196,10 +196,11 @@ Remedie.prototype = {
   },
 
   setupEventListeners: function() {
-    $(document).bind('remedie-channel-updated', function(ev, channel) {
-      remedie.redrawChannel(channel);
-      remedie.redrawUnwatchedCount(channel);
+    $(document).bind('remedie-channel-updated', function(ev, args) {
+      remedie.redrawChannel(args.channel);
+      remedie.redrawUnwatchedCount(args.channel);
       remedie.renderUnwatchedBadges();
+      remedie.notifyNewItems(args.channel, args.prev);
     });
     $(document).bind('remedie-channel-ondisplay', function(ev, channel) {
       document.title = 'Remedie: ' + channel.name;
@@ -259,6 +260,20 @@ Remedie.prototype = {
       this.call();
     });
     this.unblockCallbacks = [];
+  },
+
+  notifyNewItems: function(channel, prev) {
+    var diff = channel.unwatched_count - prev.unwatched_count;
+    if (prev != undefined && diff >= 0) {
+      var item = channel.first_item;
+      if (item) {
+        var icon;
+        var thumb = item.props.thumbnail || channel.props.thumbnail;
+        if (thumb != null && thumb.url)
+          icon = thumb.url;
+        $.jGrowl(item.name, { icon: icon, header: channel.name, life: 3000 });
+      }
+    }
   },
 
   launchVideoPlayer: function(item, player, fullscreen, iframe) {
@@ -713,9 +728,10 @@ Remedie.prototype = {
       async: (obj.sync ? false : true),
       success: function(r) {
         if (r.success) {
+          var o = remedie.channels[r.channel.id];
           remedie.channels[r.channel.id] = r.channel;
           callback.call();
-          $.event.trigger('remedie-channel-updated', r.channel);
+          $.event.trigger('remedie-channel-updated', { channel: r.channel, prev: o });
         } else {
           alert(r.error);
         }
@@ -1059,12 +1075,13 @@ Remedie.prototype = {
       success: function(r) {
         $.unblockUI();
         if (r.success) {
+          var o = remedie.channels[r.channel.id];
           remedie.channels[r.channel.id] = r.channel;
-          $.event.trigger('remedie-channel-updated', r.channel);
+          $.event.trigger('remedie-channel-updated', { channel: r.channel, prev: o });
           if (refreshView)
             remedie.showChannel(r.channel);
         } else {
-          $.event.trigger('remedie-channel-updated', channel); // Fake updated Event to cancel animation
+          $.event.trigger('remedie-channel-updated', { channel: channel }); // Fake updated Event to cancel animation
           alert(r.error);
         }
       }
