@@ -264,7 +264,7 @@ Remedie.prototype = {
 
   notifyNewItems: function(channel, prev) {
     var diff = channel.unwatched_count - prev.unwatched_count;
-    if (prev != undefined && diff >= 0) {
+    if (prev != undefined && diff > 0) {
       var item = channel.first_item;
       if (item) {
         var icon;
