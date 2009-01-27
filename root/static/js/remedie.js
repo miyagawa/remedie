@@ -137,7 +137,7 @@ Remedie.prototype = {
       Shadowbox.open({
         player:  'html',
         title:   'Keyboard shortcuts',
-        content: message.html()
+        content: message.outerhtml()
       });
     });
   },
@@ -1382,7 +1382,7 @@ Remedie.prototype = {
       Shadowbox.open({
         player:  'html',
         title:   'About',
-        content: message.html()
+        content: message.outerhtml()
       });
       return false;
   }
