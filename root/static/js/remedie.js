@@ -22,7 +22,7 @@ Remedie.prototype = {
     this.setupEventListeners();
     this.setupHotKeys();
     this.setupPluginDefaults();
- 
+
     this.loadCollection( this.dispatchAction );
   },
 
@@ -124,8 +124,7 @@ Remedie.prototype = {
               'h2', {}, 'Keyboard shortcuts',
               'hr', {}, null,
               'div', { className: 'keyboard-shortcuts', style: 'text-align: left' }, null,
-              'br', {}, null,
-              'a', { className: 'command-unblock', href: '#' }, 'Close this window'
+              'br', {}, null
           ]);
       var container = $("div.keyboard-shortcuts", message);
       $.each(remedie.hotkeys, function(index, info) {
@@ -135,7 +134,6 @@ Remedie.prototype = {
          }
          container.append('<em>' + key + '</em>: ' + info.desc + '<br/>');
       });
-      message.children("a.command-unblock").click(Shadowbox.close);
       Shadowbox.open({
         player:  'html',
         title:   'Keyboard shortcuts',
@@ -288,7 +286,7 @@ Remedie.prototype = {
     } else {
       url = item.ident;
     }
-      
+
     if (iframe) {
       var form = $("<form></form>").attr("target", "upload-frame")
         .attr("method", "post").ajaxSubmit({
@@ -818,7 +816,7 @@ Remedie.prototype = {
     $.each(this.channels, function(idx, c) {
       if (c != undefined) {
         array.push(c);
-        if (c.id == channel.id) 
+        if (c.id == channel.id)
           want = array.length - 1 + offset;
       }
     });
@@ -987,7 +985,7 @@ Remedie.prototype = {
                if (item.props.download_path && !item.props.track_id)
                  el.createAppend('li', { id: 'item_context_cancel_download' }, 'Remove downloaded file');
              }
-        
+
              if (item.is_unwatched) {
                el.createAppend('li', { id: 'item_context_watched' }, 'Mark as watched');
              } else {
@@ -1268,13 +1266,13 @@ Remedie.prototype = {
     if (document.documentElement.getBoundingClientRect) { // IE 
       var box = e.getBoundingClientRect();
       var owner = e.ownerDocument;
-      pos.x = box.left + Math.max(owner.documentElement.scrollLeft, owner.body.scrollLeft) - 2; 
-      pos.y = box.top  + Math.max(owner.documentElement.scrollTop,  owner.body.scrollTop) - 2
+      pos.x = box.left + Math.max(owner.documentElement.scrollLeft, owner.body.scrollLeft) - 2;
+      pos.y = box.top  + Math.max(owner.documentElement.scrollTop,  owner.body.scrollTop) - 2;
     } else if(document.getBoxObjectFor) { //Firefox
       pos.x = document.getBoxObjectFor(e).x;
       pos.y = document.getBoxObjectFor(e).y;
     } else {
-      do { 
+      do {
         pos.x += e.offsetLeft;
         pos.y += e.offsetTop;
       } while (e = e.offsetParent);
@@ -1375,12 +1373,12 @@ Remedie.prototype = {
 
   showAboutDialog: function() {
       var message = $('<div/>').createAppend(
-           'div', { id: "about-dialog" }, [
+          'div', { id: "about-dialog" }, [
               'h2', {}, 'Remedie Media Center ' + Remedie.version,
               'p', {}, [
                   'a', { href: "http://code.google.com/p/remedie/", target: "_blank" }, 'Source code'
               ]
-          ])
+          ]);
       Shadowbox.open({
         player:  'html',
         title:   'About',
