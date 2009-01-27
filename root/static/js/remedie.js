@@ -647,6 +647,31 @@ Remedie.prototype = {
     })
   },
 
+  embedCooliris: function(channel) {
+    var res    = RemedieUtil.calcWindowSize($(window).width()-100, $(window).height()-80, 9/16);
+    var width  = res.width;
+    var height = res.height;
+
+    var embed = new SWFObject("http://apps.cooliris.com/embed/cooliris.swf", 'cooliris-' + channel.id, width, height, '9');
+    embed.addParam('allowfullscreen', 'true');
+    embed.addParam('allowscriptaccess', 'always');
+    embed.addVariable('feed', $("#gallery").attr('href'));
+    embed.write('embed-player');
+
+    $('#embed-player').append(
+      $('<img/>').attr('class', 'closebox').attr('src', "/static/images/closebox.png").click($.unblockUI)
+    );
+
+    $.blockUI({
+      message: $('#embed-player'),
+      css: { top:  ($(window).height() - height) / 2 + 'px',
+             left: ($(window).width()  - width) / 2 + 'px',
+             width:  width + 'px', height: 'auto',
+             opacity: 1, padding: 0, border: '1px solid #fff', backgroundColor: '#fff',
+             '-webkit-border-radius': 0, '-moz-border-radius': 0 }
+      });
+},
+
   markAllAsWatched: function(channel, showChannelView) {
     this.updateStatus({ id: channel.id, status: 'watched' }, function() {
       if (showChannelView) remedie.showChannel(channel);
@@ -897,6 +922,7 @@ Remedie.prototype = {
             channel_context_clear_stale:  function(){ remedie.manuallyRefreshChannel(channel, true) },
             channel_context_mark_watched: function(){ remedie.markAllAsWatched(channel, true) },
             channel_context_cooliris:     function(){ PicLensLite.start() },
+            channel_context_cooliris_swf: function(){ remedie.embedCooliris(channel) },
             channel_context_remove:       function(){ remedie.removeChannel(channel) }
           }
         });
