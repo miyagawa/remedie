@@ -101,7 +101,7 @@ Remedie.prototype = {
     this.installHotKey('o', 'Open channel (or play/close item)', function(){
       if (remedie.current_id) {
         if ( remedie.isPlayingVideo ) {
-          $.unblockUI();
+          Shadowbox.close();
           return false;
         } else {
           var items = $('.channel-item');
@@ -117,7 +117,7 @@ Remedie.prototype = {
         return false;
       }
     });
-    this.installHotKey('esc', 'Close embed player (or dialog)', $.unblockUI, true);
+    this.installHotKey('esc', 'Close embed player (or dialog)', Shadowbox.close, true);
     this.installHotKey('shift+h', 'Show this help', function() {
       var message = $('<div/>').createAppend(
            'div', { id: "keyboard-shortcut-help-dialog" }, [
@@ -135,10 +135,11 @@ Remedie.prototype = {
          }
          container.append('<em>' + key + '</em>: ' + info.desc + '<br/>');
       });
-      message.children("a.command-unblock").click($.unblockUI);
-      $.blockUI({
-        message: message,
-        css: { top: '50px' }
+      message.children("a.command-unblock").click(Shadowbox.close);
+      Shadowbox.open({
+        player:  'html',
+        title:   'Keyboard shortcuts',
+        content: message.html()
       });
     });
   },
@@ -354,7 +355,7 @@ Remedie.prototype = {
       offset.height = 18;
     }
 
-    var res    = RemedieUtil.calcWindowSize($(window).width()-100, $(window).height()-80, ratio);
+    var res    = RemedieUtil.calcWindowSize($(window).width()-100, $(window).height()-94, ratio);
     var width  = res.width;
     var height = res.height;
 
@@ -398,146 +399,139 @@ Remedie.prototype = {
 
     if (player == 'Web') {
       if (item.props.embed.script) {
-         $('head').append("<script>" + item.props.embed.script + "</script>");
+        Shadowbox.open({
+          player:  'html',
+          title:   item.name,
+          height:  height,
+          width:   width,
+          gallery: 'gallery' + item.channel_id,
+          content: '<div id="embed-player"></div>'
+        }, {
+          onFinish: function() {
+            $('head').append("<script>" + item.props.embed.script + "</script>");
+          }
+        });
       } else {
-        var s1 = new SWFObject(item.props.embed.url, 'player-' + item.id, width, height, '9');
-        s1.addParam('allowfullscreen','true');
-        s1.addParam('allowscriptaccess','always');
-//        s1.addVariable('bitrate', '700000'); // Hulu
-        s1.write('embed-player');
-
-        // Event handling for YouTube player. This might be better pluggable
-        // http://code.google.com/apis/youtube/js_api_reference.html
-        $(document).bind('remedie-player-ready-youtube', function(ev, id){ // id is undefined for some reason
-          var player = document.getElementById('player-'+item.id);
-          player.addEventListener('onStateChange', 'function(newstate){if(newstate==0) remedie.onPlaybackComplete()}');
-          $(document).unbind('remedie-player-ready-youtube');
+        Shadowbox.open({
+          player:  'swf',
+          title:   item.name,
+          height:  height,
+          width:   width,
+          gallery: 'gallery' + item.channel_id,
+          content: item.props.embed.url
         });
       }
     } else if (player == 'QuickTime') {
-        var s1 = new QTObject(url, 'player-' + id, width,  height);
-        s1.addParam('scale', 'Aspect');
-        s1.addParam('target', 'QuickTimePlayer');
-        s1.addParam('postdomevents', 'true');
-        s1.write('embed-player');
-        document.getElementById('player-' + id).addEventListener('qt_ended', this.onPlaybackComplete, false);
-    } else if (player == 'WMP') {
-        var s1 = new MPObject(url, 'player-' + id, width,  height);
-        s1.addParam("autostart", "1");
-        s1.write('embed-player');
-    } else if (player == 'DivX') {
-        var s1 = new DivXObject(url, 'player-' + id, width,  height);
-        s1.addParam("autostart", "true");
-        s1.addParam("controller", "true");
-        s1.write('embed-player');
-    } else if (player == 'Silverlight') {
-        var elm = document.getElementById("embed-player");
-        var ply = new jeroenwijering.Player(elm, '/static/js/wmvplayer/wmvplayer.xaml', {
-          file: url,
-          width: width,
-          height: height,
-          link: item.props.link
-//          autostart: true
+        Shadowbox.open({
+          player:  'qt',
+          title:   item.name,
+          height:  height,
+          width:   width,
+          gallery: 'gallery' + item.channel_id,
+          content: url
         });
-
-        var setupSilverlight = function(ply) {
-          if (ply.view) {
-            ply.addListener('STATE', function(ost,nst){if (nst == 'Completed') remedie.onPlaybackComplete()});
-            ply.sendEvent('PLAY');
-          } else {
-            // not ready yet
-            var _this = arguments.callee;
-            setTimeout(function(){_this(ply)}, 100)
+    } else if (player == 'WMP') {
+        Shadowbox.open({
+          player:  'html',
+          title:   item.name,
+          height:  height,
+          width:   width,
+          gallery: 'gallery' + item.channel_id,
+          content: '<div id="embed-player"></div>'
+        }, {
+          onFinish: function() {
+            var s1 = new MPObject(url, 'player-' + id, width,  height);
+            s1.addParam("autostart", "1");
+            s1.write('embed-player');
           }
-        };
-        setupSilverlight(ply);
+        });
+    } else if (player == 'DivX') {
+        Shadowbox.open({
+          player:  'html',
+          title:   item.name,
+          height:  height,
+          width:   width,
+          gallery: 'gallery' + item.channel_id,
+          content: '<div id="embed-player"></div>'
+        }, {
+          onFinish: function() {
+            var s1 = new DivXObject(url, 'player-' + id, width,  height);
+            s1.addParam("autostart", "true");
+            s1.addParam("controller", "true");
+            s1.write('embed-player');
+          }
+        });
+    } else if (player == 'Silverlight') {
+        Shadowbox.open({
+          player:  'html',
+          title:   item.name,
+          height:  height,
+          width:   width,
+          gallery: 'gallery' + item.channel_id,
+          content: '<div id="embed-player"></div>'
+        }, {
+          onFinish: function() {
+            var elm = document.getElementById("embed-player");
+            var ply = new jeroenwijering.Player(elm, '/static/js/wmvplayer/wmvplayer.xaml', {
+              file: url,
+              width: width,
+              height: height,
+              link: item.props.link
+//              autostart: true
+            });
 
-        // space key to play and pause the video
-        $(document).bind('keydown', 'space', function(){
-          if (ply.view) ply.sendEvent("PLAY");
-          return false;
+            var setupSilverlight = function(ply) {
+              if (ply.view) {
+                ply.addListener('STATE', function(ost,nst){if (nst == 'Completed') remedie.onPlaybackComplete()});
+                ply.sendEvent('PLAY');
+              } else {
+                // not ready yet
+                var _this = arguments.callee;
+                setTimeout(function(){_this(ply)}, 100)
+              }
+            };
+            setupSilverlight(ply);
+
+            // space key to play and pause the video
+            $(document).bind('keydown', 'space', function(){
+              if (ply.view) ply.sendEvent("PLAY");
+              return false;
+            });
+          }
         });
         this.runOnUnblock(function(){$(document).unbind('keydown', 'space', function(){})});
     } else if (player == 'Flash') {
-      var s1 = new SWFObject('/static/player.swf', 'player-' + id, width, height, '9');
-      s1.addParam('allowfullscreen','true');
-      s1.addParam('allowscriptaccess','always');
-      s1.addVariable('autostart', 'true');
       if (url.match(/^rtmp[ts]?:/)) {
         var urls = url.split('/');
-        file = urls.pop();
-        s1.addVariable('file', encodeURIComponent(file));
-        s1.addVariable('streamer', encodeURIComponent(urls.join('/')));
-        s1.addVariable('type', 'rtmp');
+        file = encodeURIComponent(urls.pop());
       } else {
-        s1.addVariable('file', encodeURIComponent(url));
+        file = encodeURIComponent(url);
       }
-      if (thumbnail)
-        s1.addVariable('image', encodeURIComponent(thumbnail));
-      if (item.props.link)
-        s1.addVariable('link', encodeURIComponent(item.props.link));
-      s1.write('embed-player');
-
-      $(document).bind('remedie-player-ready', function(ev, id){
-        var player = document.getElementById(id);
-        // JW player needs a string representatin for callbacks
-        player.addViewListener('STOP', '$.unblockUI');
-        player.addModelListener('STATE', 'function(ev){if (ev.newstate=="COMPLETED") remedie.onPlaybackComplete()}');
-        $(document).unbind('remedie-player-ready');
+      Shadowbox.open({
+        player:  'flv',
+        title:   item.name,
+        height:  height,
+        width:   width,
+        gallery: 'gallery' + item.channel_id,
+        content: file
       });
-
+/*
       // space key to play and pause the video
       $(document).bind('keydown', 'space', function(){
         document.getElementById('player-'+id).sendEvent("PLAY");
         return false;
       });
       this.runOnUnblock(function(){$(document).unbind('keydown', 'space', function(){})});
+*/
     }
 
-    this.runOnUnblock(function(){
-      $('#embed-player').children().remove();
-      remedie.isPlayingVideo = false;
+    Shadowbox.applyOptions({
+      onClose: function() {
+        remedie.isPlayingVideo = false;
+      }
     });
 
-    $('#embed-player').append(
-      $('<img/>').attr('class', 'closebox').attr('src', "/static/images/closebox.png").click($.unblockUI)
-    );
-
-    if (player == 'Flash' || player == 'Silverlight') {
-      $('#embed-player').append(
-        $('<div></div>').attr('class', 'embed-player-footer').append(
-           $("<span></span>").attr("class", "embed-player-item-title").text(item.name), "&nbsp;&nbsp;",
-           $("<span></span>").attr("class", "embed-player-channel-title").text(this.channels[item.channel_id].name)
-        ).css({opacity:0.6})
-      );
-    }
-
-    var events = [];
-    $('#embed-player').hover(
-      function(){
-        $.each(events, function(idx, id) { clearTimeout(id) });
-        events = [];
-        $(".closebox, .embed-player-footer", this).show();
-      },
-      function(){
-        var _this = this;
-        var id = setTimeout(function(){
-          $(".closebox, .embed-player-footer", _this).fadeOut(500)
-        }, 1500);
-        events.push(id);
-      }
-    );
-
     this.markItemAsWatched(item); // TODO setTimeout?
-
-    $.blockUI({
-      message: $('#embed-player'),
-      css: { top:  ($(window).height() - height) / 2 + 'px',
-             left: ($(window).width()  - width) / 2 + 'px',
-             width:  width + 'px', height: 'auto',
-             opacity: 1, padding: 0, border: '1px solid #fff', backgroundColor: '#fff',
-             '-webkit-border-radius': 0, '-moz-border-radius': 0 }
-      });
   },
 
   defaultPlayerFor: function(type) {
@@ -670,25 +664,21 @@ Remedie.prototype = {
     var width  = res.width;
     var height = res.height;
 
-    var embed = new SWFObject("http://apps.cooliris.com/embed/cooliris.swf", 'cooliris-' + channel.id, width, height, '9');
-    embed.addParam('allowfullscreen', 'true');
-    embed.addParam('allowscriptaccess', 'always');
-    embed.addVariable('feed', $("#gallery").attr('href'));
-    embed.write('embed-player');
-
-    $('#embed-player').append(
-      $('<img/>').attr('class', 'closebox').attr('src', "/static/images/closebox.png").click($.unblockUI)
-    );
-
-    $.blockUI({
-      message: $('#embed-player'),
-      css: { top:  ($(window).height() - height) / 2 + 'px',
-             left: ($(window).width()  - width) / 2 + 'px',
-             width:  width + 'px', height: 'auto',
-             opacity: 1, padding: 0, border: '1px solid #fff', backgroundColor: '#fff',
-             '-webkit-border-radius': 0, '-moz-border-radius': 0 }
-      });
-},
+    Shadowbox.open({
+      player:  'html',
+      height:  height,
+      width:   width,
+      content: '<div id="embed-player"></div>'
+    }, {
+      onFinish: function() {
+        var embed = new SWFObject("http://apps.cooliris.com/embed/cooliris.swf", 'cooliris-' + channel.id, width, height, '9');
+        embed.addParam('allowfullscreen', 'true');
+        embed.addParam('allowscriptaccess', 'always');
+        embed.addVariable('feed', $("#gallery").attr('href'));
+        embed.write('embed-player');
+      }
+    });
+  },
 
   markAllAsWatched: function(channel, showChannelView) {
     this.updateStatus({ id: channel.id, status: 'watched' }, function() {
@@ -907,7 +897,7 @@ Remedie.prototype = {
           $("#channel-items").createAppend(
            'div', { className: 'channel-item channel-item-selectable', id: 'channel-item-' + item.id  }, [
              'div', { className: 'item-thumbnail' }, [
-               'a', { className: 'channel-item-clickable', href: item.ident, id: "item-thumbnail-" + item.id }, [
+               'a', { className: 'channel-item-clickable', href: item.ident, id: "item-thumbnail-" + item.id, rel: "shadowbox[gallery" + item.channel_id + "]" }, [
                  'img', { id: 'item-thumbnail-image-' + item.id,
                           src: thumbnail, alt: item.name, style: 'width: 128px' }, null
                ]
@@ -933,6 +923,8 @@ Remedie.prototype = {
          if (item.props.thumbnail)
            RemedieUtil.layoutImage($("#item-thumbnail-image-" + item.id), item.props.thumbnail.url, 128, 96);
        });
+
+//       Shadowbox.setup();
 
        $(".channel-header")
         .contextMenu("channel-context-menu", {
@@ -1387,11 +1379,13 @@ Remedie.prototype = {
               'h2', {}, 'Remedie Media Center ' + Remedie.version,
               'p', {}, [
                   'a', { href: "http://code.google.com/p/remedie/", target: "_blank" }, 'Source code'
-              ],
-              'a', { className: 'command-unblock', href: location.href }, 'Close this window'
+              ]
           ])
-      message.children("a.command-unblock").click($.unblockUI);
-      $.blockUI({ message: message });
+      Shadowbox.open({
+        player:  'html',
+        title:   'About',
+        content: message.html()
+      });
       return false;
   }
 };
