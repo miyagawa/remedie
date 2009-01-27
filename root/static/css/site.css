@@ -301,3 +301,7 @@ iframe#upload-frame {
 .contextMenu {
   color: #000
 }
+
+#shadowbox_content.html {
+ overflow: hidden; /* override */
+}

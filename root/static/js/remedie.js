@@ -473,7 +473,7 @@ Remedie.prototype = {
             var ply = new jeroenwijering.Player(elm, '/static/js/wmvplayer/wmvplayer.xaml', {
               file: url,
               width: width,
-              height: height,
+              height: height - 18,
               link: item.props.link
 //              autostart: true
             });
