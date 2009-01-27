@@ -172,6 +172,8 @@ Remedie.prototype = {
       shadow:            true
     });
 
+    $.jGrowl.defaults.closer = false;
+
     $(".blockOverlay").live('dblclick', $.unblockUI);
     $(".show-all-items").live('click', function() {
       $.blockUI();
@@ -272,7 +274,7 @@ Remedie.prototype = {
         var thumb = item.props.thumbnail || channel.props.thumbnail;
         if (thumb != null && thumb.url)
           icon = thumb.url;
-        $.jGrowl(item.name, { icon: icon, header: channel.name, life: 3000, closer: false });
+        $.jGrowl(item.name, { icon: icon, header: channel.name });
       }
     }
   },
