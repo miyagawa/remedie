@@ -262,6 +262,7 @@ Remedie.prototype = {
     this.unblockCallbacks = [];
   },
 
+  // TODO: eventually this notification should be triggered on the server side and broadcast over comet
   notifyNewItems: function(channel, prev) {
     var diff = channel.unwatched_count - prev.unwatched_count;
     if (prev != undefined && diff > 0) {
