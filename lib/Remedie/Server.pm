@@ -80,6 +80,7 @@ sub handle_request {
 
     my $res = HTTP::Engine::Response->new;
     $path = "/static/html/index.html" if $path eq "/";
+    $path = "/static/crossdomain.xml" if $path eq "/crossdomain.xml";
 
     eval {
         if ($path =~ s!^/rpc/!!) {

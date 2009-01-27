@@ -63,7 +63,7 @@ requires 'XML::Atom';
 requires 'XML::LibXML';
 requires 'XML::LibXML::Simple';
 requires 'XML::RSS::LibXML';
-requires 'XML::Feed';
+requires 'XML::Feed', 0.41;
 requires 'XML::OPML::LibXML';
 requires 'YAML';
 requires 'YAML::Syck';
