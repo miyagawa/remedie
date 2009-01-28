@@ -387,13 +387,15 @@ Remedie.prototype = {
       this.onPlaybackComplete = function() {
         if (curr > -1 && items[curr+1] != undefined) {
           var id = items[curr+1].id.replace('channel-item-title-', '');
-          $.unblockUI({ fadeOut: 10, onUnblock: function(){ remedie.playVideoInline(remedie.items[id]) } });
-        } else {
-          $.unblockUI();
+          // FIXME this doesn't seem to work
+          Shadowbox.applyOptions({
+            onClose: function(){ remedie.playVideoInline(remedie.items[id]) }
+          });
         }
+        Shadowbox.close();
       };
     } else {
-      this.onPlaybackComplete = $.unblockUI;
+      this.onPlaybackComplete = Shadowbox.close;
     }
 
     if (player == 'Web') {
