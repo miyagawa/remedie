@@ -173,6 +173,7 @@
 		
 			/** Optional Corners Plugin **/
 			if ( $.fn.corner != undefined ) $(notification).corner( o.corners );
+                        if ( $.fn.corners != undefined ) $(notification).corners( o.corners + " transparent");
 
 			/** Add a Global Closer if more than one notification exists **/
 			if ( $('div.jGrowl-notification:parent', this.element).size() > 1 && $('div.jGrowl-closer', this.element).size() == 0 && this.defaults.closer != false ) {

@@ -173,6 +173,7 @@ Remedie.prototype = {
     });
 
     $.jGrowl.defaults.closer = false;
+    $.jGrowl.defaults.speed  = 1000;
 
     $(".blockOverlay").live('dblclick', $.unblockUI);
     $(".show-all-items").live('click', function() {
