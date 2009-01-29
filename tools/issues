@@ -27,7 +27,10 @@ sub run_list {
 
     while (my $row = $parser->getline_hr($io)) {
         last unless $row->{ID};
-        printf "%s: %s (%s)\n", $row->{ID}, $row->{Summary}, $row->{Owner};
+        printf "%s: %s %s(%s)\n",
+            $row->{ID}, $row->{Summary},
+            $row->{Milestone} ? "[$row->{Milestone}] " : "",
+            $row->{Owner};
     }
 }
 
