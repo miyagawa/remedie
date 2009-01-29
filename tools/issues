@@ -1,0 +1,43 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use YAML;
+
+my $proj = "remedie";
+
+my $cmd = shift || "list";
+my %cmds = (
+    list => \&run_list,
+    get  => \&run_details,
+    load => \&run_details,
+    details => \&run_details,
+);
+
+my $command = $cmds{$cmd} or die "Command $cmd not found\n";
+$command->(@ARGV);
+
+sub run_list {
+    require LWP::UserAgent;
+    require Text::CSV_XS;
+    my $ua = LWP::UserAgent->new;
+    my $content = $ua->get("http://code.google.com/p/$proj/issues/csv")->content;
+    open my $io, '<', \$content;
+    my $parser  = Text::CSV_XS->new({ binary => 1 });
+    $parser->column_names($parser->getline($io));
+
+    while (my $row = $parser->getline_hr($io)) {
+        last unless $row->{ID};
+        printf "%s: %s (%s)\n", $row->{ID}, $row->{Summary}, $row->{Owner};
+    }
+}
+
+sub run_details {
+    require Net::Google::Code;
+    my($id) = @_;
+
+    my $code = Net::Google::Code->new(project => $proj);
+    my $issue = $code->issue;
+    $issue->load($id);
+
+    print Dump $issue->{state};
+}
