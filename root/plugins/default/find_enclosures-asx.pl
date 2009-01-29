@@ -18,7 +18,8 @@ sub upgrade {
         or return;
 
     my $doc = XML::LibXML->new->parse_string($content);
-    my @ref = $doc->findnodes('//ref') or return;
+    my @ref = map $doc->findnodes("//$_"), qw( ref Ref REF )
+        or return;
 
     my $url = $ref[0]->getAttribute('href') || $ref[0]->getAttribute('HREF')
         or return;
