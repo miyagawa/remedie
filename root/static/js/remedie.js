@@ -414,12 +414,19 @@ Remedie.prototype = {
         });
       } else {
         Shadowbox.open({
-          player:  'swf',
+          player:  'html',
           title:   item.name,
           height:  height,
           width:   width,
           gallery: 'gallery' + item.channel_id,
-          content: item.props.embed.url
+          content: '<div id="embed-player"></div>'
+        }, {
+          onFinish: function() {
+            var s1 = new SWFObject(item.props.embed.url, 'player-' + item.id, width, height, '9');
+            s1.addParam('allowfullscreen','true');
+            s1.addParam('allowscriptaccess','always');
+            s1.write('embed-player');
+          }
         });
       }
     } else if (player == 'QuickTime') {
