@@ -76,15 +76,47 @@ sub find_enclosures {
     my($self, $data_ref, $entry, %opt) = @_;
 
     my $parser = HTML::TokeParser->new($data_ref);
-    while (my $tag = $parser->get_tag('a', 'embed', 'object')) {
+    while (my $tag = $parser->get_tag('a', 'embed', 'object', 'head')) {
         if ($tag->[0] eq 'a' ) {
             $self->add_enclosure($entry, $tag, 'href', \%opt);
         } elsif ($tag->[0] eq 'embed') {
             $self->add_enclosure_from_embed($entry, $tag, \%opt);
         } elsif ($tag->[0] eq 'object') {
             $self->add_enclosure_from_object($entry, $parser, %opt);
+        } elsif ($tag->[0] eq 'head') {
+            $self->add_enclosure_from_head($entry, $parser, %opt);
         }
     }
+}
+
+# http://www.facebook.com/share_partners.php
+# link rel="video_src" etc.
+sub add_enclosure_from_head {
+    my($self, $entry, $parser, %opt) = @_;
+
+    my(%meta, %link);
+    while (my $tag = $parser->get_tag('meta', 'link', '/head')) {
+        last if $tag->[0] eq '/head';
+        if ($tag->[0] eq 'meta') {
+            $meta{$tag->[1]{name}} = $tag->[1]{content};
+        } elsif ($tag->[0] eq 'link') {
+            $link{$tag->[1]{rel}} = $tag->[1]{href};
+        }
+    }
+
+    if ($link{video_src}) {
+        my $enclosure = Plagger::Enclosure->new;
+        $enclosure->url(URI->new($link{video_src}));
+        $enclosure->type($meta{video_type})     if $meta{video_type};
+        $enclosure->width($meta{video_width})   if $meta{video_width};
+        $enclosure->height($meta{video_height}) if $meta{video_height};
+        if ($link{image_src}) {
+            $enclosure->thumbnail({ url => $link{image_src} });
+        }
+        $entry->add_enclosure($enclosure);
+    }
+
+    # TODO audio_src
 }
 
 sub add_enclosure_from_object {
