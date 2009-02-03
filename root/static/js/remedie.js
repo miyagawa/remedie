@@ -321,12 +321,55 @@ Remedie.prototype = {
   playVideoInline: function(item, player, opts) {
     if (!opts) opts = {};
     this.isPlayingVideo = true;
+
+    // TODO make this an event
+    this.cursorPos = $('.channel-item').index($('#channel-item-' + item.id));
+
+    if (!opts.thisItemOnly) {
+      this.onPlaybackComplete = Shadowbox.next;
+    } else {
+      this.onPlaybackComplete = Shadowbox.close;
+    }
+
+    if (opts.thisItemOnly || !item.is_unwatched) {
+      this.markItemAsWatched(item);
+      this.onPlaybackComplete = Shadowbox.close;
+      var galleryItem = this.getShadowboxGallery(item, player, opts);
+      Shadowbox.open(galleryItem, { gallery: 'gallery' + item.channel_id });
+    } else {
+      this.onPlaybackComplete = Shadowbox.next;
+      var items = $('.channel-item-unwatched');
+      var curr  = items.index($("#channel-item-title-" + item.id));
+      items = items.slice(curr, items.length);
+      var galleryItems = $.map(items, function(n, i) { return { id: n.id.replace('channel-item-title-', '') } });
+      var loadGalleryItem = function(gallery) {
+        var item = remedie.items[gallery.id]
+        var nextItem = remedie.getShadowboxGallery(item, player, opts);
+        if (callback = nextItem.onFinish) {
+          Shadowbox.applyOptions({ onFinish: callback });
+        }
+        $.extend(gallery, nextItem);
+        remedie.markItemAsWatched(item); // TODO make it an event
+      };
+      Shadowbox.open(galleryItems, {
+        gallery: 'gallery' + item.channel_id,
+        onChange: loadGalleryItem,
+        onOpen:   loadGalleryItem
+      });
+    }
+
+    Shadowbox.applyOptions({
+      onClose: function() {
+        remedie.isPlayingVideo = false;
+      }
+    });
+  },
+
+  getShadowboxGallery: function(item, player, opts) {
+    if (!opts) opts = {};
     var channel_id = item.channel_id;
     var id   = item.id;
     var url  = item.ident;
-
-    // TODO should this be set with other actions (e.g. Mark as read) as well with events?
-    this.cursorPos = $('.channel-item').index($('#channel-item-' + item.id));
 
     var ratio;
     var thumbnail;
@@ -382,133 +425,104 @@ Remedie.prototype = {
     if (offset.width)  width  += offset.width;
     if (offset.height) height += offset.height;
 
-    if (!opts.thisItemOnly) {
-      var items = $('.channel-item-unwatched');
-      var curr  = items.index($("#channel-item-title-" + item.id));
-      this.onPlaybackComplete = function() {
-        if (curr > -1 && items[curr+1] != undefined) {
-          var id = items[curr+1].id.replace('channel-item-title-', '');
-          // FIXME this doesn't seem to work
-          Shadowbox.applyOptions({
-            onClose: function(){ remedie.playVideoInline(remedie.items[id]) }
-          });
-        }
-        Shadowbox.close();
-      };
-    } else {
-      this.onPlaybackComplete = Shadowbox.close;
-    }
-
     if (player == 'Web') {
       if (item.props.embed.script) {
-        Shadowbox.open({
+        return {
           player:  'html',
           title:   item.name,
           height:  height,
           width:   width,
-          gallery: 'gallery' + item.channel_id,
-          content: '<div id="embed-player"></div>'
-        }, {
+          content: '<div id="embed-player"></div>',
           onFinish: function() {
             $('head').append("<script>" + item.props.embed.script + "</script>");
           }
-        });
+        };
       } else {
-        Shadowbox.open({
+        return {
           player:  'html',
           title:   item.name,
           height:  height,
           width:   width,
-          gallery: 'gallery' + item.channel_id,
-          content: '<div id="embed-player"></div>'
-        }, {
+          content: '<div id="embed-player"></div>',
           onFinish: function() {
             var s1 = new SWFObject(item.props.embed.url, 'player-' + item.id, width, height, '9');
             s1.addParam('allowfullscreen','true');
             s1.addParam('allowscriptaccess','always');
             s1.write('embed-player');
           }
-        });
+        };
       }
     } else if (player == 'QuickTime') {
-        Shadowbox.open({
-          player:  'qt',
-          title:   item.name,
-          height:  height,
-          width:   width,
-          gallery: 'gallery' + item.channel_id,
-          content: url
-        });
+      return {
+        player:  'qt',
+        title:   item.name,
+        height:  height,
+        width:   width,
+        content: url
+      };
     } else if (player == 'WMP') {
-        Shadowbox.open({
-          player:  'html',
-          title:   item.name,
-          height:  height,
-          width:   width,
-          gallery: 'gallery' + item.channel_id,
-          content: '<div id="embed-player"></div>'
-        }, {
-          onFinish: function() {
-            var s1 = new MPObject(url, 'player-' + id, width,  height);
-            s1.addParam("autostart", "1");
-            s1.write('embed-player');
-          }
-        });
+      return {
+        player:  'html',
+        title:   item.name,
+        height:  height,
+        width:   width,
+        content: '<div id="embed-player"></div>',
+        onFinish: function() {
+          var s1 = new MPObject(url, 'player-' + id, width,  height);
+          s1.addParam("autostart", "1");
+          s1.write('embed-player');
+        }
+      };
     } else if (player == 'DivX') {
-        Shadowbox.open({
-          player:  'html',
-          title:   item.name,
-          height:  height,
-          width:   width,
-          gallery: 'gallery' + item.channel_id,
-          content: '<div id="embed-player"></div>'
-        }, {
-          onFinish: function() {
-            var s1 = new DivXObject(url, 'player-' + id, width,  height);
-            s1.addParam("autostart", "true");
-            s1.addParam("controller", "true");
-            s1.write('embed-player');
-          }
-        });
+      return {
+        player:  'html',
+        title:   item.name,
+        height:  height,
+        width:   width,
+        content: '<div id="embed-player"></div>',
+        onFinish: function() {
+          var s1 = new DivXObject(url, 'player-' + id, width,  height);
+          s1.addParam("autostart", "true");
+          s1.addParam("controller", "true");
+          s1.write('embed-player');
+        }
+      };
     } else if (player == 'Silverlight') {
-        Shadowbox.open({
-          player:  'html',
-          title:   item.name,
-          height:  height,
-          width:   width,
-          gallery: 'gallery' + item.channel_id,
-          content: '<div id="embed-player"></div>'
-        }, {
-          onFinish: function() {
-            var elm = document.getElementById("embed-player");
-            var ply = new jeroenwijering.Player(elm, '/static/js/wmvplayer/wmvplayer.xaml', {
-              file: url,
-              width: width,
-              height: height - 18,
-              link: item.props.link
+      return {
+        player:  'html',
+        title:   item.name,
+        height:  height,
+        width:   width,
+        content: '<div id="embed-player"></div>',
+        onFinish: function() {
+          var elm = document.getElementById("embed-player");
+          var ply = new jeroenwijering.Player(elm, '/static/js/wmvplayer/wmvplayer.xaml', {
+            file: url,
+            width: width,
+            height: height - 18,
+            link: item.props.link
 //              autostart: true
-            });
+          });
+          var setupSilverlight = function(ply) {
+            if (ply.view) {
+              ply.addListener('STATE', function(ost,nst){if (nst == 'Completed') remedie.onPlaybackComplete()});
+              ply.sendEvent('PLAY');
+            } else {
+              // not ready yet
+              var _this = arguments.callee;
+              setTimeout(function(){_this(ply)}, 100)
+            }
+          };
+          setupSilverlight(ply);
 
-            var setupSilverlight = function(ply) {
-              if (ply.view) {
-                ply.addListener('STATE', function(ost,nst){if (nst == 'Completed') remedie.onPlaybackComplete()});
-                ply.sendEvent('PLAY');
-              } else {
-                // not ready yet
-                var _this = arguments.callee;
-                setTimeout(function(){_this(ply)}, 100)
-              }
-            };
-            setupSilverlight(ply);
-
-            // space key to play and pause the video
-            $(document).bind('keydown', 'space', function(){
-              if (ply.view) ply.sendEvent("PLAY");
-              return false;
-            });
-          }
-        });
-        this.runOnUnblock(function(){$(document).unbind('keydown', 'space', function(){})});
+/*          // space key to play and pause the video
+          $(document).bind('keydown', 'space', function(){
+            if (ply.view) ply.sendEvent("PLAY");
+            return false;
+          });
+*/
+        }
+      };
     } else if (player == 'Flash') {
       if (url.match(/^rtmp[ts]?:/)) {
         var urls = url.split('/');
@@ -516,14 +530,13 @@ Remedie.prototype = {
       } else {
         file = encodeURIComponent(url);
       }
-      Shadowbox.open({
+      return {
         player:  'flv',
         title:   item.name,
         height:  height,
         width:   width,
-        gallery: 'gallery' + item.channel_id,
         content: file
-      });
+      };
 /*
       // space key to play and pause the video
       $(document).bind('keydown', 'space', function(){
@@ -533,14 +546,6 @@ Remedie.prototype = {
       this.runOnUnblock(function(){$(document).unbind('keydown', 'space', function(){})});
 */
     }
-
-    Shadowbox.applyOptions({
-      onClose: function() {
-        remedie.isPlayingVideo = false;
-      }
-    });
-
-    this.markItemAsWatched(item); // TODO setTimeout?
   },
 
   defaultPlayerFor: function(type) {
