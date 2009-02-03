@@ -87,7 +87,6 @@ Remedie.prototype = {
     });
     this.installHotKey('right', 'Move to right channel / skip to next video (in playback)', function(){
       if (!remedie.current_id)    remedie.moveCursorNext();
-      if (remedie.isPlayingVideo) remedie.onPlaybackComplete();
     });
     this.installHotKey('up',   'Move to previous item (up)', function(){
       if (remedie.current_id) remedie.moveCursorPrev();
@@ -343,7 +342,7 @@ Remedie.prototype = {
         onOpen:  loadGalleryItem
       });
     } else {
-      this.onPlaybackComplete = Shadowbox.next;
+      this.onPlaybackComplete = function() { Shadowbox.next() };
       var items = $('.channel-item-unwatched');
       var curr  = items.index($("#channel-item-title-" + item.id));
       items = items.slice(curr, items.length);
@@ -459,7 +458,7 @@ Remedie.prototype = {
       };
     } else if (player == 'WMP') {
       return {
-        player:  'html',
+        player:  'html', // TODO make it 'wmp' for Shadowbox
         title:   item.name,
         height:  height,
         width:   width,
@@ -554,7 +553,7 @@ Remedie.prototype = {
         if (type.match(/wmv/i)) {
           player = 'Silverlight';
         } else {
-          player = 'QuickTime';
+          player = 'QuickTime'; // TODO make it 'f4m' for Shadowbox
         }
       } else {
         player = 'WMP';
