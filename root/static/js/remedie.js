@@ -328,11 +328,17 @@ Remedie.prototype = {
     var loadGalleryItem = function(gallery) {
       var item = remedie.items[gallery.id]
       var nextItem = remedie.getShadowboxGallery(item, player, opts);
-      if (callback = nextItem.onFinish) {
-        Shadowbox.applyOptions({ onFinish: callback });
+      var callback;
+      if (perItemCallback = nextItem.onFinish) {
+        callback = function(args) {
+          remedie.markItemAsWatched(item);
+          perItemCallback.call(args);
+        };
+      } else {
+        callback = function() { remedie.markItemAsWatched(item) };
       }
       $.extend(gallery, nextItem);
-      remedie.markItemAsWatched(item); // TODO make it an event
+      Shadowbox.applyOptions({ onFinish: callback });
     };
 
     if (opts.thisItemOnly || !item.is_unwatched) {
@@ -348,7 +354,7 @@ Remedie.prototype = {
       items = items.slice(curr, items.length);
       var galleryItems = $.map(items, function(n, i) { return { id: n.id.replace('channel-item-title-', '') } });
       Shadowbox.open(galleryItems, {
-        gallery: 'gallery' + item.channel_id,
+        gallery:  'gallery' + item.channel_id,
         onChange: loadGalleryItem,
         onOpen:   loadGalleryItem
       });
@@ -510,13 +516,6 @@ Remedie.prototype = {
             }
           };
           setupSilverlight(ply);
-
-/*          // space key to play and pause the video
-          $(document).bind('keydown', 'space', function(){
-            if (ply.view) ply.sendEvent("PLAY");
-            return false;
-          });
-*/
         }
       };
     } else if (player == 'Flash') {
@@ -533,14 +532,6 @@ Remedie.prototype = {
         width:   width,
         content: file
       };
-/*
-      // space key to play and pause the video
-      $(document).bind('keydown', 'space', function(){
-        document.getElementById('player-'+id).sendEvent("PLAY");
-        return false;
-      });
-      this.runOnUnblock(function(){$(document).unbind('keydown', 'space', function(){})});
-*/
     }
   },
 
