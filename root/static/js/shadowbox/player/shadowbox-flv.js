@@ -89,6 +89,13 @@
                 'lightcolor=0x557722'
             ];
 
+            if (this.obj.link)  flashvars.push('link=' + this.obj.link)
+            if (this.obj.image) flashvars.push('image=' + this.obj.image)
+            if (this.obj.streamer) {
+                flashvars.push('streamer=' + this.obj.streamer);
+                flashvars.push('type=rtmp');
+            }
+
             return {
                 tag:        'object',
                 id:         this.id,

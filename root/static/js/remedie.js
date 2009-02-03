@@ -531,21 +531,21 @@ Remedie.prototype = {
     } else if (player == 'Flash') {
       var file, streamer;
       if (url.match(/^rtmp[ts]?:/)) {
-        player_type = 'rtmp';
         var urls = url.split('/');
         file = encodeURIComponent(urls.pop());
         streamer = encodeURIComponent(urls.join('/'));
       } else {
-        player_type = 'flv';
         file = encodeURIComponent(url);
       }
       return {
-        player:  player_type,
-        title:   item.name,
-        height:  height,
-        width:   width,
-        content: file,
+        player:   'flv',
+        title:    item.name,
+        height:   height,
+        width:    width,
+        content:  file,
         streamer: streamer,
+        link:     item.props.link,
+        image:    thumbnail,
         onFinish: function() {
           $(document).bind('remedie-player-ready', function(ev, id){
             var player = document.getElementById(id);
