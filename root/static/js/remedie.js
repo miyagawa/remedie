@@ -725,7 +725,8 @@ Remedie.prototype = {
 
   markAllAsWatched: function(channel, showChannelView) {
     this.updateStatus({ id: channel.id, status: 'watched' }, function() {
-      if (showChannelView) remedie.showChannel(channel);
+      if (showChannelView && remedie.current_id == channel.id)
+        remedie.showChannel(channel);
     });
   },
 
