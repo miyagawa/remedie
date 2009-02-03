@@ -331,26 +331,29 @@ Remedie.prototype = {
       this.onPlaybackComplete = Shadowbox.close;
     }
 
+    // callback to upgrade {id:id} to the full gallery item for Shadowbox
+    var loadGalleryItem = function(gallery) {
+      var item = remedie.items[gallery.id]
+      var nextItem = remedie.getShadowboxGallery(item, player, opts);
+      if (callback = nextItem.onFinish) {
+        Shadowbox.applyOptions({ onFinish: callback });
+      }
+      $.extend(gallery, nextItem);
+      remedie.markItemAsWatched(item); // TODO make it an event
+    };
+
     if (opts.thisItemOnly || !item.is_unwatched) {
-      this.markItemAsWatched(item);
       this.onPlaybackComplete = Shadowbox.close;
-      var galleryItem = this.getShadowboxGallery(item, player, opts);
-      Shadowbox.open(galleryItem, { gallery: 'gallery' + item.channel_id });
+      Shadowbox.open({ id: item.id }, {
+        gallery: 'gallery' + item.channel_id,
+        onOpen:  loadGalleryItem
+      });
     } else {
       this.onPlaybackComplete = Shadowbox.next;
       var items = $('.channel-item-unwatched');
       var curr  = items.index($("#channel-item-title-" + item.id));
       items = items.slice(curr, items.length);
       var galleryItems = $.map(items, function(n, i) { return { id: n.id.replace('channel-item-title-', '') } });
-      var loadGalleryItem = function(gallery) {
-        var item = remedie.items[gallery.id]
-        var nextItem = remedie.getShadowboxGallery(item, player, opts);
-        if (callback = nextItem.onFinish) {
-          Shadowbox.applyOptions({ onFinish: callback });
-        }
-        $.extend(gallery, nextItem);
-        remedie.markItemAsWatched(item); // TODO make it an event
-      };
       Shadowbox.open(galleryItems, {
         gallery: 'gallery' + item.channel_id,
         onChange: loadGalleryItem,
