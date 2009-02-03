@@ -77,7 +77,8 @@
                     { tag: 'param', name: 'src', value: this.obj.content },
                     { tag: 'param', name: 'scale', value: 'aspect' },
                     { tag: 'param', name: 'controller', value: controls },
-                    { tag: 'param', name: 'autoplay', value: autoplay }
+                    { tag: 'param', name: 'autoplay', value: autoplay },
+                    { tag: 'param', name: 'postdomevents', value: 'true' },
                 ],
                 kioskmode:  'true'
             };
