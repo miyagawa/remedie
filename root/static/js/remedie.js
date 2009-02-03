@@ -116,7 +116,7 @@ Remedie.prototype = {
         return false;
       }
     });
-    this.installHotKey('esc', 'Close embed player (or dialog)', Shadowbox.close, true);
+    this.installHotKey('esc', 'Close embed player (or dialog)', $.unblockUI, true);
     this.installHotKey('shift+h', 'Show this help', function() {
       var message = $('<div/>').createAppend(
            'div', { id: "keyboard-shortcut-help-dialog" }, [
@@ -133,10 +133,10 @@ Remedie.prototype = {
          }
          container.append('<em>' + key + '</em>: ' + info.desc + '<br/>');
       });
-      Shadowbox.open({
-        player:  'html',
-        title:   'Keyboard shortcuts',
-        content: message.outerhtml()
+      message.children("a.command-unblock").click($.unblockUI);
+      $.blockUI({
+        message: message,
+        css: { top: '50px' }
       });
     });
   },
@@ -1409,14 +1409,10 @@ Remedie.prototype = {
           'div', { id: "about-dialog" }, [
               'h2', {}, 'Remedie Media Center ' + Remedie.version,
               'p', {}, [
-                  'a', { href: "http://code.google.com/p/remedie/", target: "_blank" }, 'Source code'
+                  'a', { href: "http://remediecode.org/", target: "_blank" }, 'Get source code'
               ]
           ]);
-      Shadowbox.open({
-        player:  'html',
-        title:   'About',
-        content: message.outerhtml()
-      });
+      $.blockUI({ message: message });
       return false;
   }
 };
