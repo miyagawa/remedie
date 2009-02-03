@@ -37,14 +37,14 @@ sub aggregate {
     my $feed = $args->{feed};
     $feed->type('debug');
     for (keys %{$self->conf}) {
-        next if $_ eq 'entry' || $_ eq 'entries';
+        next if $_ eq 'entry' || $_ eq 'entries' || $_ =~ /^_/;
         $feed->$_($self->conf->{$_});
     }
 
     for my $entry_conf (@{ $self->conf->{entry} || $self->conf->{entries} || [] }) {
         my $entry = Plagger::Entry->new;
         for my $method (keys %$entry_conf) {
-            next if $method eq 'enclosure';
+            next if $method eq 'enclosure' || $method =~ /^_/;
             $entry->$method($entry_conf->{$method});
         }
         $feed->add_entry($entry);
