@@ -348,7 +348,7 @@ Remedie.prototype = {
         onOpen:  loadGalleryItem
       });
     } else {
-      this.onPlaybackComplete = function() { Shadowbox.next() };
+      this.onPlaybackComplete = function() { setTimeout(function(){ Shadowbox.next() }, 100) };
       var items = $('.channel-item-unwatched');
       var curr  = items.index($("#channel-item-title-" + item.id));
       items = items.slice(curr, items.length);
@@ -451,6 +451,15 @@ Remedie.prototype = {
             s1.addParam('allowfullscreen','true');
             s1.addParam('allowscriptaccess','always');
             s1.write('embed-player');
+
+            // TODO: This might be better pluggable
+            // Handle YouTube callback
+            // http://code.google.com/apis/youtube/js_api_reference.html
+            $(document).bind('remedie-player-ready-youtube', function(ev, id){ // id is undefined for some reason
+              var player = document.getElementById('player-'+item.id);
+              player.addEventListener('onStateChange', 'function(newstate){if(newstate==0) remedie.onPlaybackComplete()}');
+              $(document).unbind('remedie-player-ready-youtube');
+            });
           }
         };
       }
@@ -460,7 +469,10 @@ Remedie.prototype = {
         title:   item.name,
         height:  height,
         width:   width,
-        content: url
+        content: url,
+        onFinish: function() {
+          document.getElementById('shadowbox_content').addEventListener('qt_ended', remedie.onPlaybackComplete, false);
+        }
       };
     } else if (player == 'WMP') {
       return {
@@ -503,9 +515,8 @@ Remedie.prototype = {
             width: width,
             height: height - 18,
             link: item.props.link
-//              autostart: true
           });
-          var setupSilverlight = function(ply) {
+          (function(ply) {
             if (ply.view) {
               ply.addListener('STATE', function(ost,nst){if (nst == 'Completed') remedie.onPlaybackComplete()});
               ply.sendEvent('PLAY');
@@ -514,8 +525,7 @@ Remedie.prototype = {
               var _this = arguments.callee;
               setTimeout(function(){_this(ply)}, 100)
             }
-          };
-          setupSilverlight(ply);
+          })(ply);
         }
       };
     } else if (player == 'Flash') {
@@ -530,7 +540,16 @@ Remedie.prototype = {
         title:   item.name,
         height:  height,
         width:   width,
-        content: file
+        content: file,
+        onFinish: function() {
+          $(document).bind('remedie-player-ready', function(ev, id){
+            var player = document.getElementById(id);
+            // JW player needs a string representatin for callbacks
+            player.addViewListener('STOP', 'Shadowbox.close');
+            player.addModelListener('STATE', 'function(ev){if (ev.newstate=="COMPLETED") remedie.onPlaybackComplete()}');
+            $(document).unbind('remedie-player-ready');
+          });
+        }
       };
     }
   },
