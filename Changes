@@ -1,4 +1,16 @@
 Revision history for Perl extension Remedie
 
+0.3.0 Tue Feb  3 03:23:18 PST 2009
+        * Moved the source code repository to github
+        * reorganized how to handle site-specific plugins under root/plugins/{domain}
+        * Integrated Shadowbox.js player
+        * Upgraded JW to 4.3.x
+        * Upgraded jQuery to 1.3.1
+        * new site-specific Discovery::Site
+        * new plugin CustomFeed::Scraper
+        * Experimental support for HTML enclosures via iframe
+        * Experimental Web notification using jGrowl
+        * Tons of video site plugins
+
 0.01  Fri Oct 31 20:27:14 2008
         - original version
