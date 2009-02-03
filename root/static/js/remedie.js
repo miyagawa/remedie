@@ -325,12 +325,6 @@ Remedie.prototype = {
     // TODO make this an event
     this.cursorPos = $('.channel-item').index($('#channel-item-' + item.id));
 
-    if (!opts.thisItemOnly) {
-      this.onPlaybackComplete = Shadowbox.next;
-    } else {
-      this.onPlaybackComplete = Shadowbox.close;
-    }
-
     // callback to upgrade {id:id} to the full gallery item for Shadowbox
     var loadGalleryItem = function(gallery) {
       var item = remedie.items[gallery.id]
