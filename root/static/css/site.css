@@ -191,16 +191,6 @@ div.item-separator {
   color: #888;
 }
 
-#embed-player {
-  display:none;
-  background: #000;
-}
-
-.close-button {
-  margin-right: 0.6em;
-  text-align:right
-}
-
 #channel-items {
   padding-top: 10;
 }
@@ -250,12 +240,6 @@ div.item-separator {
 
 .channel-header-data, .channel-header-data a {
   color: #666;
-}
-
-#embed-player .closebox {
-  position:absolute;
-  top:-14px; left:-14px;
-  display: none;
 }
 
 .embed-player-footer {
@@ -316,4 +300,8 @@ iframe#upload-frame {
 /* HACK to hide those in DOM ready for jQuery 1.3 */
 .contextMenu {
   color: #000
+}
+
+#shadowbox_content.html {
+ overflow: hidden; /* override */
 }
