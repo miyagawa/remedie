@@ -366,6 +366,9 @@ Remedie.prototype = {
     Shadowbox.applyOptions({
       onClose: function() {
         remedie.isPlayingVideo = false;
+        // Hmm, need to revert first to make it completely reset
+        Shadowbox.applyOptions({ onFinish: null, onOpen: null, onChange: null });
+        Shadowbox.applyOptions({ onFinish: null, onOpen: null, onChange: null });
       }
     });
   },
