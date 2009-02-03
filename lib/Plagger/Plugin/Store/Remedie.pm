@@ -51,7 +51,7 @@ sub store {
             if $entry->date;
 
         if ($enclosure && $enclosure->url) {
-            if ($enclosure->type =~ m!shockwave-flash|x?html!) {
+            if ($enclosure->type =~ m!shockwave-flash!) {
                 $item->type( Remedie::DB::Item->TYPE_WEB_MEDIA );
                 $item->props->{embed} = {
                     url    => $enclosure->url,
@@ -59,7 +59,10 @@ sub store {
                     height => $enclosure->height,
                 };
                 $item->props->{type} = "application/x-shockwave-flash";
-#            } elsif ($enclosure->type =~ m!torrent!) {
+            } elsif ($enclosure->type =~ m!x?html!) {
+                $item->type( Remedie::DB::Item->TYPE_WEB_MEDIA );
+                $item->props->{embed} = { url => $enclosure->url };
+                $item->props->{type}  = "text/html"; # iframe
             } else {
                 $item->type( Remedie::DB::Item->TYPE_HTTP_MEDIA );
                 $item->props->{size} = $enclosure->length;

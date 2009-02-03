@@ -388,7 +388,11 @@ Remedie.prototype = {
       ratio = 3/4;
       offset.height = 24;
     } else if (item.props.embed) {
-      player = 'Web';
+      if (/shockwave/i.test(item.props.type)) {
+        player = 'Web';
+      } else if (/x?html/.test(item.props.type)) {
+        player = 'iframe';
+      }
       if (item.props.embed.width && item.props.embed.height) {
         ratio  = item.props.embed.height / item.props.embed.width;
       } else {
@@ -469,6 +473,14 @@ Remedie.prototype = {
           }
         };
       }
+    } else if (player == 'iframe') {
+      return {
+        player:  'iframe',
+        title:   item.name,
+        height:  height,
+        width:   width,
+        content: item.props.embed.url
+      };
     } else if (player == 'QuickTime') {
       return {
         player:  'qt',
