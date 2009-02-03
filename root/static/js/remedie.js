@@ -175,6 +175,7 @@ Remedie.prototype = {
     $.jGrowl.defaults.speed  = 1000;
 
     $(".blockOverlay").live('dblclick', $.unblockUI);
+    $("#shadowbox_overlay").live('dblclick', Shadowbox.close);
     $(".show-all-items").live('click', function() {
       $.blockUI();
       remedie.showChannel(remedie.currentChannel(), { all: true });
