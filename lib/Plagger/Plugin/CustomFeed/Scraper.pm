@@ -96,8 +96,10 @@ sub scrape {
     # Hack so that Scraper can get the content in a cached response
     if ($http_res->code == 304) {
         $http_res->code(200);
-        $http_res->content($res->content);
     }
+
+    $http_res->content_encoding(undef); # unset gzip etc. since $res->content is decoded
+    $http_res->content($res->content);
 
     my $scraper = $self->build_scraper or return;
     my $result = $scraper->scrape($http_res, $args->{feed}->url);
