@@ -57,42 +57,42 @@ Remedie.prototype = {
     });
 
     // vi like keyborad shortcut.
-    this.installHotKey('h', 'Move to right (next) channel', function(){
+    this.installHotKey('h', 'Move to the right (next) channel', function(){
       if (remedie.current_id)
         location.href = $("#channel-pane .prev-channel").click().attr('href');
       else
         remedie.moveCursorPrev();
     });
-    this.installHotKey('l', 'Move to left (previous) channel', function(){
+    this.installHotKey('l', 'Move to the left (previous) channel', function(){
       if (remedie.current_id)
         location.href = $("#channel-pane .next-channel").click().attr('href');
       else
         remedie.moveCursorNext();
     });
-    this.installHotKey('j', 'Move to next (down) channel (or item)', function(){
+    this.installHotKey('j', 'Move to the next (down) channel (or item)', function(){
       if (remedie.current_id)
         remedie.moveCursorNext()
       else
         remedie.moveCursorDown()
     });
-    this.installHotKey('k', 'Move to previous (up) channel (or item)', function(){
+    this.installHotKey('k', 'Move to the previous (up) channel (or item)', function(){
       if (remedie.current_id)
         remedie.moveCursorPrev()
       else
         remedie.moveCursorUp()
     });
 
-    this.installHotKey('left', 'Move to left channel', function(){
+    this.installHotKey('left', 'Move to the left channel / rewind to the previous video (in playback)', function(){
       if (!remedie.current_id) remedie.moveCursorPrev();
     });
-    this.installHotKey('right', 'Move to right channel / skip to next video (in playback)', function(){
+    this.installHotKey('right', 'Move to the right channel / fast forward to the next video (in playback)', function(){
       if (!remedie.current_id)    remedie.moveCursorNext();
     });
-    this.installHotKey('up',   'Move to previous item (up)', function(){
+    this.installHotKey('up',   'Move to the previous item (up)', function(){
       if (remedie.current_id) remedie.moveCursorPrev();
       else                    remedie.moveCursorUp();
     });
-    this.installHotKey('down', 'Move up next item (down)', function(){
+    this.installHotKey('down', 'Move up the next item (down)', function(){
       if (remedie.current_id) remedie.moveCursorNext();
       else                    remedie.moveCursorDown();
     });
