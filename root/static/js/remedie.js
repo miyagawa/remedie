@@ -124,7 +124,7 @@ Remedie.prototype = {
               'hr', {}, null,
               'div', { className: 'keyboard-shortcuts', style: 'text-align: left' }, null,
               'br', {}, null
-          ]);
+          ]).click($.unblockUI);
       var container = $("div.keyboard-shortcuts", message);
       $.each(remedie.hotkeys, function(index, info) {
          var key = info.key;
@@ -133,7 +133,6 @@ Remedie.prototype = {
          }
          container.append('<em>' + key + '</em>: ' + info.desc + '<br/>');
       });
-      message.children("a.command-unblock").click($.unblockUI);
       $.blockUI({
         message: message,
         css: { top: '50px' }
@@ -173,7 +172,7 @@ Remedie.prototype = {
     $.jGrowl.defaults.closer = false;
     $.jGrowl.defaults.speed  = 1000;
 
-    $(".blockOverlay").live('dblclick', $.unblockUI);
+    $(".blockOverlay").live('click', $.unblockUI);
     $("#shadowbox_overlay").live('dblclick', Shadowbox.close);
     $(".show-all-items").live('click', function() {
       $.blockUI();
