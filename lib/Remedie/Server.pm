@@ -180,7 +180,14 @@ sub serve_thumbnail {
 sub do_serve_static {
     my($self, $file, $req, $res) = @_;
 
-    if (-e $file && -r _) {
+    my $exists      = -e $file;
+    my $is_dir      = -d _;
+    my $is_readable = -r _;
+
+    if ($exists) {
+        if ($is_dir || !$is_readable) {
+            die "Forbidden";
+        }
         my $size  = -s _;
         my $mtime = (stat(_))[9];
         my $ext = ($file =~ /\.(\w+)$/)[0];
