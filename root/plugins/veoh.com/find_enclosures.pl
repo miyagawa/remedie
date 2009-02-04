@@ -2,7 +2,7 @@
 # TODO veoh rss feed has .mp4 file enclosures but it doesn't work with Flash player
 sub init {
     my $self = shift;
-    $self->{handle} = "/browse/videos/.*watch/v.*";
+    $self->{handle} = "(?:/browse/videos/|/collection/).*watch/v.*";
 }
 
 
