@@ -227,6 +227,11 @@ Remedie.prototype = {
       var item = args.item;
       if (item.is_unwatched)
         remedie.markItemAsWatched(item);
+
+      remedie.isPlayingVideo  = true;
+      remedie.lastPlayedVideo = item;
+      remedie.cursorPos = $('.channel-item').index($('#channel-item-' + item.id));
+
       // make Shadowbox title header a link to the item page
       if (item.props.link) {
         var title = $('#shadowbox_title_inner').html();
@@ -330,13 +335,10 @@ Remedie.prototype = {
   },
 
   isPlayingVideo: false,
+  lastPlayedVideo: null,
 
   playVideoInline: function(item, player, opts) {
     if (!opts) opts = {};
-    this.isPlayingVideo = true;
-
-    // TODO make this an event
-    this.cursorPos = $('.channel-item').index($('#channel-item-' + item.id));
 
     // callback to upgrade {id:id} to the full gallery item for Shadowbox
     var loadGalleryItem = function(gallery) {
@@ -377,7 +379,7 @@ Remedie.prototype = {
     Shadowbox.applyOptions({
       onClose: function() {
         remedie.isPlayingVideo = false;
-        // Hmm, need to revert first to make it completely reset
+        // Hmm, need to call this twice to make it completely reset
         Shadowbox.applyOptions({ onFinish: null, onOpen: null, onChange: null });
         Shadowbox.applyOptions({ onFinish: null, onOpen: null, onChange: null });
       }
