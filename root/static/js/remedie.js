@@ -124,7 +124,7 @@ Remedie.prototype = {
               'hr', {}, null,
               'div', { className: 'keyboard-shortcuts', style: 'text-align: left' }, null,
               'br', {}, null
-          ]).click($.unblockUI);
+          ]);
       var container = $("div.keyboard-shortcuts", message);
       $.each(remedie.hotkeys, function(index, info) {
          var key = info.key;
@@ -1423,7 +1423,7 @@ Remedie.prototype = {
               'p', {}, [
                   'a', { href: "http://remediecode.org/", target: "_blank" }, 'Get source code'
               ]
-          ]).click($.unblockUI);
+          ]);
       $.blockUI({ message: message });
       return false;
   }
