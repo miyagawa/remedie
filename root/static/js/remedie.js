@@ -223,6 +223,18 @@ Remedie.prototype = {
       remedie.current_id = null;
       remedie.items = [];
     });
+    $(document).bind('remedie-item-loaded', function(ev, args) {
+      var item = args.item;
+      if (item.is_unwatched)
+        remedie.markItemAsWatched(item);
+      // make Shadowbox title header a link to the item page
+      if (item.props.link) {
+        var title = $('#shadowbox_title_inner').html();
+        $('#shadowbox_title_inner').empty().createAppend(
+          'a', { href: item.props.link, target: '_blank' }, title
+        );
+      }
+    });
   },
 
   installHotKey: function(key, description, callback, always) {
@@ -333,11 +345,11 @@ Remedie.prototype = {
       var callback;
       if (perItemCallback = nextItem.onFinish) {
         callback = function(args) {
-          remedie.markItemAsWatched(item);
+          $.event.trigger('remedie-item-loaded', { item: item });
           perItemCallback.call(args);
         };
       } else {
-        callback = function() { remedie.markItemAsWatched(item) };
+        callback = function() { $.event.trigger('remedie-item-loaded', { item: item }) };
       }
       $.extend(gallery, nextItem);
       Shadowbox.applyOptions({ onFinish: callback });

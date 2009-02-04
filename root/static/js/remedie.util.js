@@ -89,7 +89,3 @@ RemedieUtil.mangleURI = function(url) {
   return decodeURIComponent(uri.toString());
 };
 
-jQuery.fn.outerhtml = function() {
-  return $("<div/>").append(this).html();
-};
-
