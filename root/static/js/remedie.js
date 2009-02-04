@@ -392,12 +392,10 @@ Remedie.prototype = {
 
     var ratio;
     var thumbnail;
-    var offset = {};
     if (item.props.link && url.match(/nicovideo\.jp/)) {
       // XXX
       player = 'Web';
       ratio = 3/4;
-      offset.height = 24;
     } else if (item.props.embed) {
       if (/shockwave/i.test(item.props.type)) {
         player = 'Web';
@@ -418,7 +416,6 @@ Remedie.prototype = {
         ratio = (item.props.height && item.props.width)
           ? (item.props.height / item.props.width) : 9/16; // TODO
       }
-      offset.height = 18;
     }
 
     var res    = RemedieUtil.calcWindowSize($(window).width()-100, $(window).height()-94, ratio);
@@ -444,9 +441,6 @@ Remedie.prototype = {
         }
       });
     }
-
-    if (offset.width)  width  += offset.width;
-    if (offset.height) height += offset.height;
 
     if (player == 'Web') {
       if (item.props.embed.script) {
