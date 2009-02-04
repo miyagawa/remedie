@@ -1424,7 +1424,7 @@ Remedie.prototype = {
               'p', {}, [
                   'a', { href: "http://remediecode.org/", target: "_blank" }, 'Get source code'
               ]
-          ]);
+          ]).click($.unblockUI);
       $.blockUI({ message: message });
       return false;
   }
