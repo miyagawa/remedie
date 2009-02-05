@@ -1,10 +1,16 @@
 #!/usr/bin/perl
 use strict;
-use YAML;
 
-unless (-e "META.yml") {
-    die "run perl Makefile.PL to generate META.yml\n";
+my @deps;
+sub requires {
+    my($module, $ver) = @_;
+    push @deps, $module;
 }
 
-my $meta = YAML::LoadFile("META.yml");
-system('cpan', '-i', keys %{$meta->{requires}});
+open my $fh, "<", "Makefile.PL";
+while (<$fh>) {
+    /^\s*requires .*/ and eval $_;
+}
+
+system('cpan', '-i', @deps);
+
