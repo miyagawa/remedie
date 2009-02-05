@@ -97,7 +97,8 @@ sub enclosure {
 sub primary_enclosure {
     my $self = shift;
     my @enclosures = $self->enclosures;
-    my $primary = first { $_->type =~ /video|audio|shockwave-flash/ } @enclosures;
+    # XXX 'html' means iframe embed. Should we use more specific something else?
+    my $primary = first { $_->type =~ /video|audio|shockwave-flash|html/ } @enclosures;
     return $primary || $self->enclosure;
 }
 
