@@ -18,9 +18,9 @@ __END__
 
 === Straight Feed URL
 --- input
-http://subtech.g.hatena.ne.jp/miyagawa/rss
+http://remediecode.org/atom.xml
 --- expected
-Bulknews::Subtech
+Remedie
 
 === Auto-Discovery
 --- input
