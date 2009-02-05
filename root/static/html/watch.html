@@ -1,0 +1,30 @@
+<html>
+ <head>
+  <title>Remedie Media Center</title>
+  <link rel="stylesheet" href="/static/css/screen.css" type="text/css" media="screen,projection" /><!--[if IE]><link rel="stylesheet" href="/static/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+  <link rel="stylesheet" href="/static/css/site.css" type="text/css" />
+  <script language="JavaScript" type="text/javascript" src="/static/js/jquery.latest.min.js"></script>
+  <script language="JavaScript" type="text/javascript" src="/static/js/jquery.getUrlParam.js"></script>
+  <script language="JavaScript" type="text/javascript" src="/static/js/jquery.dimensions.js"></script>
+  <script language="JavaScript" type="text/javascript" src="/static/js/shadowbox/adapter/shadowbox-jquery.js"></script>
+  <script language="JavaScript" type="text/javascript" src="/static/js/shadowbox/shadowbox.js"></script>
+  <script language="JavaScript" type="text/javascript">
+    Shadowbox.loadSkin('classic', '/static/js/shadowbox/skin');
+    Shadowbox.loadLanguage('en', '/static/js/shadowbox/lang');
+    Shadowbox.loadPlayer(['swf','flv','qt','html','iframe'], '/static/js/shadowbox/player');
+    $(document).ready(function() {
+      Shadowbox.init({
+        flvPlayer: '/static/player.swf',
+        animSequence: 'sync',
+        modal: true
+      });
+
+      var movie = $(document).getUrlParam('url');
+      if (movie) {
+        Shadowbox.open({ player: 'flv', content: movie, width: $(window).width(), height: $(window).height() });
+      }
+    });
+  </script>
+ </head>
+ <body>
+ </body>
