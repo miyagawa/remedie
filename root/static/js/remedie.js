@@ -283,17 +283,19 @@ Remedie.prototype = {
 
   // TODO: eventually this notification should be triggered on the server side and broadcast over comet
   notifyNewItems: function(channel, prev) {
-    var diff = channel.unwatched_count - prev.unwatched_count;
-    if (prev != undefined && diff > 0) {
-      var item = channel.first_item;
-      if (item) {
-        var icon;
-        var thumb = item.props.thumbnail || channel.props.thumbnail;
-        if (thumb != null && thumb.url)
-          icon = thumb.url;
-        var msg = item.name;
-        if (diff > 1) msg += " (" + (diff - 1) + " more)";
-        $.jGrowl(msg, { icon: icon, header: channel.name, life: 5000 });
+    if (prev != undefined) {
+      var diff = channel.unwatched_count - prev.unwatched_count;
+      if (diff > 0) {
+        var item = channel.first_item;
+        if (item) {
+          var icon;
+          var thumb = item.props.thumbnail || channel.props.thumbnail;
+          if (thumb != null && thumb.url)
+            icon = thumb.url;
+          var msg = item.name;
+          if (diff > 1) msg += " (" + (diff - 1) + " more)";
+          $.jGrowl(msg, { icon: icon, header: channel.name, life: 5000 });
+        }
       }
     }
   },
