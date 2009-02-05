@@ -71,6 +71,7 @@ requires 'YAML::Syck';
 build_requires 'Test::More';
 use_test_base;
 auto_include_deps;
+tests 't/plagger/core/*.t t/plagger/plugins/*/*.t';
 author_tests('xt');
 WriteAll;
 

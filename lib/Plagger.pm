@@ -217,6 +217,7 @@ sub run_hook {
     my @ret;
     for my $action (@{ $self->{hooks}->{$hook} }) {
         my $plugin = $action->{plugin};
+        no warnings 'redefine';
         local *Plagger::current_plugin = sub { $plugin };
         my $ret = $action->{callback}->($plugin, $self, $args);
         $callback->($ret) if $callback;

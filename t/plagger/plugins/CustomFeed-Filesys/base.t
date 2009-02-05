@@ -1,5 +1,6 @@
 use strict;
 use t::TestPlagger;
+use lib "extlib";
 
 test_plugin_deps;
 plan 'no_plan';

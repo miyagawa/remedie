@@ -35,14 +35,12 @@ sub aggregate {
     my($self, $context, $args) = @_;
 
     my $res = $args->{feed}->source or return;
-    my $feed_url = Plagger::FeedParser->discover($res);
+    my $feed_url = Plagger::FeedParser->discover($res) or return;
     if ($res->uri eq $feed_url) {
         return $self->handle_feed($feed_url, \$res->content, $args->{feed});
-    } elsif ($feed_url && !$self->conf->{no_discovery}) {
+    } elsif (!$self->conf->{no_discovery}) {
         $res = $self->fetch_content($feed_url) or return;
         return $self->handle_feed($feed_url, \$res->content, $args->{feed});
-    } else {
-        return;
     }
 
     return 1;
@@ -204,7 +202,8 @@ sub feed_to_text {
         # in Atom, be a little strict with TextConstruct
         # TODO: this actually doesn't work since XML::Feed and XML::Atom does the right
         # thing with Atom 1.0 TextConstruct
-        if ($content->type eq 'text/plain' || $content->type eq 'text') {
+        my $content_type = $content->type || '';
+        if ($content_type && ($content_type eq 'text/plain' || $content_type eq 'text')) {
             return Plagger::Text->new(type => 'text', data => $content->body);
         } else {
             return Plagger::Text->new(type => 'html', data => $content->body);

@@ -97,9 +97,9 @@ sub add_enclosure_from_head {
     my(%meta, %link);
     while (my $tag = $parser->get_tag('meta', 'link', '/head')) {
         last if $tag->[0] eq '/head';
-        if ($tag->[0] eq 'meta') {
+        if ($tag->[0] eq 'meta' && $tag->[1]{name}) {
             $meta{$tag->[1]{name}} = $tag->[1]{content};
-        } elsif ($tag->[0] eq 'link') {
+        } elsif ($tag->[0] eq 'link' && $tag->[1]{rel}) {
             $link{$tag->[1]{rel}} = $tag->[1]{href};
         }
     }

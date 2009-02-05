@@ -30,12 +30,12 @@ sub auto_set_type {
 
 sub media_type {
     my $self = shift;
-    ( split '/', $self->type )[0] || 'unknown';
+    ( split '/', ($self->type || '') )[0] || 'unknown';
 }
 
 sub sub_type {
     my $self = shift;
-    ( split '/', $self->type )[1] || 'unknown';
+    ( split '/', ($self->type || '') )[1] || 'unknown';
 }
 
 sub filename {

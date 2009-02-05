@@ -194,7 +194,7 @@ sub root_path {
 	my ($self) = shift;
 
 	if (@_) {
-		my $root_path = shift;
+		my $root_path = shift || '';
 			
 		### Does the root path end with a '/'?  If so, remove it.
 		$root_path = (substr($root_path, length($root_path)-1, 1) eq '/') ?

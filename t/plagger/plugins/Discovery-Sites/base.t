@@ -30,10 +30,11 @@ plugins:
       feed:
         - http://www.veoh.com/search.html?type=v&search=obama
   - module: Discovery::Sites
+  - module: CustomFeed::FindLinks
 
 --- expected
-like $context->subscription->feeds->[0]->entries->[0]->link, qr|http://www.veoh.com/videos|;
-ok $context->subscription->feeds->[0]->entries->[0]->thumbnail->{url};
+like $context->update->feeds->[0]->entries->[0]->link, qr|http://www.veoh.com/browse/videos|;
+ok $context->update->feeds->[0]->entries->[0]->thumbnail->{url};
 
 ===
 --- input config
@@ -45,5 +46,5 @@ plugins:
   - module: Discovery::Sites
 
 --- expected
-like $context->subscription->feeds->[0]->entries->[0]->enclosures->[0]->url, qr/720p.m[04]v/;
-like $context->subscription->feeds->[0]->entries->[0]->date, qr/20/;
+like $context->update->feeds->[0]->entries->[0]->enclosures->[0]->url, qr/720p.m[04]v/;
+like $context->update->feeds->[0]->entries->[0]->date, qr/20/;
