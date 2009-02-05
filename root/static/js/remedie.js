@@ -11,7 +11,6 @@ Remedie.prototype = {
   current_id: null,
   hotkeys: [],
   onPlaybackComplete: null,
-  actions: [],
 
   initialize: function() {
     $().ajaxSend(function(event,xhr,options) {
@@ -1005,6 +1004,7 @@ Remedie.prototype = {
                 function(){ $(this).removeClass("hover-channel-item").css('opacity',1) });
        $(".item-thumbnail").each(function() {
            var item = remedie.items[ $(this).parent().get(0).id.replace("channel-item-", "") ];
+           var actions = [];
            var bindings = {
              item_context_play:      function(){remedie.playVideoInline(item)},
              item_context_play_only:  function(){remedie.playVideoInline(item, null, { thisItemOnly: 1 })},
@@ -1024,9 +1024,9 @@ Remedie.prototype = {
              item_context_play_sl:   function(){remedie.playVideoInline(item, 'Silverlight')},
              item_context_play_divx: function(){remedie.playVideoInline(item, 'DivX')}
            };
-           $.each(remedie.actions, function(index, action) {
-             if (channel.ident.match(action.mx))
-               bindings['item_context_ext' + index] = function(){action.callback(item)};
+           $.event.trigger('remedie-item-contextmenu', {
+             item: item, channel: channel,
+             bindings: bindings, actions: actions
            });
            $(this).contextMenu("channel-item-context-menu", {
            bindings: bindings,
@@ -1074,9 +1074,8 @@ Remedie.prototype = {
                el.createAppend('li', { id: 'item_context_play_sl' }, 'Play inline with Silverlight');
              }
 
-             $.each(remedie.actions, function(index, action) {
-               if (channel.ident.match(action.mx))
-                 el.createAppend('li', { id: 'item_context_ext' + index }, action.label);
+             $.each(actions, function(index, menu) {
+               el.createAppend(menu[0], menu[1], menu[2]);
              });
   
              return true;
