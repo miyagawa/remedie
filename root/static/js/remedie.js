@@ -11,6 +11,7 @@ Remedie.prototype = {
   current_id: null,
   hotkeys: [],
   onPlaybackComplete: null,
+  actions: [],
 
   initialize: function() {
     $().ajaxSend(function(event,xhr,options) {
@@ -22,6 +23,7 @@ Remedie.prototype = {
     this.setupEventListeners();
     this.setupHotKeys();
     this.setupPluginDefaults();
+    this.setupExtensions();
 
     this.loadCollection( this.dispatchAction );
   },
@@ -239,6 +241,14 @@ Remedie.prototype = {
           'a', { href: item.props.link, target: '_blank' }, title
         );
       }
+    });
+  },
+
+  setupExtensions: function() {
+    $.getJSON("/rpc/extension/list", function(r) {
+      $.each(r.extensions, function(index, name) {
+        $.getScript("/static/js/" + name);
+      });
     });
   },
 
@@ -995,8 +1005,7 @@ Remedie.prototype = {
                 function(){ $(this).removeClass("hover-channel-item").css('opacity',1) });
        $(".item-thumbnail").each(function() {
            var item = remedie.items[ $(this).parent().get(0).id.replace("channel-item-", "") ];
-           $(this).contextMenu("channel-item-context-menu", {
-           bindings: {
+           var bindings = {
              item_context_play:      function(){remedie.playVideoInline(item)},
              item_context_play_only:  function(){remedie.playVideoInline(item, null, { thisItemOnly: 1 })},
              item_context_copy:      function(){$.copy(item.ident)},
@@ -1014,7 +1023,13 @@ Remedie.prototype = {
              item_context_play_wmp:  function(){remedie.playVideoInline(item, 'WMP')},
              item_context_play_sl:   function(){remedie.playVideoInline(item, 'Silverlight')},
              item_context_play_divx: function(){remedie.playVideoInline(item, 'DivX')}
-           },
+           };
+           $.each(remedie.actions, function(index, action) {
+             if (channel.ident.match(action.mx))
+               bindings['item_context_ext' + index] = function(){action.callback(item)};
+           });
+           $(this).contextMenu("channel-item-context-menu", {
+           bindings: bindings,
            onContextMenu: function(e, menu) {
              item = remedie.items[ item.id ]; // refresh the status
              var el = $('#channel-item-context-menu ul'); el.children().remove();
@@ -1059,6 +1074,11 @@ Remedie.prototype = {
                el.createAppend('li', { id: 'item_context_play_sl' }, 'Play inline with Silverlight');
              }
 
+             $.each(remedie.actions, function(index, action) {
+               if (channel.ident.match(action.mx))
+                 el.createAppend('li', { id: 'item_context_ext' + index }, action.label);
+             });
+  
              return true;
            }
          });
@@ -1434,6 +1454,14 @@ Remedie.prototype = {
           ]);
       $.blockUI({ message: message });
       return false;
+  },
+
+  addAction: function(mx, label, callback) {
+    this.actions.push({
+      mx: mx,
+      label: label,
+      callback: callback
+    });
   }
 };
 
