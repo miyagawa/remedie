@@ -33,7 +33,7 @@ plugins:
   - module: CustomFeed::FindLinks
 
 --- expected
-like $context->update->feeds->[0]->entries->[0]->link, qr|http://www.veoh.com/browse/videos|;
+like $context->update->feeds->[0]->entries->[0]->link, qr|http://www.veoh.com/.*/watch/v|;
 ok $context->update->feeds->[0]->entries->[0]->thumbnail->{url};
 
 ===
