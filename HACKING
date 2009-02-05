@@ -4,7 +4,7 @@ Remedie is under development and requires lots of hacking.
 
 Pull the latest code from git using git pull or github download, then run:
 
-  > perl -Ilib ./bin/remedie-server.pl
+  > perl ./bin/remedie-server.pl
 
 and access http://localhost:10010/ to see the app running. The logs
 and app cache are stored in ~/.remedie and ~/.plagger dirctory.
@@ -16,12 +16,12 @@ I hope this will eventually become standalone installable app using preferencePa
 
 == CLEANING UP DATABASE
 
-For now, run
+For now, stop the `remedie-server.pl` process by `kill` or Ctrl-C, and then
 
   > rm -r ~/.remedie
-  > perl -Ilib -MRemedie::DB::Schema -e 'Remedie::DB::Schema->install'
 
-to re-initialize SQLite database. When we change the schema you might
+to clean the database, Running `remedie-server.pl` will automatically
+re-initialize SQLite database. When we change the schema you might
 need to do that again (and that will lose all your items in the
 database!) until we come up with a decent schema upgrading system.
 
@@ -29,7 +29,7 @@ database!) until we come up with a decent schema upgrading system.
 
 Got a black screen or JavaScript alert "Can't load subscription"? Try:
 
-  > env REMEDIE_DEBUG=1 perl -Ilib ./bin/remedie-server.pl
+  > env REMEDIE_DEBUG=1 ./bin/remedie-server.pl
 
 and see ~/.remedie/logs/error.log for the errors. You can quick check the
 perl module dependencies by running
