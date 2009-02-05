@@ -1,6 +1,6 @@
 /*
  * jQuery Form Plugin
- * version: 2.17 (06-NOV-2008)
+ * version: 2.18 (06-JAN-2009)
  * @requires jQuery v1.2.2 or later
  *
  * Examples and documentation at: http://malsup.com/jquery/form/
@@ -157,7 +157,7 @@ $.fn.ajaxSubmit = function(options) {
     function fileUpload() {
         var form = $form[0];
         
-        if ($(':input[@name=submit]', form).length) {
+        if ($(':input[name=submit]', form).length) {
             alert('Error: Form elements must not be named "submit".');
             return;
         }
