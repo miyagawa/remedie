@@ -1075,7 +1075,7 @@ Remedie.prototype = {
              }
 
              $.each(actions, function(index, menu) {
-               el.createAppend(menu[0], menu[1], menu[2]);
+               el.createAppend('li', { id: menu[0] }, menu[1]);
              });
   
              return true;
@@ -1453,14 +1453,6 @@ Remedie.prototype = {
           ]);
       $.blockUI({ message: message });
       return false;
-  },
-
-  addAction: function(mx, label, callback) {
-    this.actions.push({
-      mx: mx,
-      label: label,
-      callback: callback
-    });
   }
 };
 

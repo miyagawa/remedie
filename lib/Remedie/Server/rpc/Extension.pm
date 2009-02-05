@@ -10,12 +10,12 @@ no Moose;
 sub list {
     my($self, $req, $res) = @_;
 
-	my $root = $self->conf->{root};
-	my @extensions = map {
-	    $_ =~ s!.*(remedie\.ext\..*?\.js)$!$1!;
+    my $root = $self->conf->{root};
+    my @extensions = map {
+        s!.*(remedie\.ext\..*?\.js)$!$1!;
         $_;
     } glob("$root/static/js/remedie.ext.*.js");
-	return { extensions => \@extensions };
+    return { extensions => \@extensions };
 }
 
 

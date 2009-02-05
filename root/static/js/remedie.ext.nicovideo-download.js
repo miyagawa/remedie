@@ -4,6 +4,6 @@ $(document).bind('remedie-item-contextmenu', function(ev, args) {
     args.bindings['item_context_ext_nicovideo_download'] = function() {
       window.open("http://127.0.0.1/action/nph-download-proxy.cgi/" + id);
     };
-    args.actions.push([ 'li', { id: 'item_context_ext_nicovideo_download' }, 'Download file via CGI' ]);
+    args.actions.push([ 'item_context_ext_nicovideo_download', 'Download file via CGI' ]);
   }
 });
