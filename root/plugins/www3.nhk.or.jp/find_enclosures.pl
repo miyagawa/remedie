@@ -9,26 +9,20 @@ sub needs_content { 1 }
 sub find {
     my ($self, $args) = @_;
 
-    # flv uses rtmp. JW FLV player supports RTMP but needs a hack on the JS side
+    # find the key for this news
     my($asx_url, $key) = $args->{content} =~ m!wmvHigh = "(.*/cgibin/((.*?)_(.*?)_(.*?))(?:_(.*?))?_mh.cgi)"!
         or return;
-    my $url = $self->find_mms_url($asx_url, $key) or return;
+
+    # ad-hoc pattern to find articles with non-video
+    return if $key =~ /K10099999999/;
 
     my $enclosure = Plagger::Enclosure->new;
-    $enclosure->url($url);
-    $enclosure->type("video/x-ms-wmv");
+    $enclosure->url("rtmp://flv.nhk.or.jp/ondemand/flv/news/$key");
+    $enclosure->type("video/x-flv");
 
     if ($args->{content} =~ m!switchPlayer.*?src="(K[\d_]+\.jpg)" width="(\d+)" height="(\d+)"!) {
         $enclosure->thumbnail({ url => "http://www3.nhk.or.jp/news/$1", width => $2, height => $3 });
     }
 
     return $enclosure;
-}
-
-sub find_mms_url {
-    my ($self, $asx_url, $key) = @_;
-
-    my $content = Plagger->context->current_plugin->fetch_content($asx_url) or return;
-    $content =~ m!<REF HREF="([^"]+${key}_mh.wmv)"! or return;
-    return $1;
 }
