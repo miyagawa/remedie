@@ -41,9 +41,9 @@ sub aggregate {
     } elsif (!$self->conf->{no_discovery}) {
         $res = $self->fetch_content($feed_url) or return;
         return $self->handle_feed($feed_url, \$res->content, $args->{feed});
+    } else {
+        return;
     }
-
-    return 1;
 }
 
 sub fetch_content {
