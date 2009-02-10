@@ -30,7 +30,7 @@ This software also includes the following material which have their own license:
 
 * [jQuery](http://www.jquery.com/) (MIT and GPL)
 * jQuery plugins (Refer to each individual file for their licenses)
-* [JW FLV MEDIA PLAYER 4.2](http://www.jeroenwijering.com/?item=JW_FLV_Player) (Creative Commons by-nc-sa)
+* [JW FLV MEDIA PLAYER 4.3](http://www.jeroenwijering.com/?item=JW_FLV_Player) (Creative Commons by-nc-sa)
 * [Shadowbox.js Media Viewer](http://www.mjijackson.com/shadowbox/) (Creative Commons by-nc-sa)
 * [Fast Icon](http://www.fasticon.com/) (Royalty free icons)
 * [Ben Fleming](http://www.yellowicon.com/) (CC by-nc)
