@@ -344,7 +344,7 @@ Remedie.prototype = {
 
     // callback to upgrade {id:id} to the full gallery item for Shadowbox
     var loadGalleryItem = function(gallery) {
-      var item = remedie.items[gallery.id]
+      var item = remedie.items[gallery.id];
       var nextItem = remedie.getShadowboxGallery(item, player, opts);
       var callback;
       if (perItemCallback = nextItem.onFinish) {
