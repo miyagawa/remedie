@@ -43,7 +43,7 @@ plugins:
   - module: Subscription::Config
     config:
       feed:
-        - script://$t::TestPlagger::BaseDirURI/t/samples/scraper-args.pl 'Foo Bar' baz
+        - script://$t::TestPlagger::BaseDirURI/t/samples/scraper-args.pl "Foo Bar" baz
   - module: CustomFeed::Script
 --- expected
 is $context->update->feeds->[0]->title, "Foo Bar";
