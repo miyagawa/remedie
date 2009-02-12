@@ -2,7 +2,7 @@ package Plagger;
 use strict;
 our $VERSION = '1.9.0';
 
-use 5.8.1;
+use 5.008001;
 use Carp;
 use Data::Dumper;
 use Encode ();
