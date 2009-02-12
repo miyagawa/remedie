@@ -4,8 +4,6 @@ Changes
 extlib/Filesys/Virtual/Plain.pm
 extlib/URI/Fetch.pm
 extlib/URI/Fetch/Response.pm
-extlib/Web/Scraper.pm
-extlib/Web/Scraper/Filter.pm
 HACKING
 inc/Module/Install.pm
 inc/Module/Install/AuthorTests.pm
