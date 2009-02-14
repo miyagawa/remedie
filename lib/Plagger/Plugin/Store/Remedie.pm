@@ -62,10 +62,14 @@ sub store {
             } elsif ($enclosure->type =~ m!x?html!) {
                 $item->type( Remedie::DB::Item->TYPE_WEB_MEDIA );
                 $item->props->{embed} = { url => $enclosure->url };
+                $item->props->{embed}->{width} = $enclosure->width if $enclosure->width && $enclosure->width > 0;
+                $item->props->{embed}->{height} = $enclosure->height if $enclosure->height && $enclosure->height > 0;
                 $item->props->{type}  = "text/html"; # iframe
             } else {
                 $item->type( Remedie::DB::Item->TYPE_HTTP_MEDIA );
                 $item->props->{size} = $enclosure->length;
+                $item->props->{width} = $enclosure->width if $enclosure->width && $enclosure->width > 0;
+                $item->props->{height} = $enclosure->height if $enclosure->height && $enclosure->height > 0;
                 $item->props->{type} = $enclosure->type;
             }
         }
