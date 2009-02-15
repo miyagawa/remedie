@@ -396,15 +396,18 @@ Remedie.prototype = {
 
     var ratio;
     var thumbnail;
+
     if (item.props.link && url.match(/nicovideo\.jp/)) {
       // XXX
-      player = 'Web';
+      if(!player) player = 'Web';
       ratio = 3/4;
     } else if (item.props.embed) {
-      if (/shockwave/i.test(item.props.type)) {
-        player = 'Web';
-      } else if (/x?html/.test(item.props.type)) {
-        player = 'iframe';
+      if (!player) {
+        if (/shockwave/i.test(item.props.type)) {
+          player = 'Web';
+        } else if (/x?html/.test(item.props.type)) {
+          player = 'iframe';
+        }
       }
       if (item.props.embed.width && item.props.embed.height) {
         ratio  = item.props.embed.height / item.props.embed.width;
@@ -488,7 +491,15 @@ Remedie.prototype = {
         title:   item.name,
         height:  height,
         width:   width,
-        content: item.props.embed.url
+        content: item.embed.url
+      };
+    } else if (player == 'iframeLink') {
+      return {
+        player:  'iframe',
+        title:   item.name,
+        height:  height,
+        width:   width,
+        content: item.props.link
       };
     } else if (player == 'QuickTime') {
       return {
@@ -1008,6 +1019,7 @@ Remedie.prototype = {
              item_context_download:  function(){remedie.startDownload(item)},
              item_context_download_sd:  function(){remedie.startDownload(item, 'SpeedDownload')},
              item_context_cancel_download:  function(){remedie.cancelDownload(item)},
+             item_context_embed_iframe: function(){remedie.playVideoInline(item, 'iframeLink')},
              item_context_reveal:    function(){remedie.launchVideoPlayer(item, 'Finder')},
              item_context_play_vlc:  function(){remedie.launchVideoPlayer(item, 'VLC', fullscreen)},
 //                item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QTL', fullscreen, 1)},
@@ -1022,6 +1034,8 @@ Remedie.prototype = {
              var el = $('#channel-item-context-menu ul'); el.children().remove();
              el.createAppend('li', { id: 'item_context_play' }, 'Play');
              el.createAppend('li', { id: 'item_context_play_only' }, 'Play only this item');
+             if (item.props.link)
+               el.createAppend('li', { id: 'item_context_embed_iframe' }, 'Play item in an embedded iframe');
              el.createAppend('li', { id: 'item_context_copy' }, 'Copy Item URL (' + RemedieUtil.fileType(item.ident, item.props.type) + ')');
              el.createAppend('li', { id: 'item_context_open' }, 'Open URL with browser');
 
