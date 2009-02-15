@@ -425,6 +425,9 @@ Remedie.prototype = {
       }
     }
 
+    if (player == 'iframeLink')
+      ratio = 9/16;
+
     var res    = RemedieUtil.calcWindowSize($(window).width()-100, $(window).height()-94, ratio);
     var width  = res.width;
     var height = res.height;
