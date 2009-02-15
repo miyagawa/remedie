@@ -42,10 +42,14 @@ sub upgrade {
         });
     }
 
-    # scrape the page to check if it has HD
+    # scrape the page to check if it has HD or disables embeds
     # FIXME content should be shared with needs_content
     my $content = Plagger->context->current_plugin->fetch_content("http://www.youtube.com/watch?v=$video_id&fmt=22");
-    if ($content =~ m!"fmt_map":\s*"22/!) {
+    if ($content =~ /Embedding disabled by request/) {
+        Plagger->context->log(info => "$video_id disables embeds :/");
+        $enclosure->url("http://www.youtube.com/watch?v=$video_id");
+        $enclosure->type("text/html");
+    } elsif ($content =~ m!"fmt_map":\s*"22/!) {
         Plagger->context->log(info => "$video_id has HD version :)");
         $enclosure->url($self->swf_url($video_id, 22));
         $enclosure->width(1280);
