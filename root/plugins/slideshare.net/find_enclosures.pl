@@ -12,8 +12,6 @@ sub find {
     my ($url) = $args->{content} =~ m!<param name="movie" value="([^"]*)"!
         or return;
 
-    warn $url;
-
     my $enclosure = Plagger::Enclosure->new;
     $enclosure->url(URI->new($url));
     $enclosure->type('application/x-shockwave-flash');
