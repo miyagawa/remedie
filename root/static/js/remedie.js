@@ -435,7 +435,7 @@ Remedie.prototype = {
     if (!player)
       player = this.defaultPlayerFor(item.props.type);
 
-    if (url.match(/nicovideo\.jp/)) {
+    if (url.match(/nicovideo\.jp/) && player == 'Web') {
       $.ajax({
         url: "/rpc/player/nicovideo",
         type: 'post',
