@@ -494,7 +494,7 @@ Remedie.prototype = {
         title:   item.name,
         height:  height,
         width:   width,
-        content: item.embed.url
+        content: item.props.embed.url
       };
     } else if (player == 'iframeLink') {
       return {
