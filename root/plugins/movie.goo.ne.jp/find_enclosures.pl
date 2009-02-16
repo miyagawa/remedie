@@ -22,6 +22,8 @@ sub find {
 
     my $enclosure = Plagger::Enclosure->new;
     $enclosure->url("http://movie.goo.ne.jp/contents/movies/$id/".$res->{movie});
+    $enclosure->width(480);
+    $enclosure->height(360);
     $enclosure->type('video/x-ms-asf');
     $enclosure->thumbnail({ url => $res->{thumbnail}}) if $res->{thumbnail};
     return $enclosure;
