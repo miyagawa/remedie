@@ -1,5 +1,12 @@
 Revision history for Perl extension Remedie
 
+0.3.2 Mon Feb 16 14:54:33 PST 2009
+        * New plugins: survival.tv, mooom.jp, vids.myspace.com, bptv.nikkeibp.co.jp, woopie.jp
+        * Test tweaks on portability
+        * Added 'play item in an iframe' option
+        * YouTube plugin now checks if the embedding is disabled [#165]
+        * Escape JSON high-bit characters to avoid jQuery JSON parser error [#166]
+
 0.3.1 Sun Feb  8 23:08:09 PST 2009
         * Shadowbox title now links to entry if there's a link URL
         * Fix blockUI to close with click overlay rather than double clicks

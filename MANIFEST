@@ -4,6 +4,7 @@ Changes
 extlib/Filesys/Virtual/Plain.pm
 extlib/URI/Fetch.pm
 extlib/URI/Fetch/Response.pm
+extlib/XML/Feed/Format/RSS.pm
 HACKING
 inc/Module/Install.pm
 inc/Module/Install/AuthorTests.pm
@@ -106,6 +107,7 @@ root/plugins/apple.com/discovery-trailer.pl
 root/plugins/apple.com/find_enclosures.pl
 root/plugins/asahi.com/find_enclosures.pl
 root/plugins/asahi.com/find_links.yaml
+root/plugins/bptv.nikkeibp.co.jp/find_enclosures.pl
 root/plugins/cancam.tv/find_enclosures.pl
 root/plugins/cbsnews.com/find_enclosures.pl
 root/plugins/channel.pandora.tv/find_enclosures.pl
@@ -125,6 +127,8 @@ root/plugins/fnn-news.com/find_enclosures.pl
 root/plugins/fnn-news.com/find_links.yaml
 root/plugins/funnyordie.com/find_enclosures.pl
 root/plugins/gametrailers.com/find_enclosures.pl
+root/plugins/gdata.youtube.com/discovery.pl
+root/plugins/guba.com/find_enclosures.pl
 root/plugins/joost.com/find_enclosures.pl
 root/plugins/jp.playstation.com/scraper.pl
 root/plugins/lantis-net.com/find_links.yaml
@@ -132,6 +136,7 @@ root/plugins/macrossf.com/find_links.yaml
 root/plugins/macrossf.com/scraper.pl
 root/plugins/mininova.org/discovery.pl
 root/plugins/mitter.jp/find_enclosures.pl
+root/plugins/mooom.jp/find_enclosures.pl
 root/plugins/movie.goo.ne.jp/find_enclosures.pl
 root/plugins/mtvmusic.com/find_enclosures.pl
 root/plugins/mtvmusic.com/find_links.yaml
@@ -155,6 +160,7 @@ root/plugins/search.pandora.tv/find_links.yaml
 root/plugins/sling.com/find_enclosures.pl
 root/plugins/so-net.ne.jp/scraper.pl
 root/plugins/southparkstudios.com/scraper.pl
+root/plugins/survival.tv/scraper.pl
 root/plugins/tfmplus.com/scraper-ppp.pl
 root/plugins/thedailyshow.com/find_enclosures.pl
 root/plugins/tv-asahi.co.jp/find_enclosures.pl
@@ -164,15 +170,21 @@ root/plugins/tv-tokyo.co.jp/scraper-anime_anison_st.pl
 root/plugins/ugomemo.hatena.ne.jp/find_enclosures.pl
 root/plugins/veoh.com/discovery.pl
 root/plugins/veoh.com/find_enclosures.pl
+root/plugins/veoh.com/find_links.yaml
 root/plugins/viddler.com/find_enclosures.pl
 root/plugins/viddler.com/find_links.yaml
+root/plugins/video.ask.jp/find_enclosures.pl
+root/plugins/video.msn.com/find_enclosures.pl
 root/plugins/video.watch.impress.co.jp/find_enclosures.pl
 root/plugins/video.watch.impress.co.jp/find_links.yaml
 root/plugins/video.yahoo.com/find_enclosures.pl
+root/plugins/vids.myspace.com/find_enclosures.pl
 root/plugins/vimeo.com/find_enclosures.pl
 root/plugins/vimeo.com/find_links.yaml
+root/plugins/vision.ameba.jp/find_enclosures.pl
 root/plugins/vreel.net/find_enclosures.pl
 root/plugins/vreel.net/find_links.yaml
+root/plugins/woopie.jp/discovery.pl
 root/plugins/woopie.jp/find_enclosures.pl
 root/plugins/www3.nhk.or.jp/find_enclosures.pl
 root/plugins/youtube.com/find_enclosures.pl
@@ -185,6 +197,7 @@ root/static/css/jquery.jgrowl.css
 root/static/css/screen.css
 root/static/css/site.css
 root/static/html/index.html
+root/static/html/watch.html
 root/static/images/badge_red.png
 root/static/images/closebox.png
 root/static/images/feed_128x128.png
@@ -206,6 +219,7 @@ root/static/js/jquery.dimensions.min.js
 root/static/js/jquery.flash.js
 root/static/js/jquery.flydom-3.1.1.js
 root/static/js/jquery.form.js
+root/static/js/jquery.getUrlParam.js
 root/static/js/jquery.hotkeys.js
 root/static/js/jquery.jgrowl.js
 root/static/js/jquery.latest.min.js
@@ -286,6 +300,7 @@ t/plagger/core/date-parse-jp.t
 t/plagger/core/date-parse.t
 t/plagger/core/dedupe_entries.t
 t/plagger/core/feed-language.t
+t/plagger/core/feed-no-discovery.t
 t/plagger/core/feed-parser-discover.t
 t/plagger/core/feed-parser.t
 t/plagger/core/feed-redirect.t
