@@ -25,7 +25,11 @@ sub encode {
             croak sprintf qq(Can't locate object method "TO_JSON" via pacakge "%s"), ref $obj;
         }
     };
-    JSON::XS->new->allow_blessed->convert_blessed->utf8->encode($stuff);
+
+    my $json = JSON::XS->new->allow_blessed->convert_blessed->utf8->encode($stuff);
+    $json =~ s/\xe2\x80\xa8//g; # http://dev.jquery.com/ticket/4168
+
+    return $json;
 }
 
 1;
