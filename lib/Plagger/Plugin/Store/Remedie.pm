@@ -61,12 +61,18 @@ sub store {
                 $item->props->{type} = "application/x-shockwave-flash";
             } elsif ($enclosure->type =~ m!x?html!) {
                 $item->type( Remedie::DB::Item->TYPE_WEB_MEDIA );
-                $item->props->{embed} = { url => $enclosure->url };
-                $item->props->{type}  = "text/html"; # iframe
+                $item->props->{embed} = {
+                    url    => $enclosure->url,
+                    width  => $enclosure->width,
+                    height => $enclosure->height,
+                };
+                $item->props->{type} = "text/html"; # iframe
             } else {
                 $item->type( Remedie::DB::Item->TYPE_HTTP_MEDIA );
-                $item->props->{size} = $enclosure->length;
-                $item->props->{type} = $enclosure->type;
+                $item->props->{size}   = $enclosure->length;
+                $item->props->{width}  = $enclosure->width;
+                $item->props->{height} = $enclosure->height;
+                $item->props->{type}   = $enclosure->type;
             }
         }
 
