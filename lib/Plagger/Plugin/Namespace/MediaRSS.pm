@@ -47,9 +47,6 @@ sub handle {
                 my $enclosure = Plagger::Enclosure->new;
                 $enclosure->url( URI->new($media_content->{url}) );
                 $enclosure->type($media_content->{type});
-                $enclosure->length($media_content->{fileSize}) if $media_content->{fileSize};
-                $enclosure->width($media_content->{width}) if $media_content->{width};
-                $enclosure->height($media_content->{height}) if $media_content->{height};
                 $args->{entry}->add_enclosure($enclosure);
             }
         }
@@ -68,7 +65,7 @@ sub handle {
 
         # media:player
         if (my $player = $media->{$media_ns}{player}) {
-            if (!$args->{entry}->has_enclosure && $player->{url}) {
+            if ($player->{url}) {
                 $context->log(debug => "Found media:player $player->{url}");
                 my $enclosure = Plagger::Enclosure->new;
                 $enclosure->url($player->{url});

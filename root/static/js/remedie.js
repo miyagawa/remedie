@@ -547,14 +547,14 @@ Remedie.prototype = {
         player:  'html',
         title:   item.name,
         height:  height,
-        width:   width * (height - 18) / height,
+        width:   width,
         content: '<div id="embed-player"></div>',
         onFinish: function() {
           var elm = document.getElementById("embed-player");
           var ply = new jeroenwijering.Player(elm, '/static/js/wmvplayer/wmvplayer.xaml', {
             file: url,
-            width: width * (height - 18) / height,
-            height: height,
+            width: width,
+            height: height - 18,
             link: item.props.link
           });
           (function(ply) {

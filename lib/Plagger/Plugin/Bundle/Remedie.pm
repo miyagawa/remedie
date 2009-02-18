@@ -36,7 +36,6 @@ sub register {
 
  #    $context->autoload_plugin({ module => 'Filter::TruePermalink' });
     $context->autoload_plugin({ module => 'Filter::FeedBurnerPermalink' });
-    $context->autoload_plugin({ module => 'Filter::GoogleVideoPermalink' });
     $context->autoload_plugin({ module => 'Namespace::iTunesDTD' });
     $context->autoload_plugin({ module => 'Namespace::ApplePhotocast' });
     $context->autoload_plugin({ module => 'Namespace::HatenaFotolife' });
