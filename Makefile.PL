@@ -51,6 +51,7 @@ requires 'Rose::DB::Object';
 requires 'String::CamelCase';
 requires 'String::ShellQuote';
 requires 'Template';
+requires 'Term::Encoding';
 requires 'Text::Tags::Parser';
 requires 'Tie::File';
 requires 'UNIVERSAL::require';
