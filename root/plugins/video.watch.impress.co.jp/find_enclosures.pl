@@ -1,7 +1,7 @@
 # author: Tatsuhiko Miyagawa
 sub init {
     my $self = shift;
-    $self->{handle} = "(flash|wmv)\.htm";
+    $self->{handle} = '\d+_\d+\.htm';
 }
 
 sub needs_content { 1 }
