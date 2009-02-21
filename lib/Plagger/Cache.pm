@@ -18,13 +18,16 @@ sub new {
         directory_umask => 0077,
     };
 
-    $conf->{class}->require;
+    {
+        local $@;
+        $conf->{class}->require;
 
-    # If class is not loadable, falls back to on memory cache
-    if ($@) {
-        Plagger->context->log(error => "Can't load $conf->{class}. Fallbacks to Plagger::Cache::Null");
-        require Plagger::Cache::Null;
-        $conf->{class} = 'Plagger::Cache::Null';
+        # If class is not loadable, falls back to on memory cache
+        if ($@) {
+            Plagger->context->log(error => "Can't load $conf->{class}. Fallbacks to Plagger::Cache::Null");
+            require Plagger::Cache::Null;
+            $conf->{class} = 'Plagger::Cache::Null';
+        }
     }
 
     my $self = bless {
