@@ -27,7 +27,7 @@ requires 'HTML::Selector::XPath';
 requires 'HTML::Tagset';
 requires 'HTML::TokeParser';
 requires 'HTML::TreeBuilder';
-requires 'HTML::TreeBuilder::XPath';
+requires 'HTML::TreeBuilder::XPath', 0.09;
 requires 'HTTP::Date';
 requires 'HTTP::Engine';
 requires 'Image::Info';
