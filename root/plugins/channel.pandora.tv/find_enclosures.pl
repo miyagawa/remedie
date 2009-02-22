@@ -15,7 +15,7 @@ sub find {
         or return;
 
     my $data = Remedie::JSON->decode($json);
-    $data->{flv} =~ s/flvg\./flvorgx./;
+    $data->{flv} =~ s!flvg\.!221.141.0.245:88/flvorgx.!;
 
     my $enclosure = Plagger::Enclosure->new;
     $enclosure->url($data->{flv});
