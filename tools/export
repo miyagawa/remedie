@@ -1,0 +1,6 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use LWP::UserAgent;
+
+print LWP::UserAgent->new->get("http://localhost:10010/rpc/collection/opml")->content;

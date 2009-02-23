@@ -176,7 +176,6 @@ root/plugins/viddler.com/find_links.yaml
 root/plugins/video.ask.jp/find_enclosures.pl
 root/plugins/video.msn.com/find_enclosures.pl
 root/plugins/video.watch.impress.co.jp/find_enclosures.pl
-root/plugins/video.watch.impress.co.jp/find_links.yaml
 root/plugins/video.yahoo.com/find_enclosures.pl
 root/plugins/vids.myspace.com/find_enclosures.pl
 root/plugins/vimeo.com/find_enclosures.pl
