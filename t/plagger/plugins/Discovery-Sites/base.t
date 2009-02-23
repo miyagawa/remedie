@@ -9,6 +9,7 @@ run_eval_expected;
 __END__
 
 ===
+--- SKIP
 --- input config
 plugins:
   - module: Subscription::Config
