@@ -4,11 +4,7 @@ use warnings;
 use LWP::UserAgent;
 use HTTP::Request::Common;
 use JSON::XS;
-
-eval { require Term::ANSIColor };
-my $color = $@
-    ? sub { shift; @_ } # do nothing
-    : sub { Term::ANSIColor::colored([ shift ], @_) };
+use Term::ANSIColor;
 
 my $ua = LWP::UserAgent->new;
 $ua->default_header('X-Remedie-Client' => 'CLI');
@@ -32,9 +28,9 @@ my @channels = @ARGV ? get_channels(@ARGV) : all_channels();
 
 for my $channel (@channels) {
     my $data = $api_call->("post", "/channel/refresh", { id => $channel->{id} });
-    my $new = $data->{channel}{unwatched_count} - $channel->{unwatched_count} + 1;
-    warn sprintf "%d: %s updated %s\n",
-        $channel->{id}, $data->{channel}{name}, ($new ? $color->('red', "($new)") : "");
+    my $new = $data->{channel}{unwatched_count} - $channel->{unwatched_count};
+    printf "%d: %s updated %s\n",
+        $channel->{id}, $data->{channel}{name}, ($new ? colored(['red'], "($new)") : "");
 }
 
 sub get_channels {
