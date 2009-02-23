@@ -129,6 +129,7 @@ root/plugins/funnyordie.com/find_enclosures.pl
 root/plugins/gametrailers.com/find_enclosures.pl
 root/plugins/gdata.youtube.com/discovery.pl
 root/plugins/guba.com/find_enclosures.pl
+root/plugins/hulu.com/find_enclosures.pl
 root/plugins/joost.com/find_enclosures.pl
 root/plugins/jp.playstation.com/scraper.pl
 root/plugins/lantis-net.com/find_links.yaml
@@ -157,6 +158,7 @@ root/plugins/sc-smn.jst.go.jp/find_links.yaml
 root/plugins/screentoaster.com/find_enclosures.pl
 root/plugins/screentoaster.com/find_links.yaml
 root/plugins/search.pandora.tv/find_links.yaml
+root/plugins/slideshare.net/find_enclosures.pl
 root/plugins/sling.com/find_enclosures.pl
 root/plugins/so-net.ne.jp/scraper.pl
 root/plugins/southparkstudios.com/scraper.pl
@@ -176,6 +178,7 @@ root/plugins/viddler.com/find_links.yaml
 root/plugins/video.ask.jp/find_enclosures.pl
 root/plugins/video.msn.com/find_enclosures.pl
 root/plugins/video.watch.impress.co.jp/find_enclosures.pl
+root/plugins/video.watch.impress.co.jp/scraper.pl
 root/plugins/video.yahoo.com/find_enclosures.pl
 root/plugins/vids.myspace.com/find_enclosures.pl
 root/plugins/vimeo.com/find_enclosures.pl
@@ -399,7 +402,9 @@ t/samples/webbalert.xml
 t/samples/xoxo-relative.html
 t/samples/xoxo.html
 t/TestPlagger.pm
+tools/export
 tools/issues
+tools/refresh
 tools/upgrade-deps
 xt/perlcritic.t
 xt/pod.t
