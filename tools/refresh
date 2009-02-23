@@ -6,6 +6,8 @@ use HTTP::Request::Common;
 use JSON::XS;
 use Term::ANSIColor;
 
+binmode STDOUT, ":utf8";
+
 my $ua = LWP::UserAgent->new;
 $ua->default_header('X-Remedie-Client' => 'CLI');
 
