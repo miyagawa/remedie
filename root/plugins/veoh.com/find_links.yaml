@@ -1,1 +1,1 @@
-follow_selector: a.thumbLink
+follow_xpath: //a[contains(@class, "thumbLink") and ./img[contains(@src, "veoh.com")]]
