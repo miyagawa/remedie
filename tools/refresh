@@ -8,16 +8,35 @@ use JSON::XS;
 my $ua = LWP::UserAgent->new;
 $ua->default_header('X-Remedie-Client' => 'CLI');
 
-my @channels = @ARGV ? @ARGV : all_channels($ua);
+my $api_call = sub {
+    my($method, $path, $args) = @_;
+    my $uri = URI->new("http://localhost:10010/rpc$path");
 
-for my $id (@channels) {
-    my $res = $ua->post("http://localhost:10010/rpc/channel/refresh", { id => $id });
-    my $data = JSON::XS->new->decode($res->content);
-    warn sprintf "%d: %s updated (%d)\n", $id, $data->{channel}{name}, $data->{channel}{unwatched_count};
+    my $res;
+    if ($method eq 'get' && $args) {
+        $uri->query_form(%$args);
+        $res = $ua->get($uri);
+    } else {
+        $res = $ua->$method($uri, $args);
+    }
+
+    return JSON::XS->new->decode($res->content);
+};
+
+my @channels = @ARGV ? get_channels(@ARGV) : all_channels();
+
+for my $channel (@channels) {
+    my $data = $api_call->("post", "/channel/refresh", { id => $channel->{id} });
+    my $new = $data->{channel}{unwatched_count} - $channel->{unwatched_count};
+    warn sprintf "%d: %s updated %s\n",
+        $channel->{id}, $data->{channel}{name}, ($new ? "($new)" : "");
+}
+
+sub get_channels {
+    my($ua, @ids) = @_;
+    map $api_call->("get", "/channel/show", { id => $_ }), @ids;
 }
 
 sub all_channels {
-    my $ua   = shift;
-    my $data = JSON::XS->new->decode($ua->get("http://localhost:10010/rpc/channel/load")->content);
-    map $_->{id}, @{$data->{channels}};
+    @{ $api_call->("get", "/channel/load")->{channels} };
 }
