@@ -13,7 +13,7 @@ my @channels = @ARGV ? @ARGV : all_channels($ua);
 for my $id (@channels) {
     my $res = $ua->post("http://localhost:10010/rpc/channel/refresh", { id => $id });
     my $data = JSON::XS->new->decode($res->content);
-    warn sprintf "%d: %s updatd (%d)\n", $id, $data->{channel}{name}, $data->{channel}{unwatched_count};
+    warn sprintf "%d: %s updated (%d)\n", $id, $data->{channel}{name}, $data->{channel}{unwatched_count};
 }
 
 sub all_channels {
