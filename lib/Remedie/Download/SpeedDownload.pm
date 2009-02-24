@@ -1,5 +1,5 @@
 package Remedie::Download::SpeedDownload;
-use Moose;
+use Any::Moose;
 extends 'Remedie::Download::Base';
 
 use URI::filename;

@@ -1,5 +1,5 @@
 package Remedie::Download::Base;
-use Moose;
+use Any::Moose;
 
 has conf => (
     is => 'rw',

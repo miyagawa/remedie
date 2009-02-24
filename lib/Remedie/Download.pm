@@ -1,5 +1,5 @@
 package Remedie::Download;
-use Moose;
+use Any::Moose;
 use UNIVERSAL::require;
 
 sub new {

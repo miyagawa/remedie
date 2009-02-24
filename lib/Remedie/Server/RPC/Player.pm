@@ -1,11 +1,11 @@
 package Remedie::Server::RPC::Player;
-use Moose;
+use Any::Moose;
 
 BEGIN { extends 'Remedie::Server::RPC' }
 
 __PACKAGE__->meta->make_immutable;
 
-no Moose;
+no Any::Moose;
 use Path::Class;
 
 eval { require Mac::AppleScript };

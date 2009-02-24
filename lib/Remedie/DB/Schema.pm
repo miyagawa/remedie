@@ -1,9 +1,9 @@
 package Remedie::DB::Schema;
-use Moose;
+use Any::Moose;
 
 __PACKAGE__->meta->make_immutable;
 
-no Moose;
+no Any::Moose;
 
 use Remedie::DB;
 

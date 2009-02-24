@@ -1,6 +1,6 @@
 package Remedie::Updater;
 use strict;
-use Moose;
+use Any::Moose;
 use Remedie::DB::Channel;
 use Remedie::DB::Item;
 use Remedie::Log;
@@ -11,7 +11,7 @@ has 'conf' => is => 'rw';
 
 __PACKAGE__->meta->make_immutable;
 
-no Moose;
+no Any::Moose;
 use Path::Class;
 
 sub update_channel {

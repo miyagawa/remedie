@@ -1,6 +1,6 @@
 package Remedie::UserData;
-use Moose;
-use MooseX::Types::Path::Class qw(Dir);
+use Any::Moose;
+use Any::Moose 'X::Types::Path::Class' => [ 'Dir' ];
 
 has 'base' => (
     is => 'rw',
@@ -11,7 +11,7 @@ has 'base' => (
 
 __PACKAGE__->meta->make_immutable;
 
-no Moose;
+no Any::Moose;
 
 sub path_to {
     my($self, @path) = @_;

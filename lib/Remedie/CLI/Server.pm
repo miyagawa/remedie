@@ -1,14 +1,14 @@
 package Remedie::CLI::Server;
-use Moose;
-use MooseX::Types::Path::Class qw(File Dir);
+use Any::Moose;
+use Any::Moose 'X::Types::Path::Class' => [ qw(File Dir) ];
 use Remedie::DB::Schema;
 use Remedie::Server;
 use Remedie::UserData;
 use Pod::Usage;
 use YAML();
 
-with 'MooseX::Getopt',
-     'MooseX::ConfigFromFile';
+with any_moose('X::Getopt'),
+     any_moose('X::ConfigFromFile');
 
 has '+configfile' => (
     default => Remedie::UserData->new->path_to("config.yaml")->stringify,
@@ -94,7 +94,7 @@ has 'error_log' => (
 
 __PACKAGE__->meta->make_immutable;
 
-no Moose;
+no Any::Moose;
 
 sub build_access_log { shift->user_data->path_to('logs', 'access.log') }
 sub build_error_log  { shift->user_data->path_to('logs', 'error.log') }

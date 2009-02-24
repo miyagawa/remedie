@@ -1,5 +1,5 @@
 package Remedie::Server::RPC::Channel;
-use Moose;
+use Any::Moose;
 use Remedie::DB::Channel;
 use Remedie::Updater;
 use Template;
@@ -13,7 +13,7 @@ BEGIN { extends 'Remedie::Server::RPC' };
 
 __PACKAGE__->meta->make_immutable;
 
-no Moose;
+no Any::Moose;
 
 sub load {
     my($self, $req, $res) = @_;

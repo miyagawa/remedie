@@ -1,5 +1,5 @@
 package Remedie::Server;
-use Moose;
+use Any::Moose;
 
 use attributes ();
 use HTTP::Engine;
@@ -25,7 +25,7 @@ has 'engine' => (
 
 __PACKAGE__->meta->make_immutable;
 
-no Moose;
+no Any::Moose;
 
 sub bootstrap {
     my($class, $conf) = @_;

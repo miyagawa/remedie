@@ -1,5 +1,5 @@
 package Remedie::Server::RPC::Item;
-use Moose;
+use Any::Moose;
 use Remedie::DB::Channel;
 use Remedie::DB::Item;
 use Remedie::Download;
@@ -10,7 +10,7 @@ BEGIN { extends 'Remedie::Server::RPC' };
 
 __PACKAGE__->meta->make_immutable;
 
-no Moose;
+no Any::Moose;
 
 sub download :POST {
     my($self, $req, $res) = @_;

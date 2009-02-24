@@ -1,5 +1,5 @@
 package Remedie::Download::Mplayer;
-use Moose;
+use Any::Moose;
 extends 'Remedie::Download::Base';
 
 use Tie::File;
