@@ -38,9 +38,7 @@ Remedie.prototype = {
       if (remedie.currentChannel()) {
         remedie.manuallyRefreshChannel(remedie.currentChannel());
       } else {
-        remedie.channels.forEach(function(channel) {
-          remedie.refreshChannel(channel);
-        });
+        remedie.refreshAllChannels();
       }
     });
     this.installHotKey('del', 'Unsubscribe channel', function(){
@@ -186,6 +184,7 @@ Remedie.prototype = {
   setupMenuActions: function() {
     $(".new-channel-menu").click(function(){ remedie.newChannelDialog() });
     $(".channel-list-menu").click(function(){ remedie.toggleChannelView(false) });
+    $(".refresh-all-menu").click(function(){ remedie.refreshAllChannels() });
 
     $("#new-channel-form").submit( function(e) { remedie.createNewChannel(e); return false; } );
     $(".cancel-dialog").click( $.unblockUI );
@@ -1117,6 +1116,12 @@ Remedie.prototype = {
       error: function(r) {
         alert("Can't load the channel: " + r.responseText);
       }
+    });
+  },
+
+  refreshAllChannels: function() {
+    this.channels.forEach(function(channel) {
+      remedie.refreshChannel(channel);
     });
   },
 
