@@ -14,10 +14,7 @@ sub find {
         process 'input[name="EMBED_URL"]', code => '@value';
     }->scrape($args->{content});
 
-    my $url = ($res->{code} =~ /name="movie" value="(.*?)"/)[0] or return;
-
-    my $enclosure = Plagger::Enclosure->new;
-    $enclosure->url($url);
-    $enclosure->type('application/x-shockwave-flash');
-    return $enclosure;
+    if ($res->{code}) {
+        Plagger->context->current_plugin->find_enclosures(\$res->{code}, $args->{entry});
+    }
 }
