@@ -73,13 +73,18 @@ sub build_engine {
     );
 }
 
+sub default_root {
+    my($self, $req) = @_;
+    $req->user_agent =~ /Mobile.*Safari/ ? "/static/html/iui.html" : "/static/html/index.html";
+}
+
 sub handle_request {
     my($self, $req) = @_;
 
     my $path = $req->path;
 
     my $res = HTTP::Engine::Response->new;
-    $path = "/static/html/index.html" if $path eq "/";
+    $path = $self->default_root($req) if $path eq "/";
     $path = "/static/crossdomain.xml" if $path eq "/crossdomain.xml";
 
     eval {
