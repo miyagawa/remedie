@@ -17,7 +17,8 @@ $(function(){
     dataType: 'json',
     success: function(r) {
       $.each(r.channels, function(index, channel) {
-        var callback = showChannelCallback(channel, { unwatched: 1 });
+        var opts = channel.unwatched_count > 0 ? { unwatched: 1 } : {};
+        var callback = showChannelCallback(channel, opts);
         $('ul#home').createAppend('li', null, [
           'a', { onclick: callback, href: '#channel-' + channel.id }, channel.name
         ]);
