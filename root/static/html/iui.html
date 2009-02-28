@@ -3,7 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>iUI Remedie</title>
+<title>Remedie</title>
 <meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
 <script language="JavaScript" type="text/javascript" src="/static/js/jquery.latest.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="/static/js/jquery.flydom-3.1.1.js"></script>
@@ -88,8 +88,9 @@ function showItemCallback(channel, item) {
     el.createAppend('h2', {}, item.name);
     var link = /^(video|audio)/.test(item.props.type) ? item.ident : item.props.link;
 
-    if (item.props.thumbnail && item.props.thumbnail.url)
-      el.createAppend('p', null, [ 'a', { href: link }, [ 'img', { src: item.props.thumbnail.url }, null ] ]);
+    var thumb = item.props.thumbnail || channel.props.thumbnail;
+    if (thumb && thumb.url)
+      el.createAppend('p', null, [ 'a', { href: link }, [ 'img', { src: thumb.url }, null ] ]);
 
     el.createAppend('p', { className: 'description' }, item.props.description);
     el.createAppend('p', null, [ 'a', { href: link }, 'Play this item' ]);
