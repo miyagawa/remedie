@@ -32,10 +32,11 @@ plugins:
         - http://www.veoh.com/search.html?type=v&search=obama
   - module: Discovery::Sites
   - module: CustomFeed::FindLinks
+  - module: CustomFeed::Scraper
 
 --- expected
 like $context->update->feeds->[0]->entries->[0]->link, qr|http://www.veoh.com/.*/watch/v|;
-ok $context->update->feeds->[0]->entries->[0]->thumbnail->{url};
+like $context->update->feeds->[0]->entries->[0]->thumbnail->{url}, qr/ll-images/;
 
 ===
 --- input config
