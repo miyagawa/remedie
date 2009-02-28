@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>iUI Remedie</title>
+<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+<script language="JavaScript" type="text/javascript" src="/static/js/jquery.latest.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="/static/js/jquery.flydom-3.1.1.js"></script>
+<style type="text/css" media="screen">@import "/static/js/iui/iui.css";</style>
+<script type="application/x-javascript" src="/static/js/iui/iui.js"></script>
+<script>
+$(function(){
+  $.ajax({
+    url: "/rpc/channel/load",
+    type: 'get',
+    dataType: 'json',
+    success: function(r) {
+      $.each(r.channels, function(index, channel) {
+        var callback = showChannelCallback(channel, { unwatched: 1 });
+        $('ul#home').createAppend('li', null, [
+          'a', { onclick: callback, href: '#channel-' + channel.id }, channel.name
+        ]);
+      });
+    },
+    error: function(r) {
+      alert("Can't load subscription: " + r.responseText);
+    }
+  });  
+});
+
+function showChannelCallback(channel, opts) {
+  if (!opts) opts = {};
+  return function() {
+    if ($('#channel-'+channel.id).size() > 0 && !opts.all)
+      return true;
+    $.ajax({
+      url: "/rpc/channel/show",
+      type: 'get',
+      async: false,
+      data: { id: channel.id, limit: (opts.all ? 0 : 50), status: (opts.unwatched ? [ 'new', 'downloaded' ] : 0) },
+      dataType: 'json',
+      success: function(r) {
+        var id = 'channel-' + channel.id;
+        var el = $('#'+id);
+        if (el.size()) { // opts.all = 1
+          el.children().remove()
+        } else {
+          $("body").createAppend('ul', { id: id, title: channel.name });
+          el = $('#'+id);
+        }
+
+        $.each(r.items, function(index, item) {
+          var callback = showItemCallback(channel, item);
+          el.createAppend('li', null, [
+            'a', { onclick: callback, href: '#item-' + item.id }, item.name
+          ]);
+        });
+
+        if (r.channel.total > r.items.length) {
+          var callback = showChannelCallback(channel, { all: 1 });
+          el.createAppend('li', null, [ 'a', { onclick: callback, target: "_replace" }, "Show all " + r.channel.total + " items" ]);
+        }
+
+        if (!opts.all)
+          iui.showPage(el[0]);
+        return false;
+      },
+      error: function(r) {
+        alert("Can't get channel: " + r.responseText);
+      }
+    });
+  };
+}
+
+function showItemCallback(channel, item) {
+  return function() {
+    if ($('#item-'+item.id).size() > 0)
+      return true;
+    var id = 'item-' + item.id;
+    var el = $('#'+id);
+    if (el.size() == 0) {
+      $("body").createAppend('div', { id: id, title: 'Play', className: 'panel' });
+      el = $('#'+id);
+    }
+
+    el.createAppend('h2', {}, item.name);
+    var link = /^(video|audio)/.test(item.props.type) ? item.ident : item.props.link;
+
+    if (item.props.thumbnail && item.props.thumbnail.url)
+      el.createAppend('p', null, [ 'a', { href: link }, [ 'img', { src: item.props.thumbnail.url }, null ] ]);
+
+    el.createAppend('p', { className: 'description' }, item.props.description);
+    el.createAppend('p', null, [ 'a', { href: link }, 'Play this item' ]);
+
+    iui.showPage(el[0]);
+  };
+}
+
+</script>
+</head>
+
+<body>
+    <div class="toolbar">
+        <h1 id="pageTitle"></h1>
+        <a id="backButton" class="button" href="#"></a>
+        <!-- a class="button" href="#searchForm">Search</a -->
+    </div>
+    
+    <ul id="home" title="Channels" selected="true">
+    </ul>
+</body>
+</html>
