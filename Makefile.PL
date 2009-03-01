@@ -39,7 +39,7 @@ requires 'Log::Dispatch::File';
 requires 'Log::Log4perl';
 requires 'LWP::UserAgent';
 requires 'MIME::Types';
-requires 'Any::Moose';
+requires 'Any::Moose', 0.05;
 requires 'Mouse';
 requires 'MouseX::ConfigFromFile';
 requires 'MouseX::Getopt';
