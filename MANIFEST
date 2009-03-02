@@ -101,6 +101,8 @@ MANIFEST			This list of files
 README.mkdn
 root/plugins/47news.jp/find_enclosures.pl
 root/plugins/74.53.95.28/find_links.yaml
+root/plugins/academicearth.org/find_enclosures.pl
+root/plugins/academicearth.org/scraper.pl
 root/plugins/animate.tv/scraper-webradio.pl
 root/plugins/anime.livedoor.com/find_enclosures.pl
 root/plugins/apple.com/discovery-trailer.pl
@@ -117,11 +119,17 @@ root/plugins/cnettv.cnet.com/find_enclosures.pl
 root/plugins/cnettv.cnet.com/find_links.yaml
 root/plugins/colbertnation.com/find_enclosures.pl
 root/plugins/comedycentral.com/find_enclosures.pl
+root/plugins/crunchyroll.com/find_enclosures.pl
+root/plugins/crunchyroll.com/scraper.pl
 root/plugins/current.com/find_enclosures.pl
 root/plugins/current.com/find_links.yaml
 root/plugins/dailymotion.com/find_enclosures.pl
 root/plugins/default/find_enclosures-asx.pl
+root/plugins/dpj.or.jp/find_enclosures.pl
+root/plugins/dpj.or.jp/find_links-kaiken.yaml
 root/plugins/eyevio.jp/find_enclosures.pl
+root/plugins/fliggo.com/find_enclosures.pl
+root/plugins/fliggo.com/find_links.yaml
 root/plugins/flog.jp/find_enclosures.pl
 root/plugins/fnn-news.com/find_enclosures.pl
 root/plugins/fnn-news.com/find_links.yaml
@@ -130,6 +138,8 @@ root/plugins/gametrailers.com/find_enclosures.pl
 root/plugins/gdata.youtube.com/discovery.pl
 root/plugins/guba.com/find_enclosures.pl
 root/plugins/hulu.com/find_enclosures.pl
+root/plugins/ikkostyle.jp/find_enclosures.pl
+root/plugins/ikkostyle.jp/find_links.yaml
 root/plugins/joost.com/find_enclosures.pl
 root/plugins/jp.playstation.com/scraper.pl
 root/plugins/lantis-net.com/find_links.yaml
@@ -157,6 +167,7 @@ root/plugins/sc-smn.jst.go.jp/find_enclosures.pl
 root/plugins/sc-smn.jst.go.jp/find_links.yaml
 root/plugins/screentoaster.com/find_enclosures.pl
 root/plugins/screentoaster.com/find_links.yaml
+root/plugins/scribd.com/find_enclosures.pl
 root/plugins/search.pandora.tv/find_links.yaml
 root/plugins/slideshare.net/find_enclosures.pl
 root/plugins/sling.com/find_enclosures.pl
@@ -165,6 +176,8 @@ root/plugins/southparkstudios.com/scraper.pl
 root/plugins/survival.tv/scraper.pl
 root/plugins/tfmplus.com/scraper-ppp.pl
 root/plugins/thedailyshow.com/find_enclosures.pl
+root/plugins/thewb.com/find_enclosures.pl
+root/plugins/thewb.com/scraper.pl
 root/plugins/tv-asahi.co.jp/find_enclosures.pl
 root/plugins/tv-tokyo.co.jp/find_enclosures.pl
 root/plugins/tv-tokyo.co.jp/find_links.yaml
@@ -172,7 +185,7 @@ root/plugins/tv-tokyo.co.jp/scraper-anime_anison_st.pl
 root/plugins/ugomemo.hatena.ne.jp/find_enclosures.pl
 root/plugins/veoh.com/discovery.pl
 root/plugins/veoh.com/find_enclosures.pl
-root/plugins/veoh.com/find_links.yaml
+root/plugins/veoh.com/scraper.pl
 root/plugins/viddler.com/find_enclosures.pl
 root/plugins/viddler.com/find_links.yaml
 root/plugins/video.ask.jp/find_enclosures.pl
@@ -186,6 +199,7 @@ root/plugins/vimeo.com/find_links.yaml
 root/plugins/vision.ameba.jp/find_enclosures.pl
 root/plugins/vreel.net/find_enclosures.pl
 root/plugins/vreel.net/find_links.yaml
+root/plugins/whitehouse.gov/find_enclosures.pl
 root/plugins/woopie.jp/discovery.pl
 root/plugins/woopie.jp/find_enclosures.pl
 root/plugins/www3.nhk.or.jp/find_enclosures.pl

@@ -1,5 +1,12 @@
 Revision history for Perl extension Remedie
 
+0.3.4 Sun Mar  1 18:07:02 PST 2009
+        * Use Any::Moose and MouseX:: modules for speedy startup and smaller dependencies
+        * New site plugins: scribd.com, whitehouse.gov, dpj.or.jp, ikkostyle.jp, academicsearch.org,
+          fliggo.com, crunchyroll.com and thewb.com
+        * Fixed veoh.com plugin to adjust image thumbnails
+        * Coloring tools/refresh output
+
 0.3.3 Sun Feb 22 19:11:40 PST 2009
         * Fixed width/height extraction from Media RSS
         * Remove unnecessary height offset in Silverlight playback
