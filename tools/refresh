@@ -36,8 +36,8 @@ for my $channel (@channels) {
 }
 
 sub get_channels {
-    my($ua, @ids) = @_;
-    map $api_call->("get", "/channel/show", { id => $_ }), @ids;
+    my @ids = @_;
+    map $api_call->("get", "/channel/show", { id => $_ })->{channel}, @ids;
 }
 
 sub all_channels {
