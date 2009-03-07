@@ -202,6 +202,12 @@ Remedie.prototype = {
       remedie.renderUnwatchedBadges();
       if (!args.skip_notification)
         remedie.notifyNewItems(args.channel, args.prev);
+      if (window.fluid) {
+        var count = 0;
+        remedie.channels.forEach(function(channel){ count += parseInt(channel.unwatched_count) });
+        if (count > 0)
+          window.fluid.dockBadge = count;
+      }
     });
     $(document).bind('remedie-channel-ondisplay', function(ev, channel) {
       document.title = 'Remedie: ' + channel.name;
@@ -1206,9 +1212,8 @@ Remedie.prototype = {
         $.each(r.channels, function(index, channel) {
           remedie.channels[channel.id] = channel;
           remedie.renderChannelList(channel, $("#collection"));
-          remedie.redrawUnwatchedCount(channel);
+          $.event.trigger('remedie-channel-updated', { channel: channel });
         });
-        remedie.renderUnwatchedBadges();
         remedie.resetCursorPos();
         $.unblockUI();
         if (callback)
