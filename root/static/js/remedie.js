@@ -789,9 +789,6 @@ Remedie.prototype = {
     });
   },
 
-  redrawUnwatchedCount: function(channel) {
-  },
-
   updateStatus: function(obj, callback) {
     $.ajax({
       url: "/rpc/channel/update_status",
