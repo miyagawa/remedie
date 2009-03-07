@@ -203,8 +203,6 @@ Remedie.prototype = {
   setupEventListeners: function() {
     $(document).bind('remedie-channel-updated', function(ev, args) {
       remedie.redrawChannel(args.channel);
-      remedie.redrawUnwatchedCount(args.channel);
-      remedie.renderUnwatchedBadge(args.channel);
       if (!args.skip_notification)
         remedie.notifyNewItems(args.channel, args.prev);
       if (window.fluid) {
@@ -792,14 +790,6 @@ Remedie.prototype = {
   },
 
   redrawUnwatchedCount: function(channel) {
-    var count = channel.unwatched_count || 0;
-    $('.unwatched-count-' + channel.id).each(function(){
-      $(this).text(count);
-    });
-    if (this.current_id) {
-      document.title = 'Remedie: ' + channel.name;
-      if (channel.unwatched_count) document.title += " (" + channel.unwatched_count + ")";
-    }
   },
 
   updateStatus: function(obj, callback) {
@@ -1457,16 +1447,23 @@ Remedie.prototype = {
 
     if (channel.name) 
       $(id + " .channel-title").text(channel.name.trimChars(24));
-  },
 
-  renderUnwatchedBadge: function(channel) {
-    var el = $("#channel-" + channel.id + " .channel-unwatched-hover");
-    var count = parseInt($(el).text());
+    var count = channel.unwatched_count || 0;
+    $('.unwatched-count-' + channel.id).each(function(){
+      $(this).text(count);
+    });
+
+    // Currently displaying this channel?
+    if (this.current_id) {
+      document.title = 'Remedie: ' + channel.name;
+      if (channel.unwatched_count) document.title += " (" + channel.unwatched_count + ")";
+    }
+
+    var hover = $("#channel-" + channel.id + " .channel-unwatched-hover");
     if (count > 0) {
-      $(el).show();
-      $(el).corners("10px transparent");
+      hover.corners("10px transparent").show();
     } else {
-      $(el).hide();
+      hover.hide();
     }
   },
 
