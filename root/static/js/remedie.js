@@ -280,6 +280,19 @@ Remedie.prototype = {
     this.unblockCallbacks = [];
   },
 
+  doNotify: function(obj) {
+    if (window.fluid) {
+      window.fluid.showGrowlNotification({
+        title: obj.header,
+        description: obj.msg,
+        identifier: obj.id,
+        icon: obj.icon
+      });
+    } else {
+      $.jGrowl(obj.msg, { icon: obj.icon, header: obj.header, life: obj.life });
+    }
+  },
+
   // TODO: eventually this notification should be triggered on the server side and broadcast over comet
   notifyNewItems: function(channel, prev) {
     if (prev != undefined) {
@@ -293,7 +306,7 @@ Remedie.prototype = {
             icon = thumb.url;
           var msg = item.name;
           if (diff > 1) msg += " (" + (diff - 1) + " more)";
-          $.jGrowl(msg, { icon: icon, header: channel.name, life: 5000 });
+          this.doNotify({ msg: msg, icon: icon, header: channel.name, id: channel.id, life: 5000 });
         }
       }
     }
