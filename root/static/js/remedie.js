@@ -204,7 +204,7 @@ Remedie.prototype = {
     $(document).bind('remedie-channel-updated', function(ev, args) {
       remedie.redrawChannel(args.channel);
       remedie.redrawUnwatchedCount(args.channel);
-      remedie.renderUnwatchedBadges();
+      remedie.renderUnwatchedBadge(args.channel);
       if (!args.skip_notification)
         remedie.notifyNewItems(args.channel, args.prev);
       if (window.fluid) {
@@ -1459,16 +1459,15 @@ Remedie.prototype = {
       $(id + " .channel-title").text(channel.name.trimChars(24));
   },
 
-  renderUnwatchedBadges: function() {
-    $(".channel-unwatched-hover").each(function(){
-      var count = parseInt($(this).text());
-      if (count > 0) {
-        $(this).show();
-        $(this).corners("10px transparent");
-      } else {
-        $(this).hide();
-      }
-     });
+  renderUnwatchedBadge: function(channel) {
+    var el = $("#channel-" + channel.id + " .channel-unwatched-hover");
+    var count = parseInt($(el).text());
+    if (count > 0) {
+      $(el).show();
+      $(el).corners("10px transparent");
+    } else {
+      $(el).hide();
+    }
   },
 
   showAboutDialog: function() {
