@@ -193,6 +193,11 @@ Remedie.prototype = {
 
     $("#import-opml").click(this.importDialog);
     $("#import-opml-upload").click(function(){ remedie.uploadOPMLFile() });
+
+    if (window.fluid) {
+      window.fluid.addDockMenuItem("Refresh All Channels", function(){ remedie.refreshAllChannels() });
+      window.fluid.addDockMenuItem("New Channel", function(){ remedie.newChannelDialog() });
+    }
   },
 
   setupEventListeners: function() {
