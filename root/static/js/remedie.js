@@ -809,6 +809,23 @@ Remedie.prototype = {
     });
   },
 
+  removeOriginalFile: function(item) {
+    $.ajax({
+      url: "/rpc/item/remove",
+      type: 'post',
+      data: { id: item.id },
+      dataType: 'json',
+      success: function(r) {
+        if (r.success) {
+          $('#channel-item-' + item.id).remove();
+          var o = remedie.channels[r.channel.id];
+          remedie.channels[r.channel.id] = r.channel;
+          $.event.trigger('remedie-channel-updated', { channel: r.channel, prev: o });
+        }
+      },
+    });
+  },
+
   newChannelDialog: function(url) {
     if (url) $("#new-channel-url").attr('value', url);
 
@@ -1040,7 +1057,8 @@ Remedie.prototype = {
              item_context_play_qt_embed: function(){remedie.playVideoInline(item, 'QuickTime')},
              item_context_play_wmp:  function(){remedie.playVideoInline(item, 'WMP')},
              item_context_play_sl:   function(){remedie.playVideoInline(item, 'Silverlight')},
-             item_context_play_divx: function(){remedie.playVideoInline(item, 'DivX')}
+             item_context_play_divx: function(){remedie.playVideoInline(item, 'DivX')},
+             item_context_remove_file: function(){remedie.removeOriginalFile(item)}
            },
            onContextMenu: function(e, menu) {
              item = remedie.items[ item.id ]; // refresh the status
@@ -1064,8 +1082,11 @@ Remedie.prototype = {
              if (item.props.download_path || item.ident.match(/^file:/)) {
                if (navigator.userAgent.match(/mac/i))
                  el.createAppend('li', { id: 'item_context_reveal' }, 'Reveal in Finder');
-               if (item.props.download_path && !item.props.track_id)
+               if (item.props.download_path && !item.props.track_id) {
                  el.createAppend('li', { id: 'item_context_cancel_download' }, 'Remove downloaded file');
+               } else {
+                 el.createAppend('li', { id: 'item_context_remove_file' }, 'Remove original file');
+               }
              }
 
              if (item.is_unwatched) {

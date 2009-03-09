@@ -12,6 +12,36 @@ __PACKAGE__->meta->make_immutable;
 
 no Any::Moose;
 
+sub remove :POST {
+    my($self, $req, $res) = @_;
+
+    my $id   = $req->param('id');
+    my $item = Remedie::DB::Item->new(id => $id)->load;
+    my $chan_id = $item->channel_id;
+
+    my $uri = URI->new($item->ident);
+    unless ($uri->scheme eq 'file') {
+        die "item.ident should be file:// to be removed";
+    }
+
+    if ($^O eq 'darwin') {
+        # TODO: refactor this
+        my $path = $uri->fullpath;
+        use Remedie::Server::RPC::Player;
+        Remedie::Server::RPC::Player::_run_apple_script('Finder', <<SCRIPT);
+set theFile to POSIX file "$path"
+delete theFile
+SCRIPT
+    } else {
+        file($uri->fullpath)->remove;
+    }
+
+    $item->delete;
+
+    my $channel = Remedie::DB::Channel->new(id => $chan_id)->load;
+    return { success => 1, channel => $channel };
+}
+
 sub download :POST {
     my($self, $req, $res) = @_;
 
