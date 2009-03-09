@@ -2,7 +2,7 @@ package Remedie;
 
 use strict;
 use 5.008_001;
-our $VERSION = '0.3.4';
+our $VERSION = '0.4.0';
 
 1;
 __END__

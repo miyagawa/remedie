@@ -1,5 +1,10 @@
 Revision history for Perl extension Remedie
 
+0.4.0 Sun Mar  8 17:04:23 PDT 2009
+        * new iPhone UI with iUI
+        * Integration with Fluid (native Growl, Dock Badge etc.)
+        * Fixed a bug with tools/refresh with channel_id arg
+
 0.3.4 Sun Mar  1 18:07:02 PST 2009
         * Use Any::Moose and MouseX:: modules for speedy startup and smaller dependencies
         * New site plugins: scribd.com, whitehouse.gov, dpj.or.jp, ikkostyle.jp, academicsearch.org,
