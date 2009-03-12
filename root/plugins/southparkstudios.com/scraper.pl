@@ -1,6 +1,6 @@
 sub init {
     my $self = shift;
-    $self->{handle} = '/guide/season/';
+    $self->{handle} = '/guide/.*season=\d+';
 }
 
 sub build_scraper {
