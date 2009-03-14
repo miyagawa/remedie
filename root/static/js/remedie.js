@@ -42,6 +42,9 @@ Remedie.prototype = {
         remedie.refreshAllChannels();
       }
     });
+    this.installHotKey('f', 'Filter channel or items', function(){
+      $('#filter-search').focus();
+    });
     this.installHotKey('del', 'Unsubscribe channel', function(){
       if (remedie.currentChannel())  remedie.removeChannel(remedie.currentChannel())
     });
@@ -202,6 +205,31 @@ Remedie.prototype = {
   },
 
   setupEventListeners: function() {
+    var searchFilter = function(ev) {
+      var query = $('#filter-search').attr('value');
+      if (remedie.current_id) {
+        $('.channel-item').each(function(){
+          var item = remedie.items[this.id.replace('channel-item-', '')];
+          var text = item.name + ' ' + item.props.description;
+          if (text.toLowerCase().indexOf(query.toLowerCase()) == -1)
+            $(this).hide();
+          else
+            $(this).show();
+        });
+      } else {
+        $('.channel').each(function(){
+          var text = remedie.channels[this.id.replace('channel-', '')].name;
+          if (text.toLowerCase().indexOf(query.toLowerCase()) == -1)
+            $(this).hide();
+          else
+            $(this).show();
+        });
+      }
+    };
+
+    // 'click' seems to capture [x] of Safari input type="search"
+    $('#filter-search').bind('keyup', searchFilter).bind('change', searchFilter).bind('click', searchFilter);
+
     $(document).bind('remedie-channel-updated', function(ev, args) {
       remedie.redrawChannel(args.channel);
       if (!args.skip_notification)
@@ -215,6 +243,7 @@ Remedie.prototype = {
     });
     $(document).bind('remedie-channel-ondisplay', function(ev, channel) {
       document.title = 'Remedie: ' + channel.name;
+      $('#filter-search').attr('value', '');
       if (channel.unwatched_count) document.title += " (" + channel.unwatched_count + ")";
 
       // RSS auto discovery
@@ -231,6 +260,7 @@ Remedie.prototype = {
       document.title = "Remedie Media Center";
       remedie.current_id = null;
       remedie.items = [];
+      $('#filter-search').attr('value', '');
     });
     $(document).bind('remedie-item-loaded', function(ev, args) {
       var item = args.item;
