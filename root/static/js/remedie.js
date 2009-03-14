@@ -941,11 +941,12 @@ Remedie.prototype = {
   findChannel: function(channel, offset) {
     var array = new Array;
     var want;
-    $.each(this.channels, function(idx, c) {
-      if (c != undefined) {
-        array.push(c);
-        if (c.id == channel.id)
-          want = array.length - 1 + offset;
+    $('#collection .channel').each(function() {
+      var id = this.id.replace('channel-', '');
+      var ch = remedie.channels[id];
+      array.push(ch);
+      if (id == channel.id) {
+        want = array.length - 1 + offset;
       }
     });
 
