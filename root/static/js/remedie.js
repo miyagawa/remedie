@@ -1235,6 +1235,7 @@ Remedie.prototype = {
           callback.call(remedie);
         // Should use 'stop' event because otherwise we miss the moving element
         $("#collection").sortable({
+          delay: 200,
           start: function(ev, ui){ remedie.isBeingSorted = true },
           stop:  function(ev, ui){ remedie.syncSortOrder() } });
       },
