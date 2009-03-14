@@ -261,6 +261,7 @@ Remedie.prototype = {
       remedie.current_id = null;
       remedie.items = [];
       $('#filter-search').attr('value', '');
+      $('.channel').each(function(){ $(this).show() });
     });
     $(document).bind('remedie-item-loaded', function(ev, args) {
       var item = args.item;
