@@ -16,7 +16,16 @@ $(function(){
     type: 'get',
     dataType: 'json',
     success: function(r) {
-      $.each(r.channels, function(index, channel) {
+      var sortChannel = function(a, b) {
+        var ao = a.props.order;
+        var bo = b.props.order;
+        if (ao == null) ao = 100000 + a.id;
+        if (bo == null) bo = 100000 + b.id;
+        return ao - bo;
+      };
+      var channels = r.channels.sort(sortChannel);
+
+      $.each(channels, function(index, channel) {
         var opts = channel.unwatched_count > 0 ? { unwatched: 1 } : {};
         var callback = showChannelCallback(channel, opts);
         $('ul#home').createAppend('li', null, [
