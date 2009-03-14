@@ -11,6 +11,7 @@ Remedie.prototype = {
   current_id: null,
   hotkeys: [],
   onPlaybackComplete: null,
+  isBeingSorted: false,
 
   initialize: function() {
     $().ajaxSend(function(event,xhr,options) {
@@ -1222,7 +1223,8 @@ Remedie.prototype = {
       dataType: 'json',
       success: function(r) {
         $("#collection").children().remove();
-        $.each(r.channels, function(index, channel) {
+        var channels = r.channels.sort(remedie.sortChannel);
+        $.each(channels, function(index, channel) {
           remedie.channels[channel.id] = channel;
           remedie.renderChannelList(channel, $("#collection"));
           $.event.trigger('remedie-channel-updated', { channel: channel });
@@ -1231,10 +1233,39 @@ Remedie.prototype = {
         $.unblockUI();
         if (callback)
           callback.call(remedie);
+        // Should use 'stop' event because otherwise we miss the moving element
+        $("#collection").sortable({
+          start: function(ev, ui){ remedie.isBeingSorted = true },
+          stop:  function(ev, ui){ remedie.syncSortOrder() } });
       },
       error: function(r) {
         alert("Can't load subscription: " + r.responseText);
       }
+    });
+  },
+
+  sortChannel: function(a, b) {
+    var ao = a.props.order;
+    var bo = b.props.order;
+    if (ao == null) ao = 100000 + a.id;
+    if (bo == null) bo = 100000 + b.id;
+
+    return ao - bo;
+  },
+
+  syncSortOrder: function() {
+    var index = 0;
+    var order = {};
+    $("#collection .channel").each(function(){
+      order[this.id.replace('channel-', '')] = index++; // channel-N => index
+    });
+
+    $.ajax({
+      url: "/rpc/channel/sort",
+      type: 'post',
+      data: order,
+      dataype: 'json',
+      success: function(r) { }
     });
   },
 
@@ -1270,7 +1301,13 @@ Remedie.prototype = {
     // TODO Do NOT display items that are not bound to the event: e.g. Cooliris
     var gridEvents = [];
     $("#channel-" + channel.id)
-      .bind( 'click', function(){ remedie.showChannel(channel) } )
+      .click(function(){
+        if (remedie.isBeingSorted) {
+          remedie.isBeingSorted = false;
+        } else {
+          remedie.showChannel(channel);
+        }
+      })
       .hover( function(){
                 $(this).addClass("hover-channel");
                 if (!$(this).data('gridEventsInstalled')) {

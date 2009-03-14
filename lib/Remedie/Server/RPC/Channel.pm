@@ -221,5 +221,16 @@ sub remove : POST {
     return { success => 1, id => $id };
 }
 
+sub sort : POST {
+    my($self, $req, $res) = @_;
+
+    my $params = $req->parameters;
+    while (my($id, $order) = each %$params) {
+        my $channel = Remedie::DB::Channel->new(id => $id)->load
+            or next;
+        $channel->props->{order} = $order;
+        $channel->save;
+    }
+}
 
 1;
