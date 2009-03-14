@@ -1057,7 +1057,7 @@ Remedie.prototype = {
             channel_context_refresh:      function(){ remedie.manuallyRefreshChannel(channel) },
             channel_context_clear_stale:  function(){ remedie.manuallyRefreshChannel(channel, true) },
             channel_context_mark_watched: function(){ remedie.markAllAsWatched(channel, true) },
-            channel_context_cooliris:     function(){ PicLensLite.start() },
+            channel_context_cooliris:     function(){ remedie.launchCooliris() },
             channel_context_cooliris_swf: function(){ remedie.embedCooliris(channel) },
             channel_context_remove:       function(){ remedie.removeChannel(channel) }
           }
@@ -1549,6 +1549,14 @@ Remedie.prototype = {
       hover.corners("10px transparent").show();
     } else {
       hover.hide();
+    }
+  },
+
+  launchCooliris: function() {
+    if (!window.PicLensLite) {
+      $.getScript("http://lite.piclens.com/current/piclens.js", function(){ PicLensLite.start() });
+    } else {
+      PicLensLite.start();
     }
   },
 
