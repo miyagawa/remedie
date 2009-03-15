@@ -248,6 +248,7 @@ root/static/js/iui/toggleOn.png
 root/static/js/iui/toolbar.png
 root/static/js/iui/toolButton.png
 root/static/js/iui/whiteButton.png
+root/static/js/jquery-ui-1.7.custom.min.js
 root/static/js/jquery.blockUI.js
 root/static/js/jquery.contextmenu.min.js
 root/static/js/jquery.copy.js

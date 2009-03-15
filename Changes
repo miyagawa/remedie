@@ -1,5 +1,12 @@
 Revision history for Perl extension Remedie
 
+0.4.1 Sun Mar 15 14:30:17 PDT 2009
+        * Support deleting original files in File system channel [#175]
+        * updated southparkstudios.com plugin with their new season
+        * Implemented Drag & Drop sorting channels
+        * Implemented incremental channel and item filter
+        * Delay loading piclens JavaScript
+
 0.4.0 Sun Mar  8 17:04:23 PDT 2009
         * new iPhone UI with iUI
         * Integration with Fluid (native Growl, Dock Badge etc.)

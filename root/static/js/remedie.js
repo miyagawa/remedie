@@ -1,4 +1,4 @@
-Remedie.version = '0.4.0';
+Remedie.version = '0.4.1';
 
 function Remedie() {
   this.initialize();
