@@ -217,12 +217,12 @@ Remedie.prototype = {
             $(this).show();
         });
       } else {
-        $('.channel').each(function(){
-          var text = remedie.channels[this.id.replace('channel-', '')].name;
+        $.each(remedie.allChannels(), function(index, channel) {
+          var text = channel.name;
           if (text.toLowerCase().indexOf(query.toLowerCase()) == -1)
-            $(this).hide();
+            $("#channel-" + channel.id).hide();
           else
-            $(this).show();
+            $("#channel-" + channel.id).show();
         });
       }
     };
@@ -304,6 +304,14 @@ Remedie.prototype = {
     } else if (args[0] == '#subscribe') {
       this.newChannelDialog(decodeURIComponent(args[1]));
     }
+  },
+
+  allChannels: function() {
+    var channels = [];
+    $('#collection .channel').each(function() {
+      channels.push(remedie.channels[this.id.replace('channel-', '')]);
+    })
+    return channels;
   },
 
   currentChannel: function() {
@@ -941,18 +949,15 @@ Remedie.prototype = {
   findChannel: function(channel, offset) {
     var array = new Array;
     var want;
-    $('#collection .channel').each(function() {
-      var id = this.id.replace('channel-', '');
-      var ch = remedie.channels[id];
-      array.push(ch);
-      if (id == channel.id) {
-        want = array.length - 1 + offset;
-      }
+    var channels = this.allChannels();
+    $.each(channels, function(index, ch) {
+      if (channel.id == ch.id)
+        want = index + offset;
     });
 
-    if (want && want > array.length - 1) want = 0;
-    if (want < 0) want = array.length - 1;
-    return array[want];
+    if (want && want > channels.length - 1) want = 0;
+    if (want < 0) want = channels.length - 1;
+    return channels[want];
   },
 
   showChannel: function(channel, opts) {
@@ -1185,7 +1190,7 @@ Remedie.prototype = {
   },
 
   refreshAllChannels: function() {
-    this.channels.forEach(function(channel) {
+    $.each(this.allChannels(), function(index, channel) {
       remedie.refreshChannel(channel);
     });
   },
@@ -1288,8 +1293,8 @@ Remedie.prototype = {
   syncSortOrder: function() {
     var index = 0;
     var order = {};
-    $("#collection .channel").each(function(){
-      order[this.id.replace('channel-', '')] = index++; // channel-N => index
+    $.each(this.allChannels(), function(index, channel) {
+      order[channel.id] = index++;
     });
 
     $.ajax({
