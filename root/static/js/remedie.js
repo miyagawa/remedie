@@ -17,7 +17,6 @@ Remedie.prototype = {
     $().ajaxSend(function(event,xhr,options) {
       xhr.setRequestHeader('X-Remedie-Client', 'Remedie/' + Remedie.version);
     });
-//    $().ajaxStop($.unblockUI); // XXX This might cause issues when AJAX calls are made during flash playback
 
     this.setupMenuActions();
     this.setupEventListeners();
