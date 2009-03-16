@@ -23,7 +23,11 @@ Remedie.prototype = {
     this.setupHotKeys();
     this.setupPluginDefaults();
 
-    this.loadCollection( this.dispatchAction );
+    $(document).bind('remedie-collection-loaded', function(ev){
+      remedie.dispatchAction();
+      $(document).unbind('remedie-collection-loaded', arguments.callee);
+    });
+    this.loadCollection();
   },
 
   setupHotKeys: function() {
@@ -204,30 +208,11 @@ Remedie.prototype = {
   },
 
   setupEventListeners: function() {
-    var searchFilter = function(ev) {
-      var query = $('#filter-search').attr('value');
-      if (remedie.current_id) {
-        $('.channel-item').each(function(){
-          var item = remedie.items[this.id.replace('channel-item-', '')];
-          var text = item.name + ' ' + item.props.description;
-          if (text.toLowerCase().indexOf(query.toLowerCase()) == -1)
-            $(this).hide();
-          else
-            $(this).show();
-        });
-      } else {
-        $.each(remedie.allChannels(), function(index, channel) {
-          var text = channel.name;
-          if (text.toLowerCase().indexOf(query.toLowerCase()) == -1)
-            $("#channel-" + channel.id).hide();
-          else
-            $("#channel-" + channel.id).show();
-        });
-      }
-    };
-
     // 'click' seems to capture [x] of Safari input type="search"
-    $('#filter-search').bind('keyup', searchFilter).bind('change', searchFilter).bind('click', searchFilter);
+    $('#filter-search')
+      .bind('keyup',  function(){ remedie.filterItems() })
+      .bind('click',  function(){ remedie.filterItems() })
+      .bind('change', function(){ remedie.filterItems() });
 
     $(document).bind('remedie-channel-updated', function(ev, args) {
       remedie.redrawChannel(args.channel);
@@ -279,6 +264,12 @@ Remedie.prototype = {
         );
       }
     });
+    $(document).bind('remedie-collection-loaded', function(ev) {
+      $("#collection").sortable({
+        change: function(ev, ui){ remedie.isBeingSorted = true },
+        stop:   function(ev, ui){ remedie.syncSortOrder() }
+      });
+    });
   },
 
   installHotKey: function(key, description, callback, always) {
@@ -289,6 +280,28 @@ Remedie.prototype = {
         return false;
       }
     });
+  },
+
+  filterItems: function() {
+    var query = $('#filter-search').attr('value');
+    if (this.current_id) {
+      $('.channel-item').each(function(){
+      var item = this.items[this.id.replace('channel-item-', '')];
+      var text = item.name + ' ' + item.props.description;
+      if (text.toLowerCase().indexOf(query.toLowerCase()) == -1)
+        $(this).hide();
+      else
+        $(this).show();
+      });
+    } else {
+      $.each(this.allChannels(), function(index, channel) {
+        var text = channel.name;
+        if (text.toLowerCase().indexOf(query.toLowerCase()) == -1)
+          $("#channel-" + channel.id).hide();
+        else
+          $("#channel-" + channel.id).show();
+      });
+    }
   },
 
   dispatchAction: function() {
@@ -888,12 +901,14 @@ Remedie.prototype = {
       dataType: 'text', // iframe downloads JSON
       iframe: true,
       success: function(r) {
-        remedie.loadCollection(function(){
+        $(document).bind('remedie-collection-loaded', function(ev){
           $(r).text().split(/,/).forEach(function(id) {
             if (remedie.channels[id])
               remedie.refreshChannel(remedie.channels[id]);
-          })
+          });
+          $(document).unbind('remedie-collection-loaded', arguments.callee);
         });
+        remedie.loadCollection();
       }
     });
   },
@@ -1251,7 +1266,7 @@ Remedie.prototype = {
     });
   },
 
-  loadCollection: function(callback) {
+  loadCollection: function() {
     $.blockUI();
     $.ajax({
       url: "/rpc/channel/load",
@@ -1267,12 +1282,7 @@ Remedie.prototype = {
         });
         remedie.resetCursorPos();
         $.unblockUI();
-        if (callback)
-          callback.call(remedie);
-        // Should use 'stop' event because otherwise we miss the moving element
-        $("#collection").sortable({
-          change: function(ev, ui){ remedie.isBeingSorted = true },
-          stop:   function(ev, ui){ remedie.syncSortOrder() } });
+        $.event.trigger('remedie-collection-loaded');
       },
       error: function(r) {
         alert("Can't load subscription: " + r.responseText);
