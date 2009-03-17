@@ -220,7 +220,7 @@ Remedie.prototype = {
         remedie.notifyNewItems(args.channel, args.prev);
       if (window.fluid) {
         var count = 0;
-        remedie.channels.forEach(function(channel){ count += parseInt(channel.unwatched_count) });
+        $.each(remedie.allChannels(), function(index, channel) { count += parseInt(channel.unwatched_count) });
         if (count > 0)
           window.fluid.dockBadge = count;
       }
