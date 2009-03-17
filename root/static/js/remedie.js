@@ -902,7 +902,7 @@ Remedie.prototype = {
       iframe: true,
       success: function(r) {
         $(document).bind('remedie-collection-loaded', function(ev){
-          $(r).text().split(/,/).forEach(function(id) {
+          $.each($(r).text().split(/,/), function(index, id) {
             if (remedie.channels[id])
               remedie.refreshChannel(remedie.channels[id]);
           });
