@@ -1,0 +1,3 @@
+handle: /.*/all
+follow_link: /clip/[0-9a-f]+
+
