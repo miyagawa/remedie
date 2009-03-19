@@ -105,7 +105,8 @@ sub aggregate {
             });
         }
 
-        if (my $title = $child->attr('title') || $child->as_text) {
+        my $title = $child->attr('title') || $child->as_text;
+        if ($title =~ /\S/) {
             $entry->title($title);
         } else {
             $entry->title($item_url->filename)
