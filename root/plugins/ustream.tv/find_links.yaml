@@ -1,0 +1,3 @@
+# Skip RSS discovery
+handle: /.*/videos
+follow_link: /recorded/\d+
