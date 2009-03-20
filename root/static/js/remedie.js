@@ -439,11 +439,14 @@ Remedie.prototype = {
         onOpen:  loadGalleryItem
       });
     } else {
-      this.onPlaybackComplete = function() { setTimeout(function(){ Shadowbox.next() }, 100) };
       var items = $('.channel-item-unwatched');
       var curr  = items.index($("#channel-item-title-" + item.id));
       items = items.slice(curr, items.length);
       var galleryItems = $.map(items, function(n, i) { return { id: n.id.replace('channel-item-title-', '') } });
+      this.onPlaybackComplete = function() {
+        if (remedie.lastPlayedVideo.id == galleryItems[galleryItems.length-1].id) Shadowbox.close();
+        else setTimeout(function(){ Shadowbox.next() }, 100);
+      };
       Shadowbox.open(galleryItems, {
         gallery:  'gallery' + item.channel_id,
         onChange: loadGalleryItem,
