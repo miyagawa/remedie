@@ -444,8 +444,10 @@ Remedie.prototype = {
       items = items.slice(curr, items.length);
       var galleryItems = $.map(items, function(n, i) { return { id: n.id.replace('channel-item-title-', '') } });
       this.onPlaybackComplete = function() {
-        if (remedie.lastPlayedVideo.id == galleryItems[galleryItems.length-1].id) Shadowbox.close();
-        else setTimeout(function(){ Shadowbox.next() }, 100);
+        if (remedie.lastPlayedVideo.id == galleryItems[galleryItems.length-1].id)
+          setTimeout(Shadowbox.close, 100);
+        else
+          setTimeout(function(){ Shadowbox.next() }, 100);
       };
       Shadowbox.open(galleryItems, {
         gallery:  'gallery' + item.channel_id,
