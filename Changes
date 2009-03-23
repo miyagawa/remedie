@@ -1,5 +1,11 @@
 Revision history for Perl extension Remedie
 
+0.4.2 Mon Mar 23 14:20:34 PDT 2009
+        * Refactored JavaScript code using jQuery event system
+        * New plugins for justin.tv, ustream.tv and doga.nhk.or.jp
+        * Fixed random Shadobow.close crashes
+        * Auto close Shadowbox player when the last item finished playback [#153]
+
 0.4.1 Sun Mar 15 14:30:17 PDT 2009
         * Support deleting original files in File system channel [#175]
         * updated southparkstudios.com plugin with their new season

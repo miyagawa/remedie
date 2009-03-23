@@ -125,6 +125,8 @@ root/plugins/current.com/find_enclosures.pl
 root/plugins/current.com/find_links.yaml
 root/plugins/dailymotion.com/find_enclosures.pl
 root/plugins/default/find_enclosures-asx.pl
+root/plugins/doga.nhk.or.jp/find_enclosures.pl
+root/plugins/doga.nhk.or.jp/find_links.yaml
 root/plugins/dpj.or.jp/find_enclosures.pl
 root/plugins/dpj.or.jp/find_links-kaiken.yaml
 root/plugins/eyevio.jp/find_enclosures.pl
@@ -142,6 +144,8 @@ root/plugins/ikkostyle.jp/find_enclosures.pl
 root/plugins/ikkostyle.jp/find_links.yaml
 root/plugins/joost.com/find_enclosures.pl
 root/plugins/jp.playstation.com/scraper.pl
+root/plugins/justin.tv/find_enclosures.pl
+root/plugins/justin.tv/find_links.yaml
 root/plugins/lantis-net.com/find_links.yaml
 root/plugins/macrossf.com/find_links.yaml
 root/plugins/macrossf.com/scraper.pl
@@ -183,6 +187,8 @@ root/plugins/tv-tokyo.co.jp/find_enclosures.pl
 root/plugins/tv-tokyo.co.jp/find_links.yaml
 root/plugins/tv-tokyo.co.jp/scraper-anime_anison_st.pl
 root/plugins/ugomemo.hatena.ne.jp/find_enclosures.pl
+root/plugins/ustream.tv/find_enclosures.pl
+root/plugins/ustream.tv/find_links.yaml
 root/plugins/veoh.com/discovery.pl
 root/plugins/veoh.com/find_enclosures.pl
 root/plugins/veoh.com/scraper.pl
