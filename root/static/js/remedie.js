@@ -433,7 +433,7 @@ Remedie.prototype = {
     };
 
     if (opts.thisItemOnly || !item.is_unwatched) {
-      this.onPlaybackComplete = Shadowbox.close;
+      this.onPlaybackComplete = function(){ setTimeout(Shadowbox.close, 100) };
       Shadowbox.open({ id: item.id }, {
         gallery: 'gallery' + item.channel_id,
         onOpen:  loadGalleryItem
