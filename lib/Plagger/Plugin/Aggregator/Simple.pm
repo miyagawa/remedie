@@ -135,7 +135,7 @@ sub handle_feed {
             }
         }
 
-        $entry->link($e->link);
+        $entry->link( URI->new_abs($e->link, $feed->link) );
         $entry->feed_link($feed->link);
         $entry->id($e->id);
 
