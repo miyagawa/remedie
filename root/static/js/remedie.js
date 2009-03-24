@@ -286,12 +286,12 @@ Remedie.prototype = {
     var query = $('#filter-search').attr('value');
     if (this.current_id) {
       $('.channel-item').each(function(){
-      var item = this.items[this.id.replace('channel-item-', '')];
-      var text = item.name + ' ' + item.props.description;
-      if (text.toLowerCase().indexOf(query.toLowerCase()) == -1)
-        $(this).hide();
-      else
-        $(this).show();
+        var item = remedie.items[this.id.replace('channel-item-', '')];
+        var text = item.name + ' ' + item.props.description;
+        if (text.toLowerCase().indexOf(query.toLowerCase()) == -1)
+          $(this).hide();
+        else
+          $(this).show();
       });
     } else {
       $.each(this.allChannels(), function(index, channel) {
