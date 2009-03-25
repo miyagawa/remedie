@@ -649,7 +649,7 @@ Remedie.prototype = {
       };
     } else if (player == 'Flash') {
       var file, streamer;
-      if (url.match(/^rtmp[ts]?:/)) {
+      if (url.match(/^rtmp[tse]?:/)) {
         var urls = url.split('/');
         file = encodeURIComponent(urls.pop());
         streamer = encodeURIComponent(urls.join('/'));
