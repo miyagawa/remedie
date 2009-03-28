@@ -97,7 +97,7 @@ sub aggregate {
             $e;
         };
 
-        if (my($img) = $child->look_down(_tag => 'img')) {
+        if (my($img) = $child->findnodes('./img')) {
             $entry->icon({
                 url    => URI->new_abs($img->attr('src'), $url),
                 width  => $img->attr('width'),

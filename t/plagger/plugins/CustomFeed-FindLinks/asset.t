@@ -19,3 +19,4 @@ plugins:
 
 --- expected
 is $context->update->feeds->[0]->entries->[0]->link, 'http://www.nhk-ep.co.jp/netstar/yuzu_mov_dec01.html';
+is $context->update->feeds->[0]->entries->[0]->thumbnail->{url}, 'http://www.nhk-ep.co.jp/netstar/img/mov_thumb_yuzu_dec01.jpg';
