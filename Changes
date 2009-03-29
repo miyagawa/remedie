@@ -1,5 +1,12 @@
 Revision history for Perl extension Remedie
 
+0.4.3 Sat Mar 28 19:18:02 PDT 2009
+        * Fixed a bug where filtering items was not working in details view
+        * Make the item link a full URL using feed URI as a base (matsuu)
+        * New plugins for news24.jp and dotsub.com
+        * Support RTMPE stream protocol
+        * Added a dependency to the dev version of DBD::SQLite on CPAN
+
 0.4.2 Mon Mar 23 14:20:34 PDT 2009
         * Refactored JavaScript code using jQuery event system
         * New plugins for justin.tv, ustream.tv and doga.nhk.or.jp

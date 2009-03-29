@@ -127,6 +127,7 @@ root/plugins/dailymotion.com/find_enclosures.pl
 root/plugins/default/find_enclosures-asx.pl
 root/plugins/doga.nhk.or.jp/find_enclosures.pl
 root/plugins/doga.nhk.or.jp/find_links.yaml
+root/plugins/dotsub.com/find_enclosures.pl
 root/plugins/dpj.or.jp/find_enclosures.pl
 root/plugins/dpj.or.jp/find_links-kaiken.yaml
 root/plugins/eyevio.jp/find_enclosures.pl
@@ -161,6 +162,7 @@ root/plugins/mxtv.co.jp/scraper-ny1news.pl
 root/plugins/mxtv.co.jp/scraper-tokyowatcher.pl
 root/plugins/news.tbs.co.jp/find_enclosures.pl
 root/plugins/news.tbs.co.jp/find_links.yaml
+root/plugins/news24.jp/find_enclosures.pl
 root/plugins/nhk-ep.co.jp/find_enclosures.pl
 root/plugins/nhk-ep.co.jp/find_links.yaml
 root/plugins/nicovideo.jp/find_enclosures.pl
