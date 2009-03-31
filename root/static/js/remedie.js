@@ -670,7 +670,7 @@ Remedie.prototype = {
             var player = document.getElementById(id);
             player.addViewListener('STOP', 'Shadowbox.close');
             player.addModelListener('STATE', 'function(ev){if (ev.newstate=="COMPLETED") remedie.onPlaybackComplete()}');
-            player.addModelListener('ERROR', 'setTimeout(remedie.onPlaybackComplete, 3000)');
+            player.addModelListener('ERROR', 'function(){setTimeout(remedie.onPlaybackComplete, 3000)}');
             $(document).unbind('remedie-player-ready');
           });
         }
