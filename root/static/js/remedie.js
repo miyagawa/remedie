@@ -668,9 +668,9 @@ Remedie.prototype = {
         onFinish: function() {
           $(document).bind('remedie-player-ready', function(ev, id){
             var player = document.getElementById(id);
-            // JW player needs a string representatin for callbacks
             player.addViewListener('STOP', 'Shadowbox.close');
             player.addModelListener('STATE', 'function(ev){if (ev.newstate=="COMPLETED") remedie.onPlaybackComplete()}');
+            player.addModelListener('ERROR', 'setTimeout(remedie.onPlaybackComplete, 3000)');
             $(document).unbind('remedie-player-ready');
           });
         }
