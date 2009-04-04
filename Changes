@@ -1,5 +1,10 @@
 Revision history for Perl extension Remedie
 
+0.4.4 Fri Apr  3 18:40:36 PDT 2009
+        * New plugins: im.tv, clipcast.jp (matsuu)
+        * Skip videos with errors automatically, ater 3 second interval
+        * Upgrade bundled JW player to 4.4
+
 0.4.3 Sat Mar 28 19:18:02 PDT 2009
         * Fixed a bug where filtering items was not working in details view
         * Make the item link a full URL using feed URI as a base (matsuu)

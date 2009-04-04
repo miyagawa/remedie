@@ -113,6 +113,7 @@ root/plugins/bptv.nikkeibp.co.jp/find_enclosures.pl
 root/plugins/cancam.tv/find_enclosures.pl
 root/plugins/cbsnews.com/find_enclosures.pl
 root/plugins/channel.pandora.tv/find_enclosures.pl
+root/plugins/clipcast.jp/find_enclosures.pl
 root/plugins/cliplife.jp/find_enclosures.pl
 root/plugins/cliplife.jp/find_links.yaml
 root/plugins/cnettv.cnet.com/find_enclosures.pl
@@ -143,6 +144,7 @@ root/plugins/guba.com/find_enclosures.pl
 root/plugins/hulu.com/find_enclosures.pl
 root/plugins/ikkostyle.jp/find_enclosures.pl
 root/plugins/ikkostyle.jp/find_links.yaml
+root/plugins/im.tv/find_enclosures.pl
 root/plugins/joost.com/find_enclosures.pl
 root/plugins/jp.playstation.com/scraper.pl
 root/plugins/justin.tv/find_enclosures.pl
