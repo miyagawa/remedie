@@ -13,7 +13,7 @@ requires 'DateTime::Format::Mail';
 requires 'DateTime::Format::Strptime';
 requires 'DateTime::TimeZone';
 requires 'DBI';
-requires 'DBD::SQLite', '1.1901';
+requires 'DBD::SQLite', '1.20';
 requires 'Digest::MD5';
 requires 'Encode';
 requires 'Feed::Find';

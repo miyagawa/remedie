@@ -26,6 +26,10 @@ sub encode {
         }
     };
 
+    # for future DBD::SQLite with proper Unicode bug fixes, this
+    # SHOULD return decoded string instead of UTF-8 encoded strings
+    # (with utf8 option). For now we always use ->ascii, so there's no
+    # forward compatiblity problem.
     JSON::XS->new->allow_blessed->convert_blessed->ascii->encode($stuff);
 }
 
