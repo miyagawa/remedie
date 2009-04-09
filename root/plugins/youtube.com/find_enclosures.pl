@@ -1,6 +1,6 @@
 # author: Tatsuhiko Miyagawa
 # 1. find    -> embed SWF from video_id
-# 2. upgrade -> Add JS params like fmt=18, check if it's HD and set fmt=22
+# 2. upgrade -> Check if the video is embeddable
 
 sub init {
     my $self = shift;
@@ -21,8 +21,8 @@ sub find {
 
 sub swf_url {
     my $self = shift;
-    my($video_id, $fmt) = @_;
-    return "http://youtube.com/v/$video_id&fs=1&autoplay=1&enablejsapi=1&ap=%2526fmt%3D$fmt";
+    my($video_id) = @_;
+    return "http://youtube.com/v/$video_id&fs=1&autoplay=1&enablejsapi=1";
 }
 
 sub upgrade {
@@ -42,23 +42,15 @@ sub upgrade {
         });
     }
 
-    # scrape the page to check if it has HD or disables embeds
     # FIXME content should be shared with needs_content
     my $content = Plagger->context->current_plugin->fetch_content("http://www.youtube.com/watch?v=$video_id&fmt=22");
     if ($content =~ /Embedding disabled by request/) {
         Plagger->context->log(info => "$video_id disables embeds :/");
         $enclosure->url("http://www.youtube.com/watch?v=$video_id");
         $enclosure->type("text/html");
-    } elsif ($content =~ m!"fmt_map":\s*"22/!) {
-        Plagger->context->log(info => "$video_id has HD version :)");
-        $enclosure->url($self->swf_url($video_id, 22));
-        $enclosure->width(1280);
-        $enclosure->height(720);
     } else {
-        Plagger->context->log(info => "$video_id has no HD version :/");
-        $enclosure->url($self->swf_url($video_id, 18));
+        $enclosure->url($self->swf_url($video_id));
         $enclosure->width(704);
         $enclosure->height(396);
     }
 }
-
