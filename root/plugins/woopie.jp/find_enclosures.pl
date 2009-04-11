@@ -1,18 +1,18 @@
 # author: Tatsuhiko Miyagawa
 sub init {
     my $self = shift;
-    $self->{handle} = '/video/watch/[0-9a-f]+';
+    $self->{handle} = '/(channel|video)/watch/[0-9a-f]+';
 }
 
 
 sub find {
     my ($self, $args) = @_;
     my $uri = URI->new($args->{url});
-    my($video_id) = $uri =~ m!/video/watch/([0-9a-f]+)!
+    my($key, $id) = $uri =~ m!/(channel|video)/watch/([0-9a-f]+)!
         or return;
 
     my $enclosure = Plagger::Enclosure->new;
-    $enclosure->url("http://www.woopie.jp/swf/ChannelPlayer-embed480.swf?video_id=$video_id");
+    $enclosure->url("http://www.woopie.jp/swf/ChannelPlayer-embed480.swf?${key}_id=${id}");
     $enclosure->type('application/x-shockwave-flash');
     return $enclosure;
 }
