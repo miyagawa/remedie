@@ -1,0 +1,4 @@
+handle: /search\?kw=
+follow_selector: .video-results-area a.image-bg
+
+
