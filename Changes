@@ -1,5 +1,10 @@
 Revision history for Perl extension Remedie
 
+0.4.5 Wed Apr 15 13:54:44 JST 2009
+        * Upgrade DBD::SQLite dependency
+        * removed fmt=18 and 22 from YouTube identifiers since they don't really matter anymore
+        * Fixed woopie.jp plugin
+
 0.4.4 Fri Apr  3 18:40:36 PDT 2009
         * New plugins: im.tv, clipcast.jp (matsuu)
         * Skip videos with errors automatically, ater 3 second interval
