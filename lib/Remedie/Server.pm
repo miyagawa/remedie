@@ -41,6 +41,7 @@ sub bootstrap {
         local $SIG{TERM} = $exit;
         $self->run;
     };
+    warn $@;
     Remedie::Log->log(error => "Exiting feed... $@");
 }
 
