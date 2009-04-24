@@ -266,8 +266,9 @@ Remedie.prototype = {
     });
     $(document).bind('remedie-collection-loaded', function(ev) {
       $("#collection").sortable({
-        change: function(ev, ui){ remedie.isBeingSorted = true },
-        stop:   function(ev, ui){ remedie.syncSortOrder() }
+        start:  function(ev, ui){ remedie.isBeingSorted = true },
+        stop:   function(ev, ui){ remedie.syncSortOrder() },
+        distance: 5
       });
     });
   },
