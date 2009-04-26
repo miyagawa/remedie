@@ -4,7 +4,7 @@ name 'Remedie';
 license 'perl';
 all_from 'lib/Remedie.pm';
 
-requires 'Cache::Cache';
+requires 'CHI';
 requires 'Class::Accessor::Fast';
 requires 'Date::Parse';
 requires 'DateTime';

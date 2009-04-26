@@ -25,7 +25,6 @@ inc/Test/Builder/Module.pm
 inc/Test/More.pm
 lib/Plagger.pm
 lib/Plagger/Cache.pm
-lib/Plagger/Cache/Null.pm
 lib/Plagger/CacheProxy.pm
 lib/Plagger/Cookies.pm
 lib/Plagger/Date.pm
