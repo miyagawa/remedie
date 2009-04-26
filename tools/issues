@@ -2,45 +2,38 @@
 use strict;
 use warnings;
 use YAML::XS;
+use Net::GitHub;
 
-my $proj = "remedie";
+my %github = (owner => 'miyagawa', repo => 'remedie');
+chomp($github{login} = `git config github.user`);
+chomp($github{token} = `git config github.token`);
+
+my $github = Net::GitHub->new(%github);
 
 my $cmd = shift || "list";
 my %cmds = (
     list => \&run_list,
     get  => \&run_details,
-    load => \&run_details,
-    details => \&run_details,
+    view => \&run_details,
 );
 
 my $command = $cmds{$cmd} or die "Command $cmd not found\n";
-$command->(@ARGV);
+$command->($github, @ARGV);
 
 sub run_list {
-    require LWP::UserAgent;
-    require Text::CSV_XS;
-    my $ua = LWP::UserAgent->new;
-    my $content = $ua->get("http://code.google.com/p/$proj/issues/csv")->content;
-    open my $io, '<', \$content;
-    my $parser  = Text::CSV_XS->new({ binary => 1 });
-    $parser->column_names($parser->getline($io));
+    my($github, $search) = @_;
 
-    while (my $row = $parser->getline_hr($io)) {
-        last unless $row->{ID};
-        printf "%s: %s %s(%s)\n",
-            $row->{ID}, $row->{Summary},
-            $row->{Milestone} ? "[$row->{Milestone}] " : "",
-            $row->{Owner};
+    my $issues = $search
+        ? $github->issue->search('open', $search) : $github->issue->list('open');
+    for my $issue (@$issues) {
+        printf "%s: %s\n",
+            $issue->{number}, $issue->{title};
     }
 }
 
 sub run_details {
-    require Net::Google::Code;
-    my($id) = @_;
+    my($github, $id) = @_;
 
-    my $code = Net::Google::Code->new(project => $proj);
-    my $issue = $code->issue;
-    $issue->load($id);
-
-    print Dump $issue->{state};
+    my $issue = $github->issue->view($id);
+    print Dump $issue;
 }
