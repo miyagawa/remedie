@@ -9,7 +9,7 @@ use Encode ();
 use File::Copy;
 use File::Basename;
 use File::Find::Rule (); # don't import rule()!
-use YAML;
+use YAML::XS;
 use Storable;
 use UNIVERSAL::require;
 

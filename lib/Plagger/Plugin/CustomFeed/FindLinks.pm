@@ -9,6 +9,7 @@ use HTML::Selector::XPath;
 use HTML::TreeBuilder::XPath;
 use Plagger::Util qw( decode_content extract_title );
 use URI::filename;
+use YAML::XS;
 
 sub register {
     my($self, $context) = @_;
@@ -30,7 +31,7 @@ sub load_plugin_yaml {
     my($self, $file, $domain) = @_;
 
     Plagger->context->log(debug => "Load YAML $file");
-    my $data = YAML::LoadFile($file);
+    my $data = YAML::XS::LoadFile($file);
 
     return Plagger::Plugin::Filter::FindLinks::YAML->new($data, $domain);
 }

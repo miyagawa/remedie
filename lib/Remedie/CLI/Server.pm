@@ -5,7 +5,7 @@ use Remedie::DB::Schema;
 use Remedie::Server;
 use Remedie::UserData;
 use Pod::Usage;
-use YAML();
+use YAML::XS;
 
 with any_moose('X::Getopt'),
      any_moose('X::ConfigFromFile');
@@ -103,7 +103,7 @@ sub get_config_from_file {
     my ($class, $file) = @_;
 
     if (-f $file) {
-        return YAML::LoadFile($file);
+        return YAML::XS::LoadFile($file);
     } else {
         return {};
     }

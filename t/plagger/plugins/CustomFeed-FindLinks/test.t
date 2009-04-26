@@ -18,7 +18,6 @@ plugins:
         - url: http://sportsnavi.yahoo.co.jp/index.html
           meta:
             follow_link: /headlines/
- 	
   - module: CustomFeed::FindLinks
 
 --- expected
@@ -37,7 +36,6 @@ plugins:
           title: Sports navi custom!
           meta:
             follow_link: /headlines/
- 	
   - module: CustomFeed::FindLinks
 
 --- expected

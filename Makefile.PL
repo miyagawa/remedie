@@ -69,8 +69,7 @@ requires 'XML::LibXML::Simple';
 requires 'XML::RSS::LibXML';
 requires 'XML::Feed', 0.42;
 requires 'XML::OPML::LibXML';
-requires 'YAML';
-requires 'YAML::Syck';
+requires 'YAML::XS';
 
 build_requires 'Test::More';
 use_test_base;

@@ -3,7 +3,7 @@ use strict;
 use base qw( Plagger::Plugin );
 
 use DirHandle;
-use YAML;
+use YAML::XS;
 use Plagger::UserAgent;
 use URI;
 use URI::QueryParam;
@@ -23,7 +23,7 @@ sub load_plugins {
         sub {
             my $file = shift;
             Plagger->context->log(debug => "loading $file");
-            my $data = YAML::LoadFile($file);
+            my $data = YAML::XS::LoadFile($file);
             if (ref($data) eq 'ARRAY') {
                 # redirectors.yaml ... make it backward compatible to ignore
             } else {

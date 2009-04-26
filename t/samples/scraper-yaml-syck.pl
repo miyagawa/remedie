@@ -1,7 +1,6 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use YAML;
 
 print <<EOF;
 title: Foo Bar

@@ -7,6 +7,7 @@ use Test::Base -Base;
 use URI::Escape ();
 use Plagger;
 use Remedie::Log;
+use YAML::XS;
 
 our @EXPORT = qw(test_requires test_requires_network test_requires_command test_plugin_deps
                  run_eval_expected run_eval_expected_with_capture
@@ -171,7 +172,7 @@ sub test_plugin_deps() {
         return;
     }
 
-    my $meta = eval { YAML::LoadFile($file) } or die "reading $file failed:\n$@";
+    my $meta = eval { YAML::XS::LoadFile($file) } or die "reading $file failed:\n$@";
 
     if ($meta->{platform} && $meta->{platform} ne $^O) {
         plan skip_all => "Test requires to be run on '$meta->{platform}'";
@@ -339,7 +340,8 @@ sub config {
     $yaml = $self->interpolate($yaml);
 
     # set sane defaults for testing
-    my $config = YAML::Load($yaml);
+    utf8::encode($yaml);
+    my $config = YAML::XS::Load($yaml);
     $config->{global}->{log}->{level}  ||= 'error' unless $ENV{TEST_VERBOSE};
     $config->{global}->{assets_path}   ||= File::Spec->catfile($t::TestPlagger::BaseDir, 'root');
     $config->{global}->{cache}->{base} ||= File::Temp::tempdir(CLEANUP => 1);

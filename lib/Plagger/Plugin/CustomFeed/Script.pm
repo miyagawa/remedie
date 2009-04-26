@@ -5,7 +5,7 @@ use base qw( Plagger::Plugin::Aggregator::Simple );
 use URI;
 use URI::Escape;
 use URI::http; # for autoloading
-use YAML::Syck;
+use YAML::XS;
 
 use Plagger::Plugin::Aggregator::Simple;
 use Plagger::Plugin::CustomFeed::Debug;
@@ -54,8 +54,7 @@ sub aggregate {
         $self->SUPER::handle_feed($args->{feed}->url, \$output, $args->{feed});
     } else {
         eval {
-            local $YAML::Syck::ImplicitUnicode = 1;
-            my $feed = YAML::Syck::Load($output);
+            my $feed = YAML::XS::Load($output);
             $context->log(debug => "Looks like output is YAML");
             local $self->{conf} = $feed;
             $self->Plagger::Plugin::CustomFeed::Debug::aggregate($context, $args);
