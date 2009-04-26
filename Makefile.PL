@@ -38,7 +38,6 @@ requires 'JSON::XS';
 requires 'List::Util';
 requires 'Log::Dispatch';
 requires 'Log::Dispatch::File';
-requires 'Log::Log4perl';
 requires 'LWP::UserAgent';
 requires 'MIME::Types';
 requires 'Any::Moose', 0.05;
