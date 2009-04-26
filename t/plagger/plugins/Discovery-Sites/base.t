@@ -24,6 +24,7 @@ is $context->subscription->feeds->[0]->url, "http://www.mininova.org/rss/test";
 is $context->subscription->feeds->[1]->url, "http://www.mininova.org/rss/test/1";
 
 ===
+--- SKIP
 --- input config
 plugins:
   - module: Subscription::Config
