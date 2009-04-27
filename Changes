@@ -1,5 +1,13 @@
 Revision history for Perl extension Remedie
 
+0.4.6 Sun Apr 26 17:14:35 PDT 2009
+        * Changed how jQuery UI draggable works
+        * Fixed veoh.com tests #108
+        * Convert 'issues' to use GitHub #109
+        * Convert YAML and YAML::Syck to use YAML::XS #107
+        * Convert Cache::Cache to use CHI #110
+        * Fixed scraper tests that fail if /usr/bin/perl is not there #111
+
 0.4.5 Wed Apr 15 13:54:44 JST 2009
         * Upgrade DBD::SQLite dependency
         * removed fmt=18 and 22 from YouTube identifiers since they don't really matter anymore

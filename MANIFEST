@@ -211,6 +211,7 @@ root/plugins/vreel.net/find_links.yaml
 root/plugins/whitehouse.gov/find_enclosures.pl
 root/plugins/woopie.jp/discovery.pl
 root/plugins/woopie.jp/find_enclosures.pl
+root/plugins/woopie.jp/find_links.yaml
 root/plugins/www3.nhk.or.jp/find_enclosures.pl
 root/plugins/youtube.com/find_enclosures.pl
 root/plugins/youtube.com/find_links.yaml
