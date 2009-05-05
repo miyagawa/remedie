@@ -6,7 +6,6 @@ sub init {
 
 sub build_scraper {
     scraper {
-        my $current_url;
         process "title", title => [ 'TEXT', sub { (/Full episodes of (.*?),/)[0] || $_ } ];
         process "#tab1 div.showlistall", 'entries[]' => scraper {
             # use the pop_out link since it autostarts
