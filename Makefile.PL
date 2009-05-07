@@ -40,11 +40,6 @@ requires 'Log::Dispatch';
 requires 'Log::Dispatch::File';
 requires 'LWP::UserAgent';
 requires 'MIME::Types';
-requires 'Any::Moose', 0.05;
-requires 'Mouse';
-requires 'MouseX::ConfigFromFile';
-requires 'MouseX::Getopt';
-requires 'MouseX::Types::Path::Class';
 requires 'Path::Class';
 requires 'Path::Class::Unicode';
 requires 'Pod::Usage';
@@ -69,6 +64,11 @@ requires 'XML::RSS::LibXML';
 requires 'XML::Feed', 0.42;
 requires 'XML::OPML::LibXML';
 requires 'YAML::XS';
+
+requires 'Any::Moose', 0.05;
+requires_any_moose 'X::ConfigFromFile';
+requires_any_moose 'X::Getopt';
+requires_any_moose 'X::Types::Path::Class';
 
 build_requires 'Test::More';
 use_test_base;

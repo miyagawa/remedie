@@ -6,7 +6,7 @@ use Module::Install::Base;
 
 use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
-	$VERSION = '0.77';
+	$VERSION = '0.87';
 	@ISA     = qw{Module::Install::Base};
 	$ISCORE  = 1;
 }
@@ -22,7 +22,6 @@ sub WriteAll {
 	);
 
 	$self->sign(1)                if $args{sign};
-	$self->Meta->write            if $args{meta};
 	$self->admin->WriteAll(%args) if $self->is_admin;
 
 	$self->check_nmake if $args{check_nmake};
@@ -30,11 +29,22 @@ sub WriteAll {
 		$self->makemaker_args( PL_FILES => {} );
 	}
 
+	# Until ExtUtils::MakeMaker support MYMETA.yml, make sure
+	# we clean it up properly ourself.
+	$self->realclean_files('MYMETA.yml');
+
 	if ( $args{inline} ) {
 		$self->Inline->write;
 	} else {
 		$self->Makefile->write;
 	}
+
+	# The Makefile write process adds a couple of dependencies,
+	# so write the META.yml files after the Makefile.
+	$self->Meta->write        if $args{meta};
+	$self->Meta->write_mymeta if $self->mymeta;
+
+	return 1;
 }
 
 1;
