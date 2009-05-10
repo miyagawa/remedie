@@ -58,6 +58,8 @@ sub handle {
         $thumbnail  ||= $content->[0]{thumbnail} if $content->[0];
 
         if ($thumbnail) {
+            $thumbnail = $thumbnail->[0]
+                if ref $thumbnail eq 'ARRAY';
             $context->log(debug => "Found MediaRSS thumb $thumbnail->{url}");
             $args->{entry}->icon({
                 url   => $thumbnail->{url},

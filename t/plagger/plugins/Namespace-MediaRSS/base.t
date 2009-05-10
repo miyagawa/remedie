@@ -3,7 +3,7 @@ use FindBin;
 
 use t::TestPlagger;
 
-plan tests => 24;
+plan tests => 25;
 run_eval_expected;
 
 __END__
@@ -62,3 +62,12 @@ like $feeds[5]->entries->[0]->thumbnail->{url}, qr/cdn.episodic.com/;
 # Blip.tv
 like $feeds[6]->entries->[0]->enclosure->type, qr/quicktime/;
 
+===
+--- input config
+plugins:
+  - module: Subscription::Config
+    config:
+      feed:
+        - file://$t::TestPlagger::BaseDirURI/t/samples/rsshandler.xml
+--- expected
+like $context->update->feeds->[0]->entries->[0]->thumbnail->{url}, qr/ytimg/;
