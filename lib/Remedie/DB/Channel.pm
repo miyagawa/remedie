@@ -2,8 +2,6 @@ package Remedie::DB::Channel;
 use strict;
 use base qw( Remedie::DB::Object );
 
-use Remedie::DB::Channel;
-
 use constant TYPE_FOLDER => 0;
 use constant TYPE_FEED   => 1;
 use constant TYPE_CUSTOM => 2;
@@ -20,10 +18,10 @@ sub items {
     push @query, status => $opts{status} if $opts{status} && @{$opts{status}} > 0;
 
     return Remedie::DB::Item::Manager->get_items(
-       query => \@query,
-       sort_by => 'id DESC',
-       $opts{limit} ? (limit => $opts{limit}) : (),
-   );
+        query => \@query,
+        sort_by => 'id DESC',
+        $opts{limit} ? (limit => $opts{limit}) : (),
+    );
 }
 
 sub count_by_status {
