@@ -1,6 +1,5 @@
 package Plagger::Cache;
 use strict;
-use CHI;
 use File::Path;
 use File::Spec;
 use HTTP::Cookies;
@@ -12,15 +11,28 @@ sub new {
     mkdir $conf->{base}, 0700 unless -e $conf->{base} && -d _;
 
     # Cache default configuration
-    $conf->{driver} ||= 'File';
+    $conf->{class}  ||= 'Cache::FileCache';
     $conf->{params} ||= {
-        root_dir => File::Spec->catfile($conf->{base}, 'cache'),
-        $conf->{expires} ? (expires_in => $conf->{expires}) : (),
+        cache_root => File::Spec->catfile($conf->{base}, 'cache'),
+        default_expires_in => $conf->{expires} || 'never',
+        directory_umask => 0077,
     };
+
+    {
+        local $@;
+        $conf->{class}->require;
+
+        # If class is not loadable, falls back to on memory cache
+        if ($@) {
+            Plagger->context->log(error => "Can't load $conf->{class}. Fallbacks to Plagger::Cache::Null");
+            require Plagger::Cache::Null;
+            $conf->{class} = 'Plagger::Cache::Null';
+        }
+    }
 
     my $self = bless {
         base  => $conf->{base},
-        cache => CHI->new( driver => $conf->{driver}, %{$conf->{params}} ),
+        cache => $conf->{class}->new($conf->{params}),
         to_purge => $conf->{expires} ? 1 : 0,
     }, $class;
 }
@@ -37,7 +49,16 @@ sub path_to {
 sub get {
     my $self = shift;
 
-    my $value = $self->{cache}->get(@_);
+    my $value;
+    if ( $self->{cache}->isa('Cache') ) {
+        eval { $value = $self->{cache}->thaw(@_) };
+        if ($@ && $@ =~ /Storable binary/) {
+            $value = $self->{cache}->get(@_);
+        }
+    } else {
+        $value = $self->{cache}->get(@_);
+    }
+
     my $hit_miss = defined $value ? "HIT" : "MISS";
     Plagger->context->log(debug => "Cache $hit_miss: $_[0]");
 
@@ -64,7 +85,9 @@ sub get_callback {
 sub set {
     my $self = shift;
     my($key, $value, $expiry) = @_;
-    $self->{cache}->set(@_);
+
+    my $setter = $self->{cache}->isa('Cache') && ref $value ? 'freeze' : 'set';
+    $self->{cache}->$setter(@_);
 }
 
 sub remove {
