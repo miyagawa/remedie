@@ -880,7 +880,7 @@ Remedie.prototype = {
           remedie.channels[r.channel.id] = r.channel;
           $.event.trigger('remedie-channel-updated', { channel: r.channel, prev: o });
         }
-      },
+      }
     });
   },
 
