@@ -65,7 +65,7 @@ requires 'XML::Feed', 0.42;
 requires 'XML::OPML::LibXML';
 requires 'YAML::XS';
 
-requires 'Any::Moose', 0.05;
+requires 'Any::Moose', 0.08;
 requires_any_moose 'X::ConfigFromFile';
 requires_any_moose 'X::Getopt';
 requires_any_moose 'X::Types::Path::Class';
