@@ -32,7 +32,7 @@ requires 'HTML::TokeParser';
 requires 'HTML::TreeBuilder';
 requires 'HTML::TreeBuilder::XPath', 0.09;
 requires 'HTTP::Date';
-requires 'HTTP::Engine';
+requires 'HTTP::Engine', '0.1.8';
 requires 'Image::Info';
 requires 'JSON::XS';
 requires 'List::Util';
