@@ -1,7 +1,7 @@
 # upgrades http://www.gametrailers.com/rssgenerate.php?game1id=6364&orderby=newest&limit=20
 sub init {
     my $self = shift;
-    $self->{handle} = '/player/\d+.html';
+    $self->{handle} = '(/player/\d+.html|/video/.*?/\d+$)';
 }
 
 
@@ -10,7 +10,8 @@ sub find {
 
     my $uri = URI->new($args->{url});
 
-    my($mid) = $uri->path =~ m!/(\d+)\.html! or return;
+    my $mid = ($uri->path =~ m!/(\d+)\.html!)[0] || ($uri->path =~ m!/video/.*?/(\d+)$!)[0]
+        or return;
 
     my $enclosure = Plagger::Enclosure->new;
     $enclosure->url("http://www.gametrailers.com/flash/gt6player224n.swf?mid=$mid");
