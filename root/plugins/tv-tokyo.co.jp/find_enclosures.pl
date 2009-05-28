@@ -1,7 +1,7 @@
 # author: Tatsuhiko Miyagawa
 sub init {
     my $self = shift;
-    $self->{handle} = '/(nms|emorning|newsfine|wbs)/(?:cat)?\d+';
+    $self->{handle} = '/(nms|emorning|newsfine|wbs)/(?:news|trend|highlight)';
 }
 
 sub needs_content { 1 }
