@@ -49,7 +49,7 @@ requires 'String::CamelCase';
 requires 'String::ShellQuote';
 requires 'Template';
 requires 'Term::Encoding';
-requires 'Text::Tags::Parser';
+requires 'Text::Tags';
 requires 'Tie::File';
 requires 'UNIVERSAL::require';
 requires 'URI';
