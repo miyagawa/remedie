@@ -2,16 +2,16 @@
 package Module::Install::Can;
 
 use strict;
-use Module::Install::Base;
-use Config              ();
-use File::Spec          ();
-use ExtUtils::MakeMaker ();
+use Config                ();
+use File::Spec            ();
+use ExtUtils::MakeMaker   ();
+use Module::Install::Base ();
 
-use vars qw{$VERSION $ISCORE @ISA};
+use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
-	$VERSION = '0.87';
+	$VERSION = '0.90';
+	@ISA     = 'Module::Install::Base';
 	$ISCORE  = 1;
-	@ISA     = qw{Module::Install::Base};
 }
 
 # check if we can load some module
