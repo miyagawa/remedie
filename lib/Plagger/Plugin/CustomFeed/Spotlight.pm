@@ -35,8 +35,11 @@ sub aggregate {
 
     my $spotlight = File::Spotlight->new;
 
+    my $name = $path->basename;
+    $name =~ s/\.savedSearch$//;
+
     my $feed = $args->{feed};
-    $feed->title($path->basename);
+    $feed->title($name);
     $feed->link($args->{feed}->url);
 
     my @files = $spotlight->list($path->stringify);
