@@ -70,6 +70,10 @@ requires_any_moose 'X::ConfigFromFile';
 requires_any_moose 'X::Getopt';
 requires_any_moose 'X::Types::Path::Class';
 
+if ($^O eq 'darwin') {
+    requires 'File::Spotlight';
+}
+
 build_requires 'Test::More';
 use_test_base;
 auto_include_deps;

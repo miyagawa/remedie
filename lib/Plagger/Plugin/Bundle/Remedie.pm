@@ -18,6 +18,10 @@ sub register {
         },
     });
 
+    if (eval { require File::Spotlight; 1 }) {
+        $context->load_plugin({ module => 'CustomFeed::Spotlight' });
+    }
+
     $context->load_plugin({ module => 'CustomFeed::Scraper' });
 
     $context->load_plugin({
