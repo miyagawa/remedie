@@ -1,5 +1,16 @@
 Revision history for Perl extension Remedie
 
+0.4.7 Wed Jun  3 19:36:40 PDT 2009
+        * Support Mac OS X Smart Folder (Spotlight Saved Search)
+          http://www.flickr.com/photos/bulknews/3591440039/
+        * Support Launch in MacNicoTunes for nicovideo.jp videos
+          http://www.flickr.com/photos/bulknews/3593506473/
+        * Fixed a bug in Media RSS where there are multiple thumbnails
+        * Fixed WBS plugin to deal with site updates
+        * Added Angry Video Game Nerd plugin
+        * Upgrade Module::Install toolchain
+        * Do not depend on CHI.pm, for now
+
 0.4.6 Sun Apr 26 17:14:35 PDT 2009
         * Changed how jQuery UI draggable works
         * Fixed veoh.com tests #108
