@@ -18,6 +18,7 @@ my %map = (
     QuickTime => '_quicktime',
     iTunes => '_itunes',
     Finder => '_finder',
+    MacNicoTunes => '_macnicotunes',
 );
 
 my %map_inline = (
@@ -138,6 +139,27 @@ QTL
 
     return { success => 1 };
 }
+
+sub _macnicotunes {
+    my($self, $req, $res) = @_;
+
+    my $url = $req->param('url');
+    my $video_id = ($url =~ m!watch/(\w{2}\d+)!)[0]
+        or return;
+    _run_apple_script('MacNicoTunes', 'activate');
+    _run_apple_script('System Events', <<SCRIPT);
+set the clipboard to "http://www.nicovideo.jp/watch/$video_id"
+tell process "MacNicoTunes"
+  set frontmost to true
+  click menu item "Open Video.." of menu "File" of menu bar 1
+  keystroke "v" using {command down}
+  keystroke return
+end tell
+SCRIPT
+
+    return { success => 1 };
+}
+
 
 sub _run_apple_script {
     my($app, $script) = @_;
