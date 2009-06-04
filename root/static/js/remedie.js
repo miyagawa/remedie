@@ -1116,6 +1116,7 @@ Remedie.prototype = {
              item_context_play_wmp:  function(){remedie.playVideoInline(item, 'WMP')},
              item_context_play_sl:   function(){remedie.playVideoInline(item, 'Silverlight')},
              item_context_play_divx: function(){remedie.playVideoInline(item, 'DivX')},
+             item_context_play_nico: function(){remedie.launchVideoPlayer(item, 'MacNicoTunes')},
              item_context_remove_file: function(){remedie.removeOriginalFile(item)}
            },
            onContextMenu: function(e, menu) {
@@ -1147,12 +1148,6 @@ Remedie.prototype = {
                }
              }
 
-             if (item.is_unwatched) {
-               el.createAppend('li', { id: 'item_context_watched' }, 'Mark as watched');
-             } else {
-               el.createAppend('li', { id: 'item_context_unwatched' }, 'Mark as unwatched');
-             }
-
              if (/divx/i.test(item.props.type)) {
                el.createAppend('li', { id: 'item_context_play_divx' }, 'Play inilne with DivX player');
              } else if (/video/i.test(item.props.type)) {
@@ -1161,10 +1156,19 @@ Remedie.prototype = {
                el.createAppend('li', { id: 'item_context_play_qt_embed' }, 'Play inline with QuickTime');
              }
 
+             if (/nicovideo\.jp/i.test(item.ident))
+               el.createAppend('li', { id: 'item_context_play_nico' }, 'Launch MacNicoTunes');
+
              if (/wmv|asf/i.test(item.props.type)) {
                if (!/mac/i.test(navigator.userAgent))
                  el.createAppend('li', { id: 'item_context_play_wmp' }, 'Play inline with WMP');
                el.createAppend('li', { id: 'item_context_play_sl' }, 'Play inline with Silverlight');
+             }
+
+             if (item.is_unwatched) {
+               el.createAppend('li', { id: 'item_context_watched' }, 'Mark as watched');
+             } else {
+               el.createAppend('li', { id: 'item_context_unwatched' }, 'Mark as unwatched');
              }
 
              return true;
