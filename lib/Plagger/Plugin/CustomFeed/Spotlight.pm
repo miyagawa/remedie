@@ -33,7 +33,7 @@ sub handle {
 sub aggregate {
     my($self, $context, $args, $path) = @_;
 
-    my $spotlight = File::Spotlight->new;
+    my $folder = File::Spotlight->new($path->stringify);
 
     my $name = $path->basename;
     $name =~ s/\.savedSearch$//;
@@ -42,7 +42,7 @@ sub aggregate {
     $feed->title($name);
     $feed->link($args->{feed}->url);
 
-    my @files = $spotlight->list($path->stringify);
+    my @files = $folder->list();
 
     my @entries;
     for my $file (@files) {
