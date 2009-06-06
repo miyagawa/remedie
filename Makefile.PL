@@ -72,7 +72,7 @@ requires_any_moose 'X::Types::Path::Class';
 
 if ($^O eq 'darwin') {
     requires 'Mac::AppleScript';
-    requires 'File::Spotlight'. 0.04;
+    requires 'File::Spotlight', 0.04;
 }
 
 build_requires 'Test::More';
