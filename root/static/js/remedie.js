@@ -540,6 +540,7 @@ Remedie.prototype = {
           width:   width,
           content: '<div id="embed-player"></div>',
           onFinish: function() {
+            window.setPlayerStatus = function(st){ if(st=='end') remedie.onPlaybackComplete() };
             $('head').append("<script>" + item.props.embed.script + "</script>");
           }
         };
