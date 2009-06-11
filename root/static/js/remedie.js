@@ -210,9 +210,14 @@ Remedie.prototype = {
   setupEventListeners: function() {
     // 'click' seems to capture [x] of Safari input type="search"
     $('#filter-search')
-      .bind('keyup',  function(){ remedie.filterItems() })
-      .bind('click',  function(){ remedie.filterItems() })
-      .bind('change', function(){ remedie.filterItems() });
+      .bind('click',  function(ev){ remedie.filterItems() })
+      .bind('change', function(ev){ remedie.filterItems() })
+      .bind('keyup',  function(ev){
+          if (ev.keyCode == KeyEvent.DOM_VK_ESCAPE)
+              this.blur();
+          else
+              remedie.filterItems()
+      });
 
     $(document).bind('remedie-channel-updated', function(ev, args) {
       remedie.redrawChannel(args.channel);
