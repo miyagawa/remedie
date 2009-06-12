@@ -1,0 +1,56 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+use Config;
+use YAML;
+use YAML::Dumper; # preload ... wtf
+
+use CPAN;
+use CPAN::HandleConfig;
+CPAN::HandleConfig->load; # preload config
+
+my $workdir = "$ENV{HOME}/tmp";
+my $repo    = "git://github.com/miyagawa/remedie.git";
+my $base    = "remedie";
+my $tag     = shift @ARGV || "master";
+
+my @deps = collect_dependencies();
+
+chdir $workdir;
+if (-e $base){
+    chdir $base;
+    system "git", "pull";
+} else {
+    system "git", "clone", $repo;
+    chdir $base;
+}
+
+system "git", "checkout", $tag;
+
+require local::lib;
+
+$ENV{PERL5LIB} = ''; # detach existent local::lib
+import local::lib '--self-contained', './cpanlib';
+
+# wtf: ExtUtils::MakeMaker shipped with Leopard is old
+$ENV{PERL_MM_OPT} =~ s/INSTALL_BASE=(.*)/$& INSTALLBASE=$1/;
+$ENV{PERL_MM_USE_DEFAULT} = 1;
+
+CPAN::Shell->rematein("notest", "install", @deps);
+
+my $archive = "$base-$tag-$Config{osname}-$Config{version}.tar.gz";
+
+chdir $workdir;
+system "tar --exclude .git -czf $archive $base";
+
+print "$workdir/$archive created.\n";
+
+sub collect_dependencies {
+    my @deps;
+
+    my $meta = eval { YAML::LoadFile("META.yml") }
+        or die "Run perl Makefile.PL NO_META=0 to generate META.yml: $@";
+
+    return grep $_ ne 'perl', sort keys %{$meta->{requires}};
+}
