@@ -2,8 +2,8 @@
 use strict;
 use warnings;
 use FindBin;
-use lib qw( $FindBin::Bin/../lib $FindBin::Bin/../extlib );
-use local::lib qw( $FindBin::Bin/../cpanlib );
+use lib "$FindBin::Bin/../lib", "$FindBin::Bin/../extlib";
+use local::lib "$FindBin::Bin/../cpanlib";
 use Remedie::CLI::Server;
 
 Remedie::CLI::Server->new_with_options->run();
