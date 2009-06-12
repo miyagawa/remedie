@@ -22,7 +22,6 @@ requires 'File::Find::Rule::Filesys::Virtual';
 requires 'File::Temp';
 requires 'Filesys::Virtual';
 requires 'Filesys::Virtual::Plain';
-requires 'FindBin::libs';
 requires 'HTML::Entities';
 requires 'HTML::ResolveLink';
 requires 'HTML::Scrubber';
