@@ -46,7 +46,10 @@ $ENV{PERL_MM_USE_DEFAULT} = 1;
 
 CPAN::Shell->rematein("notest", "install", @deps);
 
-my $archive = "$base-$tag-$Config{osname}-$Config{version}.tar.gz";
+# perl man is huge but we don't need it
+rmtree("$workdir/$base/cpanlib/man");
+
+my $archive = "$base-src-bundle-$tag-$Config{osname}-$Config{version}.tar.gz";
 
 chdir $workdir;
 print "Building binary tarball $archive ...";
