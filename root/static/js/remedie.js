@@ -209,7 +209,7 @@ Remedie.prototype = {
       .bind('click',  function(ev){ remedie.filterItems() })
       .bind('change', function(ev){ remedie.filterItems() })
       .bind('keyup',  function(ev){
-          if (ev.keyCode == KeyEvent.DOM_VK_ESCAPE)
+          if (ev.keyCode == 27) // 'esc'
               this.blur();
           else
               remedie.filterItems()
