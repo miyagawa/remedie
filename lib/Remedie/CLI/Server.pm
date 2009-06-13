@@ -1,7 +1,6 @@
 package Remedie::CLI::Server;
 use Any::Moose;
 use Any::Moose 'X::Types::Path::Class' => [ qw(File Dir) ];
-use FindBin;
 use Remedie::DB::Schema;
 use Remedie::Server;
 use Remedie::UserData;
@@ -22,7 +21,7 @@ has 'root' => (
     isa         => Dir,
     required    => 1,
     coerce      => 1,
-    default     => sub { Path::Class::Dir->new($FindBin::Bin, '..', 'root')->absolute },
+    default     => sub { Path::Class::Dir->new('root')->absolute },
 );
 
 has 'user_data' => (

@@ -2,11 +2,22 @@
 use strict;
 use warnings;
 use FindBin;
-use lib "$FindBin::Bin/../lib", "$FindBin::Bin/../extlib";
-use local::lib "$FindBin::Bin/../cpanlib";
+
+my $base_dir;
+BEGIN {
+    if ($ENV{APP_BUNDLER}) {
+        $base_dir = $FindBin::Bin; # Platypus/Resources
+    } else {
+        $base_dir = "$FindBin::Bin/..";
+    }
+}
+
+use FindBin;
+use lib "$base_dir/lib", "$base_dir/extlib";
+use local::lib "$base_dir/cpanlib";
 use Remedie::CLI::Server;
 
-Remedie::CLI::Server->new_with_options->run();
+Remedie::CLI::Server->new_with_options(root => "$base_dir/root")->run();
 
 __END__
 
