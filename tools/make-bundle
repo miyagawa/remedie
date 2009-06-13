@@ -28,6 +28,10 @@ if (-e $base){
 
 system "git", "checkout", $tag;
 
+if ($tag eq 'master') {
+    $tag = (`git show --abbrev-commit` =~ /commit (\S+)/)[0];
+}
+
 require local::lib;
 
 $ENV{PERL5LIB} = ''; # detach existent local::lib
