@@ -2,9 +2,11 @@
 use strict;
 use warnings;
 
+$| = 1;
 use Config;
 use YAML;
 use YAML::Dumper; # preload ... wtf
+use File::Path;
 
 use CPAN;
 use CPAN::HandleConfig;
@@ -13,6 +15,7 @@ CPAN::HandleConfig->load; # preload config
 my $workdir = "$ENV{HOME}/tmp";
 my $repo    = "git://github.com/miyagawa/remedie.git";
 my $base    = "remedie";
+my $app     = "Remedie Server";
 my $tag     = shift @ARGV || "master";
 
 my @deps = collect_dependencies();
@@ -46,9 +49,38 @@ CPAN::Shell->rematein("notest", "install", @deps);
 my $archive = "$base-$tag-$Config{osname}-$Config{version}.tar.gz";
 
 chdir $workdir;
+print "Building binary tarball $archive ...";
 system "tar --exclude .git -czf $archive $base";
+print " DONE\n";
 
 print "$workdir/$archive created.\n";
+
+# Platypus
+my $app_path = "$workdir/$app.app";
+if (-e $app_path) {
+    rmtree($app_path);
+}
+
+print "Building Mac application $app.app ...";
+system "platypus",
+    "-a", $app,
+    "-o", 'None',
+    "-u", 'miyagawa',
+    "-p", '/usr/bin/perl',
+    "-V", '1.0',
+    "-s", '????',
+    "-i", "$workdir/$base/root/static/images/appIcon.icns",
+    "-I", 'org.remediecode.RemedieServer',
+    "-N", "APP_BUNDLER=Platypus-4.0",
+    (map { ("-f", "$workdir/$base/$_") } qw( cpanlib extlib lib root tools )),
+    "-c", "$workdir/$base/bin/remedie-server.pl",
+    "$app_path";
+print " DONE\n";
+
+(my $file = $app) =~ tr/ /-/;
+system "zip -r $file-$tag-leopard.zip '$app.app' > /dev/null";
+print "$workdir/$file-$tag-leopard.zip created.\n";
+rmtree($app_path);
 
 sub collect_dependencies {
     my @deps;
