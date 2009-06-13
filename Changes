@@ -1,5 +1,9 @@
 Revision history for Perl extension Remedie
 
+0.5.0 Fri Jun 12 21:36:02 PDT 2009
+        * Support continuous playback for Nico Nico Douga
+        * Now officially distributes .app for Mac OS X Leopard
+
 0.4.7 Wed Jun  3 19:36:40 PDT 2009
         * Support Mac OS X Smart Folder (Spotlight Saved Search)
           http://www.flickr.com/photos/bulknews/3591440039/
