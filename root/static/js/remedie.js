@@ -101,26 +101,18 @@ Remedie.prototype = {
       else                    remedie.moveCursorDown();
     });
 
-    this.installHotKey('o', 'Open channel (or play/close item)', function(){
-      if (remedie.current_id) {
-        if ( remedie.isPlayingVideo ) {
-          Shadowbox.close();
-          return false;
-        } else {
-          var items = $('.channel-item');
-          if (items) remedie.playVideoInline(remedie.items[items[remedie.cursorPos].id.replace("channel-item-", "")]);
-          return false;
-        }
-      } else {
-        var channels = $('.channel');
-        if (channels) {
-          var channel_id = channels[remedie.cursorPos].id.replace("channel-", "");
-          remedie.showChannel(remedie.channels[channel_id]);
-        }
-        return false;
+    this.installHotKey('o', 'Open channel (or play/close item)', function() { remedie.openCurrentItem() });
+    this.installHotKey('return', 'Open channel (or play/close item)', function() { remedie.openCurrentItem() });
+    this.installHotKey('esc', 'Close dialog / back to channel view', function () {
+      if ($('body').children().filter('.blockUI').size()) {
+        $.unblockUI();
+        return;
       }
-    });
-    this.installHotKey('esc', 'Close embed player (or dialog)', $.unblockUI, true);
+      if (remedie.current_id && !remedie.isPlayingVideo) {
+        remedie.toggleChannelView(false);
+        location.href = "#menu";
+      }
+    }, true);
     this.installHotKey('shift+h', 'Show this help', function() {
       var message = $('<div/>').createAppend(
            'div', { id: "keyboard-shortcut-help-dialog" }, [
@@ -290,6 +282,26 @@ Remedie.prototype = {
         return false;
       }
     });
+  },
+
+  openCurrentItem: function() {
+    if (remedie.current_id) {
+      if ( remedie.isPlayingVideo ) {
+        Shadowbox.close();
+        return false;
+      } else {
+        var items = $('.channel-item');
+        if (items) remedie.playVideoInline(remedie.items[items[remedie.cursorPos].id.replace("channel-item-", "")]);
+        return false;
+      }
+    } else {
+      var channels = $('.channel');
+      if (channels) {
+        var channel_id = channels[remedie.cursorPos].id.replace("channel-", "");
+        remedie.showChannel(remedie.channels[channel_id]);
+      }
+      return false;
+    }
   },
 
   filterItems: function() {
