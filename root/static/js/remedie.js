@@ -1045,9 +1045,10 @@ Remedie.prototype = {
               'div', { className: 'channel-header-data' }, [
                 'a', { href: channel.ident, target: "_blank" }, RemedieUtil.mangleURI(channel.ident).trimChars(100),
                 'br', {}, null,
-                'span', {}, '<a class="show-all-items">' + r.channel.total + ' items' + '</a>' +
-                  ', ' +
-                  '<a class="show-unwatched-items"><span class="unwatched-count-' + channel.id + '">' + 
+                'span', {}, '<a class="show-all-items" href="#channel/' + channel.id + '/all">' +
+                  r.channel.total + ' items' + '</a>, ' +
+                  '<a class="show-unwatched-items" href="#channel/' + channel.id + '/unwatched">' +
+                  '<span class="unwatched-count-' + channel.id + '">' +
                   (channel.unwatched_count ? channel.unwatched_count : 0) + '</span> unwatched</a>'
               ],
               'p', { className: 'channel-header-description' }, channel.props.description
