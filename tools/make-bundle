@@ -44,6 +44,9 @@ import local::lib '--self-contained', './cpanlib';
 $ENV{PERL_MM_OPT} =~ s/INSTALL_BASE=(.*)/$& INSTALLBASE=$1/;
 $ENV{PERL_MM_USE_DEFAULT} = 1;
 
+# Remove /opt from PATH: end users won't have ports
+$ENV{PATH} = join ":", grep !/^\/opt/, split /:/, $ENV{PATH};
+
 CPAN::Shell->rematein("notest", "install", @deps);
 
 # perl man is huge but we don't need it
