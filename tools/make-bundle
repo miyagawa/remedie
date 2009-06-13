@@ -7,16 +7,20 @@ use Config;
 use YAML;
 use YAML::Dumper; # preload ... wtf
 use File::Path;
+use FindBin;
+use Cwd;
 
 use CPAN;
 use CPAN::HandleConfig;
 CPAN::HandleConfig->load; # preload config
 
-my $workdir = "$ENV{HOME}/tmp";
+my $workdir = Cwd::realpath("$FindBin::Bin/../bundle-build");
 my $repo    = "git://github.com/miyagawa/remedie.git";
 my $base    = "remedie";
 my $app     = "Remedie Server";
 my $tag     = shift @ARGV || "master";
+
+mkdir $workdir, 0777 unless -e $workdir;
 
 my @deps = collect_dependencies();
 
@@ -42,15 +46,15 @@ import local::lib '--self-contained', './cpanlib';
 
 # wtf: ExtUtils::MakeMaker shipped with Leopard is old
 $ENV{PERL_MM_OPT} =~ s/INSTALL_BASE=(.*)/$& INSTALLBASE=$1/;
+
+# no man pages
+$ENV{PERL_MM_OPT} .= " INSTALLMAN1DIR=none INSTALLMAN3DIR=none";
 $ENV{PERL_MM_USE_DEFAULT} = 1;
 
 # Remove /opt from PATH: end users won't have ports
 $ENV{PATH} = join ":", grep !/^\/opt/, split /:/, $ENV{PATH};
 
 CPAN::Shell->rematein("notest", "install", @deps);
-
-# perl man is huge but we don't need it
-rmtree("$workdir/$base/cpanlib/man");
 
 my $archive = "$base-src-bundle-$tag-$Config{osname}-$Config{version}.tar.gz";
 
