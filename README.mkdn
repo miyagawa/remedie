@@ -34,6 +34,7 @@ This software also includes the following material which have their own license:
 * [Shadowbox.js Media Viewer](http://www.mjijackson.com/shadowbox/) (Creative Commons by-nc-sa)
 * [Fast Icon](http://www.fasticon.com/) (Royalty free icons)
 * [Ben Fleming](http://www.yellowicon.com/) (CC by-nc)
+* [Movie icon by mazeNL77](http://mazenl77.deviantart.com/) (CC by)
 
 ## Links
 
