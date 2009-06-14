@@ -454,7 +454,13 @@ Remedie.prototype = {
       Shadowbox.applyOptions({ onFinish: callback });
     };
 
-    if (opts.thisItemOnly || !item.is_unwatched) {
+    if (opts.thisItemOnly) {
+      this.onPlaybackComplete = function(){ }; // keep the window
+      Shadowbox.open({ id: item.id }, {
+        gallery: 'gallery' + item.channel_id,
+        onOpen:  loadGalleryItem
+      });
+    } else if (!item.is_unwatched) {
       this.onPlaybackComplete = function(){ setTimeout(Shadowbox.close, 100) };
       Shadowbox.open({ id: item.id }, {
         gallery: 'gallery' + item.channel_id,
