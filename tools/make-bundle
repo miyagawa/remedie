@@ -22,7 +22,7 @@ my $tag     = shift @ARGV || "master";
 
 mkdir $workdir, 0777 unless -e $workdir;
 
-my @deps = collect_dependencies();
+my $meta = parse_meta();
 
 chdir $workdir;
 if (-e $base){
@@ -54,16 +54,10 @@ $ENV{PERL_MM_USE_DEFAULT} = 1;
 # Remove /opt from PATH: end users won't have ports
 $ENV{PATH} = join ":", grep !/^\/opt/, split /:/, $ENV{PATH};
 
+my @deps = grep $_ ne 'perl', sort keys %{$meta->{requires}};
 CPAN::Shell->rematein("notest", "install", @deps);
 
-my $archive = "$base-src-bundle-$tag-$Config{osname}-$Config{version}.tar.gz";
-
 chdir $workdir;
-print "Building binary tarball $archive ...";
-system "tar --exclude .git -czf $archive $base";
-print " DONE\n";
-
-print "$workdir/$archive created.\n";
 
 # Platypus
 my $app_path = "$workdir/$app.app";
@@ -77,7 +71,7 @@ system "platypus",
     "-o", 'None',
     "-u", 'miyagawa',
     "-p", '/usr/bin/perl',
-    "-V", '1.0',
+    "-V", $meta->{version},
     "-s", '????',
     "-i", "$workdir/$base/root/static/images/appIcon.icns",
     "-I", 'org.remediecode.RemedieServer',
@@ -92,11 +86,8 @@ system "zip -r $file-$tag-leopard.zip '$app.app' > /dev/null";
 print "$workdir/$file-$tag-leopard.zip created.\n";
 rmtree($app_path);
 
-sub collect_dependencies {
-    my @deps;
-
+sub parse_meta {
     my $meta = eval { YAML::LoadFile("META.yml") }
         or die "Run perl Makefile.PL NO_META=0 to generate META.yml: $@";
-
-    return grep $_ ne 'perl', sort keys %{$meta->{requires}};
+    return $meta;
 }
