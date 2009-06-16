@@ -89,7 +89,6 @@ print " DONE\n";
 (my $file = $app) =~ tr/ /-/;
 system "zip -r $file-$tag-leopard.zip '$app.app' > /dev/null";
 print "$workdir/$file-$tag-leopard.zip created.\n";
-rmtree($app_path);
 
 sub parse_meta {
     my $meta = eval { YAML::LoadFile("META.yml") }
