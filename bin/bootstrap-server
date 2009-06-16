@@ -7,11 +7,10 @@ then
    PERL=/usr/bin/perl5.8.9
 fi
 
-if [ "$APP_BUNDLER" != "" ] & [ "$1" != "" ]
+APP_PATH=`dirname $0`
+if [ "$APP_BUNDLER" != "" ]
 then
-    APP_PATH="$1/Contents/Resources/bin"
-else
-    APP_PATH=`dirname $0`
+    APP_PATH="$APP_PATH/bin"
 fi
 
 exec $PERL "$APP_PATH/remedie-server.pl"

@@ -75,14 +75,14 @@ system "platypus",
     "-a", $app,
     "-o", 'None',
     "-u", 'miyagawa',
-    "-p", '/usr/bin/perl',
+    "-p", '/bin/sh',
     "-V", $meta->{version},
     "-s", '????',
     "-i", "$workdir/$base/root/static/images/appIcon.icns",
     "-I", 'org.remediecode.RemedieServer',
     "-N", "APP_BUNDLER=Platypus-4.0",
     (map { ("-f", "$workdir/$base/$_") } qw( bin cpanlib extlib lib root tools )),
-    "-c", "$workdir/$base/bin/remedie-server.pl",
+    "-c", "$workdir/$base/bin/bootstrap-server",
     "$app_path";
 print " DONE\n";
 
