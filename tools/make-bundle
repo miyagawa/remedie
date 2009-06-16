@@ -82,7 +82,7 @@ system "platypus",
     "-I", 'org.remediecode.RemedieServer',
     "-N", "APP_BUNDLER=Platypus-4.0",
     (map { ("-f", "$workdir/$base/$_") } qw( bin cpanlib extlib lib root tools )),
-    "-c", "$workdir/$base/bin/bootstrap-server",
+    "-c", "$workdir/$base/bootstrap-server",
     "$app_path";
 print " DONE\n";
 

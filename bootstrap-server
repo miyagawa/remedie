@@ -8,9 +8,4 @@ then
 fi
 
 APP_PATH=`dirname "$0"`
-if [ "$APP_BUNDLER" != "" ]
-then
-    APP_PATH="$APP_PATH/bin"
-fi
-
-exec $PERL "$APP_PATH/remedie-server.pl"
+exec $PERL "$APP_PATH/bin/remedie-server.pl"
