@@ -1,5 +1,9 @@
 Revision history for Perl extension Remedie
 
+0.5.2 Tue Jun 16 16:58:16 PDT 2009
+        * Fixed an HTML syntax error in Refresh menu
+        * App bundle now should work with Snow Leopard using /usr/bin/perl5.8.9
+
 0.5.1 Sat Jun 13 22:09:34 PDT 2009
         * 'Refresh' menu refresh the channel in the channel view
         * Bind return key and esc key to do 'o' and 'u' in the channel view
