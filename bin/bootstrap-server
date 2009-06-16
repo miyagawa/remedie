@@ -7,7 +7,7 @@ then
    PERL=/usr/bin/perl5.8.9
 fi
 
-APP_PATH=`dirname $0`
+APP_PATH=`dirname "$0"`
 if [ "$APP_BUNDLER" != "" ]
 then
     APP_PATH="$APP_PATH/bin"
