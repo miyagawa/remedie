@@ -5,11 +5,7 @@ use FindBin;
 
 my $base_dir;
 BEGIN {
-    if ($ENV{APP_BUNDLER}) {
-        $base_dir = $FindBin::Bin; # Platypus/Resources
-    } else {
-        $base_dir = "$FindBin::Bin/..";
-    }
+    $base_dir = "$FindBin::Bin/..";
 }
 
 use FindBin;

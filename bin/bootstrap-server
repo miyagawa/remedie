@@ -1,0 +1,17 @@
+#!/bin/sh
+
+IS_SNOW_LEOPARD=`/usr/bin/sw_vers -productVersion | grep 10.6`
+PERL=/usr/bin/perl
+if [ "$IS_SNOW_LEOPARD" != "" ] && [ -e "/usr/bin/perl5.8.9" ]
+then
+   PERL=/usr/bin/perl5.8.9
+fi
+
+if [ "$APP_BUNDLER" != "" ] & [ "$1" != "" ]
+then
+    APP_PATH="$1/Contents/Resources/bin"
+else
+    APP_PATH=`dirname $0`
+fi
+
+exec $PERL "$APP_PATH/remedie-server.pl"
