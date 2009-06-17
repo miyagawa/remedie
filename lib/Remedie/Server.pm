@@ -71,14 +71,20 @@ sub run {
     );
 
     if ($publisher) {
+        my $owner_name = $self->owner_name;
         $publisher->publish(
-            name => 'Remedie Server',
+            name => sprintf("%s's Remedie Server", $owner_name),
             type => '_http._tcp', # _remedie._tcp?
             port => $self->conf->{port},
             domain => 'local',
         );
     }
     $engine->run;
+}
+
+sub owner_name {
+    my $self = shift;
+    return (getpwnam($ENV{USER}))[6] || $ENV{USER};
 }
 
 sub default_root {
