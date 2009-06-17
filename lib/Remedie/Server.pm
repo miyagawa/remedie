@@ -13,6 +13,11 @@ use URI::Escape;
 use Remedie::Log;
 use Remedie::JSON;
 
+my $publisher = eval {
+    require Net::Rendezvous::Publish;
+    Net::Rendezvous::Publish->new;
+};
+
 has 'conf' => is => 'rw';
 
 __PACKAGE__->meta->make_immutable;
@@ -64,6 +69,15 @@ sub run {
             request_handler => sub { $self->handle_request(@_) },
         },
     );
+
+    if ($publisher) {
+        $publisher->publish(
+            name => 'Remedie',
+            type => '_http._tcp', # _remedie._tcp?
+            port => $self->conf->{port},
+            domain => 'local',
+        );
+    }
     $engine->run;
 }
 

@@ -39,6 +39,7 @@ requires 'Log::Dispatch';
 requires 'Log::Dispatch::File';
 requires 'LWP::UserAgent';
 requires 'MIME::Types';
+requires 'Net::Rendezvous::Publish';
 requires 'Path::Class';
 requires 'Path::Class::Unicode';
 requires 'Pod::Usage';
@@ -71,6 +72,7 @@ requires_any_moose 'X::Types::Path::Class';
 if ($^O eq 'darwin') {
     requires 'Mac::AppleScript';
     requires 'File::Spotlight', 0.04;
+    requires 'Net::Rendezvous::Publish::Backend::Apple';
 }
 
 build_requires 'Test::More';
