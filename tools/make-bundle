@@ -57,12 +57,7 @@ $ENV{PATH} = join ":", grep !/^\/opt/, split /:/, $ENV{PATH};
 my @deps = grep $_ ne 'perl', sort keys %{$meta->{requires}};
 CPAN::Shell->rematein("notest", "install", @deps);
 
-my $archive = "$base-src-bundle-$tag-$Config{osname}-$Config{version}.tar.gz";
 chdir $workdir;
-print "Building binary tarball $archive ...";
-system "tar --exclude .git -czf $archive $base";
-print " DONE\n";
-print "$workdir/$archive created.\n";
 
 # Platypus
 my $app_path = "$workdir/$app.app";
