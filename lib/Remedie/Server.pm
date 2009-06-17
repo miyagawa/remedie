@@ -72,7 +72,7 @@ sub run {
 
     if ($publisher) {
         $publisher->publish(
-            name => 'Remedie',
+            name => 'Remedie Server',
             type => '_http._tcp', # _remedie._tcp?
             port => $self->conf->{port},
             domain => 'local',
