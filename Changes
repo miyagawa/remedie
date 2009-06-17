@@ -1,5 +1,10 @@
 Revision history for Perl extension Remedie
 
+0.5.3 Wed Jun 17 03:21:41 PDT 2009
+        * Bonjour support for OS X. It should also work for other platforms if you have
+          one of Net::Rendezvous::Publish backends. #15
+        * Make the application startup a bit faster by eliminating Moose delegate voodoo
+
 0.5.2 Tue Jun 16 16:58:16 PDT 2009
         * Fixed an HTML syntax error in Refresh menu
         * App bundle now should work with Snow Leopard using /usr/bin/perl5.8.9
