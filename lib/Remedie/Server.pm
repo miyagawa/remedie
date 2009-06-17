@@ -15,14 +15,6 @@ use Remedie::JSON;
 
 has 'conf' => is => 'rw';
 
-has 'engine' => (
-    is      => 'rw',
-    isa     => 'HTTP::Engine',
-    lazy    => 1,
-    builder => 'build_engine',
-    handles => [ qw(run) ],
-);
-
 __PACKAGE__->meta->make_immutable;
 
 no Any::Moose;
@@ -61,17 +53,18 @@ sub BUILD {
     return $self;
 }
 
-sub build_engine {
+sub run {
     my $self = shift;
 
     Remedie::Log->log(debug => "Initializing with HTTP::Engine version $HTTP::Engine::VERSION");
-    return HTTP::Engine->new(
+    my $engine = HTTP::Engine->new(
         interface => {
             module => 'ServerSimple',
             args   => $self->conf,
             request_handler => sub { $self->handle_request(@_) },
         },
     );
+    $engine->run;
 }
 
 sub default_root {
