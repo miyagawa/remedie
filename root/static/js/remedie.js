@@ -1620,7 +1620,7 @@ Remedie.prototype = {
           'div', { id: "about-dialog" }, [
               'h2', {}, 'Remedie Media Center ' + Remedie.version,
               'p', {}, [
-                  'a', { href: "http://remediecode.org/", target: "_blank" }, 'Get source code'
+                  'a', { href: "http://remediecode.org/", target: "_blank" }, 'Homepage'
               ]
           ]);
       $.blockUI({ message: message });
