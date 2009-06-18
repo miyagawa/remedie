@@ -1,7 +1,7 @@
 # author: Tatsuhiko Miyagawa
 sub init {
     my $self = shift;
-    $self->{handle} = '/watch/\d+/';
+    $self->{handle} = '/watch/\d+';
 }
 
 sub needs_content { 1 }
