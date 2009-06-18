@@ -72,12 +72,14 @@ sub run {
 
     if ($publisher) {
         my $owner_name = $self->owner_name;
-        $publisher->publish(
-            name => sprintf("%s's Remedie Server", $owner_name),
-            type => '_http._tcp', # _remedie._tcp?
-            port => $self->conf->{port},
-            domain => 'local',
-        );
+        for my $proto (qw( http remedie )) {
+            $publisher->publish(
+                name => sprintf("%s's Remedie Server", $owner_name),
+                type => "_$proto._tcp",
+                port => $self->conf->{port},
+                domain => 'local',
+            );
+        }
     }
     $engine->run;
 }
