@@ -1618,13 +1618,49 @@ Remedie.prototype = {
   showAboutDialog: function() {
       var message = $('<div/>').createAppend(
           'div', { id: "about-dialog" }, [
-              'h2', {}, 'Remedie Media Center ' + Remedie.version,
-              'p', {}, [
-                  'a', { href: "http://remediecode.org/", target: "_blank" }, 'Homepage'
-              ]
+              'h2', {}, 'Remedie Media Center',
+              'p', {}, 'Version: ' + Remedie.version,
+              'div', { id: "check-update" }, 'Checking for Updates...',
           ]);
       $.blockUI({ message: message });
+      this.checkUpdates($('#check-update'));
       return false;
+  },
+
+  checkUpdates: function(element) {
+    $.ajax({
+      type: 'GET',
+      url: "http://github.com/api/v2/json/repos/show/miyagawa/remedie/tags",
+      dataType: 'jsonp',
+      success: function(res) {
+        var latest = remedie.needsUpdate(res.tags, Remedie.version);
+        if (latest != null) {
+          element.html("");
+          element.createAppend(
+            'a', { href: 'http://github.com/miyagawa/remedie/downloads', target: "_blank" },
+            'Upgrade to ' + latest + ' now.'
+          );
+        } else {
+          element.html("Your Remedie is up-to-date.");
+        }
+      },
+      error: function(res) { element.innerHTML = "Update check failed." }
+    });
+  },
+
+  needsUpdate: function(tags, version) {
+     var release_tags = [];
+     for (var tag in tags) {
+       release_tags.push(tag);
+     }
+
+     release_tags.sort();
+     release_tags.reverse();
+     var latest = release_tags[0];
+     if (RemedieUtil.versionAsInt(latest) > RemedieUtil.versionAsInt(version)) {
+       return latest;
+     }
+     return;
   }
 };
 

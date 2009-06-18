@@ -89,3 +89,7 @@ RemedieUtil.mangleURI = function(url) {
   return decodeURIComponent(uri.toString());
 };
 
+RemedieUtil.versionAsInt = function(ver) {
+  var vers = ver.split('.');
+  return parseInt(vers[0]) * 1000000 + parseInt(vers[1]) * 1000 + parseInt(vers[2]);
+};
