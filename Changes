@@ -1,5 +1,10 @@
 Revision history for Perl extension Remedie
 
+0.5.4 Fri Jun 19 14:50:23 PDT 2009
+        * Added update check in About dialog
+        * Publish _remedie._tcp and _http._tcp for browsers and clients
+        * New plugin: bing.com/videos
+
 0.5.3 Wed Jun 17 03:21:41 PDT 2009
         * Bonjour support for OS X. It should also work for other platforms if you have
           one of Net::Rendezvous::Publish backends. #15
