@@ -1,0 +1,2 @@
+handle: /stream/
+follow_selector: .mvlist li a
