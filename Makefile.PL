@@ -37,7 +37,7 @@ requires 'JSON::XS';
 requires 'List::Util';
 requires 'Log::Dispatch';
 requires 'Log::Dispatch::File';
-requires 'LWP::UserAgent';
+requires 'LWP';
 requires 'MIME::Types';
 requires 'Net::Rendezvous::Publish';
 requires 'Path::Class';
