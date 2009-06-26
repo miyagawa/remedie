@@ -225,7 +225,7 @@ sub do_serve_static {
         open my $fh, "<:raw", $file or die "$file: $!";
         $res->headers->header('Last-Modified' => HTTP::Date::time2str($mtime));
         $res->headers->header('Content-Length' => $size);
-        $res->body( join '', <$fh> );
+        $res->body($fh);
     } else {
         die "Not found";
     }
