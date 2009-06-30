@@ -1,5 +1,8 @@
 Revision history for Perl extension Remedie
 
+0.5.7 Mon Jun 29 18:09:27 PDT 2009
+        * Rebuilds cpanlib bundle with local::lib 1.004003 to fix PERL5LIB #120
+
 0.5.6 Sat Jun 27 23:23:40 PDT 2009
         * Reverted HTTP::Engine filehandle since it causes Too many open files
           (Reported to HTTP::Engine dev)
