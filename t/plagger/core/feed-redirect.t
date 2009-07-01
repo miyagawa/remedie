@@ -16,4 +16,4 @@ plugins:
         - http://revision3.com/tekzilla/feed/quicktime-large
 --- expected
 ok $context->update->feeds->[0]->title;
-is $context->update->feeds->[0]->url, "http://revision3.com/tekzilla/feed/quicktime-large/";
+is $context->update->feeds->[0]->url, "http://revision3.com/tekzilla/feed/quicktime-large";
