@@ -31,7 +31,7 @@ requires 'HTML::TokeParser';
 requires 'HTML::TreeBuilder';
 requires 'HTML::TreeBuilder::XPath', 0.09;
 requires 'HTTP::Date';
-requires 'HTTP::Engine', '0.1.8';
+requires 'HTTP::Engine', '0.02002';
 requires 'Image::Info';
 requires 'JSON::XS';
 requires 'List::Util';
