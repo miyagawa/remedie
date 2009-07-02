@@ -2,23 +2,26 @@ Remedie is a perl based pluggable media center application. It runs as a web ser
 
 ## How to install
 
+If you're a lucky Mac OS X Leopard user, you can download the pre-build application bundle from [downloads page](http://github.com/miyagawa/remedie/downloads).
+
 In summary, you can get the source code, install Perl dependencies and run the web server.
 
     git clone git://github.com/miyagawa/remedie.git
     cd remedie
-    cpan -i .
+    perl Makefile.PL
+    make installdeps PERL_AUTOINSTALL_PREFER_CPAN=1
     ./bin/remedie-server.pl
 
 If you do not have git command in handy, you can also download the tarball or ZIP file from [github master](http://github.com/miyagawa/remedie) (there's a "download" button). But I strongly suggest you shouldn't do that, since you need to manually download and update the local copy when Remedie is updated. With git it's just `git pull`.
 
-Before running `cpan -i` command, you need to setup CPAN command so as you can install dependencies as non-root user. To do that, run `cpan` and then run the following commands to save the preference.
+Before running `make installdeps` command, you need to setup CPAN command so as you can install dependencies as non-root user. To do that, run `cpan` and then run the following commands to save the preference.
 
     o conf make_install_make_command 'sudo make'
     o conf mbuild_install_build_command 'sudo ./Build'
     o conf commit
     quit
 
-`cpan -i .` will examine `Makefile.PL`, installs required Perl modules from CPAN and then tries to install Remedie itself but **fails** because of test failures, which is intentional. **Do not run make install (or `cpan -fi .`)**. Especially, if you have Plagger installed in your system, running `make install` for Remedie breaks your existent Plagger installation because we forked Plagger. So, don't do that.
+`perl Makefile.PL && make installdeps` will examine `Makefile.PL`, installs required Perl modules from CPAN. **Do not run make install (or `cpan -i .`)**. Especially, if you have Plagger installed in your system, running `make install` for Remedie breaks your existent Plagger installation because we forked Plagger. So, don't do that.
 
 Now with the `remedie-server.pl` process running, you can access Remedie user interface by accessing http://localhost:10010/ with your browser. See the file `HACKING` for more details.
 
