@@ -80,6 +80,9 @@ use_test_base;
 auto_include_deps;
 tests 't/*.t t/plagger/core/*.t t/plagger/plugins/*/*.t';
 author_tests('xt');
+include 'Module::AutoInstall';
+auto_install;
+
 WriteAll;
 
 eval { require Plagger };
