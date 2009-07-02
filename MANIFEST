@@ -341,7 +341,6 @@ root/static/js/wmvplayer/wmvplayer.js
 root/static/js/wmvplayer/wmvplayer.xaml
 root/static/player.swf
 t/00_compile.t
-t/99_fail.t
 t/plagger/core/atom-type.t
 t/plagger/core/cookies.t
 t/plagger/core/cookies.txt
