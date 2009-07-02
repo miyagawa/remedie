@@ -1,13 +1,19 @@
 .gitignore
 bin/remedie-server.pl
+bootstrap-server
 Changes
+cpanlib/.modulebuildrc
 extlib/Filesys/Virtual/Plain.pm
+extlib/local/lib.pm
 extlib/URI/Fetch.pm
 extlib/URI/Fetch/Response.pm
 extlib/XML/Feed/Format/RSS.pm
 HACKING
+inc/Module/AutoInstall.pm
 inc/Module/Install.pm
+inc/Module/Install/Any/Moose.pm
 inc/Module/Install/AuthorTests.pm
+inc/Module/Install/AutoInstall.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm
 inc/Module/Install/Fetch.pm
@@ -42,6 +48,7 @@ lib/Plagger/Plugin/CustomFeed/Filesys.pm
 lib/Plagger/Plugin/CustomFeed/FindLinks.pm
 lib/Plagger/Plugin/CustomFeed/Scraper.pm
 lib/Plagger/Plugin/CustomFeed/Script.pm
+lib/Plagger/Plugin/CustomFeed/Spotlight.pm
 lib/Plagger/Plugin/Discovery/Sites.pm
 lib/Plagger/Plugin/Filter/EnclosureMetadata.pm
 lib/Plagger/Plugin/Filter/EnclosureThumbnail.pm
@@ -98,7 +105,8 @@ lib/Remedie/UserData.pm
 lib/URI/filename.pm
 Makefile.PL
 MANIFEST			This list of files
-README.mkdn
+META.yml
+README.md
 root/plugins/47news.jp/find_enclosures.pl
 root/plugins/74.53.95.28/find_links.yaml
 root/plugins/academicearth.org/find_enclosures.pl
@@ -109,6 +117,7 @@ root/plugins/apple.com/discovery-trailer.pl
 root/plugins/apple.com/find_enclosures.pl
 root/plugins/asahi.com/find_enclosures.pl
 root/plugins/asahi.com/find_links.yaml
+root/plugins/bing.com/scraper.pl
 root/plugins/bptv.nikkeibp.co.jp/find_enclosures.pl
 root/plugins/cancam.tv/find_enclosures.pl
 root/plugins/cbsnews.com/find_enclosures.pl
@@ -196,6 +205,7 @@ root/plugins/ustream.tv/find_links.yaml
 root/plugins/veoh.com/discovery.pl
 root/plugins/veoh.com/find_enclosures.pl
 root/plugins/veoh.com/scraper.pl
+root/plugins/veohdownload.blog37.fc2.com/scraper.pl
 root/plugins/viddler.com/find_enclosures.pl
 root/plugins/viddler.com/find_links.yaml
 root/plugins/video.ask.jp/find_enclosures.pl
@@ -214,6 +224,8 @@ root/plugins/woopie.jp/discovery.pl
 root/plugins/woopie.jp/find_enclosures.pl
 root/plugins/woopie.jp/find_links.yaml
 root/plugins/www3.nhk.or.jp/find_enclosures.pl
+root/plugins/yomiuri.co.jp/find_enclosures.pl
+root/plugins/yomiuri.co.jp/find_links.yaml
 root/plugins/youtube.com/find_enclosures.pl
 root/plugins/youtube.com/find_links.yaml
 root/plugins/zoome.jp/find_enclosures.pl
@@ -226,11 +238,13 @@ root/static/css/site.css
 root/static/html/index.html
 root/static/html/iui.html
 root/static/html/watch.html
+root/static/images/appIcon.icns
 root/static/images/badge_red.png
 root/static/images/closebox.png
 root/static/images/feed_128x128.png
 root/static/images/feed_256x256.png
 root/static/images/folder_256x256.png
+root/static/images/movies_128.png
 root/static/images/progressbar.gif
 root/static/images/progressbg_black.gif
 root/static/images/progressbg_green.gif
@@ -426,6 +440,7 @@ t/samples/rss-20.xml
 t/samples/rss-full.xml
 t/samples/rss2-image.xml
 t/samples/rss2sample.xml
+t/samples/rsshandler.xml
 t/samples/safari_bookmarks.plist
 t/samples/safari_history.plist
 t/samples/sample.foaf
@@ -450,6 +465,7 @@ t/samples/xoxo.html
 t/TestPlagger.pm
 tools/export
 tools/issues
+tools/make-bundle
 tools/refresh
 tools/upgrade-deps
 xt/perlcritic.t

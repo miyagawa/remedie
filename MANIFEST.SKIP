@@ -12,3 +12,5 @@
 \.gz$
 \.cvsignore
 \.shipit
+bundle-build/
+\.DS_Store
