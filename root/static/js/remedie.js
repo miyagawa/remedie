@@ -189,7 +189,7 @@ Remedie.prototype = {
         remedie.refreshAllChannels();
     });
 
-    $("#new-channel-form").submit( function(e) { remedie.createNewChannel(e); return false; } );
+    $("#new-channel-form").unbind('submit').submit( function(e) { remedie.createNewChannel(e); return false; } );
     $(".cancel-dialog").click( $.unblockUI );
 
     $(".about-dialog-menu").click(function(){ remedie.showAboutDialog() });
@@ -1284,7 +1284,7 @@ Remedie.prototype = {
 
   renameChannel : function(channel) {
     $('#new-channel-name').focus(function(){this.select()}).attr('value', channel.name).focus();
-    $("#rename-channel-form").submit(function(e) {
+    $("#rename-channel-form").unbind('submit').submit(function(e) {
       remedie.updateChannelMetadata(channel, {
         name: $('#new-channel-name').attr('value')
       });
