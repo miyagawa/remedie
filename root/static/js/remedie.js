@@ -1283,6 +1283,7 @@ Remedie.prototype = {
   },
 
   renameChannel : function(channel) {
+    channel = this.channels[channel.id]; // FIXME: channel is from closure: might be updated
     $('#new-channel-name').focus(function(){this.select()}).attr('value', channel.name).focus();
     $("#rename-channel-form").submit(function(e) {
       remedie.updateChannelMetadata(channel, {
@@ -1303,6 +1304,7 @@ Remedie.prototype = {
       dataType: 'json',
       success: function(r) {
         if (r.success) {
+          remedie.channels[r.channel.id] = r.channel;
           $.event.trigger('remedie-channel-updated', { channel: r.channel });
         } else {
           alert(r.error);
