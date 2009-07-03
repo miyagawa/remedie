@@ -95,6 +95,15 @@ img.channel-thumbnail {
   display:none;
 }
 
+#rename-channel-dialog {
+  text-align:left;
+  display:none;
+}
+
+#new-channel-name {
+  width: 100%;
+}
+
 #import-opml-dialog {
   text-align:left;
   display:none;

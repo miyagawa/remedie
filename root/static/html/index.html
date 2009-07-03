@@ -85,10 +85,22 @@
    </form>
    </div>
 
+   <div id="rename-channel-dialog">
+   <form id="rename-channel-form">
+   Rename Channel Name<br/>
+   <input type="text" value="" id="new-channel-name" />
+   <div class="float-right">
+   <input type="button" value="Cancel" class="cancel-dialog" />
+   <input type="submit" value="Rename" />
+   </div>
+   </form>
+   </div>
+
    <div id="channel-item-context-menu" class="contextMenu"><ul></ul></div>
    <div id="channel-context-menu" class="contextMenu">
    <ul>
     <li id="channel_context_refresh">Update Channel</li>
+    <li id="channel_context_rename">Rename Channel</li>
     <li id="channel_context_mark_watched">Mark All items as Watched</li>
     <li id="channel_context_cooliris">Launch Cooliris</li>
     <li id="channel_context_cooliris_swf">Launch Cooliris (Flash)</li>

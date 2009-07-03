@@ -50,6 +50,17 @@ sub create : POST {
     return { channel => $channel };
 }
 
+
+sub update : POST {
+    my($self, $req, $res) = @_;
+
+    my $channel = Remedie::DB::Channel->new( id => $req->param('id') )->load;
+    $channel->name($req->param('name'));
+    $channel->save;
+
+    return { channel => $channel };
+}
+
 sub refresh : POST {
     my($self, $req, $res) = @_;
 

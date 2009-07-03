@@ -1111,6 +1111,7 @@ Remedie.prototype = {
         .contextMenu("channel-context-menu", {
           bindings: {
             channel_context_refresh:      function(){ remedie.manuallyRefreshChannel(channel) },
+            channel_context_rename:       function(){ remedie.renameChannel(channel) },
             channel_context_clear_stale:  function(){ remedie.manuallyRefreshChannel(channel, true) },
             channel_context_mark_watched: function(){ remedie.markAllAsWatched(channel, true) },
             channel_context_cooliris:     function(){ remedie.launchCooliris() },
@@ -1281,6 +1282,36 @@ Remedie.prototype = {
     });
   },
 
+  renameChannel : function(channel) {
+    $('#new-channel-name').focus(function(){this.select()}).attr('value', channel.name).focus();
+    $("#rename-channel-form").submit(function(e) {
+      remedie.updateChannelMetadata(channel, {
+        name: $('#new-channel-name').attr('value')
+      });
+      return false;
+    });
+
+    $.blockUI({ message: $('#rename-channel-dialog') });
+  },
+
+  updateChannelMetadata : function(channel, data) {
+    data.id = channel.id;
+    $.ajax({
+      url: "/rpc/channel/update",
+      data: data,
+      type: 'post',
+      dataType: 'json',
+      success: function(r) {
+        if (r.success) {
+          $.event.trigger('remedie-channel-updated', { channel: r.channel });
+        } else {
+          alert(r.error);
+        }
+        $.unblockUI();
+      }
+    });
+  },
+
   removeChannel : function(channel) {
     if (!channel)
       return; // TODO error message?
@@ -1412,6 +1443,7 @@ Remedie.prototype = {
       .contextMenu("channel-context-menu", {
         bindings: {
           channel_context_refresh:      function(){ remedie.refreshChannel(channel) },
+          channel_context_rename:       function(){ remedie.renameChannel(channel) },
           channel_context_clear_stale:  function(){ remedie.refreshChannel(channel, false, true) },
           channel_context_mark_watched: function(){ remedie.markAllAsWatched(channel, false) },
           channel_context_remove:       function(){ remedie.removeChannel(channel) }
@@ -1596,6 +1628,7 @@ Remedie.prototype = {
     // Currently displaying this channel?
     if (this.current_id) {
       document.title = 'Remedie: ' + channel.name;
+      $('.channel-header-title').text(channel.name);
       if (channel.unwatched_count) document.title += " (" + channel.unwatched_count + ")";
     }
 

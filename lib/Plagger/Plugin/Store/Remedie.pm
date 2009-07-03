@@ -16,7 +16,8 @@ sub store {
     my $channel = $self->conf->{channel};
     my $feed    = $args->{feed};
 
-    $channel->name( $feed->title );
+    $channel->name( $feed->title )
+        unless $channel->name && $channel->name ne $channel->ident;
     $channel->props->{link}        = $feed->link;
     $channel->props->{description} = $feed->description;
 
