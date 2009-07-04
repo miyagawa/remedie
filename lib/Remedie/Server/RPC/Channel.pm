@@ -55,7 +55,7 @@ sub update : POST {
     my($self, $req, $res) = @_;
 
     my $channel = Remedie::DB::Channel->new( id => $req->param('id') )->load;
-    $channel->name($req->param('name'));
+    $channel->name( decode_utf8($req->param('name')) );
     $channel->save;
 
     return { channel => $channel };
