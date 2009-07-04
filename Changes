@@ -1,5 +1,9 @@
 Revision history for Perl extension Remedie
 
+0.5.8 Fri Jul  3 21:16:45 PDT 2009
+        * Revert the 0.5.6 change for HTTP::Engine
+        * Added renaming channels UI
+
 0.5.7 Mon Jun 29 18:09:27 PDT 2009
         * Rebuilds cpanlib bundle with local::lib 1.004003 to fix PERL5LIB #120
 
