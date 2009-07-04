@@ -1,5 +1,8 @@
 Revision history for Perl extension Remedie
 
+0.5.9 Fri Jul  3 21:44:38 PDT 2009
+        * Fixed a bug in renaming channel title where UTF-8 characters are not decoded
+
 0.5.8 Fri Jul  3 21:16:45 PDT 2009
         * Revert the 0.5.6 change for HTTP::Engine
         * Added renaming channels UI
