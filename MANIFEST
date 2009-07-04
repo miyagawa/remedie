@@ -467,7 +467,6 @@ tools/export
 tools/issues
 tools/make-bundle
 tools/refresh
-tools/upgrade-deps
 xt/perlcritic.t
 xt/pod.t
 xt/podspell.t

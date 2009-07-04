@@ -5,7 +5,7 @@ package Test::Base;
 use 5.006001;
 use Spiffy 0.30 -Base;
 use Spiffy ':XXX';
-our $VERSION = '0.55';
+our $VERSION = '0.58';
 
 my @test_more_exports;
 BEGIN {
@@ -29,6 +29,7 @@ our @EXPORT = (@test_more_exports, qw(
     delimiters spec_file spec_string 
     filters filters_delay filter_arguments
     run run_compare run_is run_is_deeply run_like run_unlike 
+    skip_all_unless_require is_deep run_is_deep
     WWW XXX YYY ZZZ
     tie_output no_diag_on_only
 
@@ -370,6 +371,34 @@ sub run_unlike() {
     }
 }
 
+sub skip_all_unless_require() {
+    (my ($self), @_) = find_my_self(@_);
+    my $module = shift;
+    eval "require $module; 1"
+        or Test::More::plan(
+            skip_all => "$module failed to load"
+        );
+}
+
+sub is_deep() {
+    (my ($self), @_) = find_my_self(@_);
+    require Test::Deep;
+    Test::Deep::cmp_deeply(@_);
+}
+
+sub run_is_deep() {
+    (my ($self), @_) = find_my_self(@_);
+    $self->_assert_plan;
+    my ($x, $y) = $self->_section_names(@_);
+    for my $block (@{$self->block_list}) {
+        next unless exists($block->{$x}) and exists($block->{$y});
+        $block->run_filters unless $block->is_filtered;
+        is_deep($block->$x, $block->$y, 
+           $block->name ? $block->name : ()
+          );
+    }
+}
+
 sub _pre_eval {
     my $spec = shift;
     return $spec unless $spec =~
@@ -585,11 +614,13 @@ sub run_filters {
             my $function = "main::$filter";
             no strict 'refs';
             if (defined &$function) {
-                local $_ = join '', @value;
+                local $_ =
+                    (@value == 1 and not defined($value[0])) ? undef :
+                        join '', @value;
                 my $old = $_;
                 @value = &$function(@value);
                 if (not(@value) or 
-                    @value == 1 and $value[0] =~ /\A(\d+|)\z/
+                    @value == 1 and defined($value[0]) and $value[0] =~ /\A(\d+|)\z/
                 ) {
                     if ($value[0] && $_ eq $old) {
                         Test::Base::diag("Filters returning numbers are supposed to do munging \$_: your filter '$function' apparently doesn't.");
@@ -650,4 +681,4 @@ __DATA__
 
 =encoding utf8
 
-#line 1330
+#line 1376
