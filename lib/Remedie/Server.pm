@@ -13,6 +13,9 @@ use URI::Escape;
 use Remedie::Log;
 use Remedie::JSON;
 
+use AnyEvent;
+use AnyEvent::Impl::POE;
+
 my $publisher = eval {
     require Net::Rendezvous::Publish;
     Net::Rendezvous::Publish->new;
@@ -64,7 +67,7 @@ sub run {
     Remedie::Log->log(debug => "Initializing with HTTP::Engine version $HTTP::Engine::VERSION");
     my $engine = HTTP::Engine->new(
         interface => {
-            module => 'ServerSimple',
+            module => 'POE',
             args   => $self->conf,
             request_handler => sub { $self->handle_request(@_) },
         },
@@ -82,6 +85,7 @@ sub run {
         }
     }
     $engine->run;
+    AnyEvent->condvar->recv;
 }
 
 sub owner_name {

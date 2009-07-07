@@ -4,6 +4,7 @@ name 'Remedie';
 license 'perl';
 all_from 'lib/Remedie.pm';
 
+requires 'AnyEvent';
 requires 'Cache::Cache';
 requires 'Class::Accessor::Fast';
 requires 'Date::Parse';
@@ -43,6 +44,9 @@ requires 'Net::Rendezvous::Publish';
 requires 'Path::Class';
 requires 'Path::Class::Unicode';
 requires 'Pod::Usage';
+requires 'POE';
+requires 'POE::Component::Server::TCP';
+requires 'POE::Filter::HTTPD';
 requires 'Rose::DB';
 requires 'Rose::DB::Object';
 requires 'String::CamelCase';
