@@ -73,6 +73,7 @@ sub run {
         },
     );
 
+    # TODO: Do this in POE event callbacks
     if ($publisher) {
         my $owner_name = $self->owner_name;
         for my $proto (qw( http remedie )) {
