@@ -1,6 +1,6 @@
 # author: Tatsuhiko Miyagawa
 # http://images.apple.com/trailers/rss/newtrailers.rss
-use Web::Scraper;
+use Web::Scraper::LibXML;
 sub init {
     my $self = shift;
     $self->{handle} = "/trailers/";

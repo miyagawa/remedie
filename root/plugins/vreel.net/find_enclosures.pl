@@ -1,6 +1,6 @@
 # author: Tatsuhiko Miyagawa
 # XXX this doesn't work because their DivX server blocks GETs without Referer
-use Web::Scraper;
+use Web::Scraper::LibXML;
 
 sub init {
     my $self = shift;

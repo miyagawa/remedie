@@ -1,5 +1,5 @@
 # http://movie.goo.ne.jp/schedule/thisweek.html
-use Web::Scraper;
+use Web::Scraper::LibXML;
 sub init {
     my $self = shift;
     $self->{handle} = ".";

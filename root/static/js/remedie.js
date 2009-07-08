@@ -723,6 +723,8 @@ Remedie.prototype = {
       }
     } else if (type.match(/quicktime/i)) {
       player = 'QuickTime';
+    } else if (type.match(/mp4/i) && /mac/i.test(navigator.userAgent)) {
+      player = 'QuickTime';
     } else if (type.match(/divx/i)) {
       player = 'DivX';
     } else {
@@ -1143,6 +1145,7 @@ Remedie.prototype = {
 //                item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QTL', fullscreen, 1)},
              item_context_play_qt:   function(){remedie.launchVideoPlayer(item, 'QuickTime', fullscreen)},
              item_context_play_qt_embed: function(){remedie.playVideoInline(item, 'QuickTime')},
+             item_context_play_flash: function(){remedie.playVideoInline(item, 'Flash')},
              item_context_play_wmp:  function(){remedie.playVideoInline(item, 'WMP')},
              item_context_play_sl:   function(){remedie.playVideoInline(item, 'Silverlight')},
              item_context_play_divx: function(){remedie.playVideoInline(item, 'DivX')},
@@ -1183,6 +1186,7 @@ Remedie.prototype = {
              } else if (/video/i.test(item.props.type)) {
                el.createAppend('li', { id: 'item_context_play_vlc' }, 'Launch VLC');
                el.createAppend('li', { id: 'item_context_play_qt' }, 'Launch QuickTime');
+               el.createAppend('li', { id: 'item_context_play_flash' }, 'Play inline with Flash');
                el.createAppend('li', { id: 'item_context_play_qt_embed' }, 'Play inline with QuickTime');
              }
 
