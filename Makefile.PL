@@ -5,6 +5,7 @@ license 'perl';
 all_from 'lib/Remedie.pm';
 
 requires 'AnyEvent';
+requires 'AnyEvent::HTTP';
 requires 'Cache::Cache';
 requires 'Class::Accessor::Fast';
 requires 'Date::Parse';

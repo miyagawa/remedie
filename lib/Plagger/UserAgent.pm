@@ -43,7 +43,7 @@ sub request {
     warn "--> ", $request->uri;
     http_request $request->method, $request->uri, headers => scalar $request->headers, Coro::rouse_cb;
     my($data, $header) = Coro::rouse_wait;
-    warn "<-- ", $header->{URL};
+    warn "<-- ", $header->{URL}, " $header->{Status}";
 
     return HTTP::Response->new($header->{Status}, $header->{Reason}, [ %$header ], $data);
 }
