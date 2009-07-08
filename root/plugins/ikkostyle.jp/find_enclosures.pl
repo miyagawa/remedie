@@ -15,7 +15,7 @@ sub find {
     my $uri = URI->new("http://video.bemoove.jp/plugin/showVideoSelect.php");
     $uri->query_form(charset => "UTF-8", %js_params, bv_host => 'ikkostyle.jp', bv_controlbar => 'bottom');
 
-    my $content = Plagger->context->current_plugin->fetch_content($uri);
+    my $content = $self->parent->fetch_content($uri);
     my $flashvars = ($content =~ /var flashvars = "(.*?)"/)[0];
     my %param = $flashvars =~ /&(\w+)=([^&]+)/g;
 

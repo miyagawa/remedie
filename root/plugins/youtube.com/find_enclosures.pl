@@ -43,7 +43,7 @@ sub upgrade {
     }
 
     # FIXME content should be shared with needs_content
-    my $content = Plagger->context->current_plugin->fetch_content("http://www.youtube.com/watch?v=$video_id&fmt=22");
+    my $content = $self->parent->fetch_content("http://www.youtube.com/watch?v=$video_id&fmt=22");
     if ($content =~ /Embedding disabled by request/) {
         Plagger->context->log(info => "$video_id disables embeds :/");
         $enclosure->url("http://www.youtube.com/watch?v=$video_id");

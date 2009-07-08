@@ -13,5 +13,5 @@ sub find {
     my ($link) = $args->{content} =~ m!/j\.php/(http://[^">\s]+)!
         or return;
 
-    Plagger->context->current_plugin->add_enclosure($args->{entry}, [ 'a', { href => $link } ], 'href');
+    $self->parent->add_enclosure($args->{entry}, [ 'a', { href => $link } ], 'href');
 }

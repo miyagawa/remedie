@@ -28,7 +28,7 @@ sub find {
 sub find_flv_url {
     my ($self, $asx_url) = @_;
 
-    my $content = Plagger->context->current_plugin->fetch_content($asx_url) or return;
+    my $content = $self->parent->fetch_content($asx_url) or return;
     $content =~ m!<REF HREF="([^"]+\.flv)"! or return;
     return $1;
 }

@@ -33,8 +33,6 @@ my $context = Coro::Specific->new;
 sub context     { $$context }
 sub set_context { $$context = $_[1] }
 
-sub current_plugin { }
-
 sub new {
     my($class, %opt) = @_;
 
@@ -217,10 +215,6 @@ sub run_hook {
 
     my @ret;
     for my $action (@{ $self->{hooks}->{$hook} }) {
-        my $plugin_ref = Coro::Specific->new;
-        $$plugin_ref = $action->{plugin};
-        no warnings 'redefine';
-        local *Plagger::current_plugin = sub { $$plugin_ref };
         my $ret = $action->{callback}->($action->{plugin}, $self, $args);
         $callback->($ret) if $callback;
         if ($once) {
