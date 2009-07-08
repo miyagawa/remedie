@@ -95,6 +95,7 @@ sub handle_request {
         HTTP::Engine::ResponseFinalizer->finalize( $req => $res );
         local $CLIENT = $client; # Ugh
         $self->response_writer->finalize( $req => $res );
+        POE::Kernel->yield('shutdown');
     };
 
     my $res;
@@ -126,7 +127,6 @@ sub _client_input {
         } else {
             $self->handle_request($heap->{client}, %{ $self->_make_request($request, $heap) });
         }
-        $kernel->yield('shutdown');
     }
 }
 
