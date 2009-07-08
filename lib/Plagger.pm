@@ -15,7 +15,6 @@ use UNIVERSAL::require;
 
 use Remedie::Log;
 
-
 use base qw( Class::Accessor::Fast );
 __PACKAGE__->mk_accessors( qw(conf update subscription plugins_path cache) );
 
@@ -28,9 +27,11 @@ use Plagger::Subscription;
 use Plagger::Update;
 use Plagger::UserAgent; # use to define $XML::Feed::RSS::PREFERRED_PARSER
 
-my $context;
-sub context     { $context }
-sub set_context { $context = $_[1] }
+use Coro::Specific;
+my $context = Coro::Specific->new;
+
+sub context     { $$context }
+sub set_context { $$context = $_[1] }
 
 sub current_plugin { }
 
@@ -323,7 +324,7 @@ sub search {
     $self->run_hook('plugin.init');
 
     my @feeds;
-    $context->run_hook('searcher.search', { query => $query }, 0, sub { push @feeds, $_[0] });
+    $self->run_hook('searcher.search', { query => $query }, 0, sub { push @feeds, $_[0] });
 
     Plagger->set_context(undef);
     return @feeds;

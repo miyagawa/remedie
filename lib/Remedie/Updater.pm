@@ -5,6 +5,7 @@ use Remedie::DB::Channel;
 use Remedie::DB::Item;
 use Remedie::Log;
 
+use Coro;
 use Plagger;
 
 has 'conf' => is => 'rw';
@@ -37,7 +38,7 @@ sub update_channel {
         ],
     };
 
-    Plagger->bootstrap(config => $config);
+    async { Plagger->bootstrap(config => $config) };
 
     return 1;
 }

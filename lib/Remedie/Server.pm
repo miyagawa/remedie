@@ -15,6 +15,8 @@ use Remedie::JSON;
 
 use AnyEvent;
 use AnyEvent::Impl::POE;
+use Coro::AnyEvent;
+use Coro::LWP;
 
 my $publisher = eval {
     require Net::Rendezvous::Publish;
