@@ -9,6 +9,7 @@ requires 'AnyEvent::HTTP';
 requires 'Cache::Cache';
 requires 'Class::Accessor::Fast';
 requires 'Coro';
+requires 'Coro::LWP';
 requires 'Date::Parse';
 requires 'DateTime';
 requires 'DateTime::Format::ISO8601';
