@@ -18,6 +18,7 @@ use AnyEvent::Impl::POE;
 use Coro;
 use Coro::AnyEvent;
 
+my $coro_debug;
 my $publisher = eval {
     require Net::Rendezvous::Publish;
     Net::Rendezvous::Publish->new;
@@ -92,6 +93,11 @@ sub run {
         }
     }
     $engine->run;
+
+    if ($ENV{REMEDIE_DEBUG}) {
+        require Coro::Debug;
+        $coro_debug = new_tcp_server Coro::Debug 10101;
+    }
     AnyEvent->condvar->recv;
 }
 
