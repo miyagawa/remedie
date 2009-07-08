@@ -1,6 +1,8 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
+use Coro;
+use Coro::LWP;
 use LWP::UserAgent;
 use HTTP::Request::Common;
 use JSON::XS;
@@ -28,12 +30,17 @@ my $api_call = sub {
 
 my @channels = @ARGV ? get_channels(@ARGV) : all_channels();
 
+my @coros;
 for my $channel (@channels) {
-    my $data = $api_call->("post", "/channel/refresh", { id => $channel->{id} });
-    my $new = $data->{channel}{unwatched_count} - $channel->{unwatched_count};
-    printf "%d: %s updated %s\n",
-        $channel->{id}, $data->{channel}{name}, ($new ? colored(['red'], "($new)") : "");
+    push @coros, async {
+        my $data = $api_call->("post", "/channel/refresh", { id => $channel->{id} });
+        my $new = $data->{channel}{unwatched_count} - $channel->{unwatched_count};
+        printf "%d: %s updated %s\n",
+           $channel->{id}, $data->{channel}{name}, ($new ? colored(['red'], "($new)") : "");
+    };
 }
+
+$_->join for @coros;
 
 sub get_channels {
     my @ids = @_;
