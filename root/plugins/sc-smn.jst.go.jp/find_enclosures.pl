@@ -1,6 +1,6 @@
 # http://sc-smn.jst.go.jp/index.asp
 # author: otsune
-use Web::Scraper;
+use Web::Scraper::LibXML;
 sub init {
     my $self = shift;
     $self->{handle} = "/bangumi.asp";
