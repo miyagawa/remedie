@@ -217,10 +217,11 @@ sub run_hook {
 
     my @ret;
     for my $action (@{ $self->{hooks}->{$hook} }) {
-        my $plugin = $action->{plugin};
+        my $plugin_ref = Coro::Specific->new;
+        $$plugin_ref = $action->{plugin};
         no warnings 'redefine';
-        local *Plagger::current_plugin = sub { $plugin };
-        my $ret = $action->{callback}->($plugin, $self, $args);
+        local *Plagger::current_plugin = sub { $$plugin_ref };
+        my $ret = $action->{callback}->($action->{plugin}, $self, $args);
         $callback->($ret) if $callback;
         if ($once) {
             return $ret if defined $ret;

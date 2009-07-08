@@ -8,6 +8,7 @@ use DateTime::Format::ISO8601;
 use DateTime::Format::Mail;
 use Plagger::FeedParser;
 use URI::Fetch;
+use Coro;
 
 BEGIN { extends 'Remedie::Server::RPC' };
 
@@ -31,7 +32,7 @@ sub create : POST {
 
     my $feed_uri;
     unless ($req->param('no_discovery')) {
-        my $res = URI::Fetch->fetch($uri, ForceResponse => 1);
+        my $res = Plagger::UserAgent->new->fetch($uri);
         $feed_uri = Plagger::FeedParser->discover($res);
     }
 

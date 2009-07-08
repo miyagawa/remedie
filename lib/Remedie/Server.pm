@@ -15,8 +15,8 @@ use Remedie::JSON;
 
 use AnyEvent;
 use AnyEvent::Impl::POE;
+use Coro;
 use Coro::AnyEvent;
-use Coro::LWP;
 
 my $publisher = eval {
     require Net::Rendezvous::Publish;
@@ -71,7 +71,11 @@ sub run {
         interface => {
             module => 'POE',
             args   => $self->conf,
-            request_handler => sub { $self->handle_request(@_) },
+            request_handler => unblock_sub {
+                my($req, $cb) = @_;
+                my $res = $self->handle_request($req);
+                $cb->($res);
+            },
         },
     );
 

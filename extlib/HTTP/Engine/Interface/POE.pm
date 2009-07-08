@@ -1,6 +1,6 @@
 package HTTP::Engine::Interface::POE;
-our $CLIENT; ## no critic
 use Any::Moose;
+our $CLIENT; ## no critic
 use HTTP::Engine::Interface
     builder => 'NoEnv',
     writer  =>  {
@@ -68,6 +68,49 @@ sub run {
     );
 }
 
+sub handle_request {
+    my($self, $client, %args) = @_;
+
+    my $req = HTTP::Engine::Request->new(
+        request_builder => $self->request_builder,
+        %args,
+    );
+
+    my $cb = sub {
+        my($res, $err) = @_;
+
+        unless ( Scalar::Util::blessed($res)
+                && $res->isa('HTTP::Engine::Response') ) {
+            $err = "You should return instance of HTTP::Engine::Response.";
+        }
+
+        if ($err) {
+            print STDERR $err;
+            $res = HTTP::Engine::Response->new(
+                status => 500,
+                body   => 'internal server error',
+            );
+        }
+
+        HTTP::Engine::ResponseFinalizer->finalize( $req => $res );
+        local $CLIENT = $client; # Ugh
+        $self->response_writer->finalize( $req => $res );
+    };
+
+    my $res;
+    eval { $res = $self->request_handler->($req, $cb) };
+
+    if ($@) {
+        return $cb->(undef, $@);
+    }
+
+    # support the standard interface too.
+    if ( Scalar::Util::blessed($res)
+         && $res->isa('HTTP::Engine::Response') ) {
+        return $cb->($res);
+    }
+}
+
 sub _client_input {
     my $self = shift;
 
@@ -81,8 +124,7 @@ sub _client_input {
         if ( $request->isa('HTTP::Response') ) {
             $heap->{client}->put($request->as_string);
         } else {
-            local $CLIENT = $heap->{client};
-            $self->handle_request(%{ $self->_make_request($request, $heap) });
+            $self->handle_request($heap->{client}, %{ $self->_make_request($request, $heap) });
         }
         $kernel->yield('shutdown');
     }

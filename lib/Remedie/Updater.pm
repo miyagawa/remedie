@@ -5,7 +5,6 @@ use Remedie::DB::Channel;
 use Remedie::DB::Item;
 use Remedie::Log;
 
-use Coro;
 use Plagger;
 
 has 'conf' => is => 'rw';
@@ -14,6 +13,7 @@ __PACKAGE__->meta->make_immutable;
 
 no Any::Moose;
 use Path::Class;
+use Coro;
 
 sub update_channel {
     my($self, $channel, $opt) = @_;
@@ -38,7 +38,7 @@ sub update_channel {
         ],
     };
 
-    async { Plagger->bootstrap(config => $config) };
+    Plagger->bootstrap(config => $config);
 
     return 1;
 }
