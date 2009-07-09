@@ -12,19 +12,22 @@ sub lookup {
 
 sub search {
     my $self = shift;
-
-    return $self->get_objects(
-        query => [ @_ ],
-        object_class => $self->object_class,
-    );
+    $self->_run_search('get_objects', @_);
 }
 
 sub search_iter {
     my $self = shift;
+    $self->_run_search('get_objects_iterator', @_);
+}
 
-    return $self->get_objects_iterator(
-        query => [ @_ ],
+sub _run_search {
+    my($self, $method, %args) = @_;
+
+    my $db = delete $args{db};
+    return $self->$method(
+        query => [ %args ],
         object_class => $self->object_class,
+        ($db ? (db => $db) : ()),
     );
 }
 
