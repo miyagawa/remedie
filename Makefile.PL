@@ -50,6 +50,7 @@ requires 'Pod::Usage';
 requires 'POE';
 requires 'POE::Component::Server::TCP';
 requires 'POE::Filter::HTTPD';
+requires 'POE::Component::Rendezvous::Publish';
 requires 'Rose::DB';
 requires 'Rose::DB::Object';
 requires 'String::CamelCase';

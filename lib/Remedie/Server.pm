@@ -17,12 +17,9 @@ use AnyEvent;
 use AnyEvent::Impl::POE;
 use Coro;
 use Coro::AnyEvent;
+use POE qw( Component::Rendezvous::Publish );
 
 my $coro_debug;
-my $publisher = eval {
-    require Net::Rendezvous::Publish;
-    Net::Rendezvous::Publish->new;
-};
 
 has 'conf' => is => 'rw';
 
@@ -80,18 +77,16 @@ sub run {
         },
     );
 
-    # TODO: Do this in POE event callbacks
-    if ($publisher) {
-        my $owner_name = $self->owner_name;
-        for my $proto (qw( http remedie )) {
-            $publisher->publish(
-                name => sprintf("%s's Remedie Server", $owner_name),
-                type => "_$proto._tcp",
-                port => $self->conf->{port},
-                domain => 'local',
-            );
-        }
+    my $owner_name = $self->owner_name;
+    for my $proto (qw( http remedie )) {
+        POE::Component::Rendezvous::Publish->create(
+            name => sprintf("%s's Remedie Server", $owner_name),
+            type => "_$proto._tcp",
+            port => $self->conf->{port},
+            domain => 'local',
+        );
     }
+
     $engine->run;
 
     if ($ENV{REMEDIE_DEBUG}) {
