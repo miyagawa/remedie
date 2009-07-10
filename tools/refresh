@@ -40,7 +40,6 @@ my $w = AnyEvent->timer(
     interval => $interval,
     cb => sub {
         async {
-            warn "getting channels";
             my @channels = @ARGV ? get_channels(@ARGV) : all_channels();
             for my $channel (@channels) {
                 $queue->put($channel);
