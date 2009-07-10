@@ -35,12 +35,9 @@ my $workers = 20;
 my @channels = @ARGV ? get_channels(@ARGV) : all_channels();
 my $queue = Coro::Channel->new;
 
-# provider thread
-async {
-    for my $channel (@channels) {
-        $queue->put($channel);
-    }
-};
+for my $channel (@channels) {
+    $queue->put($channel);
+}
 
 # worker threads
 my @workers;
