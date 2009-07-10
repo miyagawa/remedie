@@ -30,7 +30,7 @@ my $api_call = sub {
     return JSON::XS->new->decode($res->content);
 };
 
-my $workers = 5;
+my $workers = 20;
 
 my @channels = @ARGV ? get_channels(@ARGV) : all_channels();
 my $queue = Coro::Channel->new;
