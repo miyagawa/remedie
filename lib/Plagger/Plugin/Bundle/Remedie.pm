@@ -42,7 +42,6 @@ sub register {
     $context->autoload_plugin({ module => 'Filter::FeedBurnerPermalink' });
     $context->autoload_plugin({ module => 'Namespace::iTunesDTD' });
     $context->autoload_plugin({ module => 'Namespace::ApplePhotocast' });
-    $context->autoload_plugin({ module => 'Namespace::HatenaFotolife' });
     $context->autoload_plugin({ module => 'Filter::EnclosureMetadata' });
     $context->autoload_plugin({ module => 'Filter::FindEnclosures' });
     $context->autoload_plugin({ module => 'Filter::MediaFilename' });

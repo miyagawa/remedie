@@ -15,5 +15,5 @@ sub find {
 
     my $link = $res->{link} or return;
 
-    Plagger->context->current_plugin->add_enclosure($args->{entry}, [ 'a', { href => $link } ], 'href');
+    $self->parent->add_enclosure($args->{entry}, [ 'a', { href => $link } ], 'href');
 }

@@ -13,10 +13,13 @@ use URI::Escape;
 use Remedie::Log;
 use Remedie::JSON;
 
-my $publisher = eval {
-    require Net::Rendezvous::Publish;
-    Net::Rendezvous::Publish->new;
-};
+use AnyEvent;
+use AnyEvent::Impl::POE;
+use Coro;
+use Coro::AnyEvent;
+use POE qw( Component::Rendezvous::Publish );
+
+my $coro_debug;
 
 has 'conf' => is => 'rw';
 
@@ -64,24 +67,33 @@ sub run {
     Remedie::Log->log(debug => "Initializing with HTTP::Engine version $HTTP::Engine::VERSION");
     my $engine = HTTP::Engine->new(
         interface => {
-            module => 'ServerSimple',
+            module => 'POE',
             args   => $self->conf,
-            request_handler => sub { $self->handle_request(@_) },
+            request_handler => unblock_sub {
+                my($req, $cb) = @_;
+                my $res = $self->handle_request($req);
+                $cb->($res);
+            },
         },
     );
 
-    if ($publisher) {
-        my $owner_name = $self->owner_name;
-        for my $proto (qw( http remedie )) {
-            $publisher->publish(
-                name => sprintf("%s's Remedie Server", $owner_name),
-                type => "_$proto._tcp",
-                port => $self->conf->{port},
-                domain => 'local',
-            );
-        }
+    my $owner_name = $self->owner_name;
+    for my $proto (qw( http remedie )) {
+        POE::Component::Rendezvous::Publish->create(
+            name => sprintf("%s's Remedie Server", $owner_name),
+            type => "_$proto._tcp",
+            port => $self->conf->{port},
+            domain => 'local',
+        );
     }
+
     $engine->run;
+
+    if ($ENV{REMEDIE_DEBUG}) {
+        require Coro::Debug;
+        $coro_debug = new_tcp_server Coro::Debug 10101;
+    }
+    AnyEvent->condvar->recv;
 }
 
 sub owner_name {

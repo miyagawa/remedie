@@ -13,6 +13,7 @@ __PACKAGE__->meta->make_immutable;
 
 no Any::Moose;
 use Path::Class;
+use Coro;
 
 sub update_channel {
     my($self, $channel, $opt) = @_;
