@@ -2,7 +2,6 @@
 use strict;
 use warnings;
 use Coro;
-use Coro::Channel;
 use Coro::Semaphore;
 use Coro::LWP;
 use LWP::UserAgent;
@@ -33,35 +32,20 @@ my $api_call = sub {
 my $workers = 20;
 
 my @channels = @ARGV ? get_channels(@ARGV) : all_channels();
-my $queue = Coro::Channel->new;
+my $lock = Coro::Semaphore->new($workers);
 
+my @coros;
 for my $channel (@channels) {
-    $queue->put($channel);
-}
-
-# worker threads
-my @workers;
-for my $i (1..$workers) {
-    async {
-        my $lock = Coro::Semaphore->new(0);
-        push @workers, $lock;
-        while ($queue->size > 0) {
-            my $channel = $queue->get;
-            my $data = $api_call->("post", "/channel/refresh", { id => $channel->{id} });
-            my $new = $data->{channel}{unwatched_count} - $channel->{unwatched_count};
-            printf "%d: %s updated %s\n",
-              $channel->{id}, $data->{channel}{name}, ($new ? colored(['red'], "($new)") : "");
-        }
-        $lock->up;
+    push @coros, async {
+        my $guard = $lock->guard;
+        my $data = $api_call->("post", "/channel/refresh", { id => $channel->{id} });
+        my $new = $data->{channel}{unwatched_count} - $channel->{unwatched_count};
+        printf "%d: %s updated %s\n",
+            $channel->{id}, $data->{channel}{name}, ($new ? colored(['red'], "($new)") : "");
     };
 }
 
-async {
-    $_->down for @workers;
-    exit;
-};
-
-schedule;
+$_->join for @coros;
 
 sub get_channels {
     my @ids = @_;
