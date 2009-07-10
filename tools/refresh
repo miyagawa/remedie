@@ -1,8 +1,9 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use AnyEvent;
 use Coro;
+use Coro::Channel;
+use Coro::Semaphore;
 use Coro::LWP;
 use LWP::UserAgent;
 use HTTP::Request::Common;
@@ -29,36 +30,39 @@ my $api_call = sub {
     return JSON::XS->new->decode($res->content);
 };
 
-my @channels = @ARGV ? get_channels(@ARGV) : all_channels();
+my $workers = 5;
 
-my @coros;
-for my $channel (@channels) {
-    push @coros, sub { 
-        $Coro::current->desc("Fetch");
-        my $data = $api_call->("post", "/channel/refresh", { id => $channel->{id} });
-        my $new = $data->{channel}{unwatched_count} - $channel->{unwatched_count};
-        printf "%d: %s updated %s\n",
-           $channel->{id}, $data->{channel}{name}, ($new ? colored(['red'], "($new)") : "");
+my @channels = @ARGV ? get_channels(@ARGV) : all_channels();
+my $queue = Coro::Channel->new;
+
+# provider thread
+async {
+    for my $channel (@channels) {
+        $queue->put($channel);
+    }
+};
+
+# worker threads
+my @workers;
+for my $i (1..$workers) {
+    async {
+        my $lock = Coro::Semaphore->new(0);
+        push @workers, $lock;
+        while ($queue->size > 0) {
+            my $channel = $queue->get;
+            my $data = $api_call->("post", "/channel/refresh", { id => $channel->{id} });
+            my $new = $data->{channel}{unwatched_count} - $channel->{unwatched_count};
+            printf "%d: %s updated %s\n",
+              $channel->{id}, $data->{channel}{name}, ($new ? colored(['red'], "($new)") : "");
+        }
+        $lock->up;
     };
 }
 
-my $max_concurrency = 20;
-
-my $w = AnyEvent->timer(
-    after => 0, interval => 1,
-    cb => sub {
-        my @running = grep $_->desc eq 'Fetch', Coro::State::list;
-        my $to_run  = $max_concurrency - scalar @running;
-        if (@coros && $to_run > 0) {
-            my @run_coros = splice @coros, 0, $to_run;
-            async \&$_ for @run_coros;
-            warn sprintf "%d threads queued. %d threads remaining.\n",
-                scalar(@run_coros), scalar(@coros);
-        } else {
-            exit if @running == 0;
-        }
-    },
-);
+async {
+    $_->down for @workers;
+    exit;
+};
 
 schedule;
 
