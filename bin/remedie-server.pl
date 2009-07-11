@@ -9,9 +9,9 @@ BEGIN {
 }
 
 use FindBin;
-use lib "$base_dir/lib", "$base_dir/extlib"; # to load local::lib
+use lib "$base_dir/extlib"; # to load local::lib
 use local::lib "$base_dir/cpanlib";
-use lib "$base_dir/extlib"; # to prefer extlib for URI::Fetch etc.
+use lib "$base_dir/lib", "$base_dir/extlib"; # to prefer extlib for URI::Fetch etc.
 
 use Remedie::CLI::Server;
 
