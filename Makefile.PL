@@ -45,6 +45,7 @@ requires 'LWP';
 requires 'MIME::Types';
 requires 'Module::Pluggable', '3.9';
 requires 'Net::Rendezvous::Publish';
+requires 'Net::SSLeay';
 requires 'Path::Class';
 requires 'Path::Class::Unicode';
 requires 'Pod::Usage';
