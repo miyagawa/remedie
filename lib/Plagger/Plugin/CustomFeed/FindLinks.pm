@@ -22,7 +22,7 @@ sub register {
 sub init {
     my $self = shift;
     $self->SUPER::init(@_);
-    $self->load_assets('yaml', sub { $self->load_plugin_yaml(@_) });
+    $self->load_assets('yaml', sub { load_plugin_yaml(@_) });
 }
 
 sub asset_key { 'find_links' }

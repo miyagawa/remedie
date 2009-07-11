@@ -25,13 +25,12 @@ sub register {
 sub init {
     my $self = shift;
     $self->SUPER::init(@_);
-    $self->load_assets('pl', sub { $self->load_plugin_perl(@_) });
+    $self->load_assets('pl', sub { load_plugin_perl(@_) });
 
     $self->{ua} = Plagger::UserAgent->new;
 }
 
 sub asset_key { 'find_enclosures' }
-
 
 sub load_plugin_perl {
     my($self, $file, $domain) = @_;
@@ -57,7 +56,7 @@ sub load_plugin_perl {
     my $plugin = $plugin_class->new;
     $plugin->init;
     $plugin->parent($self);
-    Scalar::Util::weaken($plugin->parent);
+    Scalar::Util::weaken($plugin->{parent});
 
     return $plugin;
 }
