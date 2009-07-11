@@ -43,6 +43,7 @@ requires 'Log::Dispatch';
 requires 'Log::Dispatch::File';
 requires 'LWP';
 requires 'MIME::Types';
+requires 'Module::Pluggable', '3.9';
 requires 'Net::Rendezvous::Publish';
 requires 'Path::Class';
 requires 'Path::Class::Unicode';
