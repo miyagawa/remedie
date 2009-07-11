@@ -51,6 +51,8 @@ sub update {
                 height => $img->attr('height'),
             });
         }
+
+        $tree->delete;
     }
 }
 

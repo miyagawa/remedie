@@ -121,6 +121,8 @@ sub aggregate {
         $found{$item_url} = $entry;
     }
 
+    $tree->delete;
+
     if ($found) {
         $context->update->add($feed);
         return 1;

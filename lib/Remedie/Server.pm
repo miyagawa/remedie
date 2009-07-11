@@ -71,8 +71,11 @@ sub run {
             args   => $self->conf,
             request_handler => unblock_sub {
                 my($req, $cb) = @_;
-                my $res = $self->handle_request($req);
-                $cb->($res);
+                use Devel::LeakGuard::Object qw(leakguard);
+                leakguard {
+                    my $res = $self->handle_request($req);
+                    $cb->($res);
+                };
             },
         },
     );
