@@ -40,11 +40,11 @@ use AnyEvent::HTTP;
 sub request {
     my($self, $request) = @_;
 
-    warn "--> ", $request->uri;
+    warn "--> ", $request->uri if $ENV{REMEDIE_DEBUG};
     http_request $request->method, $request->uri,
         timeout => 30, headers => scalar $request->headers, Coro::rouse_cb;
     my($data, $header) = Coro::rouse_wait;
-    warn "<-- ", $header->{URL}, " $header->{Status}";
+    warn "<-- ", $header->{URL}, " $header->{Status}" if $ENV{REMEDIE_DEBUG};
 
     return HTTP::Response->new($header->{Status}, $header->{Reason}, [ %$header ], $data);
 }
