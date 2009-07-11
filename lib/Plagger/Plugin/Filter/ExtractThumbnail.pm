@@ -2,7 +2,7 @@ package Plagger::Plugin::Filter::ExtractThumbnail;
 use strict;
 use base qw( Plagger::Plugin );
 
-use HTML::TreeBuilder::XPath;
+use HTML::TreeBuilder::LibXML;
 
 sub register {
     my ( $self, $context ) = @_;
@@ -25,7 +25,7 @@ sub update {
     return if $args->{entry}->icon;
 
     if (defined $args->{entry}->body && $args->{entry}->body->is_html) {
-        my $tree = HTML::TreeBuilder::XPath->new;
+        my $tree = HTML::TreeBuilder::LibXML->new;
         $tree->parse($args->{entry}->body);
         $tree->eof;
 
