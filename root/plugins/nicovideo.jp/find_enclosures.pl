@@ -28,9 +28,9 @@ sub _thumbnail_for {
     if ($entry->body =~ /nico-thumbnail/) {
         my $tree = HTML::TreeBuilder::LibXML->new;
         $tree->parse($entry->body);
-        my @tags = $tree->findvalue('//p[@class="nico-thumbnail"]/img/@src');
+        my $thumb = $tree->findvalue('//p[@class="nico-thumbnail"]/img/@src');
         $tree->delete;
-        return @tags;
+        return $thumb;
     } elsif ($id =~ s/^\w\w//) {
         return "http://tn-skr1.smilevideo.jp/smile?i=$id";
     }
