@@ -79,6 +79,7 @@ sub run {
              . "http://" . ($host || 'localhost') . ":"
              . $port
              . "/\n" );
+        return 0;
     };
 
     $self->listen_guard($guard);
