@@ -71,7 +71,6 @@ sub run {
                  . "http://" . ($self->host || 'localhost') . ":"
                  . $self->port
                  . "/\n" );
-
         },
     );
 }
