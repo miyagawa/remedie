@@ -24,6 +24,7 @@ sub update_channel {
             log => { level => 'debug' },
             plugin_path => [ dir($self->conf->{root}, "plugins")->absolute ],
             assets_path => dir($self->conf->{root})->absolute,
+            user_agent  => { agent => "Mozilla/5.0 (Remedie/$Remedie::VERSION)" },
         },
         plugins => [
             { module => "Aggregator::Simple",
