@@ -67,20 +67,20 @@ sub make_request_handler {
     my $check_leak = $ENV{REMEDIE_DEBUG} && eval { require Devel::LeakGuard::Object; 1 };
 
     my $callback = $check_leak ?
-        sub {
+        unblock_sub {
             my($req, $cb) = @_;
             Devel::LeakGuard::Object::leakguard(sub {
                 my $res = $self->handle_request($req);
                 $cb->($res);
             });
         } :
-        sub {
+        unblock_sub {
             my($req, $cb) = @_;
             my $res = $self->handle_request($req);
             $cb->($res);
         };
 
-    return unblock_sub \&$callback;
+    return $callback;
 }
 
 sub run {
