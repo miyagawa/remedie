@@ -95,18 +95,21 @@ sub run {
     );
 
     my $owner_name = $self->owner_name;
+    my @worker;
     for my $proto (qw( http remedie )) {
         # TODO: make this AnyEvent::Bonjour
-        async {
-            my $publisher = Net::Rendezvous::Publish->new
-                or return;
-            my $service = $publisher->publish(
-                name => sprintf("%s's Remedie Server", $owner_name),
-                type => "_$proto._tcp",
-                port => $self->conf->{port},
-                domain => 'local',
-            );
-        };
+        push @worker, AnyEvent->timer(
+            after => 0, cb => sub {
+                my $publisher = Net::Rendezvous::Publish->new
+                    or return;
+                my $service = $publisher->publish(
+                    name => sprintf("%s's Remedie Server", $owner_name),
+                    type => "_$proto._tcp",
+                    port => $self->conf->{port},
+                    domain => 'local',
+                );
+            },
+        );
     }
 
     $engine->run;
