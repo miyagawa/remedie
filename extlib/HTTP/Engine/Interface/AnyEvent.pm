@@ -57,9 +57,9 @@ sub run {
         my $handle; $handle = AnyEvent::Handle->new(
             fh         => $sock,
             timeout    => 30,
-            on_eof     => sub { undef $handle },
-            on_error   => sub { undef $handle; warn $! },
-            on_timeout => sub { undef $handle },
+            on_eof     => sub { undef $handle; undef $parser },
+            on_error   => sub { undef $handle; undef $parser; warn $! },
+            on_timeout => sub { undef $handle; undef $parser },
         );
 
         $handle->on_read(sub {
