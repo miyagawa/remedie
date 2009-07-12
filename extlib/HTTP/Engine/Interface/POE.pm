@@ -65,6 +65,14 @@ sub run {
         ClientFilter => $filter->new,
         ( $self->alias ? ( Alias => $self->alias ) : () ),
         ClientInput  => _client_input($self),
+        Started      => sub {
+            warn( __PACKAGE__
+                 . " : You can connect to your server at "
+                 . "http://" . ($self->host || 'localhost') . ":"
+                 . $self->port
+                 . "/\n" );
+
+        },
     );
 }
 
