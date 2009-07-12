@@ -19,7 +19,9 @@ sub fetch {
 
     my $ua_class = URI->new($url)->scheme =~ /^https?$/
         ? "LWP::UserAgent::AnyEvent" : "LWP::UserAgent";
-    my $ua = $ua_class->new( $conf->{agent} || "Mozilla/5.0 (Plagger/$Plagger::VERSION http://plagger.org/)" );
+
+    my $agent = $conf->{agent} || "Mozilla/5.0 (Plagger/$Plagger::VERSION http://plagger.org/)";
+    my $ua = $ua_class->new(agent => $agent);
 
     my $res = URI::Fetch->fetch($url,
         UserAgent => $ua,
@@ -44,12 +46,7 @@ use Coro;
 
 sub new {
     my $class = shift;
-    my($agent) = @_;
-
-    my $self = bless {}, $class;
-    $self->agent($agent) if $agent;
-
-    return $self;
+    bless {@_}, $class;
 }
 
 sub request {
