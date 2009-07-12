@@ -4,6 +4,7 @@ use Any::Moose;
 use attributes ();
 use HTTP::Engine;
 use MIME::Types;
+use Net::Rendezvous::Publish;
 use Path::Class;
 use Path::Class::Unicode;
 use String::CamelCase;
@@ -14,10 +15,8 @@ use Remedie::Log;
 use Remedie::JSON;
 
 use AnyEvent;
-use AnyEvent::Impl::POE;
 use Coro;
 use Coro::AnyEvent;
-use POE qw( Component::Rendezvous::Publish );
 
 my $coro_debug;
 
@@ -89,7 +88,7 @@ sub run {
     Remedie::Log->log(debug => "Initializing with HTTP::Engine version $HTTP::Engine::VERSION");
     my $engine = HTTP::Engine->new(
         interface => {
-            module => 'POE',
+            module => 'POE', # Change this to AnyEvent!
             args   => $self->conf,
             request_handler => $self->make_request_handler,
         },
@@ -97,12 +96,17 @@ sub run {
 
     my $owner_name = $self->owner_name;
     for my $proto (qw( http remedie )) {
-        POE::Component::Rendezvous::Publish->create(
-            name => sprintf("%s's Remedie Server", $owner_name),
-            type => "_$proto._tcp",
-            port => $self->conf->{port},
-            domain => 'local',
-        );
+        # TODO: make this AnyEvent::Bonjour
+        async {
+            my $publisher = Net::Rendezvous::Publish->new
+                or return;
+            my $service = $publisher->publish(
+                name => sprintf("%s's Remedie Server", $owner_name),
+                type => "_$proto._tcp",
+                port => $self->conf->{port},
+                domain => 'local',
+            );
+        };
     }
 
     $engine->run;
