@@ -61,6 +61,28 @@ sub BUILD {
     return $self;
 }
 
+sub make_request_handler {
+    my $self = shift;
+
+    my $check_leak = $ENV{REMEDIE_DEBUG} && eval { require Devel::LeakGuard::Object; 1 };
+
+    my $callback = $check_leak ?
+        sub {
+            my($req, $cb) = @_;
+            Devel::LeakGuard::Object::leakguard(sub {
+                my $res = $self->handle_request($req);
+                $cb->($res);
+            });
+        } :
+        sub {
+            my($req, $cb) = @_;
+            my $res = $self->handle_request($req);
+            $cb->($res);
+        };
+
+    return unblock_sub \&$callback;
+}
+
 sub run {
     my $self = shift;
 
@@ -69,11 +91,7 @@ sub run {
         interface => {
             module => 'POE',
             args   => $self->conf,
-            request_handler => unblock_sub {
-                my($req, $cb) = @_;
-                my $res = $self->handle_request($req);
-                $cb->($res);
-            },
+            request_handler => $self->make_request_handler,
         },
     );
 

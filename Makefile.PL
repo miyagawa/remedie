@@ -17,6 +17,7 @@ requires 'DateTime::Format::Strptime';
 requires 'DateTime::TimeZone';
 requires 'DBI', '1.607';
 requires 'DBD::SQLite', '1.25';
+requires 'Devel::LeakGuard::Object';
 requires 'Digest::MD5';
 requires 'Encode';
 requires 'Feed::Find';
