@@ -37,6 +37,7 @@ requires 'HTML::TreeBuilder::XPath', 0.09;
 requires 'HTML::TreeBuilder::LibXML', 0.04;
 requires 'HTTP::Date';
 requires 'HTTP::Engine', '0.02002';
+requires 'HTTP::Parser';
 requires 'Image::Info';
 requires 'JSON::XS';
 requires 'List::Util';
