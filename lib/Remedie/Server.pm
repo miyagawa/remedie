@@ -88,7 +88,7 @@ sub run {
     Remedie::Log->log(debug => "Initializing with HTTP::Engine version $HTTP::Engine::VERSION");
     my $engine = HTTP::Engine->new(
         interface => {
-            module => 'POE', # Change this to AnyEvent!
+            module => 'AnyEvent', # Change this to AnyEvent!
             args   => $self->conf,
             request_handler => $self->make_request_handler,
         },
