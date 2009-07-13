@@ -49,6 +49,7 @@ sub wait {
         while (not $timeout) {
             Coro::schedule;
         }
+        warn "timed out $session_id" if $ENV{REMEDIE_DEBUG};
         $signal->broadcast; # timed out: force reconnect clients
     };
 
