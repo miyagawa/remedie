@@ -42,7 +42,7 @@ use base qw(Class::Accessor::Fast);
 __PACKAGE__->mk_accessors(qw( agent timeout ));
 
 use AnyEvent::HTTP;
-use Coro;
+use AnyEvent;
 
 sub new {
     my $class = shift;
@@ -56,10 +56,10 @@ sub request {
     $headers->{'user-agent'} = $self->agent;
 
     warn "--> ", $request->uri if $ENV{REMEDIE_DEBUG};
-    my $cb = Coro::rouse_cb;
+    my $w = AnyEvent->condvar;
     http_request $request->method, $request->uri,
-        timeout => 30, headers => $headers, $cb;
-    my($data, $header) = Coro::rouse_wait($cb);
+        timeout => 30, headers => $headers, sub { $w->send(@_) };
+    my($data, $header) = $w->recv;
     warn "<-- ", $header->{URL}, " $header->{Status}" if $ENV{REMEDIE_DEBUG};
 
     return HTTP::Response->new($header->{Status}, $header->{Reason}, [ %$header ], $data);
