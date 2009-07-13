@@ -941,7 +941,7 @@ Remedie.prototype = {
         $(document).bind('remedie-collection-loaded', function(ev){
           $.each($(r).text().split(/,/), function(index, id) {
             if (remedie.channels[id])
-              remedie.refreshChannel(remedie.channels[id]);
+              remedie.refreshChannel([ remedie.channels[id] ]);
           });
           $(document).unbind('remedie-collection-loaded', arguments.callee);
         });
@@ -1249,26 +1249,28 @@ Remedie.prototype = {
   },
 
   refreshAllChannels: function() {
-    $.each(this.allChannels(), function(index, channel) {
-      remedie.refreshChannel(channel);
-    });
+    this.refreshChannel(this.allChannels());
   },
 
   manuallyRefreshChannel: function(channel, clearStaleItems) {
     $.blockUI();
-    this.refreshChannel(channel, true, clearStaleItems);
+    this.refreshChannel([ channel ], true, clearStaleItems);
   },
 
-  refreshChannel : function(channel, refreshView, clearStaleItems) {
-    if (!channel)
+  refreshChannel : function(channels, refreshView, clearStaleItems) {
+    if (!channels)
       return; // TODO error message?
 
-    $("#channel-" + channel.id + " .channel-thumbnail").css({opacity:0.3});
-    $("#channel-" + channel.id + " .channel-unwatched-hover").addClass("channel-unwatched-hover-gray");
-    $("#channel-" + channel.id + " .channel-refresh-hover").show();
+    $.each(channels, function(index, channel) {
+      $("#channel-" + channel.id + " .channel-thumbnail").css({opacity:0.3});
+      $("#channel-" + channel.id + " .channel-unwatched-hover").addClass("channel-unwatched-hover-gray");
+      $("#channel-" + channel.id + " .channel-refresh-hover").show();
+    });
+
+    var ids = $.map(channels, function(channel, index){ return channel.id });
     $.ajaxComet({
       url: "/rpc/channel/refresh",
-      data: { id: channel.id, clear_stale: clearStaleItems ? 1 : 0 },
+      data: { id: ids, clear_stale: clearStaleItems ? 1 : 0 },
       type: 'post',
       dataType: 'json',
       success: function(r) {
@@ -1280,7 +1282,9 @@ Remedie.prototype = {
           if (refreshView)
             remedie.showChannel(r.channel);
         } else {
-          $.event.trigger('remedie-channel-updated', { channel: channel }); // Fake updated Event to cancel animation
+          var channel = remedie.channels[r.channel.id];
+          if (channel)  // Fake updated Event to cancel animation
+            $.event.trigger('remedie-channel-updated', { channel: channel });
           alert(r.error);
         }
       }

@@ -7,11 +7,13 @@
         data: options.data,
         type: options.type,
         dataType: options.dataType,
-        success: function(r) {
-          $.ev.handlers[r.id] = function(ev) {
-            callback(ev);
-            delete $.ev.handlers[r.id];
-          };
+        success: function(events) {
+          $.each(events, function(index, id) {
+            $.ev.handlers[id] = function(ev) {
+              callback(ev);
+              delete $.ev.handlers[id];
+            };
+          });
         }
       });
     }
