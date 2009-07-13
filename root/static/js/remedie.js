@@ -28,6 +28,7 @@ Remedie.prototype = {
       $(document).unbind('remedie-collection-loaded', arguments.callee);
     });
     this.loadCollection();
+    $.ev.loop('/rpc/events/poll');
   },
 
   setupHotKeys: function() {
@@ -1265,7 +1266,7 @@ Remedie.prototype = {
     $("#channel-" + channel.id + " .channel-thumbnail").css({opacity:0.3});
     $("#channel-" + channel.id + " .channel-unwatched-hover").addClass("channel-unwatched-hover-gray");
     $("#channel-" + channel.id + " .channel-refresh-hover").show();
-    $.ajax({
+    $.ajaxComet({
       url: "/rpc/channel/refresh",
       data: { id: channel.id, clear_stale: clearStaleItems ? 1 : 0 },
       type: 'post',

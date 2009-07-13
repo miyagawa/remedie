@@ -31,7 +31,7 @@ sub bootstrap {
 
     my $self = $class->new(conf => $conf);
 
-    $self->load_rpc_class([ $_ ]) for qw( channel collection item );
+    $self->load_rpc_class([ $_ ]) for qw( channel collection item events );
 
     my $exit = sub { CORE::die('caught signal') };
     eval {
@@ -202,7 +202,7 @@ sub dispatch_rpc {
 
     if ($@) {
         $result->{error} = $@;
-    } else {
+    } elsif (ref $result eq 'HASH') {
         $result->{success} = 1 unless defined $result->{success};
     }
 
