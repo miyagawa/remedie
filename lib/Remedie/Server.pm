@@ -13,6 +13,8 @@ use URI::Escape;
 
 use Remedie::Log;
 use Remedie::JSON;
+use Remedie::Updater;
+use Remedie::PubSub;
 
 use AnyEvent;
 use Coro;
@@ -114,6 +116,7 @@ sub run {
 
     $engine->run;
     Remedie::Updater->start_workers(32); # TODO configurable
+    my $sweeper = Remedie::PubSub->start_sweeper;
 
     if ($ENV{REMEDIE_DEBUG}) {
         require Coro::Debug;

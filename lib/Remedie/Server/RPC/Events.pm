@@ -13,8 +13,9 @@ no Any::Moose;
 sub poll {
     my($self, $req, $res) = @_;
 
+    my $session = $req->param('s') || "default";
     my $timeout = Coro::Timer::timeout(60);
-    my $events  = Remedie::PubSub->wait; # waits for the new event
+    my $events  = Remedie::PubSub->wait($session); # waits for the new event
     return $events || [];
 }
 

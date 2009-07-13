@@ -28,7 +28,7 @@ Remedie.prototype = {
       $(document).unbind('remedie-collection-loaded', arguments.callee);
     });
     this.loadCollection();
-    $.ev.loop('/rpc/events/poll?' + Math.random());
+    $.ev.loop('/rpc/events/poll?s=' + Math.random());
   },
 
   setupHotKeys: function() {
