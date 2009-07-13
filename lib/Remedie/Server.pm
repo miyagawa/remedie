@@ -113,7 +113,7 @@ sub run {
     }
 
     $engine->run;
-    Remedie::Updater->start_workers(20); # TODO configurable
+    Remedie::Updater->start_workers(32); # TODO configurable
 
     if ($ENV{REMEDIE_DEBUG}) {
         require Coro::Debug;
