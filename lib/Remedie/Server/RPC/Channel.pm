@@ -66,21 +66,12 @@ sub refresh : POST {
     my($self, $req, $res) = @_;
 
     my @channel_id = $req->param('id');
-    my $channels = Remedie::DB::Channel::Manager->search(id => \@channel_id);
+    my $opts = { clear_stale => scalar $req->param('clear_stale') };
 
     my @event_id;
-    for my $channel (@$channels) {
+    for my $channel_id (@channel_id) {
         my $event_id = "event." . Time::HiRes::gettimeofday;
-        async {
-            my $updater = Remedie::Updater->new( conf => $self->conf );
-
-            $updater->update_channel($channel, { clear_stale => scalar $req->param('clear_stale') })
-                or die "Refreshing failed";
-
-            $channel->load; # reload
-
-            Remedie::PubSub->broadcast({ id => $event_id, success => 1, channel => $channel });
-        };
+        Remedie::Updater->queue_channel($event_id, $channel_id, $self->conf, $opts);
         push @event_id, $event_id;
     }
 
