@@ -66,12 +66,12 @@ sub refresh : POST {
     my($self, $req, $res) = @_;
 
     my @channel_id = $req->param('id');
+    my $channels = Remedie::DB::Channel::Manager->search(id => \@channel_id);
 
     my @event_id;
-    for my $id (@channel_id) {
+    for my $channel (@$channels) {
         my $event_id = "event." . Time::HiRes::gettimeofday;
         async {
-            my $channel = Remedie::DB::Channel->new( id => $id )->load;
             my $updater = Remedie::Updater->new( conf => $self->conf );
 
             $updater->update_channel($channel, { clear_stale => scalar $req->param('clear_stale') })
