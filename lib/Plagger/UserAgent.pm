@@ -44,6 +44,8 @@ __PACKAGE__->mk_accessors(qw( agent timeout ));
 use AnyEvent::HTTP;
 use AnyEvent;
 
+$AnyEvent::HTTP::MAX_PER_HOST = 16; # :->
+
 sub new {
     my $class = shift;
     bless {@_}, $class;
