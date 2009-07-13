@@ -33,7 +33,7 @@
       this.xhr = $.ajax({
         type     : 'GET',
         dataType : 'json',
-        timeout  : 24 * 60 * 60 * 1000, // millisec
+        timeout  : 60 * 60 * 1000, // millisec
         url      : url,
         data     : { channels: channels },
         success  : function(events, status) {

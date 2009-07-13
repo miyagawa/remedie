@@ -3,10 +3,14 @@ use strict;
 use warnings;
 use Coro;
 use Coro::Channel;
+use Coro::Timer;
+use Coro::Signal;
 use JSON::XS;
 
 our $SWEEP_QUEUE = 60 * 60;
 my(%queues, %last_access);
+
+my $signal = Coro::Signal->new;
 
 sub start_sweeper {
     AnyEvent->timer(
@@ -31,15 +35,30 @@ sub broadcast {
     for my $queue (values %queues) {
         $queue->put($event);
     }
+    $signal->broadcast;
 }
 
 sub wait {
-    my($class, $session_id) = @_;
+    my($class, $session_id, $timeout_sec) = @_;
 
     $last_access{$session_id} = time;
     my $queue = ($queues{$session_id} ||= Coro::Channel->new);
-    my @events = ($queue->get);
 
+    my $sweeper = async {
+        my $timeout = Coro::Timer::timeout $timeout_sec;
+        while (not $timeout) {
+            Coro::schedule;
+        }
+        $signal->broadcast; # timed out: force reconnect clients
+    };
+
+    $signal->wait; # waits for new events
+
+    my @events;
+    while ($queue->size > 0) {
+        push @events, $queue->get; # shouldn't block
+    }
+    $sweeper->cancel;
 
     return \@events;
 }
