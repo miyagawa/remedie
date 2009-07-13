@@ -15,7 +15,8 @@ sub broadcast {
 
 sub wait {
     my $class = shift;
-    return $queue->get;
+    my @events = ($queue->get);
+    return \@events;
 }
 
 1;

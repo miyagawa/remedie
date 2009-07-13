@@ -14,8 +14,8 @@ sub poll {
     my($self, $req, $res) = @_;
 
     my $timeout = Coro::Timer::timeout(60);
-    my $event   = Remedie::PubSub->wait; # waits for the new event
-    return $event ? [ $event ] : [];
+    my $events  = Remedie::PubSub->wait; # waits for the new event
+    return $events || [];
 }
 
 1;

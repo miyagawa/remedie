@@ -42,7 +42,7 @@
         complete : function(xhr, status) {
           var delay;
           if (status == 'success') {
-            delay = 100;
+            delay = 50;
           } else {
             // self.log('status: ' + status, '; waiting before long-polling again...');
             delay = 5000;
