@@ -23,8 +23,6 @@ Tatsuhiko Miyagawa E<lt>miyagawa@cpan.orgE<gt>
 
 L<http://remeiecode.org/>
 
-L<http://code.google.com/p/remedie>
-
 L<http://github.com/miyagawa/remedie/tree/master>
 
 =cut

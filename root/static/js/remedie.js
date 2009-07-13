@@ -317,7 +317,7 @@ Remedie.prototype = {
       });
     } else {
       $.each(this.allChannels(), function(index, channel) {
-        var text = channel.name;
+        var text = channel.name + ' ' + channel.ident;
         if (text.toLowerCase().indexOf(query.toLowerCase()) == -1)
           $("#channel-" + channel.id).hide();
         else
