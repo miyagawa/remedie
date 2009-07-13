@@ -70,7 +70,7 @@ sub refresh : POST {
 
     my @event_id;
     for my $channel_id (@channel_id) {
-        my $event_id = "event." . Time::HiRes::gettimeofday;
+        my $event_id = "event." . Time::HiRes::gettimeofday . ".$channel_id";
         Remedie::Updater->queue_channel($event_id, $channel_id, $self->conf, $opts);
         push @event_id, $event_id;
     }
