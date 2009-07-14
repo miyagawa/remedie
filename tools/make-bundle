@@ -27,7 +27,7 @@ my $meta = parse_meta();
 chdir $workdir;
 if (-e $base){
     chdir $base;
-    system "git", "pull";
+    system "git", "fetch", "origin";
 } else {
     system "git", "clone", $repo;
     chdir $base;
