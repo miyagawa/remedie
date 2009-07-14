@@ -45,8 +45,6 @@ $(function(){
 function showChannelCallback(channel, opts) {
   if (!opts) opts = {};
   return function() {
-    if ($('#channel-'+channel.id).size() > 0 && !opts.all)
-      return true;
     $.ajax({
       url: "/rpc/channel/show",
       type: 'get',
