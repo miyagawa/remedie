@@ -84,10 +84,10 @@ function showChannelCallback(channel, opts) {
     });
 
     $.ajax({
-      url: "/rpc/remote/move",
+      url: "/rpc/remote/command",
       type: 'post',
       dataType: 'json',
-      data: { channel_id: channel.id },
+      data: { command: 'remedie.showChannel(remedie.channels[' + channel.id + '])' },
       success: function(r) {}
     });
   };
@@ -127,10 +127,10 @@ function showItemCallback(channel, item) {
 function playOnRemedie(channel, item) {
   return function() {
     $.ajax({
-      url: "/rpc/remote/play",
+      url: "/rpc/remote/command",
       type: 'post',
       dataType: 'json',
-      data: { channel_id: channel.id, item_id: item.id },
+      data: { command: 'remedie.openAndPlay(' + channel.id + ',' + item.id + ')' },
       success: function(r) {}
     });
     return false;
@@ -139,10 +139,10 @@ function playOnRemedie(channel, item) {
 
 function sendRemote(key) {
   $.ajax({
-    url: "/rpc/remote/keypush",
+    url: "/rpc/remote/command",
     type: 'post',
     dataType: 'json',
-    data: { key: key },
+    data: { command: "remedie.simulateKeyPress('" + key + "')" },
     success: function(r) {}
   });
   return false;

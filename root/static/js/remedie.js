@@ -35,7 +35,7 @@ Remedie.prototype = {
     $.ev.loop('/rpc/events/poll?s=' + Math.random());
   },
 
-  emulateHotkey: function(key) {
+  simulateKeyPress: function(key) {
     var ev = jQuery.Event("keydown");
 
     var map = { 'esc': 27, 'tab': 9, 'space': 32, 'return': 13, 'backspace': 8, 'scroll': 145,
