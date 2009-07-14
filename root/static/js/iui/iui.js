@@ -1,6 +1,6 @@
 /*
- 	 Copyright (c) 2007, iUI Project Members
-	 See LICENSE.txt for licensing terms
+   Copyright (c) 2007-9, iUI Project Members
+   See LICENSE.txt for licensing terms
  */
 
 
@@ -17,6 +17,9 @@ var hashPrefix = "#_";
 var pageHistory = [];
 var newPageCount = 0;
 var checkTimer;
+var hasOrientationEvent = false;
+var portraitVal = "portrait";
+var landscapeVal = "landscape";
 
 // *************************************************************************************************
 
@@ -136,7 +139,22 @@ window.iui =
             if (child.nodeType == 1 && child.getAttribute("selected") == "true")
                 return child;
         }    
-    }    
+    },
+    isNativeUrl: function(href)
+    {
+        for(var i = 0; i < iui.nativeUrlPatterns.length; i++)
+        {
+            if(href.match(iui.nativeUrlPatterns[i])) return true;
+        }
+        return false;
+    },
+    nativeUrlPatterns: [
+        new RegExp("^http:\/\/maps.google.com\/maps\?"),
+        new RegExp("^mailto:"),
+        new RegExp("^tel:"),
+        new RegExp("^http:\/\/www.youtube.com\/watch\\?v="),
+        new RegExp("^http:\/\/www.youtube.com\/v\/")
+    ]
 };
 
 // *************************************************************************************************
@@ -150,6 +168,11 @@ addEventListener("load", function(event)
     setTimeout(preloadImages, 0);
     setTimeout(checkOrientAndLocation, 0);
     checkTimer = setInterval(checkOrientAndLocation, 300);
+}, false);
+
+addEventListener("unload", function(event)
+{
+	return;
 }, false);
     
 addEventListener("click", function(event)
@@ -176,6 +199,10 @@ addEventListener("click", function(event)
             link.setAttribute("selected", "progress");
             iui.showPageByHref(link.href, null, null, link, unselect);
         }
+        else if (iui.isNativeUrl(link.href))
+        {
+            return;
+        }
         else if (!link.target)
         {
             link.setAttribute("selected", "progress");
@@ -198,21 +225,52 @@ addEventListener("click", function(event)
     }
 }, true);
 
+function orientChangeHandler()
+{
+  var orientation=window.orientation;
+  switch(orientation)
+  {
+    case 0:
+        setOrientation(portraitVal);
+        break;  
+        
+    case 90:
+    case -90: 
+        setOrientation(landscapeVal);
+        break;
+  }
+}
+
+if (typeof window.onorientationchange == "object")
+{
+    window.onorientationchange=orientChangeHandler;
+    hasOrientationEvent = true;
+    setTimeout(orientChangeHandler, 0);
+}
+
 function checkOrientAndLocation()
 {
-    if (window.innerWidth != currentWidth)
-    {   
-        currentWidth = window.innerWidth;
-        var orient = currentWidth == 320 ? "profile" : "landscape";
-        document.body.setAttribute("orient", orient);
-        setTimeout(scrollTo, 100, 0, 1);
+    if (!hasOrientationEvent)
+    {
+      if (window.innerWidth != currentWidth)
+      {   
+          currentWidth = window.innerWidth;
+          var orient = currentWidth == 320 ? portraitVal : landscapeVal;
+          setOrientation(orient);
+      }
     }
 
     if (location.hash != currentHash)
     {
-        var pageId = location.hash.substr(hashPrefix.length)
+        var pageId = location.hash.substr(hashPrefix.length);
         iui.showPageById(pageId);
     }
+}
+
+function setOrientation(orient)
+{
+    document.body.setAttribute("orient", orient);
+    setTimeout(scrollTo, 100, 0, 1);
 }
 
 function showDialog(page)
@@ -341,6 +399,7 @@ function encodeForm(form)
 
     var args = [];
     encode(form.getElementsByTagName("input"));
+    encode(form.getElementsByTagName("textarea"));
     encode(form.getElementsByTagName("select"));
     return args;    
 }
