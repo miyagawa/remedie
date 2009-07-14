@@ -28,6 +28,10 @@ Remedie.prototype = {
       $(document).unbind('remedie-collection-loaded', arguments.callee);
     });
     this.loadCollection();
+
+    $.ev.handlers.command = function(ev) {
+      eval(ev.command); // FIXME
+    };
     $.ev.loop('/rpc/events/poll?s=' + Math.random());
   },
 
@@ -346,6 +350,18 @@ Remedie.prototype = {
         this.showChannel( this.channels[args[1]], opts );
     } else if (args[0] == '#subscribe') {
       this.newChannelDialog(decodeURIComponent(args[1]));
+    }
+  },
+
+  openAndPlay: function(channel_id, item_id) {
+    if (this.current_id == channel_id) {
+      remedie.playVideoInline(remedie.items[item_id]);
+    } else {
+      $(document).bind('remedie-channel-display-complete', function(){
+        remedie.playVideoInline(remedie.items[item_id]);
+        $(document).unbind('remedie-channel-display-complete', arguments.callee);
+      });
+      this.showChannel(this.channels[channel_id]);
     }
   },
 
@@ -1249,6 +1265,7 @@ Remedie.prototype = {
         }
 
         remedie.toggleChannelView(true);
+        $.event.trigger("remedie-channel-display-complete", channel);
       },
       error: function(r) {
         alert("Can't load the channel: " + r.responseText);

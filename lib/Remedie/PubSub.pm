@@ -30,7 +30,7 @@ sub start_sweeper {
 
 sub broadcast {
     my($class, $event) = @_;
-    $event->{type} = delete $event->{id};
+    $event->{type} ||= delete $event->{id};
     $event = Remedie::JSON->roundtrip($event); # make it Coro-safe (I guess)
     for my $queue (values %queues) {
         $queue->put($event);

@@ -11,6 +11,9 @@
 <script type="application/x-javascript" src="/static/js/iui/iui.js"></script>
 <script>
 $(function(){
+  $().ajaxSend(function(event,xhr,options) {
+    xhr.setRequestHeader('X-Remedie-Client', 'Remedie iPhone Client');
+  });
   $.ajax({
     url: "/rpc/channel/load",
     type: 'get',
@@ -80,6 +83,15 @@ function showChannelCallback(channel, opts) {
         alert("Can't get channel: " + r.responseText);
       }
     });
+
+    $.ajax({
+      url: "/rpc/remote/move",
+      type: 'post',
+      dataType: 'json',
+      data: { channel_id: channel.id },
+      success: function(r) {}
+    });
+
   };
 }
 
@@ -102,9 +114,24 @@ function showItemCallback(channel, item) {
       el.createAppend('p', null, [ 'a', { href: link }, [ 'img', { src: thumb.url }, null ] ]);
 
     el.createAppend('p', { className: 'description' }, item.props.description);
-    el.createAppend('p', null, [ 'a', { href: link }, 'Play this item' ]);
+    el.createAppend('p', null, [ 'a', { href: '#_item-' + item.id,
+                                        onclick: playOnRemedie(channel, item) }, 'Play on Remedie' ]);
+    el.createAppend('p', null, [ 'a', { href: link }, 'Play on this device' ]);
 
     iui.showPage(el[0]);
+  };
+}
+
+function playOnRemedie(channel, item) {
+  return function() {
+    $.ajax({
+      url: "/rpc/remote/play",
+      type: 'post',
+      dataType: 'json',
+      data: { channel_id: channel.id, item_id: item.id },
+      success: function(r) {}
+    });
+    return false;
   };
 }
 

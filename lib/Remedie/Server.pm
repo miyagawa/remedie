@@ -33,7 +33,7 @@ sub bootstrap {
 
     my $self = $class->new(conf => $conf);
 
-    $self->load_rpc_class([ $_ ]) for qw( channel collection item events );
+    $self->load_rpc_class([ $_ ]) for qw( channel collection item events remote );
 
     my $exit = sub { CORE::die('caught signal') };
     eval {
