@@ -112,10 +112,14 @@ function showItemCallback(channel, item) {
       el.createAppend('p', null, [ 'a', { href: link }, [ 'img', { src: thumb.url }, null ] ]);
 
     el.createAppend('p', { className: 'description' }, item.props.description);
-    el.createAppend('p', null, [ 'a', { href: '#remote',
-                                        onclick: playOnRemedie(channel, item) }, 'Play on Remedie' ]);
-    el.createAppend('p', null, [ 'a', { href: link }, 'Play on this device' ]);
-
+    el.createAppend('fieldset', null, [
+      'div', { className: 'row' }, [ 'label', null, [
+        'a', { href: '#remote', onclick: playOnRemedie(channel, item) }, 'Play on Remedie'
+      ]],
+      'div', { className: 'row' }, [ 'label', null, [
+        'a', { href: link }, 'Play on this device'
+      ]]
+    ]);
     iui.showPage(el[0]);
   };
 }
