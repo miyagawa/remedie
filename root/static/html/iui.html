@@ -32,7 +32,8 @@ $(function(){
         var opts = channel.unwatched_count > 0 ? { unwatched: 1 } : {};
         var callback = showChannelCallback(channel, opts);
         $('ul#home').createAppend('li', null, [
-          'a', { onclick: callback, href: '#channel-' + channel.id }, channel.name
+          'a', { onclick: callback, href: '#channel-' + channel.id },
+            channel.name + (channel.unwatched_count > 0 ? ' (' + channel.unwatched_count + ')' : '')
         ]);
       });
     },
