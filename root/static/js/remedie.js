@@ -308,7 +308,9 @@ Remedie.prototype = {
         return false;
       } else {
         var items = $('.channel-item');
-        if (items) remedie.playVideoInline(remedie.items[items[remedie.cursorPos].id.replace("channel-item-", "")]);
+        var playItem = items[remedie.cursorPos];
+        if (items && playItem != undefined)
+          remedie.playVideoInline(remedie.items[playItem.id.replace("channel-item-", "")]);
         return false;
       }
     } else {
