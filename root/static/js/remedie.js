@@ -355,13 +355,17 @@ Remedie.prototype = {
 
   openAndPlay: function(channel_id, item_id) {
     if (this.current_id == channel_id) {
-      remedie.playVideoInline(remedie.items[item_id]);
-    } else {
-      $(document).bind('remedie-channel-display-complete', function(){
+      if (remedie.items[item_id])
         remedie.playVideoInline(remedie.items[item_id]);
-        $(document).unbind('remedie-channel-display-complete', arguments.callee);
-      });
-      this.showChannel(this.channels[channel_id]);
+    } else {
+      if (this.channels[channel_id]) {
+        $(document).bind('remedie-channel-display-complete', function(){
+          if (remedie.items[item_id])
+            remedie.playVideoInline(remedie.items[item_id]);
+          $(document).unbind('remedie-channel-display-complete', arguments.callee);
+        });
+        this.showChannel(this.channels[channel_id]);
+      }
     }
   },
 
@@ -1036,6 +1040,7 @@ Remedie.prototype = {
   },
 
   showChannel: function(channel, opts) {
+    if (!channel) return;
     if (!opts) opts = {};
     var currentStateURI = "#channel/" + channel.id;
     if (opts.unwatched) currentStateURI += '/unwatched';
