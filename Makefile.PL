@@ -4,11 +4,11 @@ name 'Remedie';
 license 'perl';
 all_from 'lib/Remedie.pm';
 
-requires 'AnyEvent';
+requires 'AnyEvent', 4.82;
 requires 'AnyEvent::HTTP';
 requires 'Cache::Cache';
 requires 'Class::Accessor::Fast';
-requires 'Coro';
+requires 'Coro', 5.151;
 requires 'Date::Parse';
 requires 'DateTime';
 requires 'DateTime::Format::ISO8601';
