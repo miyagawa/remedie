@@ -35,6 +35,18 @@ Remedie.prototype = {
     $.ev.loop('/rpc/events/poll?s=' + Math.random());
   },
 
+  emulateHotkey: function(key) {
+    var ev = jQuery.Event("keydown");
+
+    var map = { 'esc': 27, 'tab': 9, 'space': 32, 'return': 13, 'backspace': 8, 'scroll': 145,
+                'capslock': 20, 'numlock': 144, 'pause': 19, 'insert': 45, 'home': 36, 'del': 46,
+                'end': 35, 'pageup': 33, 'pagedown': 34, 'left': 37, 'up': 38, 'right': 39, 'down': 40 };
+
+    ev.which = map[key] || key;
+    ev.originalEvent = {};
+    $(document).trigger(ev);
+  },
+
   setupHotKeys: function() {
     this.installHotKey('shift+n', 'New channel', function(){ remedie.newChannelDialog() });
     this.installHotKey('r', 'Reload (all) channel', function(){
