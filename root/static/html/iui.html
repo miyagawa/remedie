@@ -53,10 +53,12 @@ function showChannelCallback(channel, opts) {
       data: { id: channel.id, limit: (opts.all ? 0 : 50), status: (opts.unwatched ? [ 'new', 'downloaded' ] : 0) },
       dataType: 'json',
       success: function(r) {
+        var slide = true;
         var id = 'channel-' + channel.id;
         var el = $('#'+id);
         if (el.size()) { // opts.all = 1
-          el.children().remove()
+          el.children().remove();
+          slide = false;
         } else {
           $("body").createAppend('ul', { id: id, title: channel.name });
           el = $('#'+id);
@@ -73,10 +75,8 @@ function showChannelCallback(channel, opts) {
           var callback = showChannelCallback(channel, { all: 1 });
           el.createAppend('li', null, [ 'a', { onclick: callback, target: "_replace" }, "Show all " + r.channel.total + " items" ]);
         }
-
-        if (!opts.all)
+        if (slide)
           iui.showPage(el[0]);
-        return false;
       },
       error: function(r) {
         alert("Can't get channel: " + r.responseText);
@@ -90,7 +90,6 @@ function showChannelCallback(channel, opts) {
       data: { channel_id: channel.id },
       success: function(r) {}
     });
-
   };
 }
 
