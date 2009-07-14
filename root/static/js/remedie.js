@@ -30,7 +30,7 @@ Remedie.prototype = {
     this.loadCollection();
 
     $.ev.handlers.command = function(ev) {
-      eval(ev.command); // FIXME
+      try { eval(ev.command) } catch(e) { alert(e) };
     };
     $.ev.loop('/rpc/events/poll?s=' + Math.random());
   },
