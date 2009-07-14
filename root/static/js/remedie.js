@@ -276,12 +276,20 @@ Remedie.prototype = {
   },
 
   installHotKey: function(key, description, callback, always) {
-    this.hotkeys.push({key:key, desc:description});
-    $(document).bind('keydown', key, function(ev){
+    var cb = function(ev){
       if (always || !/INPUT|TEXTAREA/i.test((ev.srcElement || ev.target).nodeName)) {
         callback.call(this);
         return false;
       }
+    };
+    this.hotkeys.push({key:key, desc:description, callback: cb});
+    $(document).bind('keydown', key, cb);
+  },
+
+  emulateHotkey: function(key) {
+    $.each(this.hotkeys, function(index, bind){
+      if (bind.key == key)
+        bind.callback.call(remedie, { srcElement: { nodeName: 'dummy' } });
     });
   },
 
