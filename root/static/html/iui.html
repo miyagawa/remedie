@@ -112,7 +112,7 @@ function showItemCallback(channel, item) {
       el.createAppend('p', null, [ 'a', { href: link }, [ 'img', { src: thumb.url }, null ] ]);
 
     el.createAppend('p', { className: 'description' }, item.props.description);
-    el.createAppend('p', null, [ 'a', { href: '#_item-' + item.id,
+    el.createAppend('p', null, [ 'a', { href: '#remote',
                                         onclick: playOnRemedie(channel, item) }, 'Play on Remedie' ]);
     el.createAppend('p', null, [ 'a', { href: link }, 'Play on this device' ]);
 
@@ -133,6 +133,17 @@ function playOnRemedie(channel, item) {
   };
 }
 
+function sendRemote(key) {
+  $.ajax({
+    url: "/rpc/remote/keypush",
+    type: 'post',
+    dataType: 'json',
+    data: { key: key },
+    success: function(r) {}
+  });
+  return false;
+}
+
 </script>
 </head>
 
@@ -140,10 +151,19 @@ function playOnRemedie(channel, item) {
     <div class="toolbar">
         <h1 id="pageTitle"></h1>
         <a id="backButton" class="button" href="#"></a>
-        <!-- a class="button" href="#searchForm">Search</a -->
+        <a class="button" href="#remote">Remote</a>
     </div>
     
     <ul id="home" title="Channels" selected="true">
+    </ul>
+
+    <ul id="remote" title="Remote">
+    <li><a href="javascript:sendRemote('return')">Play/Pause</a></li>
+    <li><a href="javascript:sendRemote('esc')">MENU</a></li>
+    <li><a href="javascript:sendRemote('left')">&laquo;</a></li>
+    <li><a href="javascript:sendRemote('right')">&raquo;</a></li>
+    <li><a href="javascript:sendRemote('up')">+</a></li>
+    <li><a href="javascript:sendRemote('down')">-</a></li>
     </ul>
 </body>
 </html>

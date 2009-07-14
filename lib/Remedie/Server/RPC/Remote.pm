@@ -41,4 +41,20 @@ sub play : POST {
     return { success => 1 };
 }
 
+sub keypush : POST {
+    my($self, $req, $res) = @_;
+
+    my $key = $req->param('key');
+    if ($key) {
+        async {
+            Remedie::PubSub->broadcast({
+                type => "command",
+                command => sprintf("remedie.emulateHotkey('%s')", $key),
+            });
+        };
+    }
+
+    return { success => 1 };
+}
+
 1;
