@@ -309,16 +309,15 @@ Remedie.prototype = {
       } else {
         var items = $('.channel-item');
         var playItem = items[remedie.cursorPos];
-        if (items && playItem != undefined)
+        if (items.size() && playItem != undefined)
           remedie.playVideoInline(remedie.items[playItem.id.replace("channel-item-", "")]);
         return false;
       }
     } else {
       var channels = $('.channel');
-      if (channels) {
-        var channel_id = channels[remedie.cursorPos].id.replace("channel-", "");
-        remedie.showChannel(remedie.channels[channel_id]);
-      }
+      var showChannel = channels[remedie.cursorPos];
+      if (channels.size() && showChannel)
+        remedie.showChannel(remedie.channels[showChannel.id.replace("channel-", "")]);
       return false;
     }
   },
