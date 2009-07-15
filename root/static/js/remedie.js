@@ -42,7 +42,7 @@ Remedie.prototype = {
                 'capslock': 20, 'numlock': 144, 'pause': 19, 'insert': 45, 'home': 36, 'del': 46,
                 'end': 35, 'pageup': 33, 'pagedown': 34, 'left': 37, 'up': 38, 'right': 39, 'down': 40 };
 
-    ev.which = map[key] || key;
+    ev.keyCode = ev.which = (map[key] || key.charCodeAt());
     ev.originalEvent = {};
     $(document).trigger(ev);
   },
