@@ -109,7 +109,7 @@ function showItemCallback(channel, item) {
 
     var thumb = item.props.thumbnail || channel.props.thumbnail;
     if (thumb && thumb.url)
-      el.createAppend('p', null, [ 'a', { href: link }, [ 'img', { src: thumb.url }, null ] ]);
+      el.createAppend('p', null, [ 'a', { href: link }, [ 'img', { style: 'max-width: 100%', src: thumb.url }, null ] ]);
 
     el.createAppend('p', { className: 'description' }, item.props.description);
     el.createAppend('fieldset', null, [
