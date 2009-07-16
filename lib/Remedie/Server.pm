@@ -132,7 +132,7 @@ sub owner_name {
 
 sub default_root {
     my($self, $req) = @_;
-    $req->user_agent =~ /Mobile.*Safari/ ? "/static/html/iui.html" : "/static/html/index.html";
+    $req->user_agent =~ /Mobile.*Safari|AppleWebKit.*Pre/ ? "/static/html/iui.html" : "/static/html/index.html";
 }
 
 sub handle_request {
