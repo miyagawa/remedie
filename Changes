@@ -1,5 +1,17 @@
 Revision history for Perl extension Remedie
 
+0.6.0 Thu Jul 16 23:33:44 PDT 2009
+        * Now the backend server is asynchronous and multitasking with Coro + AnyEvent
+        * Feeds refresh now handled by multi tasking workers in non-blocking way
+        * Fixed memory leaks in Feed refresh
+        * Implemented Comet message channel for async feed fetch and remote control
+        * Implemented Remedie Remote UI for iPhone and other mobile WebKit browsers
+        * Upgrade iUI library to version 3.0 RC
+        * Enabled SQLite transaction in bulk updates
+        * Change the default player for MP4 videos to QuickTime embed on Mac OS X
+        * Use HTML::TreeBuilder::LibXML and Web::Scraper::LibXML for better performance
+        * Fitlers channel URL in channel view as well
+
 0.5.9 Fri Jul  3 21:44:38 PDT 2009
         * Fixed a bug in renaming channel title where UTF-8 characters are not decoded
 
