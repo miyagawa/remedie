@@ -4,16 +4,38 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Remedie</title>
-<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
 <script language="JavaScript" type="text/javascript" src="/static/js/jquery.latest.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="/static/js/jquery.flydom-3.1.1.js"></script>
-<style type="text/css" media="screen">@import "/static/js/iui/iui.css";</style>
+<link rel="stylesheet" type="text/css" href="/static/js/iui/iui.css" />
+<link rel="stylesheet" type="text/css" href="/static/js/zflow/zflow.css" />
+<style type="text/css">
+body.zflow {
+  background-color: black;
+  color: white;
+  margin: 0;
+  padding: 0;
+  font-family: Helvetica;
+}
+.centering { position: absolute; top: 0px !important; left: 0px !important }
+.portrait { width: 320px; height: 416px; }
+.landscape { width: 480px; height: 270px; }
+</style>
 <script type="application/x-javascript" src="/static/js/iui/iui.js"></script>
+<script type="application/x-javascript" src="/static/js/zflow/zflow.js"></script>
 <script>
+var channels = [];
+
 $(function(){
   $().ajaxSend(function(event,xhr,options) {
     xhr.setRequestHeader('X-Remedie-Client', 'Remedie iPhone Client');
   });
+  loadChannels(function(){
+    displayChannels(displayHomeMenu, false);
+  });
+});
+
+function loadChannels(callback) {
   $.ajax({
     url: "/rpc/channel/load",
     type: 'get',
@@ -26,22 +48,49 @@ $(function(){
         if (bo == null) bo = 100000 + b.id;
         return ao - bo;
       };
-      var channels = r.channels.sort(sortChannel);
-
-      $.each(channels, function(index, channel) {
-        var opts = channel.unwatched_count > 0 ? { unwatched: 1 } : {};
-        var callback = showChannelCallback(channel, opts);
-        $('ul#home').createAppend('li', null, [
-          'a', { onclick: callback, href: '#channel-' + channel.id },
-            channel.name + (channel.unwatched_count > 0 ? ' (' + channel.unwatched_count + ')' : '')
-        ]);
+      $.each(r.channels.sort(sortChannel), function(index, channel) {
+        channels.push(channel);
       });
+      callback();
     },
     error: function(r) {
       alert("Can't load subscription: " + r.responseText);
     }
-  });  
-});
+  });
+}
+
+function displayChannels(callback, toggle) {
+  if (toggle) {
+    $("body").toggleClass("zflow");
+    $(".centering, .toolbar, ul[selected]").toggle();
+  }
+  callback(channels);
+}
+
+function displayHomeMenu(channels) {
+  $('ul#home').children().remove();
+  $.each(channels, function(index, channel) {
+    var opts = channel.unwatched_count > 0 ? { unwatched: 1 } : {};
+    var callback = showChannelCallback(channel, opts);
+    $('ul#home').createAppend('li', null, [
+      'a', { onclick: callback, href: '#channel-' + channel.id },
+        channel.name + (channel.unwatched_count > 0 ? ' (' + channel.unwatched_count + ')' : '')
+    ]);
+  });
+}
+
+function thumb_for(item) {
+  return item.props.thumbnail && item.props.thumbnail.url ? item.props.thumbnail.url : null;
+}
+
+function displayZflow(channels) {
+  $('#tray').children().remove();
+  var images = $.map(channels, function(channel) {
+   return thumb_for(channel) || thumb_for(channel.first_item) || "/static/images/feed_256x256.png";
+  });
+  zflow(images, "#tray");
+  $('#tray').children().each(function(i,e){alert(e.style.top)});
+}
 
 function showChannelCallback(channel, opts) {
   if (!opts) opts = {};
@@ -143,6 +192,15 @@ function sendRemote(key) {
   return false;
 }
 
+window.onorientationchange = function(ev) {
+  if (window.orientation == 0) {
+    displayChannels(displayHomeMenu, true);
+  } else {
+    displayChannels(displayZflow, true);
+  }
+  setTimeout(function() { window.scrollTo(0, 0) }, 200);
+};
+
 </script>
 </head>
 
@@ -164,5 +222,9 @@ function sendRemote(key) {
     <li><a href="javascript:sendRemote('up')">+</a></li>
     <li><a href="javascript:sendRemote('down')">-</a></li>
     </ul>
+
+    <div class="centering landscape">
+        <div id="tray" class="tray"></div>
+    </div>
 </body>
 </html>
