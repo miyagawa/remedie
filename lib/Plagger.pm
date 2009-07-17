@@ -15,7 +15,6 @@ use UNIVERSAL::require;
 
 use Remedie::Log;
 
-
 use base qw( Class::Accessor::Fast );
 __PACKAGE__->mk_accessors( qw(conf update subscription plugins_path cache) );
 
@@ -28,11 +27,13 @@ use Plagger::Subscription;
 use Plagger::Update;
 use Plagger::UserAgent; # use to define $XML::Feed::RSS::PREFERRED_PARSER
 
-my $context;
-sub context     { $context }
-sub set_context { $context = $_[1] }
+use Coro;
+use Coro::AnyEvent;
+use Coro::Specific;
+my $context_ref = Coro::Specific->new;
 
-sub current_plugin { }
+sub context     { $$context_ref }
+sub set_context { $$context_ref = $_[1] }
 
 sub new {
     my($class, %opt) = @_;
@@ -216,16 +217,14 @@ sub run_hook {
 
     my @ret;
     for my $action (@{ $self->{hooks}->{$hook} }) {
-        my $plugin = $action->{plugin};
-        no warnings 'redefine';
-        local *Plagger::current_plugin = sub { $plugin };
-        my $ret = $action->{callback}->($plugin, $self, $args);
+        my $ret = $action->{callback}->($action->{plugin}, $self, $args);
         $callback->($ret) if $callback;
         if ($once) {
             return $ret if defined $ret;
         } else {
             push @ret, $ret;
         }
+        Coro::AnyEvent::poll();
     }
 
     return if $once;
@@ -283,9 +282,15 @@ sub do_run_with_feeds {
     my $self = shift;
 
     for my $feed ($self->update->feeds) {
+        my @coros;
         for my $entry ($feed->entries) {
-            $self->run_hook('update.entry.fixup', { feed => $feed, entry => $entry });
+            my $context = Plagger->context;
+            push @coros, async {
+                $$context_ref = $context;
+                $self->run_hook('update.entry.fixup', { feed => $feed, entry => $entry });
+            };
         }
+        $_->join for @coros;
         $self->run_hook('update.feed.fixup', { feed => $feed });
     }
 
@@ -323,7 +328,7 @@ sub search {
     $self->run_hook('plugin.init');
 
     my @feeds;
-    $context->run_hook('searcher.search', { query => $query }, 0, sub { push @feeds, $_[0] });
+    $self->run_hook('searcher.search', { query => $query }, 0, sub { push @feeds, $_[0] });
 
     Plagger->set_context(undef);
     return @feeds;

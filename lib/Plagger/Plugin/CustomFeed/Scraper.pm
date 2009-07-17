@@ -15,7 +15,7 @@ sub register {
 sub init {
     my $self = shift;
     $self->SUPER::init(@_);
-    $self->load_assets('pl', sub { $self->load_plugin_perl(@_) });
+    $self->load_assets('pl', sub { load_plugin_perl(@_) });
 }
 
 sub asset_key { 'scraper' }

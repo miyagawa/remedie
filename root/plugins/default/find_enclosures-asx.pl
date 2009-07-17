@@ -14,7 +14,7 @@ sub upgrade {
     my $enclosure = $args->{enclosure};
     return unless $enclosure->type eq 'video/x-ms-asf' && $enclosure->url =~ m!^http://!;
 
-    my $content = Plagger->context->current_plugin->fetch_content($enclosure->url)
+    my $content = $self->parent->fetch_content($enclosure->url)
         or return;
 
     my $doc = XML::LibXML->new->parse_string($content);

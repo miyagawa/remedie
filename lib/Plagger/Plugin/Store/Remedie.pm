@@ -25,6 +25,9 @@ sub store {
         $channel->props->{thumbnail} = $image
     }
 
+    my $db = Remedie::DB->new;
+    $db->begin_work;
+
     my %found;
     for my $entry (reverse $feed->entries) {
         my $permalink = $entry->permalink || $entry->link || $entry->id or next;
@@ -33,12 +36,13 @@ sub store {
         my $ident = $enclosure ? $enclosure->url : $permalink;
 
         my $item = Remedie::DB::Item::Manager->lookup(
+            db         => $db,
             channel_id => $channel->id,
             ident      => "$ident", # stringification
         );
 
         unless ($item) {
-            $item = Remedie::DB::Item->new;
+            $item = Remedie::DB::Item->new(db => $db);
             $item->channel_id($channel->id);
             $item->ident($ident);
             $item->status( Remedie::DB::Item->STATUS_NEW );
@@ -83,12 +87,13 @@ sub store {
 
         if ($item->type) {
             $context->log(debug => "Saving item " . $item->ident);
-            eval { $item->save };
-            warn $@ if $@;
+            $item->save;
         }
 
         $found{$ident}++;
     }
+
+    $db->commit;
 
     if ($self->conf->{clear_stale}) {
         for my $item (@{ $channel->items }) {

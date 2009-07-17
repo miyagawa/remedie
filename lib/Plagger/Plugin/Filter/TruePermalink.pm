@@ -21,7 +21,7 @@ sub load_plugins {
     $self->load_assets(
         '*.yaml',
         sub {
-            my $file = shift;
+            my($self, $file) = @_;
             Plagger->context->log(debug => "loading $file");
             my $data = YAML::XS::LoadFile($file);
             if (ref($data) eq 'ARRAY') {

@@ -5,6 +5,11 @@ use JSON::XS ();
 use Encode ();
 use overload ();
 
+sub roundtrip {
+    my($class, $data) = @_;
+    $class->decode($class->encode($data));
+}
+
 sub decode {
     my $class = shift;
     my($str, $encode_utf8) = @_;

@@ -9,6 +9,7 @@ use URI::QueryParam;
 use DirHandle;
 use Plagger::Enclosure;
 use Plagger::UserAgent;
+use Scalar::Util;
 
 sub register {
     my($self, $context) = @_;
@@ -24,13 +25,12 @@ sub register {
 sub init {
     my $self = shift;
     $self->SUPER::init(@_);
-    $self->load_assets('pl', sub { $self->load_plugin_perl(@_) });
+    $self->load_assets('pl', sub { load_plugin_perl(@_) });
 
     $self->{ua} = Plagger::UserAgent->new;
 }
 
 sub asset_key { 'find_enclosures' }
-
 
 sub load_plugin_perl {
     my($self, $file, $domain) = @_;
@@ -55,6 +55,8 @@ sub load_plugin_perl {
 
     my $plugin = $plugin_class->new;
     $plugin->init;
+    $plugin->parent($self);
+    Scalar::Util::weaken($plugin->{parent});
 
     return $plugin;
 }
@@ -261,10 +263,16 @@ sub upgrade { }
 sub needs_content { 0 }
 sub domain { '*' }
 
+sub parent {
+    my $self = shift;
+    $self->{parent} = shift if @_;
+    $self->{parent};
+}
+
 # by default, scans HTML for links and flashvars etc.
 sub find {
     my($self, $args) = @_;
-    Plagger->context->current_plugin->find_enclosures(\$args->{content}, $args->{entry}, no_plugin => 1);
+    $self->parent->find_enclosures(\$args->{content}, $args->{entry}, no_plugin => 1);
 }
 
 1;

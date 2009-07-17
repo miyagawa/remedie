@@ -4,6 +4,7 @@ use Any::Moose;
 use attributes ();
 use HTTP::Engine;
 use MIME::Types;
+use Net::Rendezvous::Publish;
 use Path::Class;
 use Path::Class::Unicode;
 use String::CamelCase;
@@ -12,11 +13,14 @@ use URI::Escape;
 
 use Remedie::Log;
 use Remedie::JSON;
+use Remedie::Updater;
+use Remedie::PubSub;
 
-my $publisher = eval {
-    require Net::Rendezvous::Publish;
-    Net::Rendezvous::Publish->new;
-};
+use AnyEvent;
+use Coro;
+use Coro::AnyEvent;
+
+my $coro_debug;
 
 has 'conf' => is => 'rw';
 
@@ -29,7 +33,7 @@ sub bootstrap {
 
     my $self = $class->new(conf => $conf);
 
-    $self->load_rpc_class([ $_ ]) for qw( channel collection item );
+    $self->load_rpc_class([ $_ ]) for qw( channel collection item events remote );
 
     my $exit = sub { CORE::die('caught signal') };
     eval {
@@ -58,30 +62,67 @@ sub BUILD {
     return $self;
 }
 
+sub make_request_handler {
+    my $self = shift;
+
+    my $check_leak = $ENV{REMEDIE_DEBUG} && eval { require Devel::LeakGuard::Object; 1 };
+
+    my $callback = $check_leak ?
+        unblock_sub {
+            my($req, $cb) = @_;
+            Devel::LeakGuard::Object::leakguard(sub {
+                my $res = $self->handle_request($req);
+                $cb->($res);
+            });
+        } :
+        unblock_sub {
+            my($req, $cb) = @_;
+            my $res = $self->handle_request($req);
+            $cb->($res);
+        };
+
+    return $callback;
+}
+
 sub run {
     my $self = shift;
 
     Remedie::Log->log(debug => "Initializing with HTTP::Engine version $HTTP::Engine::VERSION");
     my $engine = HTTP::Engine->new(
         interface => {
-            module => 'ServerSimple',
+            module => 'AnyEvent', # Change this to AnyEvent!
             args   => $self->conf,
-            request_handler => sub { $self->handle_request(@_) },
+            request_handler => $self->make_request_handler,
         },
     );
 
-    if ($publisher) {
-        my $owner_name = $self->owner_name;
-        for my $proto (qw( http remedie )) {
-            $publisher->publish(
-                name => sprintf("%s's Remedie Server", $owner_name),
-                type => "_$proto._tcp",
-                port => $self->conf->{port},
-                domain => 'local',
-            );
-        }
+    my $owner_name = $self->owner_name;
+    my @worker;
+    for my $proto (qw( http remedie )) {
+        # TODO: make this AnyEvent::Bonjour
+        push @worker, AnyEvent->timer(
+            after => 0, cb => sub {
+                my $publisher = Net::Rendezvous::Publish->new
+                    or return;
+                my $service = $publisher->publish(
+                    name => sprintf("%s's Remedie Server", $owner_name),
+                    type => "_$proto._tcp",
+                    port => $self->conf->{port},
+                    domain => 'local',
+                );
+            },
+        );
     }
+
     $engine->run;
+    Remedie::Updater->start_workers(32); # TODO configurable
+    my $sweeper = Remedie::PubSub->start_sweeper;
+
+    if ($ENV{REMEDIE_DEBUG}) {
+        require Coro::Debug;
+        $coro_debug = new_tcp_server Coro::Debug 10101;
+    }
+    AnyEvent->condvar->recv;
 }
 
 sub owner_name {
@@ -91,7 +132,7 @@ sub owner_name {
 
 sub default_root {
     my($self, $req) = @_;
-    $req->user_agent =~ /Mobile.*Safari/ ? "/static/html/iui.html" : "/static/html/index.html";
+    $req->user_agent =~ /Mobile.*Safari|AppleWebKit.*Pre/ ? "/static/html/iui.html" : "/static/html/index.html";
 }
 
 sub handle_request {
@@ -165,7 +206,7 @@ sub dispatch_rpc {
 
     if ($@) {
         $result->{error} = $@;
-    } else {
+    } elsif (ref $result eq 'HASH') {
         $result->{success} = 1 unless defined $result->{success};
     }
 

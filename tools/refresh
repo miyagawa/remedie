@@ -1,10 +1,16 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
+use Coro;
+use Coro::AnyEvent;
+use Coro::LWP;
+use AnyEvent;
+use AnyEvent::HTTP;
 use LWP::UserAgent;
 use HTTP::Request::Common;
 use JSON::XS;
 use Term::ANSIColor;
+use Time::HiRes;
 
 binmode STDOUT, ":utf8";
 
@@ -16,24 +22,51 @@ my $api_call = sub {
     my $uri = URI->new("http://localhost:10010/rpc$path");
 
     my $res;
-    if ($method eq 'get' && $args) {
-        $uri->query_form(%$args);
+    if ($method eq 'get') {
+        $uri->query_form(%$args) if $args;
         $res = $ua->get($uri);
     } else {
         $res = $ua->$method($uri, $args);
     }
 
-    return JSON::XS->new->decode($res->content);
+    return JSON::XS::decode_json($res->content);
 };
 
-my @channels = @ARGV ? get_channels(@ARGV) : all_channels();
+my $interval = 60 * 60;
+my %unwatched;
 
-for my $channel (@channels) {
-    my $data = $api_call->("post", "/channel/refresh", { id => $channel->{id} });
-    my $new = $data->{channel}{unwatched_count} - $channel->{unwatched_count};
-    printf "%d: %s updated %s\n",
-        $channel->{id}, $data->{channel}{name}, ($new ? colored(['red'], "($new)") : "");
-}
+# refresh
+my $w = AnyEvent->timer(
+    after => 0,
+    interval => $interval,
+    cb => sub {
+        my @channels = @ARGV ? get_channels(@ARGV) : all_channels();
+        for my $channel (@channels) {
+            $unwatched{$channel->{id}} = $channel->{unwatched_count};
+        }
+        $api_call->("post", "/channel/refresh", [ map { ("id", $_->{id}) } @channels ]);
+    },
+);
+
+my $session = Time::HiRes::gettimeofday;
+my $long_poll; $long_poll = sub {
+    http_get "http://localhost:10010/rpc/events/poll?s=$session", sub {
+        my $event = JSON::XS::decode_json($_[0]);
+        for my $data (@$event) {
+            my $new = $data->{channel}{unwatched_count} - $unwatched{$data->{channel}{id}};
+            printf "%d: %s updated %s\n",
+                $data->{channel}{id}, $data->{channel}{name}, ($new ? colored(['red'], "($new)") : "");
+        }
+        $long_poll->();
+    };
+};
+
+my $c = AnyEvent->timer(
+    after => 0,
+    cb => $long_poll,
+);
+
+AnyEvent->condvar->wait;
 
 sub get_channels {
     my @ids = @_;

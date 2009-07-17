@@ -14,7 +14,7 @@ sub find {
     }->scrape($args->{content});
 
     if ($res->{code}) {
-        Plagger->context->current_plugin->find_enclosures(\$res->{code}, $args->{entry});
+        $self->parent->find_enclosures(\$res->{code}, $args->{entry});
     }
 
     return;

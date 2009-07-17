@@ -11,6 +11,9 @@
 <script type="application/x-javascript" src="/static/js/iui/iui.js"></script>
 <script>
 $(function(){
+  $().ajaxSend(function(event,xhr,options) {
+    xhr.setRequestHeader('X-Remedie-Client', 'Remedie iPhone Client');
+  });
   $.ajax({
     url: "/rpc/channel/load",
     type: 'get',
@@ -29,7 +32,8 @@ $(function(){
         var opts = channel.unwatched_count > 0 ? { unwatched: 1 } : {};
         var callback = showChannelCallback(channel, opts);
         $('ul#home').createAppend('li', null, [
-          'a', { onclick: callback, href: '#channel-' + channel.id }, channel.name
+          'a', { onclick: callback, href: '#channel-' + channel.id },
+            channel.name + (channel.unwatched_count > 0 ? ' (' + channel.unwatched_count + ')' : '')
         ]);
       });
     },
@@ -42,8 +46,6 @@ $(function(){
 function showChannelCallback(channel, opts) {
   if (!opts) opts = {};
   return function() {
-    if ($('#channel-'+channel.id).size() > 0 && !opts.all)
-      return true;
     $.ajax({
       url: "/rpc/channel/show",
       type: 'get',
@@ -51,10 +53,12 @@ function showChannelCallback(channel, opts) {
       data: { id: channel.id, limit: (opts.all ? 0 : 50), status: (opts.unwatched ? [ 'new', 'downloaded' ] : 0) },
       dataType: 'json',
       success: function(r) {
+        var slide = true;
         var id = 'channel-' + channel.id;
         var el = $('#'+id);
         if (el.size()) { // opts.all = 1
-          el.children().remove()
+          el.children().remove();
+          slide = false;
         } else {
           $("body").createAppend('ul', { id: id, title: channel.name });
           el = $('#'+id);
@@ -71,14 +75,20 @@ function showChannelCallback(channel, opts) {
           var callback = showChannelCallback(channel, { all: 1 });
           el.createAppend('li', null, [ 'a', { onclick: callback, target: "_replace" }, "Show all " + r.channel.total + " items" ]);
         }
-
-        if (!opts.all)
+        if (slide)
           iui.showPage(el[0]);
-        return false;
       },
       error: function(r) {
         alert("Can't get channel: " + r.responseText);
       }
+    });
+
+    $.ajax({
+      url: "/rpc/remote/command",
+      type: 'post',
+      dataType: 'json',
+      data: { command: 'remedie.showChannel(remedie.channels[' + channel.id + '])' },
+      success: function(r) {}
     });
   };
 }
@@ -99,13 +109,38 @@ function showItemCallback(channel, item) {
 
     var thumb = item.props.thumbnail || channel.props.thumbnail;
     if (thumb && thumb.url)
-      el.createAppend('p', null, [ 'a', { href: link }, [ 'img', { src: thumb.url }, null ] ]);
+      el.createAppend('p', null, [ 'a', { href: link }, [ 'img', { style: 'max-width: 100%', src: thumb.url }, null ] ]);
 
     el.createAppend('p', { className: 'description' }, item.props.description);
-    el.createAppend('p', null, [ 'a', { href: link }, 'Play this item' ]);
-
+    el.createAppend('a', { className: 'whiteButton', href: '#remote', onclick: playOnRemedie(channel, item) },
+                    'Play on Remedie');
+    el.createAppend('a', { className: 'whiteButton', href: link }, 'Play on this device');
     iui.showPage(el[0]);
   };
+}
+
+function playOnRemedie(channel, item) {
+  return function() {
+    $.ajax({
+      url: "/rpc/remote/command",
+      type: 'post',
+      dataType: 'json',
+      data: { command: 'remedie.openAndPlay(' + channel.id + ',' + item.id + ')' },
+      success: function(r) {}
+    });
+    return false;
+  };
+}
+
+function sendRemote(key) {
+  $.ajax({
+    url: "/rpc/remote/command",
+    type: 'post',
+    dataType: 'json',
+    data: { command: "remedie.simulateKeyPress('" + key + "')" },
+    success: function(r) {}
+  });
+  return false;
 }
 
 </script>
@@ -115,10 +150,19 @@ function showItemCallback(channel, item) {
     <div class="toolbar">
         <h1 id="pageTitle"></h1>
         <a id="backButton" class="button" href="#"></a>
-        <!-- a class="button" href="#searchForm">Search</a -->
+        <a class="button" href="#remote">Remote</a>
     </div>
     
     <ul id="home" title="Channels" selected="true">
+    </ul>
+
+    <ul id="remote" title="Remote">
+    <li><a href="javascript:sendRemote('return')">Play/Pause</a></li>
+    <li><a href="javascript:sendRemote('esc')">MENU</a></li>
+    <li><a href="javascript:sendRemote('left')">&laquo;</a></li>
+    <li><a href="javascript:sendRemote('right')">&raquo;</a></li>
+    <li><a href="javascript:sendRemote('up')">+</a></li>
+    <li><a href="javascript:sendRemote('down')">-</a></li>
     </ul>
 </body>
 </html>
