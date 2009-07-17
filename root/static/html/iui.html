@@ -89,7 +89,6 @@ function displayZflow(channels) {
    return thumb_for(channel) || thumb_for(channel.first_item) || "/static/images/feed_256x256.png";
   });
   zflow(images, "#tray");
-  $('#tray').children().each(function(i,e){alert(e.style.top)});
 }
 
 function showChannelCallback(channel, opts) {
@@ -198,7 +197,6 @@ window.onorientationchange = function(ev) {
   } else {
     displayChannels(displayZflow, true);
   }
-  setTimeout(function() { window.scrollTo(0, 0) }, 200);
 };
 
 </script>
