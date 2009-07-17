@@ -1,5 +1,8 @@
 Revision history for Perl extension Remedie
 
+0.6.2 Fri Jul 17 03:26:08 PDT 2009
+        * Actually bump up the version string
+
 0.6.1 Fri Jul 17 03:20:51 PDT 2009
         * Fixed a critical bug where DB initialization was failing. [#137]
         * Enabled software update when loaded, and notification via (j)Growl
