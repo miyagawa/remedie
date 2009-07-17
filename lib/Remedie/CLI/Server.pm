@@ -2,10 +2,13 @@ package Remedie::CLI::Server;
 use Any::Moose;
 use Any::Moose 'X::Types::Path::Class' => [ qw(File Dir) ];
 use Remedie::DB::Schema;
+BEGIN { Remedie::DB::Schema->upgrade }
+
 use Remedie::Server;
 use Remedie::UserData;
 use Pod::Usage;
 use YAML::XS;
+
 
 with any_moose('X::Getopt'),
      any_moose('X::ConfigFromFile');
@@ -117,8 +120,6 @@ sub run {
             -exitval => 1,
         );
     }
-
-    Remedie::DB::Schema->upgrade();
 
     Remedie::Server->bootstrap({
         host       => $self->host,
