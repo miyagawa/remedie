@@ -28,6 +28,7 @@ Remedie.prototype = {
       $(document).unbind('remedie-collection-loaded', arguments.callee);
     });
     this.loadCollection();
+    this.checkUpdates();
 
     $.ev.handlers.command = function(ev) {
       try { eval(ev.command) } catch(e) { alert(e) };
@@ -403,10 +404,11 @@ Remedie.prototype = {
         title: obj.header,
         description: obj.msg,
         identifier: obj.id,
-        icon: obj.icon
+        icon: obj.icon,
+        sticky: obj.sticky
       });
     } else {
-      $.jGrowl(obj.msg, { icon: obj.icon, header: obj.header, life: obj.life });
+       $.jGrowl(obj.msg, { icon: obj.icon, header: obj.header, life: obj.life, sticky: obj.sticky });
     }
   },
 
@@ -1698,15 +1700,13 @@ Remedie.prototype = {
       var message = $('<div/>').createAppend(
           'div', { id: "about-dialog" }, [
               'h2', {}, 'Remedie Media Center',
-              'p', {}, 'Version: ' + Remedie.version,
-              'div', { id: "check-update" }, 'Checking for Updates...',
+              'p', {}, 'Version: ' + Remedie.version
           ]);
       $.blockUI({ message: message });
-      this.checkUpdates($('#check-update'));
       return false;
   },
 
-  checkUpdates: function(element) {
+  checkUpdates: function() {
     $.ajax({
       type: 'GET',
       url: "http://github.com/api/v2/json/repos/show/miyagawa/remedie/tags",
@@ -1714,13 +1714,12 @@ Remedie.prototype = {
       success: function(res) {
         var latest = remedie.needsUpdate(res.tags, Remedie.version);
         if (latest != null) {
-          element.html("");
-          element.createAppend(
-            'a', { href: 'http://github.com/miyagawa/remedie/downloads', target: "_blank" },
-            'Upgrade to ' + latest + ' now.'
-          );
-        } else {
-          element.html("Your Remedie is up-to-date.");
+          remedie.doNotify({
+            header: "Software Update",
+            msg: "Remedie " + latest + ' is available. Download now from remediecode.org',
+            icon: "/static/images/movie.png",
+            sticky: true
+          });
         }
       },
       error: function(res) { element.innerHTML = "Update check failed." }
