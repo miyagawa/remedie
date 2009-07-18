@@ -17,9 +17,10 @@ body.zflow {
   padding: 0;
   font-family: Helvetica;
 }
-.centering { position: absolute; top: 0px !important; left: 0px !important }
-.portrait { width: 320px; height: 416px; }
-.landscape { width: 480px; height: 270px; }
+
+#zflow-container { position: absolute; top: 0px !important; left: 0px !important; display: none }
+.portrait  { width: 100%;  min-height: 416px !important; }
+.landscape { width: 480px; min-height: 270px !important; }
 </style>
 <script type="application/x-javascript" src="/static/js/iui/iui.js"></script>
 <script type="application/x-javascript" src="/static/js/zflow/zflow.js"></script>
@@ -31,7 +32,10 @@ $(function(){
     xhr.setRequestHeader('X-Remedie-Client', 'Remedie iPhone Client');
   });
   loadChannels(function(){
-    displayChannels(displayHomeMenu, false);
+    if (window.orientation == 0)
+      displayChannels(displayHomeMenu, false);
+    else
+      displayChannels(displayZflow, true);
   });
 });
 
@@ -62,7 +66,7 @@ function loadChannels(callback) {
 function displayChannels(callback, toggle) {
   if (toggle) {
     $("body").toggleClass("zflow");
-    $(".centering, .toolbar, ul[selected]").toggle();
+    $("#zflow-container, .toolbar, *[selected]").toggle();
   }
   callback(channels);
 }
@@ -86,9 +90,10 @@ function thumb_for(item) {
 function displayZflow(channels) {
   $('#tray').children().remove();
   var images = $.map(channels, function(channel) {
-   return thumb_for(channel) || thumb_for(channel.first_item) || "/static/images/feed_256x256.png";
+    return thumb_for(channel) || thumb_for(channel.first_item) || "/static/images/feed_256x256.png";
   });
   zflow(images, "#tray");
+  window.setTimeout(function(){ window.scrollTo(0, 0) }, 100);
 }
 
 function showChannelCallback(channel, opts) {
@@ -221,7 +226,7 @@ window.onorientationchange = function(ev) {
     <li><a href="javascript:sendRemote('down')">-</a></li>
     </ul>
 
-    <div class="centering landscape">
+    <div id="zflow-container" class="centering landscape">
         <div id="tray" class="tray"></div>
     </div>
 </body>
