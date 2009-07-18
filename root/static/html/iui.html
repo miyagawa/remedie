@@ -21,6 +21,18 @@ body.zflow {
 #zflow-container { position: absolute; top: 0px !important; left: 0px !important; display: none }
 .portrait  { width: 100%;  min-height: 416px !important; }
 .landscape { width: 480px; min-height: 270px !important; }
+
+#cell-title {
+  font-family: Helvetica;
+  font-weight: bold;
+  font-size: 14px;
+  position: absolute;
+  bottom: 32px;
+  width: 100%;
+  min-height: 30px;
+  text-align: center;
+}
+
 </style>
 <script type="application/x-javascript" src="/static/js/iui/iui.js"></script>
 <script type="application/x-javascript" src="/static/js/zflow/zflow.js"></script>
@@ -84,6 +96,7 @@ function displayHomeMenu(channels) {
 }
 
 function thumb_for(item) {
+  return null;
   return item.props.thumbnail && item.props.thumbnail.url ? item.props.thumbnail.url : null;
 }
 
@@ -92,7 +105,10 @@ function displayZflow(channels) {
     var images = $.map(channels, function(channel) {
       return thumb_for(channel) || thumb_for(channel.first_item) || "/static/images/feed_256x256.png";
     });
-    zflow(images, "#tray");
+    zflow(images, "#tray", {
+      onfocus: function(i, cell){ $("#cell-title").text(channels[i].name) }
+    });
+    $("#cell-title").text(channels[0].name);
   }
   window.setTimeout(function(){ window.scrollTo(0, 0) }, 100);
 }
@@ -229,6 +245,7 @@ window.onorientationchange = function(ev) {
 
     <div id="zflow-container" class="centering landscape">
         <div id="tray" class="tray"></div>
+        <div id="cell-title"></div>
     </div>
 </body>
 </html>

@@ -122,9 +122,10 @@ FlowDelegate = function ()
     this.transforms = new Array();
 }
 
-FlowDelegate.prototype.init = function (elem)
+FlowDelegate.prototype.init = function (elem, callbacks)
 {
     this.elem = elem;
+    this.callbacks = callbacks;
 }
 
 FlowDelegate.prototype.updateTouchEnd = function (controller)
@@ -136,6 +137,13 @@ FlowDelegate.prototype.updateTouchEnd = function (controller)
 
     controller.currentX = - i * CGAP;
     this.update(controller.currentX);
+
+    this.runCallback('onfocus', i, this.cells[i]);
+}
+
+FlowDelegate.prototype.runCallback = function(name, i, cell) {
+    if (this.callbacks[name])
+        this.callbacks[name](i, cell);
 }
 
 FlowDelegate.prototype.clicked = function (currentX)
@@ -217,14 +225,14 @@ FlowDelegate.prototype.update = function (currentX)
     }
 }
 
-global.zflow = function (images, selector)
+global.zflow = function (images, selector, callbacks)
 {
     var controller = new TrayController();
     var delegate = new FlowDelegate();
     var tray = document.querySelector(selector);
 
-    controller.init(tray);
-    delegate.init(tray);
+    controller.init(tray, callbacks);
+    delegate.init(tray, callbacks);
 
     controller.delegate = delegate;
 
