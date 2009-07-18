@@ -1700,7 +1700,8 @@ Remedie.prototype = {
       var message = $('<div/>').createAppend(
           'div', { id: "about-dialog" }, [
               'h2', {}, 'Remedie Media Center',
-              'p', {}, 'Version: ' + Remedie.version
+              'p', {}, 'Version: ' + Remedie.version,
+              'div', {}, [ 'a', { target: "_blank", href: "http://remediecode.org/" }, "remediecode.org" ]
           ]);
       $.blockUI({ message: message });
       return false;
