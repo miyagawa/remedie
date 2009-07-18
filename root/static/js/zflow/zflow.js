@@ -143,7 +143,8 @@ FlowDelegate.prototype.updateTouchEnd = function (controller)
 
 FlowDelegate.prototype.runCallback = function(name, i, cell) {
     if (this.callbacks[name])
-        this.callbacks[name](i, cell);
+        return this.callbacks[name](i, cell);
+    return null;
 }
 
 FlowDelegate.prototype.clicked = function (currentX)
@@ -155,7 +156,9 @@ FlowDelegate.prototype.clicked = function (currentX)
 
     if ((this.lastFocus == undefined) || this.lastFocus != i)
     {
-        transform += " translate3d(0, 0, 150px) rotateY(180deg)";
+        if (!this.runCallback('onclick', i, cell)) {
+          transform += " translate3d(0, 0, 150px) rotateY(180deg)";
+        }
         this.lastFocus = i;
     }
     else

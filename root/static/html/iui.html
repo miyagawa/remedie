@@ -37,19 +37,25 @@ body.zflow {
 <script type="application/x-javascript" src="/static/js/iui/iui.js"></script>
 <script type="application/x-javascript" src="/static/js/zflow/zflow.js"></script>
 <script>
-var channels = [];
+var currentMode = 'iui';
+var channels = new Array();
 
 $(function(){
   $().ajaxSend(function(event,xhr,options) {
     xhr.setRequestHeader('X-Remedie-Client', 'Remedie iPhone Client');
   });
   loadChannels(function(){
-    if (window.orientation == undefined || window.orientation == 0)
-      displayChannels(displayHomeMenu, false);
-    else
-      displayChannels(displayZflow, true);
+    if (window.orientation != undefined && window.orientation != 0)
+      toggleDisplayMode();
   });
 });
+
+window.onorientationchange = function(ev) {
+  var runningCoverflow  = currentMode == 'coverflow';
+  var switchToCoverflow = window.orientation != 0;
+  if (runningCoverflow || switchToCoverflow)
+    this.toggleDisplayMode();
+};
 
 function loadChannels(callback) {
   $.ajax({
@@ -67,6 +73,8 @@ function loadChannels(callback) {
       $.each(r.channels.sort(sortChannel), function(index, channel) {
         channels.push(channel);
       });
+      buildHomeMenu(channels);
+      buildCoverflow(channels);
       callback();
     },
     error: function(r) {
@@ -75,16 +83,15 @@ function loadChannels(callback) {
   });
 }
 
-function displayChannels(callback, toggle) {
-  if (toggle) {
-    $("body").toggleClass("zflow");
-    $("#zflow-container, .toolbar, *[selected]").toggle();
-  }
-  callback(channels);
+function toggleDisplayMode() {
+  $("body").toggleClass("zflow");
+  $("#zflow-container, .toolbar, *[selected]").toggle();
+  currentMode = currentMode == 'iui' ? 'coverflow' : 'iui';
+  if (currentMode == 'coverflow')
+    window.setTimeout(function(){ window.scrollTo(0, 0) }, 100);
 }
 
-function displayHomeMenu(channels) {
-  $('ul#home').children().remove();
+function buildHomeMenu(channels) {
   $.each(channels, function(index, channel) {
     var opts = channel.unwatched_count > 0 ? { unwatched: 1 } : {};
     var callback = showChannelCallback(channel, opts);
@@ -96,21 +103,22 @@ function displayHomeMenu(channels) {
 }
 
 function thumb_for(item) {
-  return null;
   return item.props.thumbnail && item.props.thumbnail.url ? item.props.thumbnail.url : null;
 }
 
-function displayZflow(channels) {
-  if (!$('#tray').children().size()) {
-    var images = $.map(channels, function(channel) {
-      return thumb_for(channel) || thumb_for(channel.first_item) || "/static/images/feed_256x256.png";
-    });
-    zflow(images, "#tray", {
-      onfocus: function(i, cell){ $("#cell-title").text(channels[i].name) }
-    });
-    $("#cell-title").text(channels[0].name);
-  }
-  window.setTimeout(function(){ window.scrollTo(0, 0) }, 100);
+function buildCoverflow(channels) {
+  var images = $.map(channels, function(channel) {
+    return thumb_for(channel) || thumb_for(channel.first_item) || "/static/images/feed_256x256.png";
+  });
+  zflow(images, "#tray", {
+    onfocus: function(i, cell){ $("#cell-title").text(channels[i].name) },
+    onclick: function(i, cell){
+      toggleDisplayMode();
+      showChannelCallback(channels[i]).call();
+      return true;
+    }
+  });
+  $("#cell-title").text(channels[0].name);
 }
 
 function showChannelCallback(channel, opts) {
@@ -212,14 +220,6 @@ function sendRemote(key) {
   });
   return false;
 }
-
-window.onorientationchange = function(ev) {
-  if (window.orientation == 0) {
-    displayChannels(displayHomeMenu, true);
-  } else {
-    displayChannels(displayZflow, true);
-  }
-};
 
 </script>
 </head>
