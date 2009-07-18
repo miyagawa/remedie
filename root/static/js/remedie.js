@@ -1674,7 +1674,7 @@ Remedie.prototype = {
     });
 
     // Currently displaying this channel?
-    if (this.current_id) {
+    if (this.current_id == channel.id) {
       document.title = 'Remedie: ' + channel.name;
       $('.channel-header-title').text(channel.name);
       if (channel.unwatched_count) document.title += " (" + channel.unwatched_count + ")";
