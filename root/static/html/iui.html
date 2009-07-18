@@ -4,16 +4,60 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Remedie</title>
-<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
 <script language="JavaScript" type="text/javascript" src="/static/js/jquery.latest.min.js"></script>
 <script language="JavaScript" type="text/javascript" src="/static/js/jquery.flydom-3.1.1.js"></script>
-<style type="text/css" media="screen">@import "/static/js/iui/iui.css";</style>
+<link rel="stylesheet" type="text/css" href="/static/js/iui/iui.css" />
+<link rel="stylesheet" type="text/css" href="/static/js/zflow/zflow.css" />
+<style type="text/css">
+body.zflow {
+  background-color: black;
+  color: white;
+  margin: 0;
+  padding: 0;
+  font-family: Helvetica;
+}
+
+#zflow-container { position: absolute; top: 0px !important; left: 0px !important; display: none }
+.portrait  { width: 100%;  min-height: 416px !important; }
+.landscape { width: 480px; min-height: 270px !important; }
+
+#cell-title {
+  font-family: Helvetica;
+  font-weight: bold;
+  font-size: 14px;
+  position: absolute;
+  bottom: 24px;
+  width: 100%;
+  min-height: 30px;
+  text-align: center;
+}
+
+</style>
 <script type="application/x-javascript" src="/static/js/iui/iui.js"></script>
+<script type="application/x-javascript" src="/static/js/zflow/zflow.js"></script>
 <script>
+var currentMode = 'iui';
+var channels = new Array();
+
 $(function(){
   $().ajaxSend(function(event,xhr,options) {
     xhr.setRequestHeader('X-Remedie-Client', 'Remedie iPhone Client');
   });
+  loadChannels(function(){
+    if (window.orientation != undefined && window.orientation != 0)
+      toggleDisplayMode();
+  });
+});
+
+window.onorientationchange = function(ev) {
+  var runningCoverflow  = currentMode == 'coverflow';
+  var switchToCoverflow = window.orientation != 0;
+  if (runningCoverflow || switchToCoverflow)
+    this.toggleDisplayMode();
+};
+
+function loadChannels(callback) {
   $.ajax({
     url: "/rpc/channel/load",
     type: 'get',
@@ -26,22 +70,55 @@ $(function(){
         if (bo == null) bo = 100000 + b.id;
         return ao - bo;
       };
-      var channels = r.channels.sort(sortChannel);
-
-      $.each(channels, function(index, channel) {
-        var opts = channel.unwatched_count > 0 ? { unwatched: 1 } : {};
-        var callback = showChannelCallback(channel, opts);
-        $('ul#home').createAppend('li', null, [
-          'a', { onclick: callback, href: '#channel-' + channel.id },
-            channel.name + (channel.unwatched_count > 0 ? ' (' + channel.unwatched_count + ')' : '')
-        ]);
+      $.each(r.channels.sort(sortChannel), function(index, channel) {
+        channels.push(channel);
       });
+      buildHomeMenu(channels);
+      buildCoverflow(channels);
+      callback();
     },
     error: function(r) {
       alert("Can't load subscription: " + r.responseText);
     }
-  });  
-});
+  });
+}
+
+function toggleDisplayMode() {
+  $("body").toggleClass("zflow");
+  $("#zflow-container, .toolbar, *[selected]").toggle();
+  currentMode = currentMode == 'iui' ? 'coverflow' : 'iui';
+  if (currentMode == 'coverflow')
+    window.setTimeout(function(){ window.scrollTo(0, 0) }, 100);
+}
+
+function buildHomeMenu(channels) {
+  $.each(channels, function(index, channel) {
+    var opts = channel.unwatched_count > 0 ? { unwatched: 1 } : {};
+    var callback = showChannelCallback(channel, opts);
+    $('ul#home').createAppend('li', null, [
+      'a', { onclick: callback, href: '#channel-' + channel.id },
+        channel.name + (channel.unwatched_count > 0 ? ' (' + channel.unwatched_count + ')' : '')
+    ]);
+  });
+}
+
+function thumb_for(item) {
+  return item.props.thumbnail && item.props.thumbnail.url ? item.props.thumbnail.url : null;
+}
+
+function buildCoverflow(channels) {
+  var images = $.map(channels, function(channel) {
+    return thumb_for(channel) || thumb_for(channel.first_item) || "/static/images/feed_256x256.png";
+  });
+  zflow(images, "#tray", {
+    onfocus: function(i, cell){ $("#cell-title").text(channels[i].name) },
+    onclick: function(i, cell){
+      toggleDisplayMode();
+      showChannelCallback(channels[i]).call();
+      return true;
+    }
+  });
+}
 
 function showChannelCallback(channel, opts) {
   if (!opts) opts = {};
@@ -164,5 +241,10 @@ function sendRemote(key) {
     <li><a href="javascript:sendRemote('up')">+</a></li>
     <li><a href="javascript:sendRemote('down')">-</a></li>
     </ul>
+
+    <div id="zflow-container" class="centering landscape">
+        <div id="tray" class="tray"></div>
+        <div id="cell-title"></div>
+    </div>
 </body>
 </html>
