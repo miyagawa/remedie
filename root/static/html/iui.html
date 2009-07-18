@@ -32,7 +32,7 @@ $(function(){
     xhr.setRequestHeader('X-Remedie-Client', 'Remedie iPhone Client');
   });
   loadChannels(function(){
-    if (window.orientation == 0)
+    if (window.orientation != defined && window.orientation == 0)
       displayChannels(displayHomeMenu, false);
     else
       displayChannels(displayZflow, true);
