@@ -27,7 +27,7 @@ body.zflow {
   font-weight: bold;
   font-size: 14px;
   position: absolute;
-  bottom: 32px;
+  bottom: 24px;
   width: 100%;
   min-height: 30px;
   text-align: center;
@@ -118,7 +118,6 @@ function buildCoverflow(channels) {
       return true;
     }
   });
-  $("#cell-title").text(channels[0].name);
 }
 
 function showChannelCallback(channel, opts) {

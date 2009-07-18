@@ -138,12 +138,14 @@ FlowDelegate.prototype.updateTouchEnd = function (controller)
     controller.currentX = - i * CGAP;
     this.update(controller.currentX);
 
-    this.runCallback('onfocus', i, this.cells[i]);
+    this.runCallback('onfocus', this.cells[i]);
 }
 
-FlowDelegate.prototype.runCallback = function(name, i, cell) {
-    if (this.callbacks[name])
-        return this.callbacks[name](i, cell);
+FlowDelegate.prototype.runCallback = function(name, cell) {
+    if (this.callbacks[name]) {
+        var orig_i = cell.id.replace('cell-', '');
+        return this.callbacks[name](orig_i, cell);
+    }
     return null;
 }
 
@@ -156,7 +158,7 @@ FlowDelegate.prototype.clicked = function (currentX)
 
     if ((this.lastFocus == undefined) || this.lastFocus != i)
     {
-        if (!this.runCallback('onclick', i, cell)) {
+        if (!this.runCallback('onclick', cell)) {
           transform += " translate3d(0, 0, 150px) rotateY(180deg)";
         }
         this.lastFocus = i;
@@ -256,6 +258,7 @@ global.zflow = function (images, selector, callbacks)
         var canvas = document.createElement("canvas");
 
         cell.className = "cell";
+        cell.id = "cell-" + i;
         cell.appendChild(image);
         cell.appendChild(canvas);
 
@@ -294,6 +297,9 @@ global.zflow = function (images, selector, callbacks)
             if (imagesLeft == 0)
             {
                 window.setTimeout( function() { window.scrollTo(0, 0); }, 100 );
+            }
+            if (i == 0) {
+                delegate.runCallback('onfocus', cell);
             }
         });
     });
