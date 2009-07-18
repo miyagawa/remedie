@@ -88,11 +88,12 @@ function thumb_for(item) {
 }
 
 function displayZflow(channels) {
-  $('#tray').children().remove();
-  var images = $.map(channels, function(channel) {
-    return thumb_for(channel) || thumb_for(channel.first_item) || "/static/images/feed_256x256.png";
-  });
-  zflow(images, "#tray");
+  if (!$('#tray').children().size()) {
+    var images = $.map(channels, function(channel) {
+      return thumb_for(channel) || thumb_for(channel.first_item) || "/static/images/feed_256x256.png";
+    });
+    zflow(images, "#tray");
+  }
   window.setTimeout(function(){ window.scrollTo(0, 0) }, 100);
 }
 
