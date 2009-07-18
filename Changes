@@ -1,5 +1,9 @@
 Revision history for Perl extension Remedie
 
+0.6.4 Sat Jul 18 12:30:39 PDT 2009
+        * Implemented Coverflow for iPhone Remote UI
+        * Upgrade EV and AnyEvent libraries in OS X bundle
+
 0.6.3 Fri Jul 17 10:28:54 PDT 2009
         * Depends on EV to make AnyEvent loop faster and reliable
 
