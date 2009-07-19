@@ -44,7 +44,7 @@ requires 'JSON::XS';
 requires 'List::Util';
 requires 'Log::Dispatch';
 requires 'Log::Dispatch::File';
-requires 'LWP';
+requires 'LWP', 5.827;
 requires 'MIME::Types';
 requires 'Module::Pluggable', '3.9';
 requires 'Net::Rendezvous::Publish';

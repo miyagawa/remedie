@@ -67,7 +67,6 @@ sub update_feed {
 package Plagger::Plugin::CustomFeed::Scraper::Base;
 
 use Encode;
-use HTTP::Response::Encoding;
 
 sub new {
     my($class, $domain) = @_;
