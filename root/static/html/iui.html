@@ -74,7 +74,6 @@ function loadChannels(callback) {
         channels.push(channel);
       });
       buildHomeMenu(channels);
-      buildCoverflow(channels);
       callback();
     },
     error: function(r) {
@@ -85,9 +84,11 @@ function loadChannels(callback) {
 
 function toggleDisplayMode() {
   $("body").toggleClass("zflow");
-  $("#zflow-container, .toolbar, *[selected]").toggle();
   currentMode = currentMode == 'iui' ? 'coverflow' : 'iui';
-  if (currentMode == 'coverflow')
+  if (currentMode == 'coverflow' && $("#tray").children().size() == 0)
+    buildCoverflow(channels);
+  $("#zflow-container, .toolbar, *[selected]").toggle();
+  if (currentMode == 'coverdlow')
     window.setTimeout(function(){ window.scrollTo(0, 0) }, 100);
 }
 
