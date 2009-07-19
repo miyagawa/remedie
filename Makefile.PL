@@ -29,7 +29,6 @@ requires 'Filesys::Virtual';
 requires 'Filesys::Virtual::Plain';
 requires 'HTML::Entities';
 requires 'HTML::ResolveLink';
-requires 'HTML::Scrubber';
 requires 'HTML::Selector::XPath';
 requires 'HTML::Tagset';
 requires 'HTML::TokeParser';
