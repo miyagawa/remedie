@@ -218,7 +218,7 @@ sub add_enclosure {
 
     my $attrs = $self->_get_attrs($tag);
 
-    if ($self->is_enclosure($tag, $attr, $opt->{type})) {
+    if ($self->is_enclosure($attrs, $attr, $opt->{type})) {
         Plagger->context->log(info => "Found enclosure " . $attrs->($attr));
         my $enclosure = Plagger::Enclosure->new;
         $enclosure->url($attrs->($attr));
@@ -250,9 +250,8 @@ sub add_enclosure {
 }
 
 sub is_enclosure {
-    my($self, $tag, $attr, $type) = @_;
+    my($self, $attrs, $attr, $type) = @_;
 
-    my $attrs = $self->_get_attrs($tag);
     return 1 if $attrs->('rel') && $attrs->('rel') eq 'enclosure';
     return 1 if $self->has_enclosure_mime_type($attrs->($attr), $type || $attrs->('type'));
 
