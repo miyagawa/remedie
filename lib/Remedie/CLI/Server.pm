@@ -47,7 +47,7 @@ has 'host' => (
     cmd_aliases => 'h',
     is          => 'rw',
     isa         => 'Str',
-    default     => 0,
+    default     => '::',
 );
 
 has 'port' => (
