@@ -141,7 +141,7 @@ sub add_enclosure_from_head {
 }
 
 sub add_enclosure_from_object {
-    my($self, $entry, $node, %opt) = @_;
+    my($self, $entry, $node, $opt) = @_;
 
     # get param tags and find appropriate FLV movies
     my @params = map $self->_get_attrs($_), $node->findnodes('./param');
