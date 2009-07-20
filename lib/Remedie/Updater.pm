@@ -76,7 +76,9 @@ sub update_channel {
         ],
     };
 
+    DB::enable_profile() if $ENV{NYTPROF};
     Plagger->bootstrap(config => $config);
+    DB::finish_profile() if $ENV{NYTPROF};
 
     return 1;
 }
