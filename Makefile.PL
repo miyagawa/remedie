@@ -31,7 +31,6 @@ requires 'HTML::Entities';
 requires 'HTML::ResolveLink';
 requires 'HTML::Selector::XPath';
 requires 'HTML::Tagset';
-requires 'HTML::TokeParser';
 requires 'HTML::TreeBuilder';
 requires 'HTML::TreeBuilder::XPath', 0.09;
 requires 'HTML::TreeBuilder::LibXML', 0.04;
