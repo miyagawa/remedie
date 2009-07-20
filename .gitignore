@@ -8,3 +8,4 @@ blib
 MANIFEST.bak
 cpanlib
 bundle-build
+nytprof
