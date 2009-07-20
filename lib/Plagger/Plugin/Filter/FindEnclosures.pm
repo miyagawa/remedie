@@ -148,16 +148,16 @@ sub add_enclosure_from_object {
 
     # find URL inside flashvars parameter
     my $url;
-    if (my $flashvars = first { lc($_->{name}) eq 'flashvars' } @params) {
-        my %values = split /[=&]/, $flashvars->{value} || '';
+    if (my $flashvars = first { lc($_->('name')) eq 'flashvars' } @params) {
+        my %values = split /[=&]/, $flashvars->('value') || '';
         $url   = first { m!^https?://.*\flv! } values %values;
         $url ||= first { m!^https?://.*! } values %values;
     }
 
     # if URL isn't found in flash vars, then fallback to <param name="movie" />
     if (!$url) {
-        my $movie = first { lc($_->{name}) eq 'movie' } @params;
-        $url = $movie->{value} if $movie && $movie->{value} =~ /\.flv/;
+        my $movie = first { lc($_->('name')) eq 'movie' } @params;
+        $url = $movie->('value') if $movie && $movie->('value') =~ /\.flv/;
     }
 
     # found moviepath from flashvars: Just use them
@@ -175,7 +175,7 @@ sub add_enclosure_from_embed {
     my $attrs = $self->_get_attrs($embed);
 
     my($url, $image, $type);
-    if (my $flashvars = $attrs->{flashvars}) {
+    if (my $flashvars = $attrs->('flashvars')) {
         my %values = split /[=&]/, $flashvars || '';
         $url = $values{file}
             || first { m!^https?://.*\flv! } values %values
@@ -185,10 +185,10 @@ sub add_enclosure_from_embed {
     }
 
     unless ($url) {
-        $url  = $attrs->{src};
+        $url  = $attrs->('src');
         $type = "application/x-shockwave-flash";
-        if ($url && $attrs->{flashvars}) {
-            $url .= "?" . $attrs->{flashvars};
+        if ($url && $attrs->('flashvars')) {
+            $url .= "?" . $attrs->('flashvars');
         }
         Plagger->context->log(debug => "Extracted swf from embed with flashvars: $url");
     }
@@ -205,16 +205,11 @@ sub add_enclosure_from_embed {
 sub _get_attrs {
     my($self, $tag) = @_;
 
-    my %attrs;
     if (ref $tag eq 'HTML::TreeBuilder::LibXML::Node') {
-        # TODO backport this to H::TB::LibXML all_attr (and all_attr_names)
-        my @attrs = $tag->{node}->attributes;
-        %attrs = map { $_->name => $_->value } @attrs;
+        return sub { $tag->attr($_[0]) };
     } else {
-        %attrs = %{$tag->[1]};
+        return sub { $tag->[1]{$_[0]} };
     }
-
-    return \%attrs;
 }
 
 sub add_enclosure {
@@ -224,19 +219,19 @@ sub add_enclosure {
     my $attrs = $self->_get_attrs($tag);
 
     if ($self->is_enclosure($tag, $attr, $opt->{type})) {
-        Plagger->context->log(info => "Found enclosure $attrs->{$attr}");
+        Plagger->context->log(info => "Found enclosure " . $attrs->($attr));
         my $enclosure = Plagger::Enclosure->new;
-        $enclosure->url($attrs->{$attr});
+        $enclosure->url($attrs->($attr));
         $enclosure->type($opt->{type});
-        $enclosure->width($attrs->{width})  if $attrs->{width};
-        $enclosure->height($attr->{height}) if $attrs->{height};
+        $enclosure->width($attrs->('width'))  if $attrs->('width');
+        $enclosure->height($attr->('height')) if $attrs->('height');
         $entry->add_enclosure($enclosure);
         return;
     }
 
     return if $opt->{no_plugin};
 
-    my $url = $attrs->{$attr};
+    my $url = $attrs->($attr);
     my $plugin = $self->asset_for($url);
 
     if ($plugin) {
@@ -258,8 +253,8 @@ sub is_enclosure {
     my($self, $tag, $attr, $type) = @_;
 
     my $attrs = $self->_get_attrs($tag);
-    return 1 if $attrs->{rel} && $attrs->{rel} eq 'enclosure';
-    return 1 if $self->has_enclosure_mime_type($attrs->{$attr}, $type || $attrs->{type});
+    return 1 if $attrs->('rel') && $attrs->('rel') eq 'enclosure';
+    return 1 if $self->has_enclosure_mime_type($attrs->($attr), $type || $attrs->('type'));
 
     return;
 }
