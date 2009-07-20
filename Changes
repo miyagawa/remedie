@@ -1,5 +1,12 @@
 Revision history for Perl extension Remedie
 
+0.6.5 Mon Jul 20 01:02:53 PDT 2009
+        * Make channel update event callback comet-safe #123
+        * Delay load coverflow images to avoid wasting bandwidth
+        * Do not directly depend on HTTP::Response::Encoding anymore
+        * Remove HTML::Scrubber and HTML::TokeParser dependency in favor of faster HTML::TreeBuilder::LibXML
+        * Some NYTProf based optimizations
+
 0.6.4 Sat Jul 18 12:30:39 PDT 2009
         * Implemented Coverflow for iPhone Remote UI
         * Upgrade EV and AnyEvent libraries in OS X bundle
