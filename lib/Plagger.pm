@@ -224,7 +224,7 @@ sub run_hook {
         } else {
             push @ret, $ret;
         }
-        &Coro::AnyEvent::poll(0);
+        Coro::AnyEvent::poll;
     }
 
     return if $once;

@@ -8,7 +8,7 @@ requires 'AnyEvent', 4.82;
 requires 'AnyEvent::HTTP';
 requires 'Cache::Cache';
 requires 'Class::Accessor::Fast';
-requires 'Coro', 5.151;
+requires 'Coro', 5.161;
 requires 'EV', 3.6;
 requires 'Date::Parse';
 requires 'DateTime';
