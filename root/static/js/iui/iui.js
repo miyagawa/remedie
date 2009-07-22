@@ -1,6 +1,6 @@
 /*
- 	 Copyright (c) 2007, iUI Project Members
-	 See LICENSE.txt for licensing terms
+   Copyright (c) 2007-9, iUI Project Members
+   See LICENSE.txt for licensing terms
  */
 
 
@@ -17,11 +17,16 @@ var hashPrefix = "#_";
 var pageHistory = [];
 var newPageCount = 0;
 var checkTimer;
+var hasOrientationEvent = false;
+var portraitVal = "portrait";
+var landscapeVal = "landscape";
 
 // *************************************************************************************************
 
 window.iui =
 {
+    animOn: false,	// Experimental slide animation with CSS transition disabled by default
+
     showPage: function(page, backwards)
     {
         if (page)
@@ -136,20 +141,47 @@ window.iui =
             if (child.nodeType == 1 && child.getAttribute("selected") == "true")
                 return child;
         }    
-    }    
+    },
+    isNativeUrl: function(href)
+    {
+        for(var i = 0; i < iui.nativeUrlPatterns.length; i++)
+        {
+            if(href.match(iui.nativeUrlPatterns[i])) return true;
+        }
+        return false;
+    },
+    nativeUrlPatterns: [
+        new RegExp("^http:\/\/maps.google.com\/maps\?"),
+        new RegExp("^mailto:"),
+        new RegExp("^tel:"),
+        new RegExp("^http:\/\/www.youtube.com\/watch\\?v="),
+        new RegExp("^http:\/\/www.youtube.com\/v\/"),
+        new RegExp("^javascript:"),
+
+    ]
 };
 
 // *************************************************************************************************
 
 addEventListener("load", function(event)
 {
-    var page = iui.getSelectedPage();
-    if (page)
-        iui.showPage(page);
+	var page = iui.getSelectedPage();
+	var locPage = getPageFromLoc();
+		
+	if (page)
+			iui.showPage(page);
+	
+	if (locPage && (locPage != page))
+		iui.showPage(locPage);
+	
+	setTimeout(preloadImages, 0);
+	setTimeout(checkOrientAndLocation, 0);
+	checkTimer = setInterval(checkOrientAndLocation, 300);
+}, false);
 
-    setTimeout(preloadImages, 0);
-    setTimeout(checkOrientAndLocation, 0);
-    checkTimer = setInterval(checkOrientAndLocation, 300);
+addEventListener("unload", function(event)
+{
+	return;
 }, false);
     
 addEventListener("click", function(event)
@@ -159,7 +191,7 @@ addEventListener("click", function(event)
     {
         function unselect() { link.removeAttribute("selected"); }
         
-        if (link.href && link.hash && link.hash != "#")
+        if (link.href && link.hash && link.hash != "#" && !link.target)
         {
             link.setAttribute("selected", "true");
             iui.showPage($(link.hash.substr(1)));
@@ -175,6 +207,14 @@ addEventListener("click", function(event)
         {
             link.setAttribute("selected", "progress");
             iui.showPageByHref(link.href, null, null, link, unselect);
+        }
+        else if (iui.isNativeUrl(link.href))
+        {
+            return;
+        }
+        else if (link.target == "_webapp")
+        {
+            location.href = link.href;
         }
         else if (!link.target)
         {
@@ -198,21 +238,63 @@ addEventListener("click", function(event)
     }
 }, true);
 
+function getPageFromLoc()
+{
+	var page;
+	var result = location.hash.match(/#_([^\?_]+)/);
+	if (result)
+		page = result[1];
+	if (page)
+		page = $(page);
+  return page;
+}
+
+function orientChangeHandler()
+{
+  var orientation=window.orientation;
+  switch(orientation)
+  {
+    case 0:
+        setOrientation(portraitVal);
+        break;  
+        
+    case 90:
+    case -90: 
+        setOrientation(landscapeVal);
+        break;
+  }
+}
+
+if (typeof window.onorientationchange == "object")
+{
+    window.onorientationchange=orientChangeHandler;
+    hasOrientationEvent = true;
+    setTimeout(orientChangeHandler, 0);
+}
+
 function checkOrientAndLocation()
 {
-    if (window.innerWidth != currentWidth)
-    {   
-        currentWidth = window.innerWidth;
-        var orient = currentWidth == 320 ? "profile" : "landscape";
-        document.body.setAttribute("orient", orient);
-        setTimeout(scrollTo, 100, 0, 1);
+    if (!hasOrientationEvent)
+    {
+      if (window.innerWidth != currentWidth)
+      {   
+          currentWidth = window.innerWidth;
+          var orient = currentWidth == 320 ? portraitVal : landscapeVal;
+          setOrientation(orient);
+      }
     }
 
     if (location.hash != currentHash)
     {
-        var pageId = location.hash.substr(hashPrefix.length)
+        var pageId = location.hash.substr(hashPrefix.length);
         iui.showPageById(pageId);
     }
+}
+
+function setOrientation(orient)
+{
+    document.body.setAttribute("orient", orient);
+    setTimeout(scrollTo, 100, 0, 1);
 }
 
 function showDialog(page)
@@ -249,7 +331,7 @@ function updatePage(page, fromPage)
     if (!page.id)
         page.id = "__" + (++newPageCount) + "__";
 
-    location.href = currentHash = hashPrefix + page.id;
+    location.hash = currentHash = hashPrefix + page.id;
     pageHistory.push(page.id);
 
     var pageTitle = $("pageTitle");
@@ -276,15 +358,43 @@ function updatePage(page, fromPage)
 function slidePages(fromPage, toPage, backwards)
 {        
     var axis = (backwards ? fromPage : toPage).getAttribute("axis");
+
+    clearInterval(checkTimer);
+    
+    if (canDoSlideAnim() && axis != 'y')
+    {
+      slide2(fromPage, toPage, backwards, slideDone);
+    }
+    else
+    {
+      slide1(fromPage, toPage, backwards, axis, slideDone);
+    }
+
+    function slideDone()
+    {
+//      console.log("slideDone");
+      if (!hasClass(toPage, "dialog"))
+          fromPage.removeAttribute("selected");
+      checkTimer = setInterval(checkOrientAndLocation, 300);
+      setTimeout(updatePage, 0, toPage, fromPage);
+      fromPage.removeEventListener('webkitTransitionEnd', slideDone, false);
+    }
+}
+
+function canDoSlideAnim()
+{
+  return (iui.animOn) && (typeof WebKitCSSMatrix == "object");
+}
+
+function slide1(fromPage, toPage, backwards, axis, cb)
+{
     if (axis == "y")
         (backwards ? fromPage : toPage).style.top = "100%";
     else
         toPage.style.left = "100%";
 
-    toPage.setAttribute("selected", "true");
     scrollTo(0, 1);
-    clearInterval(checkTimer);
-    
+    toPage.setAttribute("selected", "true");
     var percent = 100;
     slide();
     var timer = setInterval(slide, slideInterval);
@@ -295,11 +405,8 @@ function slidePages(fromPage, toPage, backwards)
         if (percent <= 0)
         {
             percent = 0;
-            if (!hasClass(toPage, "dialog"))
-                fromPage.removeAttribute("selected");
             clearInterval(timer);
-            checkTimer = setInterval(checkOrientAndLocation, 300);
-            setTimeout(updatePage, 0, toPage, fromPage);
+            cb();
         }
     
         if (axis == "y")
@@ -314,6 +421,33 @@ function slidePages(fromPage, toPage, backwards)
             toPage.style.left = (backwards ? -percent : percent) + "%"; 
         }
     }
+}
+
+//function durationInt(dur)
+//{
+//  var val = parseFloat(dur);
+//  return (dur.indexOf('ms') == -1) ? val * 1000 : val;
+//}
+
+function slide2(fromPage, toPage, backwards, cb)
+{
+  toPage.style.webkitTransitionDuration = '0ms'; // Turn off transitions to set toPage start offset
+  // fromStart is always 0% and toEnd is always 0%
+  // iPhone won't take % width on toPage
+  var toStart = 'translateX(' + (backwards ? '-' : '') + window.innerWidth +  'px)';
+  var fromEnd = 'translateX(' + (backwards ? '100%' : '-100%') + ')';
+  toPage.style.webkitTransform = toStart;
+  toPage.setAttribute("selected", "true");
+  toPage.style.webkitTransitionDuration = '';   // Turn transitions back on
+//  var duration = durationInt(window.getComputedStyle(toPage, null).webkitTransitionDuration);
+  function startTrans()
+  {
+    fromPage.style.webkitTransform = fromEnd;
+    toPage.style.webkitTransform = 'translateX(0%)'; //toEnd
+//    setTimeout(cb, duration);
+  }
+  fromPage.addEventListener('webkitTransitionEnd', cb, false);
+  setTimeout(startTrans, 0);
 }
 
 function preloadImages()
@@ -341,6 +475,7 @@ function encodeForm(form)
 
     var args = [];
     encode(form.getElementsByTagName("input"));
+    encode(form.getElementsByTagName("textarea"));
     encode(form.getElementsByTagName("select"));
     return args;    
 }

@@ -2,13 +2,13 @@ package Plagger::Plugin::Filter::FindEnclosures;
 use strict;
 use base qw( Plagger::Plugin );
 
-use HTML::TokeParser;
 use List::Util qw(first);
 use URI;
 use URI::QueryParam;
 use DirHandle;
 use Plagger::Enclosure;
 use Plagger::UserAgent;
+use HTML::TreeBuilder::LibXML;
 use Scalar::Util;
 
 sub register {
@@ -25,13 +25,12 @@ sub register {
 sub init {
     my $self = shift;
     $self->SUPER::init(@_);
-    $self->load_assets('pl', sub { $self->load_plugin_perl(@_) });
+    $self->load_assets('pl', sub { load_plugin_perl(@_) });
 
     $self->{ua} = Plagger::UserAgent->new;
 }
 
 sub asset_key { 'find_enclosures' }
-
 
 sub load_plugin_perl {
     my($self, $file, $domain) = @_;
@@ -57,7 +56,7 @@ sub load_plugin_perl {
     my $plugin = $plugin_class->new;
     $plugin->init;
     $plugin->parent($self);
-    Scalar::Util::weaken($plugin->parent);
+    Scalar::Util::weaken($plugin->{parent});
 
     return $plugin;
 }
@@ -78,33 +77,52 @@ sub filter {
 sub find_enclosures {
     my($self, $data_ref, $entry, %opt) = @_;
 
-    my $parser = HTML::TokeParser->new($data_ref);
-    while (my $tag = $parser->get_tag('a', 'embed', 'object', 'head')) {
-        if ($tag->[0] eq 'a' ) {
-            $self->add_enclosure($entry, $tag, 'href', \%opt);
-        } elsif ($tag->[0] eq 'embed') {
-            $self->add_enclosure_from_embed($entry, $tag, \%opt);
-        } elsif ($tag->[0] eq 'object') {
-            $self->add_enclosure_from_object($entry, $parser, %opt);
-        } elsif ($tag->[0] eq 'head') {
-            $self->add_enclosure_from_head($entry, $parser, %opt);
-        }
+    my $tree = HTML::TreeBuilder::LibXML->new;
+    $tree->parse($$data_ref);
+    $tree->eof;
+
+    $self->findnodes($tree, '//a', sub {
+        $self->add_enclosure($entry, $_[0], 'href', \%opt);
+    });
+
+    $self->findnodes($tree, '//object', sub {
+        $self->add_enclosure_from_object($entry, $_[0], \%opt);
+    });
+
+    $self->findnodes($tree, '//embed', sub {
+        $self->add_enclosure_from_embed($entry, $_[0], \%opt);
+    });
+
+    $self->findnodes($tree, '//head', sub {
+        $self->add_enclosure_from_head($entry, $_[0], \%opt);
+    });
+
+    $tree->delete;
+}
+
+sub findnodes {
+    my($self, $tree, $xpath, $callback) = @_;
+
+    for my $node ($tree->findnodes($xpath)) {
+        $callback->($node);
     }
 }
 
 # http://www.facebook.com/share_partners.php
 # link rel="video_src" etc.
 sub add_enclosure_from_head {
-    my($self, $entry, $parser, %opt) = @_;
+    my($self, $entry, $node, %opt) = @_;
 
     my(%meta, %link);
-    while (my $tag = $parser->get_tag('meta', 'link', '/head')) {
-        last if $tag->[0] eq '/head';
-        if ($tag->[0] eq 'meta' && $tag->[1]{name}) {
-            $meta{$tag->[1]{name}} = $tag->[1]{content};
-        } elsif ($tag->[0] eq 'link' && $tag->[1]{rel}) {
-            $link{$tag->[1]{rel}} = $tag->[1]{href};
-        }
+
+    for my $tag ($node->findnodes('./meta')) {
+        $meta{$tag->attr('name')} = $tag->attr('content')
+            if $tag->attr('name');
+    }
+
+    for my $tag ($node->findnodes('./link')) {
+        $link{$tag->attr('rel')} = $tag->attr('href')
+            if $tag->attr('rel');
     }
 
     if ($link{video_src}) {
@@ -123,33 +141,23 @@ sub add_enclosure_from_head {
 }
 
 sub add_enclosure_from_object {
-    my($self, $entry, $parser, %opt) = @_;
+    my($self, $entry, $node, $opt) = @_;
 
     # get param tags and find appropriate FLV movies
-    my @params;
-    my @embeds;
-    while (my $tag = $parser->get_tag('param', 'embed', '/object')) {
-        last if $tag->[0] eq '/object';
-
-        if ($tag->[0] eq 'param') {
-            push @params, $tag;
-        } elsif ($tag->[0] eq 'embed') {
-            push @embeds, $tag;
-        }
-    }
+    my @params = map $self->_get_attrs($_), $node->findnodes('./param');
 
     # find URL inside flashvars parameter
     my $url;
-    if (my $flashvars = first { lc($_->[1]->{name}) eq 'flashvars' } @params) {
-        my %values = split /[=&]/, $flashvars->[1]->{value} || '';
+    if (my $flashvars = first { lc($_->('name')) eq 'flashvars' } @params) {
+        my %values = split /[=&]/, $flashvars->('value') || '';
         $url   = first { m!^https?://.*\flv! } values %values;
         $url ||= first { m!^https?://.*! } values %values;
     }
 
     # if URL isn't found in flash vars, then fallback to <param name="movie" />
     if (!$url) {
-        my $movie = first { lc($_->[1]->{name}) eq 'movie' } @params;
-        $url = $movie->[1]->{value} if $movie && $movie->[1]->{value} =~ /\.flv/;
+        my $movie = first { lc($_->('name')) eq 'movie' } @params;
+        $url = $movie->('value') if $movie && $movie->('value') =~ /\.flv/;
     }
 
     # found moviepath from flashvars: Just use them
@@ -158,17 +166,16 @@ sub add_enclosure_from_object {
         my $enclosure = Plagger::Enclosure->new;
         $enclosure->url( URI->new($url) );
         $entry->add_enclosure($enclosure);
-    } elsif (@embeds) {
-        Plagger->context->log(info => "Use embed tags to create SWF enclosure");
-        $self->add_enclosure_from_embed($entry, $embeds[0], \%opt);
     }
 }
 
 sub add_enclosure_from_embed {
     my($self, $entry, $embed, $opt) = @_;
 
+    my $attrs = $self->_get_attrs($embed);
+
     my($url, $image, $type);
-    if (my $flashvars = $embed->[1]{flashvars}) {
+    if (my $flashvars = $attrs->('flashvars')) {
         my %values = split /[=&]/, $flashvars || '';
         $url = $values{file}
             || first { m!^https?://.*\flv! } values %values
@@ -178,10 +185,10 @@ sub add_enclosure_from_embed {
     }
 
     unless ($url) {
-        $url  = $embed->[1]{src};
+        $url  = $attrs->('src');
         $type = "application/x-shockwave-flash";
-        if ($url && $embed->[1]{flashvars}) {
-            $url .= "?" . $embed->[1]{flashvars};
+        if ($url && $attrs->('flashvars')) {
+            $url .= "?" . $attrs->('flashvars');
         }
         Plagger->context->log(debug => "Extracted swf from embed with flashvars: $url");
     }
@@ -195,24 +202,36 @@ sub add_enclosure_from_embed {
     }
 }
 
+sub _get_attrs {
+    my($self, $tag) = @_;
+
+    if (ref $tag eq 'HTML::TreeBuilder::LibXML::Node') {
+        return sub { $tag->attr($_[0]) };
+    } else {
+        return sub { $tag->[1]{$_[0]} };
+    }
+}
+
 sub add_enclosure {
     my($self, $entry, $tag, $attr, $opt) = @_;
     $opt ||= {};
 
-    if ($self->is_enclosure($tag, $attr, $opt->{type})) {
-        Plagger->context->log(info => "Found enclosure $tag->[1]{$attr}");
+    my $attrs = $self->_get_attrs($tag);
+
+    if ($self->is_enclosure($attrs, $attr, $opt->{type})) {
+        Plagger->context->log(info => "Found enclosure " . $attrs->($attr));
         my $enclosure = Plagger::Enclosure->new;
-        $enclosure->url($tag->[1]{$attr});
+        $enclosure->url($attrs->($attr));
         $enclosure->type($opt->{type});
-        $enclosure->width($tag->[1]{width})   if $tag->[1]{width};
-        $enclosure->height($tag->[1]{height}) if $tag->[1]{height};
+        $enclosure->width($attrs->('width'))  if $attrs->('width');
+        $enclosure->height($attr->('height')) if $attrs->('height');
         $entry->add_enclosure($enclosure);
         return;
     }
 
     return if $opt->{no_plugin};
 
-    my $url = $tag->[1]{$attr};
+    my $url = $attrs->($attr);
     my $plugin = $self->asset_for($url);
 
     if ($plugin) {
@@ -231,10 +250,10 @@ sub add_enclosure {
 }
 
 sub is_enclosure {
-    my($self, $tag, $attr, $type) = @_;
+    my($self, $attrs, $attr, $type) = @_;
 
-    return 1 if $tag->[1]{rel} && $tag->[1]{rel} eq 'enclosure';
-    return 1 if $self->has_enclosure_mime_type($tag->[1]{$attr}, $type || $tag->[1]{type});
+    return 1 if $attrs->('rel') && $attrs->('rel') eq 'enclosure';
+    return 1 if $self->has_enclosure_mime_type($attrs->($attr), $type || $attrs->('type'));
 
     return;
 }

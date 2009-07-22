@@ -1,4 +1,4 @@
-Remedie.version = '0.5.9';
+Remedie.version = '0.6.5';
 
 function Remedie() {
   this.initialize();
@@ -28,6 +28,24 @@ Remedie.prototype = {
       $(document).unbind('remedie-collection-loaded', arguments.callee);
     });
     this.loadCollection();
+    this.checkUpdates();
+
+    $.ev.handlers.command = function(ev) {
+      try { eval(ev.command) } catch(e) { alert(e) };
+    };
+    $.ev.loop('/rpc/events/poll?s=' + Math.random());
+  },
+
+  simulateKeyPress: function(key) {
+    var ev = jQuery.Event("keydown");
+
+    var map = { 'esc': 27, 'tab': 9, 'space': 32, 'return': 13, 'backspace': 8, 'scroll': 145,
+                'capslock': 20, 'numlock': 144, 'pause': 19, 'insert': 45, 'home': 36, 'del': 46,
+                'end': 35, 'pageup': 33, 'pagedown': 34, 'left': 37, 'up': 38, 'right': 39, 'down': 40 };
+
+    ev.keyCode = ev.which = (map[key] || key.charCodeAt());
+    ev.originalEvent = {};
+    $(document).trigger(ev);
   },
 
   setupHotKeys: function() {
@@ -291,15 +309,16 @@ Remedie.prototype = {
         return false;
       } else {
         var items = $('.channel-item');
-        if (items) remedie.playVideoInline(remedie.items[items[remedie.cursorPos].id.replace("channel-item-", "")]);
+        var playItem = items[remedie.cursorPos];
+        if (items.size() && playItem != undefined)
+          remedie.playVideoInline(remedie.items[playItem.id.replace("channel-item-", "")]);
         return false;
       }
     } else {
       var channels = $('.channel');
-      if (channels) {
-        var channel_id = channels[remedie.cursorPos].id.replace("channel-", "");
-        remedie.showChannel(remedie.channels[channel_id]);
-      }
+      var showChannel = channels[remedie.cursorPos];
+      if (channels.size() && showChannel)
+        remedie.showChannel(remedie.channels[showChannel.id.replace("channel-", "")]);
       return false;
     }
   },
@@ -340,6 +359,22 @@ Remedie.prototype = {
     }
   },
 
+  openAndPlay: function(channel_id, item_id) {
+    if (this.current_id == channel_id) {
+      if (remedie.items[item_id])
+        remedie.playVideoInline(remedie.items[item_id]);
+    } else {
+      if (this.channels[channel_id]) {
+        $(document).bind('remedie-channel-display-complete', function(){
+          if (remedie.items[item_id])
+            remedie.playVideoInline(remedie.items[item_id]);
+          $(document).unbind('remedie-channel-display-complete', arguments.callee);
+        });
+        this.showChannel(this.channels[channel_id]);
+      }
+    }
+  },
+
   allChannels: function() {
     var channels = [];
     $('#collection .channel').each(function() {
@@ -369,10 +404,11 @@ Remedie.prototype = {
         title: obj.header,
         description: obj.msg,
         identifier: obj.id,
-        icon: obj.icon
+        icon: obj.icon,
+        sticky: obj.sticky
       });
     } else {
-      $.jGrowl(obj.msg, { icon: obj.icon, header: obj.header, life: obj.life });
+       $.jGrowl(obj.msg, { icon: obj.icon, header: obj.header, life: obj.life, sticky: obj.sticky });
     }
   },
 
@@ -940,7 +976,7 @@ Remedie.prototype = {
         $(document).bind('remedie-collection-loaded', function(ev){
           $.each($(r).text().split(/,/), function(index, id) {
             if (remedie.channels[id])
-              remedie.refreshChannel(remedie.channels[id]);
+              remedie.refreshChannel([ remedie.channels[id] ]);
           });
           $(document).unbind('remedie-collection-loaded', arguments.callee);
         });
@@ -1011,6 +1047,7 @@ Remedie.prototype = {
   },
 
   showChannel: function(channel, opts) {
+    if (!channel) return;
     if (!opts) opts = {};
     var currentStateURI = "#channel/" + channel.id;
     if (opts.unwatched) currentStateURI += '/unwatched';
@@ -1240,6 +1277,7 @@ Remedie.prototype = {
         }
 
         remedie.toggleChannelView(true);
+        $.event.trigger("remedie-channel-display-complete", channel);
       },
       error: function(r) {
         alert("Can't load the channel: " + r.responseText);
@@ -1248,26 +1286,28 @@ Remedie.prototype = {
   },
 
   refreshAllChannels: function() {
-    $.each(this.allChannels(), function(index, channel) {
-      remedie.refreshChannel(channel);
-    });
+    this.refreshChannel(this.allChannels());
   },
 
   manuallyRefreshChannel: function(channel, clearStaleItems) {
     $.blockUI();
-    this.refreshChannel(channel, true, clearStaleItems);
+    this.refreshChannel([ channel ], true, clearStaleItems);
   },
 
-  refreshChannel : function(channel, refreshView, clearStaleItems) {
-    if (!channel)
+  refreshChannel : function(channels, refreshView, clearStaleItems) {
+    if (!channels)
       return; // TODO error message?
 
-    $("#channel-" + channel.id + " .channel-thumbnail").css({opacity:0.3});
-    $("#channel-" + channel.id + " .channel-unwatched-hover").addClass("channel-unwatched-hover-gray");
-    $("#channel-" + channel.id + " .channel-refresh-hover").show();
-    $.ajax({
+    $.each(channels, function(index, channel) {
+      $("#channel-" + channel.id + " .channel-thumbnail").css({opacity:0.3});
+      $("#channel-" + channel.id + " .channel-unwatched-hover").addClass("channel-unwatched-hover-gray");
+      $("#channel-" + channel.id + " .channel-refresh-hover").show();
+    });
+
+    var ids = $.map(channels, function(channel, index){ return channel.id });
+    $.ajaxComet({
       url: "/rpc/channel/refresh",
-      data: { id: channel.id, clear_stale: clearStaleItems ? 1 : 0 },
+      data: { id: ids, clear_stale: clearStaleItems ? 1 : 0 },
       type: 'post',
       dataType: 'json',
       success: function(r) {
@@ -1279,7 +1319,9 @@ Remedie.prototype = {
           if (refreshView)
             remedie.showChannel(r.channel);
         } else {
-          $.event.trigger('remedie-channel-updated', { channel: channel }); // Fake updated Event to cancel animation
+          var channel = remedie.channels[r.channel.id];
+          if (channel)  // Fake updated Event to cancel animation
+            $.event.trigger('remedie-channel-updated', { channel: channel });
           alert(r.error);
         }
       }
@@ -1632,7 +1674,7 @@ Remedie.prototype = {
     });
 
     // Currently displaying this channel?
-    if (this.current_id) {
+    if (this.current_id == channel.id) {
       document.title = 'Remedie: ' + channel.name;
       $('.channel-header-title').text(channel.name);
       if (channel.unwatched_count) document.title += " (" + channel.unwatched_count + ")";
@@ -1659,14 +1701,13 @@ Remedie.prototype = {
           'div', { id: "about-dialog" }, [
               'h2', {}, 'Remedie Media Center',
               'p', {}, 'Version: ' + Remedie.version,
-              'div', { id: "check-update" }, 'Checking for Updates...',
+              'div', {}, [ 'a', { target: "_blank", href: "http://remediecode.org/" }, "remediecode.org" ]
           ]);
       $.blockUI({ message: message });
-      this.checkUpdates($('#check-update'));
       return false;
   },
 
-  checkUpdates: function(element) {
+  checkUpdates: function() {
     $.ajax({
       type: 'GET',
       url: "http://github.com/api/v2/json/repos/show/miyagawa/remedie/tags",
@@ -1674,13 +1715,12 @@ Remedie.prototype = {
       success: function(res) {
         var latest = remedie.needsUpdate(res.tags, Remedie.version);
         if (latest != null) {
-          element.html("");
-          element.createAppend(
-            'a', { href: 'http://github.com/miyagawa/remedie/downloads', target: "_blank" },
-            'Upgrade to ' + latest + ' now.'
-          );
-        } else {
-          element.html("Your Remedie is up-to-date.");
+          remedie.doNotify({
+            header: "Software Update",
+            msg: "Remedie " + latest + ' is available. Download now from remediecode.org',
+            icon: "/static/images/movie.png",
+            sticky: true
+          });
         }
       },
       error: function(res) { element.innerHTML = "Update check failed." }

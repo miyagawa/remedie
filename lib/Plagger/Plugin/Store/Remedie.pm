@@ -18,6 +18,7 @@ sub store {
 
     $channel->name( $feed->title )
         unless $channel->name && $channel->name ne $channel->ident;
+    $channel->props->{feed_title}  = $feed->title;
     $channel->props->{link}        = $feed->link;
     $channel->props->{description} = $feed->description;
 

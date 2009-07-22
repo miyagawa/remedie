@@ -1,23 +1,22 @@
-package HTTP::Engine::Interface::POE;
+package HTTP::Engine::Interface::AnyEvent;
 use Any::Moose;
-our $CLIENT; ## no critic
+use AnyEvent::Handle;
+use AnyEvent::Socket;
+use HTTP::Parser;
+use URI::WithBase;
+
+our $CLIENT;
 use HTTP::Engine::Interface
     builder => 'NoEnv',
     writer  =>  {
         response_line => 1,
         'write' => sub {
             my ($self, $buffer) = @_;
-            $CLIENT->put($buffer);
+            $CLIENT->push_write($buffer);
             return 1;
         }
-    }
+    },
 ;
-
-use POE qw/
-    Component::Server::TCP
-    Filter::HTTPD
-/;
-use URI::WithBase;
 
 has host => (
     is      => 'ro',
@@ -39,44 +38,56 @@ has port => (
     },
 );
 
-has alias => (
-    is       => 'ro',
-    isa      => 'Str | Undef',
+has listen_guard => (
+    is => 'rw',
+    isa => 'Guard',
 );
 
-my $filter = any_moose('::Meta::Class')->create(
-    'HTTP::Engine::Interface::POE::Filter',
-    superclasses => ['POE::Filter::HTTPD'],
-    methods => {
-        put => sub { # omit output filter
-            shift; # class name
-            return @_;
-        }
-    },
-)->name;
-
 sub run {
-    my ($self) = @_;
+    my $self = shift;
 
-    # setup poe session
-    POE::Component::Server::TCP->new(
-        Port         => $self->port,
-        Address      => $self->host,
-        ClientFilter => $filter->new,
-        ( $self->alias ? ( Alias => $self->alias ) : () ),
-        ClientInput  => _client_input($self),
-        Started      => sub {
-            warn( __PACKAGE__
-                 . " : You can connect to your server at "
-                 . "http://" . ($self->host || 'localhost') . ":"
-                 . $self->port
-                 . "/\n" );
-        },
-    );
+    my $guard = tcp_server $self->host, $self->port, sub {
+        my($sock, $peer_host, $peer_port) = @_;
+
+        if (!$sock) {
+            return;
+        }
+
+        my $parser = HTTP::Parser->new;
+        my $handle; $handle = AnyEvent::Handle->new(
+            fh         => $sock,
+            timeout    => 30,
+            on_eof     => sub { undef $handle; undef $parser },
+            on_error   => sub { undef $handle; undef $parser; warn $! },
+            on_timeout => sub { undef $handle; undef $parser },
+        );
+
+        $handle->on_read(sub {
+            my $handle = shift;
+            my $buf = delete $handle->{rbuf};
+            my $status = $parser->add($buf);
+            if ($status == 0) {
+                $self->handle_request($handle, %{ $self->_make_request($parser->request, { remote_ip => $peer_host }) });
+            }
+        });
+
+        return;
+    }, sub {
+        my($fh, $host, $port) = @_;
+        warn( __PACKAGE__
+             . " : You can connect to your server at "
+             . "http://" . ($host || 'localhost') . ":"
+             . $port
+             . "/\n" );
+        return 0;
+    };
+
+    $self->listen_guard($guard);
 }
 
+# FIXME: almost copied from POE.pm
 sub handle_request {
-    my($self, $client, %args) = @_;
+    my($self, $socket, %args) = @_;
 
     my $req = HTTP::Engine::Request->new(
         request_builder => $self->request_builder,
@@ -100,9 +111,9 @@ sub handle_request {
         }
 
         HTTP::Engine::ResponseFinalizer->finalize( $req => $res );
-        local $CLIENT = $client; # Ugh
+        local $CLIENT = $socket; # Ugh
         $self->response_writer->finalize( $req => $res );
-        POE::Kernel->yield('shutdown');
+        $socket->push_shutdown;
     };
 
     my $res;
@@ -119,24 +130,7 @@ sub handle_request {
     }
 }
 
-sub _client_input {
-    my $self = shift;
-
-    sub {
-        my ( $kernel, $heap, $request ) = @_[ KERNEL, HEAP, ARG0 ];
-
-        # Filter::HTTPD sometimes generates HTTP::Response objects.
-        # They indicate (and contain the response for) errors that occur
-        # while parsing the client's HTTP request.  It's easiest to send
-        # the responses as they are and finish up.
-        if ( $request->isa('HTTP::Response') ) {
-            $heap->{client}->put($request->as_string);
-        } else {
-            $self->handle_request($heap->{client}, %{ $self->_make_request($request, $heap) });
-        }
-    }
-}
-
+# FIXME: copied from POE.pm
 sub _make_request {
     my ($self, $request, $heap) = @_;
 
@@ -163,7 +157,7 @@ sub _make_request {
             port       => $port,
             user       => undef,
             _https_info => 'OFF',
-            protocol   => $request->protocol(),
+            protocol   => "HTTP/" . $request->header('X_HTTP_Version'), # XXX ->protocol is not set in HTTP::Parser
             request_uri => "".$request->uri,
         },
         _connection => {
@@ -181,52 +175,3 @@ sub _make_request {
 __INTERFACE__
 
 __END__
-
-=head1 NAME
-
-HTTP::Engine::Interface::POE - POE interface for HTTP::Engine.
-
-=head1 SYNOPSIS
-
-    use POE;
-
-    HTTP::Engine->new(
-        interface => {
-            module => 'POE',
-            args   => {
-                host => '127.0.0.1',
-                port => 1984,
-            },
-            request_handler => sub {
-                HTTP::Engine::Response->new(
-                    status => 200,
-                    body   => 'foo'
-                )
-            }
-        },
-    )->run;
-
-    POE::Kernel->run();
-
-=head1 DESCRIPTION
-
-This is POE interface for HTTP::Engine.
-
-=head1 ATTRIBUTES
-
-=over 4
-
-=item host
-
-The bind address of TCP server.
-
-=item port
-
-The port number of TCP server.
-
-=back
-
-=head1 SEE ALSO
-
-L<HTTP::Engine>
-

@@ -4,6 +4,7 @@ use Any::Moose;
 use attributes ();
 use HTTP::Engine;
 use MIME::Types;
+use Net::Rendezvous::Publish;
 use Path::Class;
 use Path::Class::Unicode;
 use String::CamelCase;
@@ -12,12 +13,12 @@ use URI::Escape;
 
 use Remedie::Log;
 use Remedie::JSON;
+use Remedie::Updater;
+use Remedie::PubSub;
 
 use AnyEvent;
-use AnyEvent::Impl::POE;
 use Coro;
 use Coro::AnyEvent;
-use POE qw( Component::Rendezvous::Publish );
 
 my $coro_debug;
 
@@ -32,7 +33,7 @@ sub bootstrap {
 
     my $self = $class->new(conf => $conf);
 
-    $self->load_rpc_class([ $_ ]) for qw( channel collection item );
+    $self->load_rpc_class([ $_ ]) for qw( channel collection item events remote );
 
     my $exit = sub { CORE::die('caught signal') };
     eval {
@@ -61,33 +62,61 @@ sub BUILD {
     return $self;
 }
 
+sub make_request_handler {
+    my $self = shift;
+
+    my $check_leak = $ENV{REMEDIE_DEBUG} && eval { require Devel::LeakGuard::Object; 1 };
+
+    my $callback = $check_leak ?
+        unblock_sub {
+            my($req, $cb) = @_;
+            Devel::LeakGuard::Object::leakguard(sub {
+                my $res = $self->handle_request($req);
+                $cb->($res);
+            });
+        } :
+        unblock_sub {
+            my($req, $cb) = @_;
+            my $res = $self->handle_request($req);
+            $cb->($res);
+        };
+
+    return $callback;
+}
+
 sub run {
     my $self = shift;
 
     Remedie::Log->log(debug => "Initializing with HTTP::Engine version $HTTP::Engine::VERSION");
     my $engine = HTTP::Engine->new(
         interface => {
-            module => 'POE',
+            module => 'AnyEvent', # Change this to AnyEvent!
             args   => $self->conf,
-            request_handler => unblock_sub {
-                my($req, $cb) = @_;
-                my $res = $self->handle_request($req);
-                $cb->($res);
-            },
+            request_handler => $self->make_request_handler,
         },
     );
 
     my $owner_name = $self->owner_name;
+    my @worker;
     for my $proto (qw( http remedie )) {
-        POE::Component::Rendezvous::Publish->create(
-            name => sprintf("%s's Remedie Server", $owner_name),
-            type => "_$proto._tcp",
-            port => $self->conf->{port},
-            domain => 'local',
+        # TODO: make this AnyEvent::Bonjour
+        push @worker, AnyEvent->timer(
+            after => 0, cb => sub {
+                my $publisher = Net::Rendezvous::Publish->new
+                    or return;
+                my $service = $publisher->publish(
+                    name => sprintf("%s's Remedie Server", $owner_name),
+                    type => "_$proto._tcp",
+                    port => $self->conf->{port},
+                    domain => 'local',
+                );
+            },
         );
     }
 
     $engine->run;
+    Remedie::Updater->start_workers(32); # TODO configurable
+    my $sweeper = Remedie::PubSub->start_sweeper;
 
     if ($ENV{REMEDIE_DEBUG}) {
         require Coro::Debug;
@@ -98,12 +127,13 @@ sub run {
 
 sub owner_name {
     my $self = shift;
-    return (getpwnam($ENV{USER}))[6] || $ENV{USER};
+    my $user = getlogin || getpwuid($<) || $ENV{USER};
+    return (getpwnam($user))[6] || $user;
 }
 
 sub default_root {
     my($self, $req) = @_;
-    $req->user_agent =~ /Mobile.*Safari/ ? "/static/html/iui.html" : "/static/html/index.html";
+    $req->user_agent =~ /Mobile.*Safari|AppleWebKit.*Pre/ ? "/static/html/iui.html" : "/static/html/index.html";
 }
 
 sub handle_request {
@@ -177,7 +207,7 @@ sub dispatch_rpc {
 
     if ($@) {
         $result->{error} = $@;
-    } else {
+    } elsif (ref $result eq 'HASH') {
         $result->{success} = 1 unless defined $result->{success};
     }
 

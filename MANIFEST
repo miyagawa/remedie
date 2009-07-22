@@ -467,6 +467,5 @@ tools/export
 tools/issues
 tools/make-bundle
 tools/refresh
-xt/perlcritic.t
 xt/pod.t
 xt/podspell.t

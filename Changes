@@ -1,5 +1,38 @@
 Revision history for Perl extension Remedie
 
+0.6.5 Mon Jul 20 01:02:53 PDT 2009
+        * Make channel update event callback comet-safe #123
+        * Delay load coverflow images to avoid wasting bandwidth
+        * Do not directly depend on HTTP::Response::Encoding anymore
+        * Remove HTML::Scrubber and HTML::TokeParser dependency in favor of faster HTML::TreeBuilder::LibXML
+        * Some NYTProf based optimizations
+
+0.6.4 Sat Jul 18 12:30:39 PDT 2009
+        * Implemented Coverflow for iPhone Remote UI
+        * Upgrade EV and AnyEvent libraries in OS X bundle
+
+0.6.3 Fri Jul 17 10:28:54 PDT 2009
+        * Depends on EV to make AnyEvent loop faster and reliable
+
+0.6.2 Fri Jul 17 03:26:08 PDT 2009
+        * Actually bump up the version string
+
+0.6.1 Fri Jul 17 03:20:51 PDT 2009
+        * Fixed a critical bug where DB initialization was failing. #137
+        * Enabled software update when loaded, and notification via (j)Growl
+
+0.6.0 Thu Jul 16 23:33:44 PDT 2009
+        * Now the backend server is asynchronous and multitasking with Coro + AnyEvent
+        * Feeds refresh now handled by multi tasking workers in non-blocking way
+        * Fixed memory leaks in Feed refresh
+        * Implemented Comet message channel for async feed fetch and remote control
+        * Implemented Remedie Remote UI for iPhone and other mobile WebKit browsers
+        * Upgrade iUI library to version 3.0 RC
+        * Enabled SQLite transaction in bulk updates
+        * Change the default player for MP4 videos to QuickTime embed on Mac OS X
+        * Use HTML::TreeBuilder::LibXML and Web::Scraper::LibXML for better performance
+        * Fitlers channel URL in channel view as well
+
 0.5.9 Fri Jul  3 21:44:38 PDT 2009
         * Fixed a bug in renaming channel title where UTF-8 characters are not decoded
 

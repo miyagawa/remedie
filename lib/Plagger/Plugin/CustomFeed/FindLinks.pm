@@ -6,7 +6,7 @@ use Encode;
 use List::Util qw(first);
 use HTML::ResolveLink;
 use HTML::Selector::XPath;
-use HTML::TreeBuilder::XPath;
+use HTML::TreeBuilder::LibXML;
 use Plagger::Util qw( decode_content extract_title );
 use URI::filename;
 use YAML::XS;
@@ -22,7 +22,7 @@ sub register {
 sub init {
     my $self = shift;
     $self->SUPER::init(@_);
-    $self->load_assets('yaml', sub { $self->load_plugin_yaml(@_) });
+    $self->load_assets('yaml', sub { load_plugin_yaml(@_) });
 }
 
 sub asset_key { 'find_links' }
@@ -78,7 +78,7 @@ sub aggregate {
     $feed->title($args->{feed}->title || extract_title($content));
     $feed->link($url);
 
-    my $tree = HTML::TreeBuilder::XPath->new;
+    my $tree = HTML::TreeBuilder::LibXML->new;
     $tree->parse($content);
     $tree->eof;
 
@@ -120,6 +120,8 @@ sub aggregate {
         $found++;
         $found{$item_url} = $entry;
     }
+
+    $tree->delete;
 
     if ($found) {
         $context->update->add($feed);

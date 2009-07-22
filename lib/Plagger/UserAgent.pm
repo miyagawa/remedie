@@ -15,7 +15,13 @@ sub new {
 sub fetch {
     my($self, $url, $plugin, $opt) = @_;
 
-    my $ua = LWP::UserAgent::AnyEvent->new({ agent => "Plagger/$Plagger::VERSION (http://plagger.org/)" });
+    my $conf = Plagger->context ? Plagger->context->conf->{user_agent} : {};
+
+    my $ua_class = URI->new($url)->scheme =~ /^https?$/
+        ? "LWP::UserAgent::AnyEvent" : "LWP::UserAgent";
+
+    my $agent = $conf->{agent} || "Mozilla/5.0 (Plagger/$Plagger::VERSION http://plagger.org/)";
+    my $ua = $ua_class->new(agent => $agent);
 
     my $res = URI::Fetch->fetch($url,
         UserAgent => $ua,
@@ -36,15 +42,27 @@ use base qw(Class::Accessor::Fast);
 __PACKAGE__->mk_accessors(qw( agent timeout ));
 
 use AnyEvent::HTTP;
+use AnyEvent;
+
+$AnyEvent::HTTP::MAX_PER_HOST = 16; # :->
+
+sub new {
+    my $class = shift;
+    bless {@_}, $class;
+}
 
 sub request {
     my($self, $request) = @_;
 
-    warn "--> ", $request->uri;
+    my $headers = $request->headers;
+    $headers->{'user-agent'} = $self->agent;
+
+    warn "--> ", $request->uri if $ENV{REMEDIE_DEBUG};
+    my $w = AnyEvent->condvar;
     http_request $request->method, $request->uri,
-        timeout => 30, headers => scalar $request->headers, Coro::rouse_cb;
-    my($data, $header) = Coro::rouse_wait;
-    warn "<-- ", $header->{URL}, " $header->{Status}";
+        timeout => 30, headers => $headers, sub { $w->send(@_) };
+    my($data, $header) = $w->recv;
+    warn "<-- ", $header->{URL}, " $header->{Status}" if $ENV{REMEDIE_DEBUG};
 
     return HTTP::Response->new($header->{Status}, $header->{Reason}, [ %$header ], $data);
 }

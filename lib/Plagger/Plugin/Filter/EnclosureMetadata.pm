@@ -2,7 +2,6 @@ package Plagger::Plugin::Filter::EnclosureMetadata;
 use strict;
 use base qw( Plagger::Plugin );
 
-use HTML::TokeParser;
 use Plagger::Enclosure;
 use Plagger::UserAgent;
 

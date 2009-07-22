@@ -28,6 +28,7 @@ use Plagger::Update;
 use Plagger::UserAgent; # use to define $XML::Feed::RSS::PREFERRED_PARSER
 
 use Coro;
+use Coro::AnyEvent;
 use Coro::Specific;
 my $context_ref = Coro::Specific->new;
 
@@ -223,7 +224,7 @@ sub run_hook {
         } else {
             push @ret, $ret;
         }
-        Coro::AnyEvent::poll;
+        Coro::AnyEvent::poll();
     }
 
     return if $once;

@@ -49,10 +49,7 @@ sub register {
                                 config => { thumb_dir => $thumb_dir } });
     $context->autoload_plugin({ module => 'Filter::ExtractThumbnail',
                                 config => { min_size => 5_000 } });
-    $context->autoload_plugin({ module => 'Filter::HTMLScrubber',
-                                config => { default_deny => 1,
-                                            allow => [ qw( p br div ) ],
-                                            rules => { img => 0 } } });
+    $context->autoload_plugin({ module => 'Filter::StripHTML' });
     $context->autoload_plugin({ module => 'Filter::GuessImageSize' });
 #    $context->autoload_plugin({ module => 'Filter::ImageInfo' });
     $context->autoload_plugin({ module => 'Filter::RewriteThumbnailURL',

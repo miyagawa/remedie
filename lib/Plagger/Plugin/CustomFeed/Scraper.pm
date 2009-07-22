@@ -15,7 +15,7 @@ sub register {
 sub init {
     my $self = shift;
     $self->SUPER::init(@_);
-    $self->load_assets('pl', sub { $self->load_plugin_perl(@_) });
+    $self->load_assets('pl', sub { load_plugin_perl(@_) });
 }
 
 sub asset_key { 'scraper' }
@@ -67,7 +67,6 @@ sub update_feed {
 package Plagger::Plugin::CustomFeed::Scraper::Base;
 
 use Encode;
-use HTTP::Response::Encoding;
 
 sub new {
     my($class, $domain) = @_;

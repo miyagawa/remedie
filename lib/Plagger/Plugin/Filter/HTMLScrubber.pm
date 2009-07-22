@@ -106,6 +106,12 @@ sub update {
     }
 }
 
+# workaround to fix HTML::Scrubber circular reference bug
+sub DESTROY {
+    my $self = shift;
+    delete $self->{scrubber}->{_p};
+}
+
 1;
 
 __END__

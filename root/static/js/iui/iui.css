@@ -1,4 +1,4 @@
-/* iui.css (c) 2007 by iUI Project Members, see LICENSE.txt for license */
+/* iui.css (c) 2007-9 by iUI Project Members, see LICENSE.txt for license */
 body {
     margin: 0;
     font-family: Helvetica;
@@ -230,7 +230,7 @@ body > .dialog {
     color: #999999;
 }
 
-input {
+input:not(input[type|=radio]):not(input[type|=checkbox]) {
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     width: 100%;
@@ -244,6 +244,7 @@ input {
 
 body > .panel {
     box-sizing: border-box;
+    -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     padding: 10px;
     background: #c8c8c8 url(pinstripes.png);
@@ -255,6 +256,7 @@ body > .panel {
     padding: 0;
     background: #FFFFFF;
     -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
     border: 1px solid #999999;
     text-align: right;
     font-size: 16px;
@@ -272,8 +274,9 @@ fieldset > .row:last-child {
     border-bottom: none !important;
 }
 
-.row > input {
+.row > input:not(input[type|=radio]):not(input[type|=checkbox]) {
     box-sizing: border-box;
+    -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     margin: 0;
     border: none;
@@ -281,12 +284,23 @@ fieldset > .row:last-child {
     height: 42px;
     background: none;
 }
+.row > input[type|=radio], .row > input[type|=checkbox] {
+  margin: 7px 7px 0 0;
+  height: 25px;
+  width: 25px;
+}
 
 .row > label {
     position: absolute;
     margin: 0 0 0 14px;
     line-height: 42px;
     font-weight: bold;
+}
+
+.row > span {
+    position: absolute;
+    padding: 12px 10px 0 110px;
+    margin: 0;
 }
 
 .row > .toggle {

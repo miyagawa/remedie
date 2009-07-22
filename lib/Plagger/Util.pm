@@ -48,6 +48,9 @@ sub strip_html {
     my $text = $formatter->format($tree);
 #    utf8::decode($text);
     $text =~ s/\s*$//s;
+
+    $tree->delete;
+
     $text;
 }
 
