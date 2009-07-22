@@ -97,11 +97,12 @@ sub run {
     );
 
     my $owner_name = $self->owner_name;
-    my @worker;
+
     for my $proto (qw( http remedie )) {
         # TODO: make this AnyEvent::Bonjour
-        push @worker, AnyEvent->timer(
+        my $w; $w = AnyEvent->timer(
             after => 0, cb => sub {
+                my $x = $w; # closure
                 my $publisher = Net::Rendezvous::Publish->new
                     or return;
                 my $service = $publisher->publish(
