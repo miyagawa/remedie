@@ -127,7 +127,8 @@ sub run {
 
 sub owner_name {
     my $self = shift;
-    return (getpwnam($ENV{USER}))[6] || $ENV{USER};
+    my $user = getlogin || getpwuid($<) || $ENV{USER};
+    return (getpwnam($user))[6] || $user;
 }
 
 sub default_root {
