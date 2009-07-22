@@ -17,7 +17,7 @@ sub start_sweeper {
         after    => 5,
         interval => 60,
         cb => sub {
-            my $x = $w; # closure
+            scalar $w;
             for my $session (keys %queues) {
                 if ($last_access{$session} < time - $SWEEP_QUEUE &&
                     $queues{$session}->size > 0) {

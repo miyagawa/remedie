@@ -102,7 +102,7 @@ sub run {
         # TODO: make this AnyEvent::Bonjour
         my $w; $w = AnyEvent->timer(
             after => 0, cb => sub {
-                my $x = $w; # closure
+                undef $w;
                 my $publisher = Net::Rendezvous::Publish->new
                     or return;
                 my $service = $publisher->publish(
@@ -129,7 +129,7 @@ sub run {
             after => 0,
             interval => 1,
             cb => sub {
-                my $x = $t;
+                scalar $t;
                 # just loop forever to avoid runaway processes
                 schedule;
             },
