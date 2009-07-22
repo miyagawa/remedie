@@ -123,6 +123,19 @@ sub run {
         require Coro::Debug;
         $coro_debug = new_tcp_server Coro::Debug 10101;
     }
+
+    {
+        my $t; $t = AnyEvent->timer(
+            after => 0,
+            interval => 1,
+            cb => sub {
+                my $x = $t;
+                # just loop forever to avoid runaway processes
+                schedule;
+            },
+        );
+    }
+
     AnyEvent->condvar->recv;
 }
 
