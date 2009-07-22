@@ -13,10 +13,11 @@ my(%queues, %last_access);
 my $signal = Coro::Signal->new;
 
 sub start_sweeper {
-    AnyEvent->timer(
+    my $w; $w = AnyEvent->timer(
         after    => 5,
         interval => 60,
         cb => sub {
+            my $x = $w; # closure
             for my $session (keys %queues) {
                 if ($last_access{$session} < time - $SWEEP_QUEUE &&
                     $queues{$session}->size > 0) {
