@@ -14,6 +14,9 @@ use CPAN;
 use CPAN::HandleConfig;
 CPAN::HandleConfig->load; # preload config
 
+# force refresh CPAN metadata
+unlink "$ENV{HOME}/.cpan/Metadata";
+
 my $workdir = Cwd::realpath("$FindBin::Bin/../bundle-build");
 my $repo    = "git://github.com/miyagawa/remedie.git";
 my $base    = "remedie";
