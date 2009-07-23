@@ -47,7 +47,7 @@ has 'host' => (
     cmd_aliases => 'h',
     is          => 'rw',
     isa         => 'Str',
-    default     => '::',
+    default     => sub { $^O eq 'darwin' ? '::' : '0.0.0.0' },
 );
 
 has 'port' => (
