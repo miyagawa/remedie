@@ -1,5 +1,11 @@
 Revision history for Perl extension Remedie
 
+0.6.6 Wed Jul 22 22:23:19 PDT 2009
+        * Listen to ipv6 socket as well (Thanks to kazeburo)
+        * Maek the owner_name method to work on win32--
+        * Upgrade Coro dependency and fix poll() bug
+        * Make a Coro thread scheduler to watch runaway process #135
+
 0.6.5 Mon Jul 20 01:02:53 PDT 2009
         * Make channel update event callback comet-safe #123
         * Delay load coverflow images to avoid wasting bandwidth
