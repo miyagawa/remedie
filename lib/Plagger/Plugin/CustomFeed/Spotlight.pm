@@ -33,7 +33,8 @@ sub handle {
 sub aggregate {
     my($self, $context, $args, $path) = @_;
 
-    my $folder = File::Spotlight->new($path->stringify);
+    my $folder = eval { File::Spotlight->new($path->stringify) }
+        or return;
 
     my $name = $path->basename;
     $name =~ s/\.savedSearch$//;
