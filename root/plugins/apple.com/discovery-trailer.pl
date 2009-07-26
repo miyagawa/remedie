@@ -10,7 +10,7 @@ sub handle {
 
     my $res = Plagger::UserAgent->new->fetch($args->{feed}->url);
     unless ($res->is_success) {
-        $context->log(error => "GET " . $args->{feed}->url . ": " . $res->status_line);
+        $context->log(error => "GET " . $args->{feed}->url . ": " . $res->http_response->status_line);
         return;
     }
 
