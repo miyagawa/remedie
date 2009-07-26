@@ -10,8 +10,8 @@ use Path::Class;
 
 eval { require Mac::AppleScript };
 use File::Temp;
-use LWP::UserAgent;
 use URI::filename;
+use Plagger::UserAgent;
 
 my %map = (
     VLC => '_vlc',
@@ -35,7 +35,7 @@ sub nicovideo : POST {
     my $request = HTTP::Request->new( GET => $uri );
     $request->header('Referer', "http://www.nicovideo.jp/");
 
-    my $ua = LWP::UserAgent->new( $req->header('User-Agent') );
+    my $ua = LWP::UserAgent::AnyEvent->new( $req->header('User-Agent') );
     my $response = $ua->request($request);
     $response->is_success or die "Request failed: " . $response->status_line;
 
