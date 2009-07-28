@@ -870,27 +870,6 @@ Remedie.prototype = {
     })
   },
 
-  embedCooliris: function(channel) {
-    var res    = RemedieUtil.calcWindowSize($(window).width()-100, $(window).height()-80, 9/16);
-    var width  = res.width;
-    var height = res.height;
-
-    Shadowbox.open({
-      player:  'html',
-      height:  height,
-      width:   width,
-      content: '<div id="embed-player"></div>'
-    }, {
-      onFinish: function() {
-        var embed = new SWFObject("http://apps.cooliris.com/embed/cooliris.swf", 'cooliris-' + channel.id, width, height, '9');
-        embed.addParam('allowfullscreen', 'true');
-        embed.addParam('allowscriptaccess', 'always');
-        embed.addVariable('feed', $("#gallery").attr('href'));
-        embed.write('embed-player');
-      }
-    });
-  },
-
   markAllAsWatched: function(channel, showChannelView) {
     this.updateStatus({ id: channel.id, status: 'watched' }, function() {
       if (showChannelView && remedie.current_id == channel.id)
@@ -1154,7 +1133,6 @@ Remedie.prototype = {
             channel_context_clear_stale:  function(){ remedie.manuallyRefreshChannel(channel, true) },
             channel_context_mark_watched: function(){ remedie.markAllAsWatched(channel, true) },
             channel_context_cooliris:     function(){ remedie.launchCooliris() },
-            channel_context_cooliris_swf: function(){ remedie.embedCooliris(channel) },
             channel_context_remove:       function(){ remedie.removeChannel(channel) }
           }
         });
