@@ -1,5 +1,14 @@
 Revision history for Perl extension Remedie
 
+0.6.7 Tue Jul 28 16:36:27 PDT 2009
+        * Disable ipv6 by default on platform other than Mac OS X. #143
+        * Fixed nicovideo.jp plugin to use non-blocking HTTP client. #147
+        * Do not crash server process when .savedSearch spotlight folder doesn't exist. #146
+        * Fix Apple.com trailer error handling
+        * removed Cooliris embed flash
+        * Fixed refreshing and clearing stale items from channel list view
+        * Upgrade Coro/AnyEvent bundle for OS X
+
 0.6.6 Wed Jul 22 22:23:19 PDT 2009
         * Listen to ipv6 socket as well (Thanks to kazeburo)
         * Maek the owner_name method to work on win32--
