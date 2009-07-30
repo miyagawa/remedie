@@ -1260,7 +1260,8 @@ Remedie.prototype = {
         $.event.trigger("remedie-channel-display-complete", channel);
       },
       error: function(r) {
-        alert("Can't load the channel: " + r.responseText);
+        $.unblockUI();
+        alert("Can't load the channel: " +  (r.responseText || "Remedie Server is not running"));
       }
     });
   },
@@ -1366,7 +1367,8 @@ Remedie.prototype = {
         $.event.trigger('remedie-collection-loaded');
       },
       error: function(r) {
-        alert("Can't load subscription: " + r.responseText);
+        $.unblockUI();
+        alert("Can't load subscription: " + (r.responseText || "Remedie Server is not running"));
       }
     });
   },
