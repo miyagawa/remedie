@@ -40,8 +40,8 @@ sub update_all {
     for my $channel (@$channels) {
         async { Remedie::Updater->queue_channel($channel->id, $conf) };
         push @events, {
-            type => 'call_trigger',
-            trigger => 'remedie-channel-refresh-started',
+            type => 'trigger_event',
+            event => 'remedie-channel-refresh-started',
             channel_id => $channel->id,
         };
     }
@@ -80,8 +80,8 @@ sub work_channel {
     $channel->load; # reload
 
     Remedie::PubSub->broadcast({
-        type => 'call_trigger',
-        trigger => 'remedie-channel-updated',
+        type => 'trigger_event',
+        event => 'remedie-channel-updated',
         channel => $channel,
     });
 }

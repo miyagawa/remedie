@@ -80,8 +80,8 @@ sub refresh : POST {
     for my $channel_id (@channel_id) {
         async { Remedie::Updater->queue_channel($channel_id, $self->conf, $opts) };
         push @events, {
-            type => 'call_trigger',
-            trigger => 'remedie-channel-refresh-started',
+            type => 'trigger_event',
+            event => 'remedie-channel-refresh-started',
             channel_id => $channel_id,
         };
     }

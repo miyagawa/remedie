@@ -302,8 +302,8 @@ Remedie.prototype = {
     $.ev.handlers.command = function(ev) {
       try { eval(ev.command) } catch(e) { alert(e) };
     };
-    $.ev.handlers.call_trigger = function(ev) {
-      $.event.trigger(ev.trigger, ev);
+    $.ev.handlers.trigger_event = function(ev) {
+      $.event.trigger(ev.event, ev);
     };
     $.ev.loop('/rpc/events/poll?s=' + Math.random());
   },
