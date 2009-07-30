@@ -291,7 +291,6 @@ Remedie.prototype = {
       });
     });
     $(document).bind('remedie-channel-refresh-started', function(ev, args) {
-      if (remedie.current_id == args.channel.id) $.blockUI();
       $("#channel-" + args.channel.id + " .channel-thumbnail").css({opacity:0.3});
       $("#channel-" + args.channel.id + " .channel-unwatched-hover").addClass("channel-unwatched-hover-gray");
       $("#channel-" + args.channel.id + " .channel-refresh-hover").show();
@@ -1271,6 +1270,7 @@ Remedie.prototype = {
   },
 
   manuallyRefreshChannel: function(channel, clearStaleItems) {
+    $.blockUI();
     this.refreshChannel([ channel ], true, clearStaleItems);
   },
 
