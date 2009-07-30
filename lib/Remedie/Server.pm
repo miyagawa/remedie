@@ -122,7 +122,7 @@ sub run {
 
     if ($ENV{REMEDIE_DEBUG}) {
         require Coro::Debug;
-        $coro_debug = new_tcp_server Coro::Debug 10101;
+        $coro_debug = new_tcp_server Coro::Debug 10011;
     }
 
     {
