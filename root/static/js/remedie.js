@@ -1271,10 +1271,15 @@ Remedie.prototype = {
 
   manuallyRefreshChannel: function(channel, clearStaleItems) {
     $.blockUI();
-    this.refreshChannel([ channel ], true, clearStaleItems);
+    $(document).bind('remedie-channel-updated', function(ev, args) {
+      if (remedie.current_id == args.channel.id)
+        remedie.showChannel(args.channel);
+      $(document).unbind('remedie-channel-updated', arguments.callee);
+    });
+    this.refreshChannel([ channel ], clearStaleItems);
   },
 
-  refreshChannel : function(channels, refreshView, clearStaleItems) {
+  refreshChannel : function(channels, clearStaleItems) {
     if (!channels)
       return; // TODO error message?
 
@@ -1457,7 +1462,7 @@ Remedie.prototype = {
         bindings: {
           channel_context_refresh:      function(){ remedie.refreshChannel([ channel ]) },
           channel_context_rename:       function(){ remedie.renameChannel(channel) },
-          channel_context_clear_stale:  function(){ remedie.refreshChannel([ channel ], false, true) },
+          channel_context_clear_stale:  function(){ remedie.refreshChannel([ channel ], true) },
           channel_context_mark_watched: function(){ remedie.markAllAsWatched(channel, false) },
           channel_context_remove:       function(){ remedie.removeChannel(channel) }
         }
