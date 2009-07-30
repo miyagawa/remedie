@@ -769,16 +769,6 @@ Remedie.prototype = {
     return player;
   },
 
-  setupSilverlightPlayer: function(ply) {
-    if (ply.view) {
-      ply.addListener('STATE', function(ost,nst){if (nst == 'Completed') $.unblockUI()});
-      ply.sendEvent('PLAY');
-    } else {
-      // not ready yet
-      setTimeout(function(){remedie.setupSilverlightPlayer(ply)}, 100)
-    }
-  },
-
   startDownload: function(item, app) {
     if (!app) app = this.defaultDownloaderFor(item);
 
