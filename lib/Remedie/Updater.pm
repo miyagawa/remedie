@@ -22,7 +22,7 @@ my $queue = Coro::Channel->new;
 # producer
 sub queue_channel {
     my $class = shift;
-    $queue->put([ @_ ]); # $event_id, $channel_id, $conf, $opts
+    $queue->put([ @_ ]); # $channel_id, $conf, $opts
 }
 
 sub start_workers {
@@ -39,7 +39,7 @@ sub work_channel {
     my $class = shift;
 
     my $job = $queue->get; # blocks
-    my($event_id, $channel_id, $conf, $opts) = @$job;
+    my($channel_id, $conf, $opts) = @$job;
 
     my $updater = $class->new( conf => $conf );
     my $channel = Remedie::DB::Channel->new(id => $channel_id)->load;
@@ -49,7 +49,7 @@ sub work_channel {
 
     $channel->load; # reload
 
-    Remedie::PubSub->broadcast({ id => $event_id, success => 1, channel => $channel });
+    Remedie::PubSub->broadcast({ type => "channel_updated", channel => $channel });
 }
 
 sub update_channel {

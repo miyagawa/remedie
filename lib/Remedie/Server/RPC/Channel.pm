@@ -68,14 +68,11 @@ sub refresh : POST {
     my @channel_id = $req->param('id');
     my $opts = { clear_stale => scalar $req->param('clear_stale') };
 
-    my @event_id;
     for my $channel_id (@channel_id) {
-        my $event_id = "event." . Time::HiRes::gettimeofday . ".$channel_id";
-        Remedie::Updater->queue_channel($event_id, $channel_id, $self->conf, $opts);
-        push @event_id, $event_id;
+        Remedie::Updater->queue_channel($channel_id, $self->conf, $opts);
     }
 
-    return \@event_id;
+    return { channels => \@channel_id };
 }
 
 sub show {
