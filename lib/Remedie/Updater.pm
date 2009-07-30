@@ -19,6 +19,29 @@ use Coro::Channel;
 
 my $queue = Coro::Channel->new;
 
+sub start_periodic_updater {
+    my($class, $conf) = @_;
+
+    my $w; $w = AnyEvent->timer(
+        after => 15 * 60,
+        interval => 60 * 60,
+        cb => sub {
+            scalar $w;
+            my $channels = Remedie::DB::Channel::Manager->get_channels;
+            my @events;
+            for my $channel (@$channels) {
+                Remedie::Updater->queue_channel($channel->id, $conf);
+                push @events, {
+                    type => 'call_trigger',
+                    trigger => 'remedie-channel-refresh-started',
+                    channel => $channel,
+                };
+            }
+            Remedie::PubSub->broadcast(@events);
+        },
+    );
+}
+
 # producer
 sub queue_channel {
     my $class = shift;

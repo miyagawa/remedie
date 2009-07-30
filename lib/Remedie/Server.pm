@@ -117,6 +117,7 @@ sub run {
 
     $engine->run;
     Remedie::Updater->start_workers(32); # TODO configurable
+    Remedie::Updater->start_periodic_updater($self->conf);
     Remedie::PubSub->start_sweeper;
 
     if ($ENV{REMEDIE_DEBUG}) {
