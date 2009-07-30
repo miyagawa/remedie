@@ -68,11 +68,19 @@ sub refresh : POST {
     my @channel_id = $req->param('id');
     my $opts = { clear_stale => scalar $req->param('clear_stale') };
 
+    my @events;
     for my $channel_id (@channel_id) {
-        Remedie::Updater->queue_channel($channel_id, $self->conf, $opts);
+        async { Remedie::Updater->queue_channel($channel_id, $self->conf, $opts) };
+        push @events, {
+            type => 'call_trigger',
+            trigger => 'remedie-channel-refresh-started',
+            channel_id => $channel_id,
+        };
     }
 
-    return { channels => \@channel_id };
+    async { Remedie::PubSub->broadcast(@events) };
+
+    return { };
 }
 
 sub show {

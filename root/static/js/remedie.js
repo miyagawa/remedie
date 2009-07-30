@@ -291,9 +291,10 @@ Remedie.prototype = {
       });
     });
     $(document).bind('remedie-channel-refresh-started', function(ev, args) {
-      $("#channel-" + args.channel.id + " .channel-thumbnail").css({opacity:0.3});
-      $("#channel-" + args.channel.id + " .channel-unwatched-hover").addClass("channel-unwatched-hover-gray");
-      $("#channel-" + args.channel.id + " .channel-refresh-hover").show();
+      var channel_id = args.channel_id || args.channel.id;
+      $("#channel-" + channel_id + " .channel-thumbnail").css({opacity:0.3});
+      $("#channel-" + channel_id + " .channel-unwatched-hover").addClass("channel-unwatched-hover-gray");
+      $("#channel-" + channel_id + " .channel-refresh-hover").show();
     });
   },
 
@@ -1290,8 +1291,9 @@ Remedie.prototype = {
       type: 'post',
       dataType: 'json',
       success: function(r) {
-        $.each(r.channels, function(index, channel_id) {
-          $.event.trigger('remedie-channel-refresh-started', { channel: remedie.channels[channel_id] });
+        // This actually duplicates -started events since it's sent from server as well.
+        $.each(channels, function(index, channel) {
+          $.event.trigger('remedie-channel-refresh-started', { channel: channel });
         });
       }
     });
