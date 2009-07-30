@@ -62,6 +62,14 @@ sub update : POST {
     return { channel => $channel };
 }
 
+sub refresh_all : POST {
+    my($self, $req, $res) = @_;
+
+    Remedie::Updater->update_all($self->conf);
+
+    return { success => 1 };
+}
+
 sub refresh : POST {
     my($self, $req, $res) = @_;
 
@@ -80,7 +88,7 @@ sub refresh : POST {
 
     async { Remedie::PubSub->broadcast(@events) };
 
-    return { };
+    return { success => 1 };
 }
 
 sub show {

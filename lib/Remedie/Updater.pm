@@ -27,19 +27,26 @@ sub start_periodic_updater {
         interval => 60 * 60,
         cb => sub {
             scalar $w;
-            my $channels = Remedie::DB::Channel::Manager->get_channels;
-            my @events;
-            for my $channel (@$channels) {
-                async { Remedie::Updater->queue_channel($channel->id, $conf) };
-                push @events, {
-                    type => 'call_trigger',
-                    trigger => 'remedie-channel-refresh-started',
-                    channel => $channel,
-                };
-            }
-            async { Remedie::PubSub->broadcast(@events) };
+            $class->update_all($conf);
         },
     );
+}
+
+sub update_all {
+    my($class, $conf) = @_;
+
+    my $channels = Remedie::DB::Channel::Manager->get_channels;
+    my @events;
+    for my $channel (@$channels) {
+        async { Remedie::Updater->queue_channel($channel->id, $conf) };
+        push @events, {
+            type => 'call_trigger',
+            trigger => 'remedie-channel-refresh-started',
+            channel_id => $channel->id,
+        };
+    }
+
+    async { Remedie::PubSub->broadcast(@events) };
 }
 
 # producer
