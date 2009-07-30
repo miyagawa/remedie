@@ -49,7 +49,11 @@ sub work_channel {
 
     $channel->load; # reload
 
-    Remedie::PubSub->broadcast({ type => "channel_updated", channel => $channel });
+    Remedie::PubSub->broadcast({
+        type => 'call_trigger',
+        trigger => 'remedie-channel-updated',
+        channel => $channel,
+    });
 }
 
 sub update_channel {

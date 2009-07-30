@@ -301,8 +301,8 @@ Remedie.prototype = {
     $.ev.handlers.command = function(ev) {
       try { eval(ev.command) } catch(e) { alert(e) };
     };
-    $.ev.handlers.channel_updated = function(ev) {
-      $.event.trigger('remedie-channel-updated', { channel: ev.channel });
+    $.ev.handlers.call_trigger = function(ev) {
+      $.event.trigger(ev.trigger, ev);
     };
     $.ev.loop('/rpc/events/poll?s=' + Math.random());
   },
