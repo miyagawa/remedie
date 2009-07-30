@@ -206,11 +206,11 @@ sub normalize_uri {
     my $uri = shift;
 
     # TODO this should be replaced with pluggable feed discovery
-    my %is_known = map { $_ => 1 } qw ( http https file script );
+    my %is_known = map { $_ => 1 } qw ( http https file script feed );
 
     $uri = URI->new($uri);
-    $uri->scheme("http") if $uri->scheme && $uri->scheme eq 'feed';
-    $uri = URI->new("http://$uri") unless $is_known{$uri->scheme};
+    $uri = URI->new("http://$uri") unless $uri->scheme && $is_known{$uri->scheme};
+    $uri->scheme("http") if $uri->scheme eq 'feed';
 
     return URI->new($uri)->canonical;
 }
