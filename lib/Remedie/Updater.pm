@@ -23,7 +23,7 @@ sub start_periodic_updater {
     my($class, $conf) = @_;
 
     my $w; $w = AnyEvent->timer(
-        after => 15 * 60,
+        after => 15,
         interval => 60 * 60,
         cb => sub {
             scalar $w;
