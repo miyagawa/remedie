@@ -1,5 +1,14 @@
 Revision history for Perl extension Remedie
 
+0.6.8 Fri Jul 31 12:57:11 PDT 2009
+        * Implemented server-side periodic updater #150
+        * Removed unused Silverlight code
+        * Implemented /rpc/channel/refresh_all endpoint
+        * Fixed Comet callback when updating feed is done to be multi channel safe
+        * Implemented Comet event callback to generate jQuery event (very nice)
+        * Fix port number (10011) for Coro debug session
+        * Do not use Mac::AppleScript since it's not Coro-safe #151
+
 0.6.7 Tue Jul 28 16:36:27 PDT 2009
         * Disable ipv6 by default on platform other than Mac OS X. #143
         * Fixed nicovideo.jp plugin to use non-blocking HTTP client. #147
