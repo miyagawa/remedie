@@ -8,7 +8,7 @@ __PACKAGE__->meta->make_immutable;
 no Any::Moose;
 use Path::Class;
 
-eval { require Mac::AppleScript };
+use Coro;
 use File::Temp;
 use URI::filename;
 use Plagger::UserAgent;
@@ -167,18 +167,13 @@ sub _run_apple_script {
     chomp $script;
     my $as = qq(tell Application "$app"\n$script\nend tell);
 
-    if (defined &Mac::AppleScript::RunAppleScript) {
-        return Mac::AppleScript::RunAppleScript($as)
-            or die "Can't launch $app via AppleScript";
-    } else {
+    async {
         my $temp = File::Temp->new( UNLINK => 1 );
         my $fname = $temp->filename;
         print $temp $as;
         close $temp;
-
-        my $ret = qx(osascript $fname);
-        return $ret;
-    }
+        system "osascript", $fname;
+    };
 }
 
 1;
