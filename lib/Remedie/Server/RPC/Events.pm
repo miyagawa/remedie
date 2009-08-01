@@ -13,7 +13,7 @@ sub poll {
     my($self, $req, $res) = @_;
 
     my $session = $req->param('s') || $req->header('User-Agent');
-    my $events  = Remedie::PubSub->wait($session, 3 * 60); # waits for the new event
+    my $events  = Remedie::PubSub->wait($session, 60); # waits for the new event
     return $events || [];
 }
 
