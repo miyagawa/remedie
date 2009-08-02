@@ -573,10 +573,10 @@ Remedie.prototype = {
         ratio = 9/16; // TODO configurable
       }
     } else {
-      if (item.props.type && item.props.type.match(/audio/)) {
-        var thumb = item.props.thumbnail || this.channels[item.channel_id].props.thumbnail;
+      var thumb = item.props.thumbnail || this.channels[item.channel_id].props.thumbnail;
+      if (item.props.type && item.props.type.match(/audio/) && thumb) {
         ratio = parseInt(thumb.height  || 256) / parseInt(thumb.width || 256);
-        thumbnail = thumb ? thumb.url : undefined;
+        thumbnail = thumb.url;
       } else {
         ratio = (item.props.height && item.props.width)
           ? (item.props.height / item.props.width) : 9/16; // TODO
@@ -1246,7 +1246,7 @@ Remedie.prototype = {
         $(".channel-item-clickable").click(function(){
           try{
             remedie.playVideoInline( remedie.items[this.id.replace("item-thumbnail-", "")] );
-          } catch(e) { alert(e) };
+          } catch(e) { alert(e); console.log(e) };
           return false;
         });
 
