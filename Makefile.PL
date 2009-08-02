@@ -33,7 +33,7 @@ requires 'HTML::Selector::XPath';
 requires 'HTML::Tagset';
 requires 'HTML::TreeBuilder';
 requires 'HTML::TreeBuilder::XPath', 0.09;
-requires 'HTML::TreeBuilder::LibXML', 0.04;
+requires 'HTML::TreeBuilder::LibXML', 0.09;
 requires 'HTTP::Date';
 requires 'HTTP::Engine', '0.02002';
 requires 'HTTP::Parser';
