@@ -49,7 +49,7 @@ sub store {
             $item->status( Remedie::DB::Item->STATUS_NEW );
         }
 
-        $item->name($entry->title);
+        $item->name($entry->title || '(non-title)');
         $item->props->{link} = $permalink;
         $item->props->{description} = $entry->summary && !$entry->summary->is_empty
            ? $entry->summary : $entry->body;
