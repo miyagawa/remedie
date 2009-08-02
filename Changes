@@ -1,5 +1,9 @@
 Revision history for Perl extension Remedie
 
+0.6.9 Sun Aug  2 01:04:05 PDT 2009
+        * Hopefully fixed the annoying "Bus errors" when adding a new channel #145
+        * Shorten the long poll to < 60 sec to avoid "Broken Pipe" in OS X
+
 0.6.8 Fri Jul 31 12:57:11 PDT 2009
         * Implemented server-side periodic updater #150
         * Removed unused Silverlight code
