@@ -229,7 +229,7 @@ sub dispatch_rpc {
     unless ( $res->body ) {
         $res->status(200);
         $res->content_type("application/json; charset=utf-8");
-        $res->body( Remedie::JSON->encode($result) );
+        $res->body( my $json = Remedie::JSON->encode($result) ); # store to $json to avoid Coro reference (?)
         Remedie::Log->log(debug => $res->body);
     }
 }
