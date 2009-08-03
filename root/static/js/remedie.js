@@ -1705,7 +1705,7 @@ Remedie.prototype = {
        release_tags.push(tag);
      }
 
-     release_tags.sort(function(a,b) { RemedieUtil.versionAsInt(a) - RemedieUtil.versionAsInt(b) });
+     release_tags.sort(function(a,b) { return RemedieUtil.versionAsInt(a) - RemedieUtil.versionAsInt(b) });
      release_tags.reverse();
      var latest = release_tags[0];
      if (RemedieUtil.versionAsInt(latest) > RemedieUtil.versionAsInt(version)) {
