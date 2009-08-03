@@ -1,5 +1,8 @@
 Revision history for Perl extension Remedie
 
+0.6.11 Sun Aug  2 18:57:11 PDT 2009
+        * Fix Software Update code to find 0.6.10 > 0.6.9
+
 0.6.10 Sun Aug  2 18:46:56 PDT 2009
         * Fixes LibXML errors when data body is just whitespace strings (otsune) #157
         * Set (no-title) to empty title items to avoid SQL error
