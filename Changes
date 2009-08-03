@@ -1,5 +1,11 @@
 Revision history for Perl extension Remedie
 
+0.6.10 Sun Aug  2 18:46:56 PDT 2009
+        * Fixes LibXML errors when data body is just whitespace strings (otsune) #157
+        * Set (no-title) to empty title items to avoid SQL error
+        * Fix errors in audio podcast playback when there's no thumbnail #154
+        * Plugin: fixed video.watch.impress.co.jp scraper
+
 0.6.9 Sun Aug  2 01:04:05 PDT 2009
         * Hopefully fixed the annoying "Bus errors" when adding a new channel #145
         * Shorten the long poll to < 60 sec to avoid "Broken Pipe" in OS X
