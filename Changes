@@ -1,5 +1,8 @@
 Revision history for Perl extension Remedie
 
+0.6.12 Sun Aug  2 19:17:50 PDT 2009
+        * Fixed a stupid JavaScript mistake in sort comparision function
+
 0.6.11 Sun Aug  2 18:57:11 PDT 2009
         * Fix Software Update code to find 0.6.10 > 0.6.9
 
