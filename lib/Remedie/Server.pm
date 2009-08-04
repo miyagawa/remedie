@@ -90,7 +90,7 @@ sub run {
     Remedie::Log->log(debug => "Initializing with HTTP::Engine version $HTTP::Engine::VERSION");
     my $engine = HTTP::Engine->new(
         interface => {
-            module => 'AnyEvent', # Change this to AnyEvent!
+            module => 'AnyEvent',
             args   => $self->conf,
             request_handler => $self->make_request_handler,
         },
