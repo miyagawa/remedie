@@ -96,6 +96,17 @@ sub run {
         },
     );
 
+    if ($ENV{REMEDIE_REVERSEHTTP}) {
+        my($label, $token) = split /:/, $ENV{REMEDIE_REVERSEHTTP};
+        HTTP::Engine->new(
+            interface => {
+                module => 'ReverseHTTP',
+                args   => { label => $label, token => $token },
+                request_handler => $self->make_request_handler,
+            },
+        )->run;
+    }
+
     my $owner_name = $self->owner_name;
 
     for my $proto (qw( http remedie )) {
