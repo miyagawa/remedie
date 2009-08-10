@@ -873,7 +873,7 @@ Remedie.prototype = {
   markAllAsWatched: function(channel, showChannelView) {
     this.updateStatus({ id: channel.id, status: 'watched' }, function() {
       if (showChannelView && remedie.current_id == channel.id)
-        remedie.showChannel(channel);
+        remedie.showChannel(remedie.channels[channel.id]);
     });
   },
 
@@ -901,8 +901,8 @@ Remedie.prototype = {
       async: (obj.sync ? false : true),
       success: function(r) {
         if (r.success) {
-          callback.call();
           $.event.trigger('remedie-channel-updated', { channel: r.channel, skip_notification: true });
+          callback.call();
         } else {
           alert(r.error);
         }
@@ -1438,7 +1438,7 @@ Remedie.prototype = {
         if (remedie.isBeingSorted) {
           remedie.isBeingSorted = false;
         } else {
-          remedie.showChannel(channel);
+          remedie.showChannel(remedie.channels[channel.id]);
         }
       })
       .hover( function(){
