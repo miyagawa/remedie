@@ -512,17 +512,11 @@ Remedie.prototype = {
         gallery: 'gallery' + item.channel_id,
         onOpen:  loadGalleryItem
       });
-    } else if (!item.is_unwatched) {
-      this.onPlaybackComplete = function(){ setTimeout(Shadowbox.close, 100) };
-      Shadowbox.open({ id: item.id }, {
-        gallery: 'gallery' + item.channel_id,
-        onOpen:  loadGalleryItem
-      });
     } else {
-      var items = $('.channel-item-unwatched');
-      var curr  = items.index($("#channel-item-title-" + item.id));
+      var items = $('.channel-item');
+      var curr  = items.index($("#channel-item-" + item.id));
       items = items.slice(curr, items.length);
-      var galleryItems = $.map(items, function(n, i) { return { id: n.id.replace('channel-item-title-', '') } });
+      var galleryItems = $.map(items, function(n, i) { return { id: n.id.replace('channel-item-', '') } });
       this.onPlaybackComplete = function() {
         if (remedie.lastPlayedVideo.id == galleryItems[galleryItems.length-1].id)
           setTimeout(Shadowbox.close, 100);
@@ -1029,7 +1023,10 @@ Remedie.prototype = {
 
   showChannel: function(channel, opts) {
     if (!channel) return;
-    if (!opts) opts = {};
+    if (!opts) {
+      opts = {};
+      if (channel.unwatched_count) opts.unwatched = 1;
+    }
     var currentStateURI = "#channel/" + channel.id;
     if (opts.unwatched) currentStateURI += '/unwatched';
     else if (opts.all)  currentStateURI += '/all'; // unwatched includes all
