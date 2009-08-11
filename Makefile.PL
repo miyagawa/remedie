@@ -6,6 +6,7 @@ all_from 'lib/Remedie.pm';
 
 requires 'AnyEvent', 4.82;
 requires 'AnyEvent::HTTP';
+requires 'Bit::Vector';
 requires 'Cache::Cache';
 requires 'Class::Accessor::Fast';
 requires 'Coro', 5.161;

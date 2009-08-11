@@ -1,5 +1,8 @@
 Revision history for Perl extension Remedie
 
+0.6.14 Mon Aug 10 22:37:19 PDT 2009
+        * Include Bit::Vector (thanks Phil Welan)
+
 0.6.13 Mon Aug 10 21:44:35 PDT 2009
         * Implemented pause playback with o/ret hotkey for QT, Flash, Silverlight, YouTube and Nicovideo
         * Changed how continuous playback works. Also display only unwatched items if there is. #159
