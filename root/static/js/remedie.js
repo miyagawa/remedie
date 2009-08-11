@@ -616,6 +616,12 @@ Remedie.prototype = {
           onFinish: function() {
             window.setPlayerStatus = function(st){ if(st=='end') remedie.onPlaybackComplete() }; // nicovideo
             $('head').append("<script>" + item.props.embed.script + "</script>");
+            remedie.pausePlayback = function(){
+              var player = $('#embed-player embed')[0];
+              if (player) {
+                player.ext_play(player.ext_getStatus() != 'playing');
+              }
+            };
           }
         };
       } else {
