@@ -23,10 +23,7 @@ Remedie.prototype = {
     this.setupHotKeys();
     this.setupPluginDefaults();
 
-    $(document).bind('remedie-collection-loaded', function(ev){
-      remedie.dispatchAction();
-      $(document).unbind('remedie-collection-loaded', arguments.callee);
-    });
+    $(document).one('remedie-collection-loaded', function(ev){ remedie.dispatchAction() });
     this.loadCollection();
     this.checkUpdates();
 
@@ -383,10 +380,9 @@ Remedie.prototype = {
         remedie.playVideoInline(remedie.items[item_id]);
     } else {
       if (this.channels[channel_id]) {
-        $(document).bind('remedie-channel-display-complete', function(){
+        $(document).one('remedie-channel-display-complete', function(){
           if (remedie.items[item_id])
             remedie.playVideoInline(remedie.items[item_id]);
-          $(document).unbind('remedie-channel-display-complete', arguments.callee);
         });
         this.showChannel(this.channels[channel_id]);
       }
@@ -950,12 +946,11 @@ Remedie.prototype = {
       dataType: 'text', // iframe downloads JSON
       iframe: true,
       success: function(r) {
-        $(document).bind('remedie-collection-loaded', function(ev){
+        $(document).one('remedie-collection-loaded', function(ev){
           $.each($(r).text().split(/,/), function(index, id) {
             if (remedie.channels[id])
               remedie.refreshChannel([ remedie.channels[id] ]);
           });
-          $(document).unbind('remedie-collection-loaded', arguments.callee);
         });
         remedie.loadCollection();
       }
@@ -995,10 +990,9 @@ Remedie.prototype = {
 
           remedie.channels[r.channel.id] = r.channel;
           remedie.renderChannelList(r.channel, $("#collection"));
-          $(document).bind('remedie-channel-ondisplay', function(){
+          $(document).one('remedie-channel-ondisplay', function(){
             remedie.manuallyRefreshChannel(r.channel);
             remedie.resetCursorPos();
-            $(document).unbind('remedie-channel-ondisplay', arguments.callee);
           });
           remedie.showChannel(r.channel);
         } else {
@@ -1271,10 +1265,9 @@ Remedie.prototype = {
 
   manuallyRefreshChannel: function(channel, clearStaleItems) {
     $.blockUI();
-    $(document).bind('remedie-channel-updated', function(ev, args) {
+    $(document).one('remedie-channel-updated', function(ev, args) {
       if (remedie.current_id == args.channel.id)
         remedie.showChannel(args.channel);
-      $(document).unbind('remedie-channel-updated', arguments.callee);
     });
     this.refreshChannel([ channel ], clearStaleItems);
   },
