@@ -1,4 +1,4 @@
-Remedie.version = '0.6.12';
+Remedie.version = '0.6.13';
 
 function Remedie() {
   this.initialize();
@@ -617,7 +617,8 @@ Remedie.prototype = {
             window.setPlayerStatus = function(st){ if(st=='end') remedie.onPlaybackComplete() }; // nicovideo
             $('head').append("<script>" + item.props.embed.script + "</script>");
             remedie.pausePlayback = function(){
-              var player = $('#embed-player embed')[0];
+              var player = $('#embed-player embed')[0]
+              ;
               if (player) {
                 player.ext_play(player.ext_getStatus() != 'playing');
               }

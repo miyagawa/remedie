@@ -1,5 +1,11 @@
 Revision history for Perl extension Remedie
 
+0.6.13 Mon Aug 10 21:44:35 PDT 2009
+        * Implemented pause playback with o/ret hotkey for QT, Flash, Silverlight, YouTube and Nicovideo
+        * Changed how continuous playback works. Also display only unwatched items if there is. #159
+        * o/ret hotkey now plays the first item if there's no focus #160
+        * Replace unbind callback with $().one() jQuery Event API
+
 0.6.12 Sun Aug  2 19:17:50 PDT 2009
         * Fixed a stupid JavaScript mistake in sort comparision function
 
