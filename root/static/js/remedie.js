@@ -321,10 +321,13 @@ Remedie.prototype = {
   openCurrentItem: function() {
     if (remedie.current_id) {
       if ( remedie.isPlayingVideo ) {
+        // TODO should pause the player
         return false;
       } else {
         var items = $('.channel-item');
-        var playItem = items[remedie.cursorPos];
+        var pos = remedie.cursorPos;
+        if (pos == -1) pos = 0;
+        var playItem = items[pos];
         if (items.size() && playItem != undefined)
           remedie.playVideoInline(remedie.items[playItem.id.replace("channel-item-", "")]);
         return false;
