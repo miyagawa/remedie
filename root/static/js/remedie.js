@@ -321,7 +321,6 @@ Remedie.prototype = {
   openCurrentItem: function() {
     if (remedie.current_id) {
       if ( remedie.isPlayingVideo ) {
-        Shadowbox.close();
         return false;
       } else {
         var items = $('.channel-item');
