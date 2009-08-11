@@ -11,6 +11,7 @@ Remedie.prototype = {
   current_id: null,
   hotkeys: [],
   onPlaybackComplete: null,
+  pausePlayback: null,
   isBeingSorted: false,
 
   initialize: function() {
@@ -318,7 +319,7 @@ Remedie.prototype = {
   openCurrentItem: function() {
     if (remedie.current_id) {
       if ( remedie.isPlayingVideo ) {
-        // TODO should pause the player
+        if (remedie.pausePlayback) remedie.pausePlayback();
         return false;
       } else {
         var items = $('.channel-item');
@@ -547,6 +548,8 @@ Remedie.prototype = {
     var ratio;
     var thumbnail;
 
+    this.pausePlayback = null; // reset
+
     if (item.props.link && url.match(/nicovideo\.jp/)) {
       // XXX
       if(!player) player = 'Web';
@@ -611,7 +614,7 @@ Remedie.prototype = {
           width:   width,
           content: '<div id="embed-player"></div>',
           onFinish: function() {
-            window.setPlayerStatus = function(st){ if(st=='end') remedie.onPlaybackComplete() };
+            window.setPlayerStatus = function(st){ if(st=='end') remedie.onPlaybackComplete() }; // nicovideo
             $('head').append("<script>" + item.props.embed.script + "</script>");
           }
         };
@@ -631,10 +634,12 @@ Remedie.prototype = {
             // TODO: This might be better pluggable
             // Handle YouTube callback
             // http://code.google.com/apis/youtube/js_api_reference.html
-            $(document).bind('remedie-player-ready-youtube', function(ev, id){ // id is undefined for some reason
+            $(document).one('remedie-player-ready-youtube', function(ev, id){ // id is undefined for some reason
               var player = document.getElementById('player-'+item.id);
               player.addEventListener('onStateChange', 'function(newstate){if(newstate==0) remedie.onPlaybackComplete()}');
-              $(document).unbind('remedie-player-ready-youtube');
+              remedie.pausePlayback = function() {
+                player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
+              };
             });
           }
         };
@@ -663,7 +668,12 @@ Remedie.prototype = {
         width:   width,
         content: url,
         onFinish: function() {
-          document.getElementById('shadowbox_content').addEventListener('qt_ended', remedie.onPlaybackComplete, false);
+          var player = document.getElementById('shadowbox_content');
+          var toggle = 0;
+          player.addEventListener('qt_ended', remedie.onPlaybackComplete, false);
+          remedie.pausePlayback = function(){
+            toggle++ % 2 ? player.Play() : player.Stop();
+          };
         }
       };
     } else if (player == 'WMP') {
@@ -718,6 +728,9 @@ Remedie.prototype = {
               setTimeout(function(){_this(ply)}, 100)
             }
           })(ply);
+          remedie.pausePlayback = function(){
+            ply.sendEvent('PLAY'); // sending PLAY actually toggles pause
+          };
         }
       };
     } else if (player == 'Flash') {
@@ -739,12 +752,14 @@ Remedie.prototype = {
         link:     item.props.link,
         image:    thumbnail,
         onFinish: function() {
-          $(document).bind('remedie-player-ready', function(ev, id){
+          $(document).one('remedie-player-ready', function(ev, id){
             var player = document.getElementById(id);
             player.addViewListener('STOP', 'Shadowbox.close');
             player.addModelListener('STATE', 'function(ev){if (ev.newstate=="COMPLETED") remedie.onPlaybackComplete()}');
             player.addModelListener('ERROR', 'function(){setTimeout(remedie.onPlaybackComplete, 3000)}');
-            $(document).unbind('remedie-player-ready');
+            remedie.pausePlayback = function() {
+              player.sendEvent('PLAY');
+            };
           });
         }
       };
