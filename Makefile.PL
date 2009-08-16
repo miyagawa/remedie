@@ -4,7 +4,7 @@ name 'Remedie';
 license 'perl';
 all_from 'lib/Remedie.pm';
 
-if ($^O eq 'darwin' && !-e 'inc/.author') {
+if ($^O eq 'darwin' && !$Module::Install::AUTHOR) {
     recommend_binary_install();
 }
 
@@ -126,5 +126,5 @@ and it is hightly recommended to install the binary unless you're a developer.
 
 ---------------------------------------------------------------
 WARN
-    sleep 5;
+    sleep 3;
 }
