@@ -4,6 +4,10 @@ name 'Remedie';
 license 'perl';
 all_from 'lib/Remedie.pm';
 
+if ($^O eq 'darwin' && !-e 'inc/.author') {
+    recommend_binary_install();
+}
+
 requires 'AnyEvent', 4.82;
 requires 'AnyEvent::HTTP';
 requires 'Bit::Vector';
@@ -96,8 +100,7 @@ WriteAll;
 eval { require Plagger };
 unless ($@) {
     warn <<WARN;
-
-WARNING WARNING WARNING WARNING WARNING WARNING
+---------------------------------------------------------------
 
 You seem to have Plagger $Plagger::VERSION in your system. Running
 'make install' will overwrite forked Plagger modules and that will
@@ -108,6 +111,20 @@ that.
 
 You have been warned.
 
-WARNING WARNING WARNING WARNING WARNING WARNING
+---------------------------------------------------------------
 WARN
+}
+
+sub recommend_binary_install {
+    warn <<WARN;
+---------------------------------------------------------------
+
+You're trying to build your own Remedie using Makefile.PL on Mac OS X.
+
+There's a binary .app package available at http://github.com/miyagawa/remedie/downloads
+and it is hightly recommended to install the binary unless you're a developer.
+
+---------------------------------------------------------------
+WARN
+    sleep 5;
 }
