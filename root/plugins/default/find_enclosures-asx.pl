@@ -17,7 +17,7 @@ sub upgrade {
     my $content = $self->parent->fetch_content($enclosure->url)
         or return;
 
-    my $doc = XML::LibXML->new->parse_string($content);
+    my $doc = eval { XML::LibXML->new->parse_string($content) } or return;
     my @ref = map $doc->findnodes("//$_"), qw( ref Ref REF )
         or return;
 
