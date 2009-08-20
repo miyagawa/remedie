@@ -1,32 +1,29 @@
-# http://www.animate.tv/digital/web_radio/detail_104.html
+# http://www.animate.tv/radio/szbh/
+use URI::QueryParam;
 sub init {
     my $self = shift;
-    $self->{handle} = "/digital/web_radio/";
+    $self->{handle} = "/radio/";
 }
 
 sub build_scraper {
     scraper {
-        my($thumb, $idx);
-        process '//td[@width="240" and @align="center"]/img[@width="240" and @height="180"]',
-            _image => [ '@src', sub { $thumb = $_ } ];
-
-        process '//table[@width="565" and descendant::a[contains(@href,".asx")] ]', 'entries[]' => scraper {
-            process 'td.main_title2', title => 'TEXT';
-            process '//table[@width="553"]//td[@class="main_txt1"]', body => 'TEXT';
-            process 'td.main_txt2', date => ['TEXT',
-                    sub { s/.*?(\d{4})\x{5e74}(\d{1,2})\x{6708}(\d{1,2})\x{65e5}.*/$1-$2-$3/ } ];
-            process '//a[contains(@href, ".asx")]', enclosure => [ '@href',
-                    sub { +{ url => $_, type => 'video/x-ms-asf' } } ];
-            process '//a[contains(@href, ".asx")]', link => '@href';
-            process 'a', thumbnail => sub {
-                return unless !$idx++ && $thumb;
-                $thumb;
-            };
+        my $top;
+        process '#pagetop a', _top => [ '@href', sub { $top = $_ } ];
+        process 'table.playlist', 'entries[]' => scraper {
+            process '//th[@colspan="3"]', title => 'TEXT';
+            process 'td.radio_td', body => 'TEXT';
+            process '//th[@align="right"]', date => ['TEXT',
+                    sub { s!(\d{4})/(\d\d?)/(\d\d?)\s.*$!$1-$2-$3! } ];
+            # play.php checks Referer to generate asx URLs :/
+            process '.play_btn a', link => '@href',
+                enclosure => [ '@href', sub {
+                                   my $uri = $top->clone;
+                                   $uri->fragment($_->query_param('id'));
+                                   return { url => $uri, type => 'text/html' };
+                               } ];
         };
         process 'title', title => 'TEXT';
-        process '//*[@class="main_title3"]//img[contains(@src, "logo")]',
-                image => '@src';
-        process '//table[@width="573"]//td[@class="main_txt1"]',
-                description => 'TEXT';
+        process '.box_img img', thumbnail => '@src';
+        process '.html_box1', description => 'TEXT';
     };
 }
