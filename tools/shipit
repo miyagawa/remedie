@@ -1,0 +1,56 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+my $ver = shift or die "Usage: shipit VERSION\n";
+
+check_changes();
+rewrite_version();
+commit_tag_push();
+make_bundle();
+upload_binary();
+
+sub check_changes {
+    open my $fh, "Changes" or die $!;
+    while (<$fh>) {
+        /\Q$ver\E/ and return;
+    }
+    die "$ver not found in Changes.\n";
+}
+
+sub rewrite_version {
+    rewrite_file("lib/Remedie.pm", sub { s/our \$VERSION.*$/our \$VERSION = '$ver';/ });
+    rewrite_file("root/static/js/remedie.js", sub { s/Remedie\.version = .*$/Remedie\.version = '$ver';/ });
+}
+
+sub rewrite_file {
+    my($file, $code) = @_;
+
+    open my $in, "<", $file or die $!;
+    open my $out, ">", "$file.tmp" or die $!;
+
+    while (<$in>) {
+        $code->();
+        print $out $_;
+    }
+
+    close $in;
+    close $out;
+
+    rename "$file.tmp", $file or die $!;
+}
+
+sub commit_tag_push {
+    system "git", "commit", "-a", "-m", "Release $ver" and die $?;
+    system "git", "tag", $ver and die $?;
+    system "git", "push" and die $?;
+    system "git", "push", "--tags" and die $?;
+}
+
+sub make_binary {
+    system "tools/make-bundle", $ver;
+}
+
+sub upload_binary {
+    system "github-upload bundle-build/Remedie-Server-$ver-leopard.zip miyagawa/remedie" and die $?;
+}

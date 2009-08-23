@@ -1,5 +1,9 @@
 Revision history for Perl extension Remedie
 
+0.6.16 Sat Aug 22 19:23:37 PDT 2009
+        * Fixed animate.tv plugin
+        * Testing tools/shipit for automating release
+
 0.6.15 Wed Aug 19 23:48:24 PDT 2009
         * Fix the crash when .asx files invalid XML #166
         * remove HTMLScrubber plugin
