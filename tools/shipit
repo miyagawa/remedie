@@ -42,7 +42,7 @@ sub rewrite_file {
 
 sub commit_tag_push {
     system "git", "commit", "-a", "-m", "Release $ver" and die $?;
-#    system "git", "tag", $ver and die $?;
+    system "git", "tag", $ver and die $?;
     system "git", "push" and die $?;
     system "git", "push", "--tags" and die $?;
 }
