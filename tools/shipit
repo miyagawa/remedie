@@ -47,7 +47,7 @@ sub commit_tag_push {
     system "git", "push", "--tags" and die $?;
 }
 
-sub make_binary {
+sub make_bundle {
     system "tools/make-bundle", $ver;
 }
 
