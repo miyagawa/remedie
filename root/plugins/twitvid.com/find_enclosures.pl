@@ -18,5 +18,18 @@ sub find {
     return $enclosure;
 }
 
+sub upgrade {
+    my($self, $args) = @_;
+
+    my $enclosure = $args->{enclosure};
+    my $id = ($enclosure->url =~ m!/player/(\w+)$!)[0] or return;
+    unless ($enclosure->thumbnail) {
+        $enclosure->thumbnail({
+            url => "http://cdn.twitvid.com/thumbnails/$id.jpg",
+            width => 320, height => 24,
+        });
+    }
+}
+
 # autostart=1 works if http://kevin.twitvid.com/mediaplayer/player.swf is used
 
