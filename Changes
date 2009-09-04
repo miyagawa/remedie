@@ -1,5 +1,8 @@
 Revision history for Perl extension Remedie
 
+0.6.18 Thu Sep  3 17:53:50 PDT 2009
+        * Implemented "toggle playback order"
+
 0.6.17 Sat Aug 29 12:06:03 PDT 2009
         * Added new plugins: vid.ly and twitvid.com
 
