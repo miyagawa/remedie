@@ -17,13 +17,9 @@ sub items {
     my @query = (channel_id => $self->id);
     push @query, status => $opts{status} if $opts{status} && @{$opts{status}} > 0;
 
-    my $sort_by = "id DESC";
-    if ($opts{order}) {
-        $sort_by = "id $opts{order}";
-    }
     return Remedie::DB::Item::Manager->get_items(
         query => \@query,
-        sort_by => $sort_by,
+        sort_by => "id " . ($opts{order} || "DESC"),
         $opts{limit} ? (limit => $opts{limit}) : (),
     );
 }

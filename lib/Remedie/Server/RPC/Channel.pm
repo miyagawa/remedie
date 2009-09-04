@@ -101,7 +101,7 @@ sub show {
         items   => $channel->items(
             limit  => scalar $req->param('limit'),
             status => [ map _enum_status($_), $req->param('status') ],
-            order => $req->param('order'),
+            order => $req->param('order') || "desc",
         ),
     };
 }
