@@ -183,12 +183,8 @@ Remedie.prototype = {
 
     $(".blockOverlay").live('click', $.unblockUI);
     $("#shadowbox_overlay").live('dblclick', Shadowbox.close);
-    $(".show-all-items").live('click', function() {
-      $.blockUI();
-      remedie.showChannel(remedie.currentChannel(), { all: true });
-    });
-    $(".show-unwatched-items").live('click', function() {
-      remedie.showChannel(remedie.currentChannel(), { unwatched: true, all: true });
+    $(".redraw-channel").live('click', function(){
+      remedie.dispatchAction(this.href.match('#.*$')[0]);
     });
   },
 
@@ -361,14 +357,16 @@ Remedie.prototype = {
     }
   },
 
-  dispatchAction: function() {
+  dispatchAction: function(fragment) {
+    if (!fragment) fragment = location.hash;
     var args = [];
-    args = location.hash.split('/');
+    args = fragment.split('/');
     if (args[0] == '#channel') {
       if (this.channels[args[1]])
         var opts = {};
         if (args[2] == 'all')       opts.all = 1;
         if (args[2] == 'unwatched') opts.unwatched = 1;
+        if (args[3] == 'asc')       opts.order_by = "asc";
         this.showChannel( this.channels[args[1]], opts );
     } else if (args[0] == '#subscribe') {
       this.newChannelDialog(decodeURIComponent(args[1]));
@@ -1045,6 +1043,8 @@ Remedie.prototype = {
       opts = {};
       if (channel.unwatched_count) opts.unwatched = 1;
     }
+    if (!opts.order_by) opts.order_by = "desc";
+
     var currentStateURI = "#channel/" + channel.id;
     if (opts.unwatched) currentStateURI += '/unwatched';
     else if (opts.all)  currentStateURI += '/all'; // unwatched includes all
@@ -1052,7 +1052,12 @@ Remedie.prototype = {
     $.ajax({
       url: "/rpc/channel/show",
       type: 'get',
-      data: { id: channel.id, limit: (opts.all ? 0 : 50), status: (opts.unwatched ? [ 'new', 'downloaded' ] : 0) },
+      data: {
+        id: channel.id,
+        limit: (opts.all ? 0 : 50),
+        status: (opts.unwatched ? [ 'new', 'downloaded' ] : 0),
+        order: opts.order_by
+      },
       dataType: 'json',
       success: function(r) {
         $.unblockUI();
@@ -1062,6 +1067,19 @@ Remedie.prototype = {
 
         var prevChannel = remedie.findChannel(channel, -1);
         var nextChannel = remedie.findChannel(channel, 1);
+
+        var toggleState = function(newopts) {
+          var state = '#channel/' + channel.id + '/';
+          if (newopts.unwatched) {
+            state += 'unwatched/';
+          } else if (newopts.all) {
+            state += 'all/';
+          } else {
+            state += opts.all ? 'all/' : 'unwatched/';
+          }
+          state += newopts.order_by || opts.order_by;
+          return state;
+        };
 
         var thumbnail = channel.props.thumbnail ? channel.props.thumbnail.url : "/static/images/feed_256x256.png";
         $("#channel-pane").createAppend(
@@ -1086,11 +1104,12 @@ Remedie.prototype = {
               'div', { className: 'channel-header-data' }, [
                 'a', { href: channel.ident, target: "_blank" }, RemedieUtil.mangleURI(channel.ident).trimChars(100),
                 'br', {}, null,
-                'span', {}, '<a class="show-all-items" href="#channel/' + channel.id + '/all">' +
+                'span', {}, '<a class="redraw-channel" href="' + toggleState({ all: true }) + '">' +
                   r.channel.total + ' items' + '</a>, ' +
-                  '<a class="show-unwatched-items" href="#channel/' + channel.id + '/unwatched">' +
+                 '<a class="redraw-channel" href="' + toggleState({ unwatched: true }) + '">' +
                   '<span class="unwatched-count-' + channel.id + '">' +
-                  (channel.unwatched_count ? channel.unwatched_count : 0) + '</span> unwatched</a>'
+                  (channel.unwatched_count ? channel.unwatched_count : 0) + '</span> unwatched</a> / ' +
+                  '<a class="redraw-channel" href="' + toggleState({ order_by: opts.order_by == "desc" ? "asc" : "desc"}) + '">Toggle display order</a>'
               ],
               'p', { className: 'channel-header-description' }, channel.props.description
             ],
