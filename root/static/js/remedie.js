@@ -604,8 +604,8 @@ Remedie.prototype = {
     }
 
     // Hack: this should really be done in the upgrade() in Perl side
-    if (url.match(/youtube\.com/))
-      url += "&hd=1";
+    if (url.match(/youtube\.com/) && player == 'Web')
+      item.props.embed.url += "&hd=1";
 
     if (player == 'Web') {
       if (item.props.embed.script) {
