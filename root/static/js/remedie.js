@@ -603,6 +603,10 @@ Remedie.prototype = {
       });
     }
 
+    // Hack: this should really be done in the upgrade() in Perl side
+    if (url.match(/youtube\.com/))
+      url += "&hd=1";
+
     if (player == 'Web') {
       if (item.props.embed.script) {
         return {
