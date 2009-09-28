@@ -1,5 +1,8 @@
 Revision history for Perl extension Remedie
 
+0.6.19 Mon Sep 28 00:58:16 PDT 2009
+        * Enable HD in YouTube embed videos by default
+
 0.6.18 Thu Sep  3 17:53:50 PDT 2009
         * Implemented "toggle playback order"
 
