@@ -78,9 +78,14 @@ sub aggregate {
     $feed->title($args->{feed}->title || extract_title($content));
     $feed->link($url);
 
-    my $tree = HTML::TreeBuilder::LibXML->new;
-    $tree->parse($content);
-    $tree->eof;
+    my $tree = eval {
+        my $t = HTML::TreeBuilder::LibXML->new;
+        $t->parse($content);
+        $t->eof;
+        $t;
+    };
+
+    return unless $tree;
 
     my %found;
     my $found;
