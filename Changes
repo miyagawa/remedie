@@ -1,5 +1,8 @@
 Revision history for Perl extension Remedie
 
+0.6.20 Tue Oct  6 10:47:16 PDT 2009
+        * Fixed a FindLinks bug when HTML is an empty string
+
 0.6.19 Mon Sep 28 00:58:16 PDT 2009
         * Enable HD in YouTube embed videos by default
 
