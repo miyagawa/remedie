@@ -805,8 +805,8 @@ Remedie.prototype = {
         player = 'WMP';
       }
     } else if (type.match(/quicktime|mp4/i)) {
-      if (isMac) player = 'HTML5'
-      else       player = 'QuickTime'
+      if (isMac) player = 'QuickTime';
+      else       player = 'QuickTime';
     } else if (type.match(/divx/i)) {
       player = 'DivX';
     } else {
