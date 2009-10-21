@@ -669,6 +669,20 @@ Remedie.prototype = {
         width:   width,
         content: item.props.link
       };
+    } else if (player == 'HTML5') {
+      return {
+        player:  'html',
+        title:   item.name,
+        height:  height,
+        width:   width,
+        content: '<div id="embed-player"></div>',
+        onFinish: function() {
+          var video = $('<video/>').attr('id', 'player-'+id).attr('width', width).attr('height', height)
+            .attr('autoplay', 'autoplay').attr('bgcolor', 'black');
+          video.append($('<source/>').attr('src', url).attr('type', item.props.type));
+          $('#embed-player').append(video);
+        }
+      };
     } else if (player == 'QuickTime') {
       return {
         player:  'qt',
@@ -779,8 +793,9 @@ Remedie.prototype = {
     // ASF + Mac -> QuickTime (Flip4Mac)
     // WMV + Mac -> Silverlight
     // WMV + Win -> Windows Media Player
+    var isMac = /mac/i.test(navigator.userAgent)
     if (type.match(/wmv|asf|wvx/)) {
-      if (/mac/i.test(navigator.userAgent)) {
+      if (isMac) {
         if (type.match(/wmv/i)) {
           player = 'Silverlight';
         } else {
@@ -789,10 +804,9 @@ Remedie.prototype = {
       } else {
         player = 'WMP';
       }
-    } else if (type.match(/quicktime/i)) {
-      player = 'QuickTime';
-    } else if (type.match(/mp4/i) && /mac/i.test(navigator.userAgent)) {
-      player = 'QuickTime';
+    } else if (type.match(/quicktime|mp4/i)) {
+      if (isMac) player = 'HTML5'
+      else       player = 'QuickTime'
     } else if (type.match(/divx/i)) {
       player = 'DivX';
     } else {
