@@ -22,7 +22,7 @@ sub find {
 sub swf_url {
     my $self = shift;
     my($video_id) = @_;
-    return "http://youtube.com/v/$video_id?fs=1&autoplay=1&enablejsapi=1";
+    return "http://youtube.com/v/$video_id&fs=1&autoplay=1&enablejsapi=1";
 }
 
 sub upgrade {
