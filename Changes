@@ -1,5 +1,8 @@
 Revision history for Perl extension Remedie
 
+0.6.21 Sun Nov 15 16:08:17 PST 2009
+        * Fixed XPath in dpj.or.jp plugin
+
 0.6.20 Tue Oct  6 10:47:16 PDT 2009
         * Fixed a FindLinks bug when HTML is an empty string
 
