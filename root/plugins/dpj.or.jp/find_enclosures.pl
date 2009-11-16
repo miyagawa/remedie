@@ -11,7 +11,7 @@ sub find {
     my($self, $args) = @_;
 
     my $res = scraper {
-        process '//a[contains(@href, "v300.asx")', link => '@href';
+        process '//a[contains(@href, "v300.asx")]', link => '@href';
     }->scrape($args->{content});
 
     my $url = $res->{link} or return;
