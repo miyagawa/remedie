@@ -550,7 +550,7 @@ Remedie.prototype = {
 
     if (item.props.link && url.match(/nicovideo\.jp/)) {
       // XXX
-      if(!player) player = 'Web';
+      if(!player) player = 'Script';
       ratio = 3/4;
     } else if (item.props.embed) {
       if (!player) {
@@ -586,73 +586,60 @@ Remedie.prototype = {
     if (!player)
       player = this.defaultPlayerFor(item.props.type);
 
-    if (url.match(/nicovideo\.jp/) && player == 'Web') {
-      $.ajax({
-        url: "/rpc/player/nicovideo",
-        type: 'post',
-        data: { url: url, width: width, height: height },
-        async: false,
-        dataType: 'json',
-        success: function(r) {
-          if (r.code) {
-            item.props.embed = { script: r.code };
-          } else if (r.error) {
-            throw r.error;
-          }
-        }
-      });
-    }
-
     // Hack: this should really be done in the upgrade() in Perl side
     if (url.match(/youtube\.com/) && player == 'Web')
       item.props.embed.url += "&hd=1";
+    else if (url.match(/nicovideo\.jp/) && player == 'Script')
+      url += '?ap=1&cb=remedie.embedNicovideoPlayer&w=' + width + '&h=' + height;
 
-    if (player == 'Web') {
-      if (item.props.embed.script) {
-        return {
-          player:  'html',
-          title:   item.name,
-          height:  height,
-          width:   width,
-          content: '<div id="embed-player"></div>',
-          onFinish: function() {
-            window.setPlayerStatus = function(st){ if(st=='end') remedie.onPlaybackComplete() }; // nicovideo
-            $('head').append("<script>" + item.props.embed.script + "</script>");
-            remedie.pausePlayback = function(){
-              var player = $('#embed-player embed')[0]
-              ;
-              if (player) {
-                player.ext_play(player.ext_getStatus() != 'playing');
-              }
+    if (player == 'Script') {
+      return {
+        player:  'html',
+        title:   item.name,
+        height:  height,
+        width:   width,
+        content: '<div id="embed-player"></div>',
+        onFinish: function() {
+          remedie.embedNicovideoPlayer = function(player) {
+              console.log(player);
+            $(player).bind('onVideoEnd', function(player){ remedie.onPlaybackComplete() });
+            player.write('embed-player');
+          };
+          //          window.setPlayerStatus = function(st){ if(st=='end') remedie.onPlaybackComplete() }; // nicovideo
+          $('head').append($("<script></script>").attr('src', url));
+          remedie.pausePlayback = function(){
+            var player = $('#embed-player embed')[0];
+            if (player) {
+              player.ext_play(player.ext_getStatus() != 'playing');
+            }
+          };
+        }
+      };
+    } else if (player == 'Web') {
+      return {
+        player:  'html',
+        title:   item.name,
+        height:  height,
+        width:   width,
+        content: '<div id="embed-player"></div>',
+        onFinish: function() {
+          var s1 = new SWFObject(item.props.embed.url, 'player-' + item.id, width, height, '9');
+          s1.addParam('allowfullscreen','true');
+          s1.addParam('allowscriptaccess','always');
+          s1.write('embed-player');
+
+          // TODO: This might be better pluggable
+          // Handle YouTube callback
+          // http://code.google.com/apis/youtube/js_api_reference.html
+          $(document).one('remedie-player-ready-youtube', function(ev, id){ // id is undefined for some reason
+            var player = document.getElementById('player-'+item.id);
+            player.addEventListener('onStateChange', 'function(newstate){if(newstate==0) remedie.onPlaybackComplete()}');
+            remedie.pausePlayback = function() {
+              player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
             };
-          }
-        };
-      } else {
-        return {
-          player:  'html',
-          title:   item.name,
-          height:  height,
-          width:   width,
-          content: '<div id="embed-player"></div>',
-          onFinish: function() {
-            var s1 = new SWFObject(item.props.embed.url, 'player-' + item.id, width, height, '9');
-            s1.addParam('allowfullscreen','true');
-            s1.addParam('allowscriptaccess','always');
-            s1.write('embed-player');
-
-            // TODO: This might be better pluggable
-            // Handle YouTube callback
-            // http://code.google.com/apis/youtube/js_api_reference.html
-            $(document).one('remedie-player-ready-youtube', function(ev, id){ // id is undefined for some reason
-              var player = document.getElementById('player-'+item.id);
-              player.addEventListener('onStateChange', 'function(newstate){if(newstate==0) remedie.onPlaybackComplete()}');
-              remedie.pausePlayback = function() {
-                player.getPlayerState() == 1 ? player.pauseVideo() : player.playVideo();
-              };
-            });
-          }
-        };
-      }
+          });
+        }
+      };
     } else if (player == 'iframe') {
       return {
         player:  'iframe',
