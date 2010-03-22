@@ -12,7 +12,7 @@ __PACKAGE__->register_db(
     driver => "sqlite",
     database => $db_path,
     connect_options => {
-        unicode => 1,
+        sqlite_unicode => 1,
     },
 );
 
