@@ -7,7 +7,7 @@ use Module::Install::Base ();
 
 use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
-	$VERSION = '0.91';
+	$VERSION = '0.95';
 	@ISA     = 'Module::Install::Base';
 	$ISCORE  = 1;
 }
@@ -25,8 +25,8 @@ sub prompt {
 		die "Caught an potential prompt infinite loop ($c[1]|$c[2]|$_[0])";
 	}
 
-	# In automated testing, always use defaults
-	if ( $ENV{AUTOMATED_TESTING} and ! $ENV{PERL_MM_USE_DEFAULT} ) {
+	# In automated testing or non-interactive session, always use defaults
+	if ( ($ENV{AUTOMATED_TESTING} or -! -t STDIN) and ! $ENV{PERL_MM_USE_DEFAULT} ) {
 		local $ENV{PERL_MM_USE_DEFAULT} = 1;
 		goto &ExtUtils::MakeMaker::prompt;
 	} else {
@@ -34,21 +34,110 @@ sub prompt {
 	}
 }
 
+# Store a cleaned up version of the MakeMaker version,
+# since we need to behave differently in a variety of
+# ways based on the MM version.
+my $makemaker = eval $ExtUtils::MakeMaker::VERSION;
+
+# If we are passed a param, do a "newer than" comparison.
+# Otherwise, just return the MakeMaker version.
+sub makemaker {
+	( @_ < 2 or $makemaker >= eval($_[1]) ) ? $makemaker : 0
+}
+
+# Ripped from ExtUtils::MakeMaker 6.56, and slightly modified
+# as we only need to know here whether the attribute is an array
+# or a hash or something else (which may or may not be appendable).
+my %makemaker_argtype = (
+ C                  => 'ARRAY',
+ CONFIG             => 'ARRAY',
+# CONFIGURE          => 'CODE', # ignore
+ DIR                => 'ARRAY',
+ DL_FUNCS           => 'HASH',
+ DL_VARS            => 'ARRAY',
+ EXCLUDE_EXT        => 'ARRAY',
+ EXE_FILES          => 'ARRAY',
+ FUNCLIST           => 'ARRAY',
+ H                  => 'ARRAY',
+ IMPORTS            => 'HASH',
+ INCLUDE_EXT        => 'ARRAY',
+ LIBS               => 'ARRAY', # ignore ''
+ MAN1PODS           => 'HASH',
+ MAN3PODS           => 'HASH',
+ META_ADD           => 'HASH',
+ META_MERGE         => 'HASH',
+ PL_FILES           => 'HASH',
+ PM                 => 'HASH',
+ PMLIBDIRS          => 'ARRAY',
+ PMLIBPARENTDIRS    => 'ARRAY',
+ PREREQ_PM          => 'HASH',
+ CONFIGURE_REQUIRES => 'HASH',
+ SKIP               => 'ARRAY',
+ TYPEMAPS           => 'ARRAY',
+ XS                 => 'HASH',
+# VERSION            => ['version',''],  # ignore
+# _KEEP_AFTER_FLUSH  => '',
+
+ clean      => 'HASH',
+ depend     => 'HASH',
+ dist       => 'HASH',
+ dynamic_lib=> 'HASH',
+ linkext    => 'HASH',
+ macro      => 'HASH',
+ postamble  => 'HASH',
+ realclean  => 'HASH',
+ test       => 'HASH',
+ tool_autosplit => 'HASH',
+
+ # special cases where you can use makemaker_append
+ CCFLAGS   => 'APPENDABLE',
+ DEFINE    => 'APPENDABLE',
+ INC       => 'APPENDABLE',
+ LDDLFLAGS => 'APPENDABLE',
+ LDFROM    => 'APPENDABLE',
+);
+
 sub makemaker_args {
-	my $self = shift;
+	my ($self, %new_args) = @_;
 	my $args = ( $self->{makemaker_args} ||= {} );
-	%$args = ( %$args, @_ );
+	foreach my $key (keys %new_args) {
+		if ($makemaker_argtype{$key} eq 'ARRAY') {
+			$args->{$key} = [] unless defined $args->{$key};
+			unless (ref $args->{$key} eq 'ARRAY') {
+				$args->{$key} = [$args->{$key}]
+			}
+			push @{$args->{$key}},
+				ref $new_args{$key} eq 'ARRAY'
+					? @{$new_args{$key}}
+					: $new_args{$key};
+		}
+		elsif ($makemaker_argtype{$key} eq 'HASH') {
+			$args->{$key} = {} unless defined $args->{$key};
+			foreach my $skey (keys %{ $new_args{$key} }) {
+				$args->{$key}{$skey} = $new_args{$key}{$skey};
+			}
+		}
+		elsif ($makemaker_argtype{$key} eq 'APPENDABLE') {
+			$self->makemaker_append($key => $new_args{$key});
+		}
+		else {
+			if (defined $args->{$key}) {
+				warn qq{MakeMaker attribute "$key" is overriden; use "makemaker_append" to append values\n};
+			}
+			$args->{$key} = $new_args{$key};
+		}
+	}
 	return $args;
 }
 
 # For mm args that take multiple space-seperated args,
 # append an argument to the current list.
 sub makemaker_append {
-	my $self = sShift;
+	my $self = shift;
 	my $name = shift;
 	my $args = $self->makemaker_args;
-	$args->{name} = defined $args->{$name}
-		? join( ' ', $args->{name}, @_ )
+	$args->{$name} = defined $args->{$name}
+		? join( ' ', $args->{$name}, @_ )
 		: join( ' ', @_ );
 }
 
@@ -107,6 +196,9 @@ sub tests_recursive {
 	%test_dir = ();
 	require File::Find;
 	File::Find::find( \&_wanted_t, $dir );
+	if ( -d 'xt' and ($Module::Install::AUTHOR or $ENV{RELEASE_TESTING}) ) {
+		File::Find::find( \&_wanted_t, 'xt' );
+	}
 	$self->tests( join ' ', map { "$_/*.t" } sort keys %test_dir );
 }
 
@@ -130,12 +222,13 @@ sub write {
 		# an underscore, even though its own version may contain one!
 		# Hence the funny regexp to get rid of it.  See RT #35800
 		# for details.
-		$self->build_requires( 'ExtUtils::MakeMaker' => $ExtUtils::MakeMaker::VERSION =~ /^(\d+\.\d+)/ );
-		$self->configure_requires( 'ExtUtils::MakeMaker' => $ExtUtils::MakeMaker::VERSION =~ /^(\d+\.\d+)/ );
+		my $v = $ExtUtils::MakeMaker::VERSION =~ /^(\d+\.\d+)/;
+		$self->build_requires(     'ExtUtils::MakeMaker' => $v );
+		$self->configure_requires( 'ExtUtils::MakeMaker' => $v );
 	} else {
 		# Allow legacy-compatibility with 5.005 by depending on the
 		# most recent EU:MM that supported 5.005.
-		$self->build_requires( 'ExtUtils::MakeMaker' => 6.42 );
+		$self->build_requires(     'ExtUtils::MakeMaker' => 6.42 );
 		$self->configure_requires( 'ExtUtils::MakeMaker' => 6.42 );
 	}
 
@@ -143,59 +236,103 @@ sub write {
 	my $args = $self->makemaker_args;
 	$args->{DISTNAME} = $self->name;
 	$args->{NAME}     = $self->module_name || $self->name;
-	$args->{VERSION}  = $self->version;
 	$args->{NAME}     =~ s/-/::/g;
+	$args->{VERSION}  = $self->version or die <<'EOT';
+ERROR: Can't determine distribution version. Please specify it
+explicitly via 'version' in Makefile.PL, or set a valid $VERSION
+in a module, and provide its file path via 'version_from' (or
+'all_from' if you prefer) in Makefile.PL.
+EOT
+
+	$DB::single = 1;
 	if ( $self->tests ) {
-		$args->{test} = { TESTS => $self->tests };
+		my @tests = split ' ', $self->tests;
+		my %seen;
+		$args->{test} = {
+			TESTS => (join ' ', grep {!$seen{$_}++} @tests),
+		};
+	} elsif ( -d 'xt' and ($Module::Install::AUTHOR or $ENV{RELEASE_TESTING}) ) {
+		$args->{test} = {
+			TESTS => join( ' ', map { "$_/*.t" } grep { -d $_ } qw{ t xt } ),
+		};
 	}
 	if ( $] >= 5.005 ) {
 		$args->{ABSTRACT} = $self->abstract;
-		$args->{AUTHOR}   = $self->author;
+		$args->{AUTHOR}   = join ', ', @{$self->author || []};
 	}
-	if ( eval($ExtUtils::MakeMaker::VERSION) >= 6.10 ) {
-		$args->{NO_META} = 1;
+	if ( $self->makemaker(6.10) ) {
+		$args->{NO_META}   = 1;
+		#$args->{NO_MYMETA} = 1;
 	}
-	if ( eval($ExtUtils::MakeMaker::VERSION) > 6.17 and $self->sign ) {
+	if ( $self->makemaker(6.17) and $self->sign ) {
 		$args->{SIGN} = 1;
 	}
 	unless ( $self->is_admin ) {
 		delete $args->{SIGN};
 	}
+	if ( $self->makemaker(6.31) and $self->license ) {
+		$args->{LICENSE} = $self->license;
+	}
 
-	# Merge both kinds of requires into prereq_pm
 	my $prereq = ($args->{PREREQ_PM} ||= {});
 	%$prereq = ( %$prereq,
-		map { @$_ }
+		map { @$_ } # flatten [module => version]
 		map { @$_ }
 		grep $_,
-		($self->configure_requires, $self->build_requires, $self->requires)
+		($self->requires)
 	);
 
 	# Remove any reference to perl, PREREQ_PM doesn't support it
 	delete $args->{PREREQ_PM}->{perl};
 
-	# merge both kinds of requires into prereq_pm
+	# Merge both kinds of requires into BUILD_REQUIRES
+	my $build_prereq = ($args->{BUILD_REQUIRES} ||= {});
+	%$build_prereq = ( %$build_prereq,
+		map { @$_ } # flatten [module => version]
+		map { @$_ }
+		grep $_,
+		($self->configure_requires, $self->build_requires)
+	);
+
+	# Remove any reference to perl, BUILD_REQUIRES doesn't support it
+	delete $args->{BUILD_REQUIRES}->{perl};
+
+	# Delete bundled dists from prereq_pm
 	my $subdirs = ($args->{DIR} ||= []);
 	if ($self->bundles) {
 		foreach my $bundle (@{ $self->bundles }) {
 			my ($file, $dir) = @$bundle;
 			push @$subdirs, $dir if -d $dir;
-			delete $prereq->{$file};
+			delete $build_prereq->{$file}; #Delete from build prereqs only
 		}
+	}
+
+	unless ( $self->makemaker('6.55_03') ) {
+		%$prereq = (%$prereq,%$build_prereq);
+		delete $args->{BUILD_REQUIRES};
 	}
 
 	if ( my $perl_version = $self->perl_version ) {
 		eval "use $perl_version; 1"
 			or die "ERROR: perl: Version $] is installed, "
 			. "but we need version >= $perl_version";
+
+		if ( $self->makemaker(6.48) ) {
+			$args->{MIN_PERL_VERSION} = $perl_version;
+		}
 	}
 
-	$args->{INSTALLDIRS} = $self->installdirs;
+	if ($self->installdirs) {
+		warn qq{old INSTALLDIRS (probably set by makemaker_args) is overriden by installdirs\n} if $args->{INSTALLDIRS};
+		$args->{INSTALLDIRS} = $self->installdirs;
+	}
 
-	my %args = map { ( $_ => $args->{$_} ) } grep {defined($args->{$_})} keys %$args;
+	my %args = map {
+		( $_ => $args->{$_} ) } grep {defined($args->{$_} )
+	} keys %$args;
 
 	my $user_preop = delete $args{dist}->{PREOP};
-	if (my $preop = $self->admin->preop($user_preop)) {
+	if ( my $preop = $self->admin->preop($user_preop) ) {
 		foreach my $key ( keys %$preop ) {
 			$args{dist}->{$key} = $preop->{$key};
 		}
@@ -265,4 +402,4 @@ sub postamble {
 
 __END__
 
-#line 394
+#line 531

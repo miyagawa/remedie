@@ -5,7 +5,7 @@ package Test::Base;
 use 5.006001;
 use Spiffy 0.30 -Base;
 use Spiffy ':XXX';
-our $VERSION = '0.58';
+our $VERSION = '0.59';
 
 my @test_more_exports;
 BEGIN {
