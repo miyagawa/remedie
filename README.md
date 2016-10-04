@@ -43,5 +43,3 @@ This software also includes the following material which have their own license:
 
 * [github](http://github.com/miyagawa/remedie) (Git repository)
 * [Google Code](http://code.google.com/p/remedie) (Wiki, Issue tracking)
-* [Remedie](http://remediecode.org/)
-
